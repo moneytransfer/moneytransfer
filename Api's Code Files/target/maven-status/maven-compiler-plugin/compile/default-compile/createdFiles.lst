@@ -1,0 +1,7 @@
+com\etl\base\ProviderBase.class
+com\etl\util\MYSQLHelper.class
+com\moneytransfer\Services.class
+com\etl\provider\Configuration\MYSQLConfiguration.class
+com\etl\base\companydetails.class
+com\etl\base\usersdetails.class
+com\etl\util\MYSQLConnection.class
