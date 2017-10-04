@@ -1,0 +1,72 @@
+﻿
+    <div class="padding" ng-controller="manageUsersController">
+        <div class="box">
+            <div class="box-header">
+               <!-- <h2>
+                   Manage User
+                </h2>-->
+                <!--<small>Make HTML tables on smaller devices look awesome</small>-->
+            </div>
+         
+            <div class="box-body m-t-1">
+                <div class="col-sm-4 p-a pull-right">
+                    <button type="submit" class="btn white pull-right {{app.setting.theme.primary}}" ng-click="adduser()"><i class="glyphicon glyphicon-plus"></i> Add User </button>
+                </div>
+                <table id="tblUsers" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
+                    <thead>
+                        <tr>
+                            <th>Name </th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="Active" ng-repeat="User in ManageUsers  |  orderBy: 'Name'">
+                            <td><small>{{User.FirstName +" "+ User.LastName}} </small></td>
+                            <td><small>{{User.Email }} </small></td>
+                            <td><small>{{User.Phone }}</small></td>
+                            <td>
+                                <button type="submit" class="btn btn-sm {{app.setting.theme.primary}}" ng-click="EditUser(User.UserId)">Edit</button>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteUser(User.UserId)">Delete </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="hide-if-no-paging">
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                <ul class="pagination"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+            <!-- Large modal -->
+            <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteconfirm">Large modal</button>-->
+            <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-danger">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title ">!Confirmation  </h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <h6 class="modal-title">Do you want to proceed to delete this 'User'? </h6>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default warning" ng-click="deleteconfirm()">Yes</button>
+                            <button type="button" class="btn btn-default primary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal -->
+
+        </div>
+    </div>
