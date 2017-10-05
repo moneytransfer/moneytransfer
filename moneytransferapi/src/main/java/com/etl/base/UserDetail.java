@@ -152,7 +152,7 @@ public class UserDetail {
 							_PreparedStatement.setBoolean(8, _usersdetails.IsActive);
 							_PreparedStatement.setString(9, _usersdetails.CreatedDate);
 							_PreparedStatement.executeUpdate();
-							
+							_usersdetails.setUserPassword("xxxxxxxxxxxxxxxxxxxxxx");
 							
 							_usersdetails.setUserResult("Sucess");
 					}
@@ -209,6 +209,7 @@ public class UserDetail {
 						usersdetails.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
 						usersdetails.setUserDeletedDate(_ResultSet.getString("deleted_date"));
 						usersdetails.setUserResult("Sucess");
+						usersdetails.setUserPassword("xxxxxxxxxxxxxxxxxxxxxx");
 					}
 					else
 					{
@@ -264,7 +265,7 @@ public class UserDetail {
 						_PreparedStatement.setInt(3, _usersdetails.UserId);	
 						_PreparedStatement.executeUpdate();
 						_usersdetails.setUserResult("Sucess");
-						
+						_usersdetails.setUserPassword("xxxxxxxxxxxxxxx");
 					}
 					else{
 						_usersdetails.setUserResult("Failed");
@@ -303,7 +304,17 @@ public class UserDetail {
 			
 			if(_Connection!=null)
 			{
-               String _hashPassword = byteArrayToHexString(CompanyDetail.computeHash(_usersdetails.Password));
+				
+				String strpassword=_usersdetails.Password;
+				if(strpassword != "" | strpassword.length() != 0)
+				{
+					
+					String _hashPassword = byteArrayToHexString(CompanyDetail.computeHash(_usersdetails.Password));
+					 _usersdetails.setUserPassword(_hashPassword);  
+					 
+				}
+				
+             
 				
 				MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT user_id FROM users where user_id='"+_usersdetails.UserId+"'",_Connection);
@@ -313,19 +324,28 @@ public class UserDetail {
 					Calendar cal = Calendar.getInstance();
 					String date=format.format(cal.getTime());
 					_usersdetails.setUserDeletedDate(date);	
-					_usersdetails.setUserPassword(_hashPassword);
 					
-					String sInsertStatement ="UPDATE users SET 	Company_Id = ? "+ ",first_name = ? "+ ",last_name = ? "+ ",email = ? "+ ",phone = ? "+ ",password = ?,	profile_image = ?,is_active = ? "+ " WHERE user_id = ?";
+
+					if(strpassword != "" | strpassword.length() != 0){					
+						String sInsertStatement ="UPDATE users SET 	password = ? WHERE user_id = ?";
+						_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+						_PreparedStatement.setString(1, _usersdetails.Password);
+						_PreparedStatement.setInt(2, _usersdetails.UserId);
+						_PreparedStatement.executeUpdate();
+						 _usersdetails.setUserPassword("xxxxxxxxxxxxxxxxxxxxxx"); 	
+					}
+					
+					String sInsertStatement ="UPDATE users SET 	Company_Id = ?,first_name = ? ,last_name = ? ,email = ? ,phone = ? "
+							+ ",profile_image = ?,is_active = ? "+ " WHERE user_id = ?";
 					_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 					_PreparedStatement.setInt(1, _usersdetails.CompanyId);
 					_PreparedStatement.setString(2, _usersdetails.FirstName);		
 					_PreparedStatement.setString(3, _usersdetails.LastName);
 					_PreparedStatement.setString(4, _usersdetails.Email);	
 					_PreparedStatement.setString(5, _usersdetails.Phone);	
-					_PreparedStatement.setString(6, _usersdetails.Password);
-					_PreparedStatement.setString(7, _usersdetails.ProfileImage);
-					_PreparedStatement.setBoolean(8, _usersdetails.IsActive);
-					_PreparedStatement.setInt(9, _usersdetails.UserId);
+					_PreparedStatement.setString(6, _usersdetails.ProfileImage);
+					_PreparedStatement.setBoolean(7, _usersdetails.IsActive);
+					_PreparedStatement.setInt(8, _usersdetails.UserId);
 					_PreparedStatement.executeUpdate();
 					_usersdetails.setUserResult("Sucess");
 				}
@@ -386,6 +406,7 @@ public class UserDetail {
 							usersdetails.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
 							usersdetails.setUserDeletedDate(_ResultSet.getString("deleted_date"));
 							usersdetails.setUserResult("Sucess");
+							
 					}
 					else{
 						usersdetails.setUserResult("Failed");
