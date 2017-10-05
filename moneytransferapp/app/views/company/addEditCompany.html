@@ -1,86 +1,81 @@
-﻿<div class="padding" ng-controller="addEditUserController">
+﻿<div class="padding" ng-controller="addEditCompanyController">
     <div class="row">
         <div class="col-md-8">
             <div class="box">
                 <div class="box-header">
-                    <h2>{{header}} User </h2>
+                    <h2>{{header}} Company </h2>
                 </div>
                 <div class="box-divider m-a-0"></div>
                 <div class="box-body">
-                    <form role="form" class="ng-pristine ng-valid" name="tblUser">
+                    <form role="form" class="ng-pristine ng-valid" name="tblCompany">
                         <div class="form-group row">
-                            <label for="inputName" class="col-sm-3 form-control-label">Company: <b class="text-danger">&nbsp;*</b> </label>
-                            <div class="col-sm-8">
-                                <select name="FamRole" id="ddlCompany" ng-model="UserModel.CompanyId" class="form-control" required>
-                                    <option value="0">-- Select Company --</option>
-                                    <option ng-repeat="Company in Companies" value="{{Company.CompanyId}}">{{Company.CompanyName}}</option>
-                                </select>
-                                <span class="text-danger" ng-show="tblUser.$valid && UserModel.CompanyId == 0">Please select Company.</span>
+                            <label for="Name" class="col-sm-3 form-control-label">Company Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="CompanyName" placeholder="Company Name" ng-model="CompanyModel.CompanyName" required maxlength="50">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Name" class="col-sm-3 form-control-label">First Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="UserModel.FirstName" required maxlength="30">
+                            <label for="Address1" class="col-sm-3 form-control-label">Address1 : </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="Address1" placeholder="Company Address1" ng-model="CompanyModel.Address1 " required maxlength="30">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Address2" class="col-sm-3 form-control-label">Address2 : </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="Address2" placeholder="Company Address2" ng-model="CompanyModel.Address2 " required maxlength="30">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="City" class="col-sm-3 form-control-label">City : </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="City" placeholder="City Name" ng-model="CompanyModel.City " required maxlength="30">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="State" class="col-sm-3 form-control-label">State : </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="State" placeholder="State Name" ng-model="CompanyModel.State " required maxlength="30">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Name" class="col-sm-3 form-control-label">Last Name: </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="UserModel.LastName" required maxlength="30">
+                            <label for="ZipCode" class="col-sm-3 form-control-label">ZipCode : </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="ZipCode" placeholder="ZipCode" ng-model="CompanyModel.ZipCode " required maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Country" class="col-sm-3 form-control-label">Country : </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="Country Name" placeholder="Country" ng-model="CompanyModel.Country" required maxlength="10">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="Email" class="col-sm-3 form-control-label">Email: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
-                                <input type="text" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="UserModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+                                <input type="text" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="CompanyModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
                                 <span class="text-danger" ng-show="tblUser.Email.$error.pattern">Please Enter a valid Email address.</span>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="Username" class="col-sm-3 form-control-label">Phone: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="Username" placeholder="Phone" ng-model="UserModel.Phone" required maxlength="20">
+                                <input type="text" class="form-control" id="Username" placeholder="Phone" ng-model="CompanyModel.Phone" required maxlength="20">
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="Username" class="col-sm-3 form-control-label">Profile Image: </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="ProfileImage" placeholder="Profile" maxlength="20">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12" ng-show="UserModel.UserId>0">
-                                <div class="box-divider m-a-0"></div>
-                                <h5 class="p-t-1">Update Password</h5>
-                            </div>
-                            <label for="ZipCode" class="col-sm-3 form-control-label">Password: </label>
-                            <div class="col-sm-8">
-                                <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" ng-model="UserModel.Password">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="CnfrmPassword" class="col-sm-3 form-control-label">Confirm Password: </label>
-                            <div class="col-sm-8">
-                                <input type="Password" class="form-control" id="CPassword" name="CPassword" placeholder="Confirm Password" ng-model="UserModel.ConfirmPassword">
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
                                 <div class="col-sm-8 checkbox checkbox-primary form-control-label">
-                                    <input id="IsActive" type="checkbox" ng-model="UserModel.IsActive" ng-init="UserModel.IsActive=false ">
+                                    <input id="IsActive" type="checkbox" ng-model="CompanyModel.IsActive" ng-init="UserModel.IsActive=false ">
                                 </div>
                         </div>
                         <div class="form-group row m-t-md">
                             <div class="col-sm-9 pull-right">
-                                <button type="submit" class="btn white {{app.setting.theme.primary}}" ng-click="tblUser.$valid && Create()">
-                                    {{UserModel.UserId>0?'Update':'Create' }}</button>
-                                <button type="submit" class="btn white {{app.setting.theme.primary}}" ng-click="cancel()">Cancel</button>
+                                <button type="submit" class="btn btn-primary " ng-click="tblCompany.$valid && Create()">
+                                    {{CompanyModel.CompanyId>0?'Update':'Create' }}</button>
+                                <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

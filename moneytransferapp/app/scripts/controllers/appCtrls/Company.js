@@ -5,6 +5,7 @@
     angular
         .module('app')
         .controller('manageCompanyController', manageCompanyController)
+    .controller('addEditCompanyController', addEditCompanyController)
        
 
 
@@ -40,50 +41,144 @@
 
 
 
-        vm.adduser = function () {
-            $state.go('app.add_User');
+        vm.addcompany = function () {
+            $state.go('app.add_Comapny');
         }
 
-        vm.EditUser = function (UserId) {
-            $state.go('app.Edit_User', { UserId: UserId });
+        vm.EditCompany = function (CompanyId) {
+            $state.go('app.Edit_Comapny', { CompanyId: CompanyId });
         }
 
 
-        //var DeleteUserID = 0;
-        //vm.deleteUser = function (Id) {
+        //DeleteUser
+        var DeleteCompanyID = 0;
+        vm.deleteCompany = function (Id) {
+            DeleteCompanyID = Id;
+            $('#deleteconfirm').modal('toggle');
+        }
 
-        //    DeleteUserID = Id;
-        //    $('#deleteconfirm').modal('toggle');
-        //}
+        vm.deleteconfirm = function () {
+            $('#deleteconfirm').modal('toggle');
+            var iCompanyID = "";
+            iCompanyID = JSON.stringify(DeleteCompanyID);
 
-        //vm.deleteconfirm = function () {
-        //    $('#deleteconfirm').modal('toggle');
-
-        //    var formData = $.param({ FamUserId: DeleteUserID });
-        //    $http({
-        //        method: 'POST',
-        //        data: formData,
-        //        url: baseUrl + 'DeleteUser',
-        //        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        //    })
-        //    .success(function (data) {
-
-        //        var x2js = new X2JS();
-        //        var idata = x2js.xml_str2json(data);
-        //        if (idata.int.__text == "1") {
-        //            Alert(1, "! User deleted successfully");
-        //            var iManageUsers = vm.ManageUsers;
-        //            vm.ManageUsers = [];
-        //            for (var i = 0; i < iManageUsers.length; i++) {
-        //                if (iManageUsers[i].FamUserId !== DeleteUserID) vm.ManageUsers.push(iManageUsers[i]);
-        //            }
-        //        }
-        //    });
-        //}
-
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": iCompanyID }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'deletecompany',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata.CompanyId > 0) {
+                    Alert(1, "! Company deleted successfully");
+                    var iManageCompany = vm.ManageCompany;
+                    vm.ManageCompany = [];
+                    for (var i = 0; i < iManageCompany.length; i++) {
+                        if (iManageCompany[i].CompanyId !== DeleteCompanyID) vm.ManageCompany.push(iManageCompany[i]);
+                    }
+                }
+            });
+        }
 
     }
 
-   
+    addEditCompanyController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
+    function addEditCompanyController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
+
+        var vm = $scope;
+
+        vm.CompanyModel = { CompanyId: "0" };
+
+        vm.header = 'Add New';
+
+        if ($stateParams.CompanyId) {
+            vm.header = 'Update';
+            var iCompanyId = "";
+            iCompanyId = JSON.stringify($stateParams.CompanyId);
+
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": iCompanyId }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getcompany',
+                data: formData,
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+             .success(function (data) {
+
+                 var idata = data;
+                 if (idata) {
+                     var CompanyId = "";
+                     CompanyId = idata.CompanyId;
+                     vm.CompanyModel = idata;
+
+                 }
+             });
+        }
+
+
+
+        vm.Create = function () {
+       
+            if ($stateParams.CompanyId) {
+                var formData = JSON.stringify(vm.CompanyModel);
+                $http({
+                    method: 'POST',
+                    url: baseUrl + 'updatecompany',
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    dataType: "json",
+                })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata && idata.CompanyId > 0) {
+                        Alert(1, "! Company updated successfully");
+                        vm.CompanyModel = angular.copy(vm.CompanyModel);
+                        setTimeout(function () {
+                            $state.go('app.Manage_Company');
+                        }, 1000);
+
+                    }
+                    else {
+                        Alert(2, idata.User.Message);
+                    }
+                });
+            }
+            else {
+
+                var formData = JSON.stringify(vm.CompanyModel);
+                $http({
+                    method: 'POST',
+                    data: formData,
+                    url: baseUrl + 'addcompany',
+                    headers: { 'Content-Type': 'application/json' },
+                    dataType: "json",
+                })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata && idata.Result == "Sucess") {
+                        Alert(1, "! Company created successfully");
+                        vm.CompanyModel = angular.copy(vm.CompanyModel);
+                        setTimeout(function () {
+                            $state.go('app.Manage_Company');
+                        }, 1000);
+                    }
+                    else {
+                        Alert(2, idata.Result);
+                    }
+                });
+            }
+        }
+
+        vm.cancel = function () {
+            $state.go('app.Manage_Company');
+        }
+    }
+
 
 })();

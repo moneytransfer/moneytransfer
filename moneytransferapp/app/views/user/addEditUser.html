@@ -44,7 +44,7 @@
 
                         <div class="form-group row">
                             <label for="Username" class="col-sm-3 form-control-label">Profile Image: </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="ProfileImage" placeholder="Profile" maxlength="20">
+                                <input type="text" class="form-control" id="ProfileImage" placeholder="Profile" ng-model="UserModel.ProfileImage">
                             </div>
                         </div>
 
@@ -58,12 +58,12 @@
                                 <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" ng-model="UserModel.Password">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="CnfrmPassword" class="col-sm-3 form-control-label">Confirm Password: </label>
                             <div class="col-sm-8">
-                                <input type="Password" class="form-control" id="CPassword" name="CPassword" placeholder="Confirm Password" ng-model="UserModel.ConfirmPassword">
+                                <input type="Password" class="form-control" id="CPassword" name="CPassword" placeholder="Confirm Password" ng-model="UserModel.Password">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
                             <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
                                 <div class="col-sm-8 checkbox checkbox-primary form-control-label">
@@ -72,9 +72,9 @@
                         </div>
                         <div class="form-group row m-t-md">
                             <div class="col-sm-9 pull-right">
-                                <button type="submit" class="btn white {{app.setting.theme.primary}}" ng-click="tblUser.$valid && Create()">
+                                <button type="submit" class="btn btn-primary" ng-click="tblUser.$valid && Create()">
                                     {{UserModel.UserId>0?'Update':'Create' }}</button>
-                                <button type="submit" class="btn white {{app.setting.theme.primary}}" ng-click="cancel()">Cancel</button>
+                                <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
                             </div>
                         </div>
                     </form>

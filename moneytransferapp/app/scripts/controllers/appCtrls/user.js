@@ -48,38 +48,38 @@
             $state.go('app.Edit_User', { UserId: UserId });
         }
 
+        //DeleteUser
+        var DeleteUserID = 0;
+        vm.deleteUser = function (Id) {
+            DeleteUserID = Id;
+            $('#deleteconfirm').modal('toggle');
+        }
 
-        //var DeleteUserID = 0;
-        //vm.deleteUser = function (Id) {
+        vm.deleteconfirm = function () {
+            $('#deleteconfirm').modal('toggle');
+            var iUserId = "";
+            iUserId = JSON.stringify(DeleteUserID);
 
-        //    DeleteUserID = Id;
-        //    $('#deleteconfirm').modal('toggle');
-        //}
-
-        //vm.deleteconfirm = function () {
-        //    $('#deleteconfirm').modal('toggle');
-
-        //    var formData = $.param({ FamUserId: DeleteUserID });
-        //    $http({
-        //        method: 'POST',
-        //        data: formData,
-        //        url: baseUrl + 'DeleteUser',
-        //        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        //    })
-        //    .success(function (data) {
-
-        //        var x2js = new X2JS();
-        //        var idata = x2js.xml_str2json(data);
-        //        if (idata.int.__text == "1") {
-        //            Alert(1, "! User deleted successfully");
-        //            var iManageUsers = vm.ManageUsers;
-        //            vm.ManageUsers = [];
-        //            for (var i = 0; i < iManageUsers.length; i++) {
-        //                if (iManageUsers[i].FamUserId !== DeleteUserID) vm.ManageUsers.push(iManageUsers[i]);
-        //            }
-        //        }
-        //    });
-        //}
+            var formData = JSON.parse(JSON.stringify({ "UserId": iUserId }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'deleteuser',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata.UserId>0) {
+                    Alert(1, "! User deleted successfully");
+                    var iManageUsers = vm.ManageUsers;
+                    vm.ManageUsers = [];
+                    for (var i = 0; i < iManageUsers.length; i++) {
+                        if (iManageUsers[i].UserId !== DeleteUserID) vm.ManageUsers.push(iManageUsers[i]);
+                    }
+                }
+            });
+        }
 
 
     }
@@ -89,7 +89,7 @@
 
         var vm = $scope;
 
-        vm.UserModel = { UserId: 0, CompanyId: "0", Password: "", ConfirmPassword: "" };
+        vm.UserModel = { UserId: "0", CompanyId: "0", Password: ""};
         vm.Companies = [];
 
         vm.header = 'Add New';
@@ -120,6 +120,7 @@
                 dataType: "json",
             })
              .success(function (data) {
+              
                  var idata = data;
                  if (idata) {
                      var CompanyId = "";
@@ -128,7 +129,6 @@
                      vm.UserModel.CompanyId = JSON.stringify(CompanyId);
 
                      vm.UserModel.Password = "";
-                     vm.UserModel.ConfirmPassword = "";
 
                  }
              });
@@ -139,7 +139,6 @@
         vm.Create = function () {
             if ($stateParams.UserId) {
                 var formData = JSON.stringify(vm.UserModel);
-                debugger;
                 $http({
                     method: 'POST',
                     url: baseUrl + 'updateuser',
@@ -156,7 +155,7 @@
                         Alert(1, "! User updated successfully");
                         vm.UserModel = angular.copy(vm.UserModel);
                         setTimeout(function () {
-                            $state.go('app.manage_Users');
+                            $state.go('app.Manage_User');
                         }, 1000);
 
                     }
@@ -166,8 +165,18 @@
                 });
             }
             else {
-                
-                var formData = JSON.stringify(vm.UserModel);
+              
+                var iData = vm.UserModel;
+                if (vm.UserModel.IsActive == true) {
+                    iData.IsActive = "true"
+                }
+                else {
+                    iData.IsActive = "false"
+                }
+               
+                var formData = JSON.stringify(iData);
+
+
                 $http({
                     method: 'POST',
                     data: formData,
@@ -178,15 +187,15 @@
                 .success(function (data) {
                  
                     var idata = data;
-                    if (idata && idata.UserId > 0) {
+                    if (idata && idata.Result == "Sucess") {
                         Alert(1, "! User created successfully");
                         vm.UserModel = angular.copy(vm.UserModel);
                         setTimeout(function () {
-                            $state.go('app.manage_Users');
+                            $state.go('app.Manage_User');
                         }, 1000);
                     }
                     else {
-                        Alert(2, idata.Result);
+                        Alert(2, idata.Error);
                     }
                 });
             }

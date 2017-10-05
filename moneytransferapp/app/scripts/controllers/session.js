@@ -8,17 +8,17 @@ function Alert(type, msg) {
             div = "<div id='alert' class='alert alert-danger pull-right col-sm-4 '><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
             break;
     }
-    jQuery('body').append(div);
+    jQuery('#view').append(div);
     setTimeout(function () {
         jQuery('#alert').remove();
     }, 3500);
 }
 
-$(document).ready(function () {
-    if (authorisedUser.access_token) {
-        $("#appheader").removeClass('hide');
-    }
-});
+//$(document).ready(function () {
+//    if (authorisedUser.UserId) {
+//        $("#appheader").removeClass('hide');
+//    }
+//});
 
 function backtotop(div) {
     $("#" + div).animate({
@@ -27,13 +27,13 @@ function backtotop(div) {
     return false;
 }
 
-function UnAuth($window) {
-    if ($window.sessionStorage.authorisedUser) {
-        $window.sessionStorage.removeItem('authorisedUser');
-        authorisedUser = [];
-        window.location.reload();
-    }
-}
+//function UnAuth($window) {
+//    if ($window.sessionStorage.authorisedUser) {
+//        $window.sessionStorage.removeItem('authorisedUser');
+//        authorisedUser = [];
+//        window.location.reload();
+//    }
+//}
 
 var authorisedUser = [];
 
@@ -42,6 +42,7 @@ var authorisedUser = [];
     angular
    .module('app')
    .controller('sessionCtrl', sessionCtrl)
+    .controller('authenticateController', authenticateController)
 
     sessionCtrl.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function sessionCtrl($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
@@ -68,7 +69,7 @@ var authorisedUser = [];
                 if (authorisedUser.UserId) {
                     $window.sessionStorage.authorisedUser = JSON.stringify(data);
                     Alert(1, "! Login successful.. ");
-                    setTimeout(function () { window.location.reload(); }, 2000);
+                    setTimeout(function () { window.location.reload(); }, 1000);
                 }
                 else {
                     Alert(2, "! Invalid user or password. ");
@@ -80,38 +81,29 @@ var authorisedUser = [];
         }
         //$state.go('user.signin');
 
-        vm.signUp = function () {
-            debugger;
-            var idata = JSON.stringify(vm.UserModel);
-
-            var formData = vm.UserModel;
-            $http({
-                url: baseUrl + 'authenticateusers',
-                method: 'POST',
-                data: idata,
-                headers: { 'Content-Type': 'application/json' },
-                dataType: "json",
-            })
-            .success(function (data, status, headers, config) {
-                debugger;
-                authorisedUser = data;
-                if (authorisedUser.access_token) {
-                    $window.sessionStorage.authorisedUser = JSON.stringify(data);
-                    Alert(1, "! Login successful.. ");
-                    setTimeout(function () { window.location.reload(); }, 2000);
-                }
-                else {
-                    Alert(2, "! Invalid user or password. ");
-                }
-            })
-            .error(function (data, status, headers, config) {
-                Alert(2, "! " + data);
-            });
-        }
+       
     };
     //vm.submit = function () {
     //    $state.go('app.dashboard');
     //};
+
+    authenticateController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
+    function authenticateController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
+       
+        if ($window.sessionStorage.authorisedUser) {
+            authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
+            if (!authorisedUser.UserId) {
+                $window.location.reload();
+            }
+            //else {
+            //    $http.defaults.headers.common['Authorization'] = authorisedUser.UserId;
+            //}
+        }
+        else {
+            $window.location.assign('#/app/signin');
+        }
+    }
+
 })();
 //angular.module('app').controller('sessionCtrl', ['$state', sessionCtrl]);
 

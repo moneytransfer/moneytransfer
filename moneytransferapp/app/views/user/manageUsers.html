@@ -10,7 +10,7 @@
          
             <div class="box-body m-t-1">
                 <div class="col-sm-4 p-a pull-right">
-                    <button type="submit" class="btn white pull-right {{app.setting.theme.primary}}" ng-click="adduser()"><i class="glyphicon glyphicon-plus"></i> Add User </button>
+                    <button type="submit" class="btn btn-primary pull-right" ng-click="adduser()"><i class="glyphicon glyphicon-plus"></i> Add User </button>
                 </div>
                 <table id="tblUsers" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
                     <thead>
@@ -28,7 +28,7 @@
                             <td><small>{{User.Email }} </small></td>
                             <td><small>{{User.Phone }}</small></td>
                             <td>
-                                <button type="submit" class="btn btn-sm {{app.setting.theme.primary}}" ng-click="EditUser(User.UserId)">Edit</button>
+                                <button type="submit" class="btn btn-sm btn-primary" ng-click="EditUser(User.UserId)">Edit</button>
                             </td>
                             <td>
                                 <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteUser(User.UserId)">Delete </button>
@@ -60,8 +60,8 @@
                             <h6 class="modal-title">Do you want to proceed to delete this 'User'? </h6>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default warning" ng-click="deleteconfirm()">Yes</button>
-                            <button type="button" class="btn btn-default primary" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
                         </div>
                     </div>
                 </div>

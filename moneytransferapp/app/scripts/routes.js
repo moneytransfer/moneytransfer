@@ -14,21 +14,58 @@
       },
         ]).config(['$stateProvider', '$urlRouterProvider',
       function ($stateProvider, $urlRouterProvider) {
+
+          var p = getParams('layout'),
+
+               l = p ? p + '.' : '',
+               layout = 'views/common/horizontal/layout.html',
+               dashboard = "";
+
           // For unmatched routes
-          $urlRouterProvider.otherwise('/signin');
+          $urlRouterProvider.otherwise('/app/signin');
+
+          $stateProvider
+         .state('app', {
+             abstract: true,
+             url: '/app',
+             views: {
+                 '': {
+                     templateUrl: layout
+                 }
+             }
+         })
+
           // Application routes
-          $stateProvider.state('app', {
-              abstract: true,
-              //  templateUrl: 'views/common/layout.html',
-              templateUrl: 'views/common/horizontal/layout.html',
-          }).state('horizontal', {
+          //$stateProvider.state('app', {
+          //    abstract: true,
+          //    //  templateUrl: 'views/common/layout.html',
+          //    templateUrl: 'views/common/horizontal/layout.html',
+          //})
+              .state('horizontal', {
               abstract: true,
               //  templateUrl: 'views/common/horizontal/layout.html',
           })
 
+
+              .state('app.signin', {
+                  url: '/signin',
+                  templateUrl: 'views/extra/extras-signin.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/session.js');
+                          });
+                      }]
+                  },
+                  title: 'Signin',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
+
+
             //Dashboard
             .state('app.dashboard', {
-                url: '/',
+                url: '/dashboard',
                 templateUrl: 'views/dashboard/dashboard.html',
                 resolve: {
                     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -53,7 +90,8 @@
                         });
                     }]
                 },
-                title: 'Dashboard'
+                title: 'Dashboard',
+                controller: "authenticateController"
             })
 
               .state('app.Manage_User', {
@@ -67,7 +105,8 @@
                       }]
                   },
                   title: 'Manage User',
-                  classes: 'no-padding no-footer layout-static'
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
               })
 
               .state('app.add_User', {
@@ -81,7 +120,8 @@
                       }]
                   },
                   title: 'Add User',
-                  classes: 'no-padding no-footer layout-static'
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
               })
 
               .state('app.Edit_User', {
@@ -96,7 +136,8 @@
                       }]
                   },
                   title: 'Edit User',
-                  classes: 'no-padding no-footer layout-static'
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
               })
 
 
@@ -111,7 +152,8 @@
                       }]
                   },
                   title: 'Manage Company',
-                  classes: 'no-padding no-footer layout-static'
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
               })
 
               .state('app.add_Comapny', {
@@ -125,7 +167,8 @@
                       }]
                   },
                   title: 'Add Comapny',
-                  classes: 'no-padding no-footer layout-static'
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
               })
 
               .state('app.Edit_Comapny', {
@@ -140,7 +183,8 @@
                       }]
                   },
                   title: 'Edit Company',
-                  classes: 'no-padding no-footer layout-static'
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
               })
 
 
@@ -790,18 +834,6 @@
 
             .state('user', {
                 templateUrl: 'views/common/session.html',
-            }).state('user.signin', {
-                url: '/signin',
-                templateUrl: 'views/extra/extras-signin.html',
-                resolve: {
-                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                            return $ocLazyLoad.load('scripts/controllers/session.js');
-                        });
-                    }]
-                },
-                title: 'Signin',
-                classes: 'no-padding no-footer layout-static'
             }).state('user.signup', {
                 url: '/signup',
                 templateUrl: 'views/extra/extras-signup.html',

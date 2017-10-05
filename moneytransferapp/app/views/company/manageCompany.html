@@ -9,9 +9,9 @@
             </div>
          
             <div class="box-body m-t-1">
-                <!--<div class="col-sm-4 p-a pull-right">
-                    <button type="submit" class="btn white pull-right {{app.setting.theme.primary}}" ng-click="adduser()"><i class="glyphicon glyphicon-plus"></i> Add User </button>
-                </div>-->
+                <div class="col-sm-4 p-a pull-right">
+                    <button type="submit" class="btn btn-primary pull-right" ng-click="addcompany()"><i class="glyphicon glyphicon-plus"></i> Add Company </button>
+                </div>
                 <table id="tblUsers" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
                     <thead>
                         <tr>
@@ -20,6 +20,8 @@
                             <th>Phone</th>
                             <th>City</th>
                             <th>Country</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,17 +31,17 @@
                             <td><small>{{Company.Phone }}</small></td>
                             <td><small>{{Company.City }}</small></td>
                             <td><small>{{Company.Country }}</small></td>
-                            <!--<td>
-                                <button type="submit" class="btn btn-sm {{app.setting.theme.primary}}" ng-click="EditUser(User.UserId)">Edit</button>
+                            <td>
+                                <button type="submit" class="btn btn-sm btn-primary" ng-click="EditCompany(Company.CompanyId)">Edit</button>
                             </td>
                             <td>
-                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteUser(User.UserId)">Delete </button>
-                            </td>-->
+                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteCompany(Company.CompanyId)">Delete </button>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot class="hide-if-no-paging">
                         <tr>
-                            <td colspan="5" class="text-center">
+                            <td colspan="7" class="text-center">
                                 <ul class="pagination"></ul>
                             </td>
                         </tr>
@@ -59,11 +61,11 @@
                         </div>
 
                         <div class="modal-body">
-                            <h6 class="modal-title">Do you want to proceed to delete this 'User'? </h6>
+                            <h6 class="modal-title">Do you want to proceed to delete this 'Company'? </h6>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default warning" ng-click="deleteconfirm()">Yes</button>
-                            <button type="button" class="btn btn-default primary" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
                         </div>
                     </div>
                 </div>

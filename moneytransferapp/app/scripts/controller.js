@@ -43,9 +43,9 @@ var authorisedUser = [];
             $httpProvider.interceptors.push('httpInterceptor');
         }]);
 
-    AppCtrl.$inject = ['$scope', '$http', '$localStorage', '$timeout', '$translate', '$uibModal', '$location'];
+    AppCtrl.$inject = ['$scope', '$http', '$localStorage', '$timeout', '$translate', '$uibModal', '$location', '$window'];
 
-    function AppCtrl($scope, $http, $localStorage, $timeout, $translate, $uibModal, $location) {
+    function AppCtrl($scope, $http, $localStorage, $timeout, $translate, $uibModal, $location, $window) {
 
         var vm = $scope;
 
@@ -155,6 +155,23 @@ var authorisedUser = [];
                 vm.app.expanding = false;
             }
         }
+
+
+        function getParams(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+
+        // site code
+
+        if ($window.sessionStorage.authorisedUser) {
+            authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
+            vm.authorisedUser = authorisedUser;
+        }
+
 
     };
 
