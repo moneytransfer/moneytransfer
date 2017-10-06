@@ -1,0 +1,11 @@
+
+
+http://18.221.150.151:8080/moneytransfer/app/#/app/signin
+
+Users credentials:-
+U:- admin@gmail.com
+P:- 12345
+
+
+U:- test@gmail.com
+P:- 12345
