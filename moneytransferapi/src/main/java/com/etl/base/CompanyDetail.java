@@ -1,6 +1,7 @@
 package com.etl.base;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,11 +10,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.etl.util.MYSQLConnection;
 import com.etl.util.MYSQLHelper;
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class CompanyDetail {
 	public int CompanyId;
 	public String CompanyName;
@@ -22,10 +22,29 @@ public class CompanyDetail {
 	public String City;
 	public String State;
 	public String ZipCode;
-	public String Country;
-	public String 	Email;	
+	public String CountryId;
+	public String Email;	
 	public String Phone;
-
+	public String BusinessFax;
+	public String ContactPerson;
+	public String ContactTitle;
+	public String NumberofEmployees;
+	public String AnnualRevenue;
+	public String Industry;
+	public String SubIndustry;
+	public String SICCode;
+	public String SICDescription;
+	public String Website;
+	public String CompanyNumber;
+	public String BusinessID;
+	public String CompanyType;
+	
+	
+	
+	public String IncorporationDate;
+	public String ListofOfficersDueDate;
+	public String BusinessLicenseExpDate;
+	
 	public String CreatedDate;	
 	public boolean	IsActive;
 	public boolean	IsDeleted;
@@ -94,12 +113,117 @@ public class CompanyDetail {
 		return ZipCode;
 	}
 	
-	private void setCountry(String Country){
-		this.Country = Country;
+	private void setCountry(String CountryId){
+		this.CountryId = CountryId;
 	}	
 	private String getCountry(){
-		return Country;
+		return CountryId;
 	}
+	
+	
+	private void setBusinessFax(String BusinessFax){
+		this.BusinessFax = BusinessFax;
+	}	
+	private String getBusinessFax(){
+		return BusinessFax;
+	}
+	private void setContactPerson(String ContactPerson){
+		this.ContactPerson = ContactPerson;
+	}	
+	private String getContactPerson(){
+		return ContactPerson;
+	}
+	private void setContactTitle(String ContactTitle){
+		this.ContactTitle = ContactTitle;
+	}	
+	private String getContactTitle(){
+		return ContactTitle;
+	}
+	
+	
+	
+	private void setNumberofEmployees(String NumberofEmployees){
+		this.NumberofEmployees = NumberofEmployees;
+	}	
+	private String getNumberofEmployees(){
+		return NumberofEmployees;
+	}
+	private void setAnnualRevenue(String AnnualRevenue){
+		this.AnnualRevenue = AnnualRevenue;
+	}	
+	private String getAnnualRevenue(){
+		return AnnualRevenue;
+	}
+	private void setIndustry(String Industry){
+		this.Industry = Industry;
+	}	
+	private String getIndustry(){
+		return Industry;
+	}
+	private void setSubIndustry(String SubIndustry){
+		this.SubIndustry = SubIndustry;
+	}	
+	private String getSubIndustry(){
+		return SubIndustry;
+	}
+	private void setSICCode(String SICCode){
+		this.SICCode = SICCode;
+	}	
+	private String getSICCode(){
+		return SICCode;
+	}
+	private void setSICDescription(String SICDescription){
+		this.SICDescription = SICDescription;
+	}	
+	private String getSICDescription(){
+		return SICDescription;
+	}
+	private void setWebsite(String Website){
+		this.Website = Website;
+	}	
+	private String getWebsite(){
+		return Website;
+	}
+	private void setCompanyNumber(String CompanyNumber){
+		this.CompanyNumber = CompanyNumber;
+	}	
+	private String getCompanyNumber(){
+		return CompanyNumber;
+	}
+	private void setBusinessID(String BusinessID){
+		this.BusinessID = BusinessID;
+	}	
+	private String getBusinessID(){
+		return BusinessID;
+	}
+	
+	private void setCompanyType(String CompanyType){
+		this.CompanyType = CompanyType;
+	}	
+	private String getCompanyType(){
+		return CompanyType;
+	}
+	
+	private void setIncorporationDate(String IncorporationDate){
+		this.IncorporationDate = IncorporationDate;
+	}	
+	private String getIncorporationDate(){
+		return IncorporationDate;
+	}	
+	private void setListofOfficersDueDate(String ListofOfficersDueDate){
+		this.ListofOfficersDueDate = ListofOfficersDueDate;
+	}	
+	private String getListofOfficersDueDate(){
+		return ListofOfficersDueDate;
+	}
+	private void setBusinessLicenseExpDate(String BusinessLicenseExpDate){
+		this.BusinessLicenseExpDate = BusinessLicenseExpDate;
+	}	
+	private String getBusinessLicenseExpDate(){
+		return BusinessLicenseExpDate;
+	}
+	
+	
 	
 	private void setCreatedDate(String CreatedDate){
 		this.CreatedDate = CreatedDate;
@@ -145,36 +269,86 @@ public CompanyDetail addCompany(CompanyDetail _CompanyDetail) {
 	 PreparedStatement _PreparedStatement = null;
 	try
 	{
+		Date _optionaldate = null;
 		
 					if(_Connection!=null)
 					{
 						MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 						ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT email FROM company where email='"+_CompanyDetail.Email+"'",_Connection);
 						if (!_ResultSet.next())
-						{			
+						{	
+							String _query="SELECT country_id FROM country where country_id='"+_CompanyDetail.CountryId+"'";
+							ResultSet _ResultSetcountry = _MYSQLHelper.GetResultSet(_query,_Connection);
+						if (_ResultSetcountry.next())
+							{
 							SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 							Calendar cal = Calendar.getInstance();
 							String date=format.format(cal.getTime());
 							_CompanyDetail.setCreatedDate(date);	
 						
-							String sInsertStatement = "INSERT INTO company(name,address1,address2,city,state,country,zip_code,email,phone,created_date,is_active)";
-							 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?)";
+							String sInsertStatement = "INSERT INTO company(name,address1,address2,city,state,country_id,zip_code,email,phone,business_fax, contact_person, contact_title, number_employees, annual_revenue, industry, sub_industry, sic_code, sic_description, website, company_number, business_id, company_type, incorporation_date, listofficers_duedate, businesslicense_expdate,created_date,is_active)";
+							 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?,?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)";
 							_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 							_PreparedStatement.setString(1, _CompanyDetail.CompanyName);							
 							_PreparedStatement.setString(2, _CompanyDetail.Address1);		
 							_PreparedStatement.setString(3, _CompanyDetail.Address2);
 							_PreparedStatement.setString(4, _CompanyDetail.City);	
 							_PreparedStatement.setString(5, _CompanyDetail.State);
-							_PreparedStatement.setString(6, _CompanyDetail.Country);
+							_PreparedStatement.setString(6, _CompanyDetail.CountryId);
 							_PreparedStatement.setString(7, _CompanyDetail.ZipCode);
 							_PreparedStatement.setString(8, _CompanyDetail.Email);
 							_PreparedStatement.setString(9, _CompanyDetail.Phone);
-							_PreparedStatement.setString(10, _CompanyDetail.CreatedDate);							
-							_PreparedStatement.setBoolean(11, _CompanyDetail.IsActive);	
-							_PreparedStatement.executeUpdate();
+							_PreparedStatement.setString(10, _CompanyDetail.BusinessFax);
+							_PreparedStatement.setString(11, _CompanyDetail.ContactPerson);
+							_PreparedStatement.setString(12, _CompanyDetail.ContactTitle);
+							_PreparedStatement.setString(13, _CompanyDetail.NumberofEmployees);
+							_PreparedStatement.setString(14, _CompanyDetail.AnnualRevenue);
+							_PreparedStatement.setString(15, _CompanyDetail.Industry);
+							_PreparedStatement.setString(16, _CompanyDetail.SubIndustry);
+							_PreparedStatement.setString(17, _CompanyDetail.SICCode);
+							_PreparedStatement.setString(18, _CompanyDetail.SICDescription);
+							_PreparedStatement.setString(19, _CompanyDetail.Website);
+							_PreparedStatement.setString(20, _CompanyDetail.CompanyNumber);
+							_PreparedStatement.setString(21, _CompanyDetail.BusinessID);
+							_PreparedStatement.setString(22, _CompanyDetail.CompanyType);
+							if(_CompanyDetail.IncorporationDate!="")
+							{
+								_PreparedStatement.setString(23, _CompanyDetail.IncorporationDate);
+							}
+							else{
+								_PreparedStatement.setDate(23, _optionaldate);
+							}
 							
+							if(_CompanyDetail.ListofOfficersDueDate!="")
+							{
+								_PreparedStatement.setString(24, _CompanyDetail.ListofOfficersDueDate);
+							}
+							else{
+								_PreparedStatement.setDate(24, _optionaldate);
+							}
+							
+							if(_CompanyDetail.BusinessLicenseExpDate!="")
+							{
+								_PreparedStatement.setString(25, _CompanyDetail.BusinessLicenseExpDate);
+							}
+							else{
+								
+								_PreparedStatement.setDate(25, _optionaldate);
+							}
+							
+							
+							_PreparedStatement.setString(26, _CompanyDetail.CreatedDate);							
+							_PreparedStatement.setBoolean(27, _CompanyDetail.IsActive);	
+							_PreparedStatement.executeUpdate();					
 						
 							_CompanyDetail.setResult("Sucess");
+							clearall(_CompanyDetail);
+						}
+							else{
+							_CompanyDetail.setResult("Failed");
+							_CompanyDetail.setResult("Invalid Country-Id!");
+								//logger.error(_auth.errorstatus);
+					 	}
 					}
 					else{
 						_CompanyDetail.setResult("Failed");
@@ -198,6 +372,7 @@ public CompanyDetail addCompany(CompanyDetail _CompanyDetail) {
 		if (_Connection != null) {
 			try {
 				_Connection.close();
+				clearall(_CompanyDetail);
 			} catch (SQLException e) {
 				//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
 			}
@@ -211,25 +386,25 @@ public CompanyDetail addCompany(CompanyDetail _CompanyDetail) {
 public CompanyDetail updateCompany(CompanyDetail _CompanyDetail) {
 	Connection _Connection = MYSQLConnection.GetConnection();
 	 PreparedStatement _PreparedStatement = null;
-	 
+	
 	try
 	{
 		if(_Connection!=null)
 		{
-				
+			Date _optionaldate = null;
 				
 				MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT Company_Id FROM company where Company_Id='"+_CompanyDetail.CompanyId+"'",_Connection);
 				if (_ResultSet.next())
 				{	
-				//	ResultSet _ResultSetemail = _MYSQLHelper.GetResultSet("SELECT email FROM customer where email='"+_CompanyDetail.email+"'",_Connection);
-					//if (!_ResultSetemail.next())
-				//	{	
+					ResultSet _ResultSetcountry = _MYSQLHelper.GetResultSet("SELECT country_id FROM country where country_id='"+_CompanyDetail.CountryId+"'",_Connection);
+					if (_ResultSetcountry.next())
+					{
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Calendar cal = Calendar.getInstance();
 					String date=format.format(cal.getTime());
 					_CompanyDetail.setCreatedDate(date);					
-					String sInsertStatement ="UPDATE company SET name = ? "+ ",address1 = ? "+ ",address2 = ? "+ ",city = ? "+ ",	state = ? "+ ",	zip_code = ? "+ ",country = ? "+ ",email = ? "+ ",phone = ? "+ ",created_date = ? "+ ",is_active = ? "+ " WHERE Company_Id = ?";
+					String sInsertStatement ="UPDATE company SET name = ? "+ ",address1 = ? "+ ",address2 = ? "+ ",city = ? "+ ",	state = ? "+ ",	zip_code = ? "+ ",country_id = ? "+ ",email = ? "+ ",phone = ? "+ ",business_fax = ? "+ ",contact_person = ? "+ ",contact_title = ? "+ ",number_employees = ? "+ ",annual_revenue = ? "+ ",industry = ? "+ ",sub_industry = ? "+ ",sic_code = ? "+ ",sic_description = ? "+ ",website = ? "+ ",company_number = ? "+ ",business_id = ? "+ ",company_type = ? "+ ",incorporation_date = ? "+ ",listofficers_duedate = ? "+ ",businesslicense_expdate = ? "+ ","+ "created_date = ? "+ ",is_active = ? "+ " WHERE Company_Id = ?";
 					_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 					_PreparedStatement.setString(1, _CompanyDetail.CompanyName);
 					_PreparedStatement.setString(2, _CompanyDetail.Address1);		
@@ -237,38 +412,80 @@ public CompanyDetail updateCompany(CompanyDetail _CompanyDetail) {
 					_PreparedStatement.setString(4, _CompanyDetail.City);	
 					_PreparedStatement.setString(5, _CompanyDetail.State);	
 					_PreparedStatement.setString(6, _CompanyDetail.ZipCode);
-					_PreparedStatement.setString(7, _CompanyDetail.Country);
+					_PreparedStatement.setString(7, _CompanyDetail.CountryId);
 					_PreparedStatement.setString(8, _CompanyDetail.Email);
 					_PreparedStatement.setString(9, _CompanyDetail.Phone);
-					_PreparedStatement.setString(10, _CompanyDetail.CreatedDate);
+					_PreparedStatement.setString(10, _CompanyDetail.BusinessFax);
+					_PreparedStatement.setString(11, _CompanyDetail.ContactPerson);		
+					_PreparedStatement.setString(12, _CompanyDetail.ContactTitle);
+					_PreparedStatement.setString(13, _CompanyDetail.NumberofEmployees);	
+					_PreparedStatement.setString(14, _CompanyDetail.AnnualRevenue);	
+					_PreparedStatement.setString(15, _CompanyDetail.Industry);
+					_PreparedStatement.setString(16, _CompanyDetail.SubIndustry);
+					_PreparedStatement.setString(17, _CompanyDetail.SICCode);
+					_PreparedStatement.setString(18, _CompanyDetail.SICDescription);
+					_PreparedStatement.setString(19, _CompanyDetail.Website);		
+					_PreparedStatement.setString(20, _CompanyDetail.CompanyNumber);
+					_PreparedStatement.setString(21, _CompanyDetail.BusinessID);	
+					_PreparedStatement.setString(22, _CompanyDetail.CompanyType);	
+					if(_CompanyDetail.IncorporationDate!="")
+					{
+						_PreparedStatement.setString(23, _CompanyDetail.IncorporationDate);
+					}
+					else{
+						_PreparedStatement.setDate(23, _optionaldate);
+					}
+					
+					if(_CompanyDetail.ListofOfficersDueDate!="")
+					{
+						_PreparedStatement.setString(24, _CompanyDetail.ListofOfficersDueDate);
+					}
+					else{
+						_PreparedStatement.setDate(24, _optionaldate);
+					}
+					if(_CompanyDetail.BusinessLicenseExpDate!="")
+					{
+						_PreparedStatement.setString(25, _CompanyDetail.BusinessLicenseExpDate);
+					}
+					else{
+						_PreparedStatement.setDate(25, _optionaldate);
+					}
 					
 					
-					_PreparedStatement.setBoolean(11, _CompanyDetail.IsActive);
-					_PreparedStatement.setInt(12, _CompanyDetail.CompanyId);
+					_PreparedStatement.setString(26, _CompanyDetail.CreatedDate);
+					
+					
+					_PreparedStatement.setBoolean(27, _CompanyDetail.IsActive);
+					_PreparedStatement.setInt(28, _CompanyDetail.CompanyId);
 					_PreparedStatement.executeUpdate();
 					_CompanyDetail.setResult("Sucess");
-				//	}
-				//	else{
-					//	_CompanyDetail.setresult("Failed");
-					//	_CompanyDetail.seterror("Email_id is already used!");
+					clearall(_CompanyDetail);
+					}
+					else{
+						_CompanyDetail.setResult("Failed");
+						_CompanyDetail.setResult("Invalid Country-Id!");
+						clearall(_CompanyDetail);
 						//logger.error(_auth.errorstatus);
-			    	//}
+			     }
 				}
 				else{
 					_CompanyDetail.setResult("Failed");
 					_CompanyDetail.setError("Invalid Customer Id!");
+					clearall(_CompanyDetail);
 					//logger.error(_auth.errorstatus);
 		    	}
 			}
 			else{
 				_CompanyDetail.setResult("Failed");
 				_CompanyDetail.setError("Error in api backend connectivity !");
+				clearall(_CompanyDetail);
 				//logger.error(_auth.errorstatus);
 	    	}
 	}
 	catch (Exception e) {
 		e.printStackTrace();
 		_CompanyDetail.setResult("Failed!"+e.getStackTrace());
+		clearall(_CompanyDetail);
 	}
 	finally {
 		if (_Connection != null) {
@@ -300,7 +517,7 @@ public CompanyDetail deleteCompany(CompanyDetail _CompanyDetail)
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Calendar cal = Calendar.getInstance();
 				String date=format.format(cal.getTime());
-				_CompanyDetail.setCreatedDate(date);
+				_CompanyDetail.setDeletedDate(date);
 				
 				_CompanyDetail.setIsDeleted(true);
 				String sInsertStatement ="UPDATE company SET 	is_deleted = ? "+ ",deleted_date = ? "+ " WHERE Company_Id = ?";
@@ -332,6 +549,7 @@ public CompanyDetail deleteCompany(CompanyDetail _CompanyDetail)
 		if (_Connection != null) {
 			try {
 				_Connection.close();
+				clearall(_CompanyDetail);
 			} catch (SQLException e) {
 				//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
 			}
@@ -359,9 +577,26 @@ public CompanyDetail getCompany(CompanyDetail _CompanyDetail) {
 			_CompanyDetail.setState(_ResultSet.getString("state"));
 			
 			_CompanyDetail.setZipCode(_ResultSet.getString("zip_code"));
-			_CompanyDetail.setCountry(_ResultSet.getString("country"));
+			_CompanyDetail.setCountry(_ResultSet.getString("country_id"));
 			_CompanyDetail.setEmail(_ResultSet.getString("email"));
 			_CompanyDetail.setPhone(_ResultSet.getString("phone"));
+			_CompanyDetail.setBusinessFax(_ResultSet.getString("business_fax"));
+			_CompanyDetail.setContactPerson(_ResultSet.getString("contact_person"));
+			_CompanyDetail.setContactTitle(_ResultSet.getString("contact_title"));
+			_CompanyDetail.setNumberofEmployees(_ResultSet.getString("number_employees"));
+			_CompanyDetail.setAnnualRevenue(_ResultSet.getString("annual_revenue"));
+			_CompanyDetail.setIndustry(_ResultSet.getString("industry"));
+			_CompanyDetail.setSubIndustry(_ResultSet.getString("sub_industry"));
+			_CompanyDetail.setSICCode(_ResultSet.getString("sic_code"));
+			_CompanyDetail.setSICDescription(_ResultSet.getString("sic_description"));
+			_CompanyDetail.setWebsite(_ResultSet.getString("website"));
+			_CompanyDetail.setCompanyNumber(_ResultSet.getString("company_number"));
+			_CompanyDetail.setBusinessID(_ResultSet.getString("business_id"));
+			_CompanyDetail.setCompanyType(_ResultSet.getString("company_type"));
+		
+			_CompanyDetail.setIncorporationDate(_ResultSet.getString("incorporation_date"));
+			_CompanyDetail.setListofOfficersDueDate(_ResultSet.getString("listofficers_duedate"));			
+			_CompanyDetail.setBusinessLicenseExpDate(_ResultSet.getString("businesslicense_expdate"));			
 			_CompanyDetail.setCreatedDate(_ResultSet.getString("created_date"));
 			_CompanyDetail.setbIsActive(_ResultSet.getBoolean("is_active"));
 			_CompanyDetail.setIsDeleted(_ResultSet.getBoolean("is_deleted"));
@@ -411,9 +646,26 @@ public static ArrayList<CompanyDetail> getCompanyDetails() {
 				_CompanyDetail.setState(_ResultSet.getString("state"));
 				
 				_CompanyDetail.setZipCode(_ResultSet.getString("zip_code"));
-				_CompanyDetail.setCountry(_ResultSet.getString("country"));
+				_CompanyDetail.setCountry(_ResultSet.getString("country_id"));
 				_CompanyDetail.setEmail(_ResultSet.getString("email"));
 				_CompanyDetail.setPhone(_ResultSet.getString("phone"));
+				_CompanyDetail.setContactPerson(_ResultSet.getString("contact_person"));
+				_CompanyDetail.setContactTitle(_ResultSet.getString("contact_title"));
+				_CompanyDetail.setNumberofEmployees(_ResultSet.getString("number_employees"));
+				_CompanyDetail.setAnnualRevenue(_ResultSet.getString("annual_revenue"));
+				_CompanyDetail.setIndustry(_ResultSet.getString("industry"));
+				_CompanyDetail.setSubIndustry(_ResultSet.getString("sub_industry"));
+				_CompanyDetail.setSICCode(_ResultSet.getString("sic_code"));
+				_CompanyDetail.setSICDescription(_ResultSet.getString("sic_description"));
+				_CompanyDetail.setWebsite(_ResultSet.getString("website"));
+				_CompanyDetail.setCompanyNumber(_ResultSet.getString("company_number"));
+				_CompanyDetail.setBusinessID(_ResultSet.getString("business_id"));
+				_CompanyDetail.setCompanyType(_ResultSet.getString("company_type"));
+			
+				_CompanyDetail.setIncorporationDate(_ResultSet.getString("incorporation_date"));
+				_CompanyDetail.setListofOfficersDueDate(_ResultSet.getString("listofficers_duedate"));			
+				_CompanyDetail.setBusinessLicenseExpDate(_ResultSet.getString("businesslicense_expdate"));
+				
 				_CompanyDetail.setCreatedDate(_ResultSet.getString("created_date"));
 				_CompanyDetail.setbIsActive(_ResultSet.getBoolean("is_active"));
 				_CompanyDetail.setIsDeleted(_ResultSet.getBoolean("is_deleted"));
@@ -521,5 +773,53 @@ public static ArrayList<CompanyDetail> getCompanyDetails() {
 		       sb.append(Integer.toHexString(v));
 		     }
 		     return sb.toString().toUpperCase();
+		  }
+		  
+		  public CompanyDetail clearall(CompanyDetail _CompanyDetail)
+		  {
+			  //_usersdetails.setUserResult("Sucess");
+				_CompanyDetail.setCompanyName("");
+				_CompanyDetail.setAddress1("");
+				_CompanyDetail.setAddress2("");
+				_CompanyDetail.setCity("");
+				_CompanyDetail.setState("");
+				_CompanyDetail.setZipCode("");
+				_CompanyDetail.setCountry("");
+				_CompanyDetail.setEmail("");
+				_CompanyDetail.setPhone("");
+				_CompanyDetail.setContactPerson("");
+				_CompanyDetail.setContactTitle("");
+				_CompanyDetail.setNumberofEmployees("");
+				_CompanyDetail.setAnnualRevenue("");
+				_CompanyDetail.setIndustry("");
+				_CompanyDetail.setSubIndustry("");
+				_CompanyDetail.setCity("");
+				_CompanyDetail.setState("");
+				_CompanyDetail.setBusinessFax("");
+				_CompanyDetail.setZipCode("");
+				_CompanyDetail.setCountry("");
+				_CompanyDetail.setEmail("");
+				_CompanyDetail.setPhone("");
+				_CompanyDetail.setContactPerson("");
+				_CompanyDetail.setContactTitle("");
+				
+				_CompanyDetail.setAnnualRevenue("");
+				_CompanyDetail.setIndustry("");
+				_CompanyDetail.setSubIndustry("");
+				_CompanyDetail.setSICCode("");
+				_CompanyDetail.setSICDescription("");
+				_CompanyDetail.setWebsite("");
+				_CompanyDetail.setCompanyNumber("");
+				_CompanyDetail.setBusinessID("");
+				_CompanyDetail.setCompanyType("");
+			
+				_CompanyDetail.setIncorporationDate("");
+				_CompanyDetail.setListofOfficersDueDate("");			
+				_CompanyDetail.setBusinessLicenseExpDate("");
+				
+				_CompanyDetail.setCreatedDate("");
+				
+				_CompanyDetail.setDeletedDate("");
+		  return _CompanyDetail;
 		  }
 }

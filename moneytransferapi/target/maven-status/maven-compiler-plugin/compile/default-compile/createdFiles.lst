@@ -1,3 +1,4 @@
+com\etl\base\CountryDeatils.class
 com\etl\base\CompanyDetail.class
 com\etl\base\ProviderBase.class
 com\etl\util\MYSQLHelper.class

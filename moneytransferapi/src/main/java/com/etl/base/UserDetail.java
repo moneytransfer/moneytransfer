@@ -21,6 +21,7 @@ public class UserDetail {
 	public String Password;	
 	public String CreatedDate;	
 	public String ProfileImage;	
+	public String CountryId;
 	public boolean	IsActive;
 	public boolean	IsDeleted;
 	public String 	DeletedDate;
@@ -73,6 +74,13 @@ public class UserDetail {
 	//public String getpassword(){
 		//return password;UserProfileImage
 	//}
+	
+	private void setCountry(String CountryId){
+		this.CountryId = CountryId;
+	}	
+	private String getCountry(){
+		return CountryId;
+	}
 	private void setUserCreatedDate(String UserCreatedDate){
 		this.CreatedDate = UserCreatedDate;
 	}	
@@ -132,14 +140,18 @@ public class UserDetail {
 				 ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT email FROM users where email='"+_usersdetails.Email+"'",_Connection);
 					if (!_ResultSet.next())
 					{
+						String _query="SELECT country_id FROM country where country_id='"+_usersdetails.CountryId+"'";
+						ResultSet _ResultSetcountry = _MYSQLHelper.GetResultSet(_query,_Connection);
+						if (_ResultSetcountry.next())
+							{
 						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						Calendar cal = Calendar.getInstance();
 						String date=format.format(cal.getTime());
 						_usersdetails.setUserCreatedDate(date);	
 						_usersdetails.setUserPassword(_hashPassword);
 						
-						String sInsertStatement = "INSERT INTO users(Company_Id,first_name,last_name,email,phone,password,profile_image,is_active,create_date)";
-						 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?, ?, ?, ?,?,?,?)";
+						String sInsertStatement = "INSERT INTO users(Company_Id,first_name,last_name,email,phone,password,country_id,profile_image,is_active,create_date)";
+						 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?, ?, ?, ?,?,?,?,?)";
 						 
 						   _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 							_PreparedStatement.setInt(1, _usersdetails.CompanyId);							
@@ -147,14 +159,21 @@ public class UserDetail {
 							_PreparedStatement.setString(3, _usersdetails.LastName);
 							_PreparedStatement.setString(4, _usersdetails.Email);	
 							_PreparedStatement.setString(5, _usersdetails.Phone);	
-							_PreparedStatement.setString(6, _usersdetails.Password);	
-							_PreparedStatement.setString(7, _usersdetails.ProfileImage);	
-							_PreparedStatement.setBoolean(8, _usersdetails.IsActive);
-							_PreparedStatement.setString(9, _usersdetails.CreatedDate);
+							_PreparedStatement.setString(6, _usersdetails.Password);
+							_PreparedStatement.setString(7, _usersdetails.CountryId);
+							_PreparedStatement.setString(8, _usersdetails.ProfileImage);	
+							_PreparedStatement.setBoolean(9, _usersdetails.IsActive);
+							_PreparedStatement.setString(10, _usersdetails.CreatedDate);
 							_PreparedStatement.executeUpdate();
 							_usersdetails.setUserPassword("xxxxxxxxxxxxxxxxxxxxxx");
 							
 							_usersdetails.setUserResult("Sucess");
+						}
+					else{
+						_usersdetails.setUserResult("Failed");
+						_usersdetails.setUserError("Invalid Country-Id!");
+						//logger.error(_auth.errorstatus);
+			 	}
 					}
 					else{
 						_usersdetails.setUserResult("Failed");
@@ -177,6 +196,7 @@ public class UserDetail {
 			 if (_Connection != null) {
 					try {
 						_Connection.close();
+						clearall(_usersdetails);
 					} catch (SQLException e) {
 						//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
 					}
@@ -205,6 +225,7 @@ public class UserDetail {
 						usersdetails.setUserPhone(_ResultSet.getString("phone"));
 						usersdetails.setUserCreatedDate(_ResultSet.getString("create_date"));
 						usersdetails.setUserProfileImage(_ResultSet.getString("profile_image"));
+						usersdetails.setCountry(_ResultSet.getString("country_id"));
 						usersdetails.setUserIsActive(_ResultSet.getBoolean("is_active"));
 						usersdetails.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
 						usersdetails.setUserDeletedDate(_ResultSet.getString("deleted_date"));
@@ -231,6 +252,7 @@ public class UserDetail {
 			if (_Connection != null) {
 				try {
 					_Connection.close();
+					
 				} catch (SQLException e) {
 					//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
 				}
@@ -287,6 +309,7 @@ public class UserDetail {
 			if (_Connection != null) {
 				try {
 					_Connection.close();
+					clearall(_usersdetails);
 				} catch (SQLException e) {
 					//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
 				}
@@ -298,7 +321,7 @@ public class UserDetail {
 	public UserDetail updateUserDetail(UserDetail _usersdetails) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		 PreparedStatement _PreparedStatement = null;
-		 
+		
 		try
 		{
 			
@@ -336,7 +359,7 @@ public class UserDetail {
 					}
 					
 					String sInsertStatement ="UPDATE users SET 	Company_Id = ?,first_name = ? ,last_name = ? ,email = ? ,phone = ? "
-							+ ",profile_image = ?,is_active = ? "+ " WHERE user_id = ?";
+							+ ",profile_image = ?,country_id = ?,is_active = ? "+ " WHERE user_id = ?";
 					_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 					_PreparedStatement.setInt(1, _usersdetails.CompanyId);
 					_PreparedStatement.setString(2, _usersdetails.FirstName);		
@@ -344,8 +367,9 @@ public class UserDetail {
 					_PreparedStatement.setString(4, _usersdetails.Email);	
 					_PreparedStatement.setString(5, _usersdetails.Phone);	
 					_PreparedStatement.setString(6, _usersdetails.ProfileImage);
-					_PreparedStatement.setBoolean(7, _usersdetails.IsActive);
-					_PreparedStatement.setInt(8, _usersdetails.UserId);
+					_PreparedStatement.setString(7, _usersdetails.CountryId);
+					_PreparedStatement.setBoolean(8, _usersdetails.IsActive);
+					_PreparedStatement.setInt(9, _usersdetails.UserId);
 					_PreparedStatement.executeUpdate();
 					_usersdetails.setUserResult("Sucess");
 				}
@@ -369,6 +393,7 @@ public class UserDetail {
 			if (_Connection != null) {
 				try {
 					_Connection.close();
+					clearall(_usersdetails);
 				} catch (SQLException e) {
 					//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
 				}
@@ -392,7 +417,10 @@ public class UserDetail {
 					ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM users where user_id='"+usersdetails.UserId+"'",_Connection);
 					if (_ResultSet.next())
 					{
-						
+						String _query="SELECT country_id FROM country where country_id='"+usersdetails.CountryId+"'";
+						ResultSet _ResultSetcountry = _MYSQLHelper.GetResultSet(_query,_Connection);
+					if (_ResultSetcountry.next())
+						{
 						
 							usersdetails.setUserId(_ResultSet.getInt("user_id"));
 							usersdetails.setCompanyId(_ResultSet.getInt("Company_Id"));
@@ -402,11 +430,17 @@ public class UserDetail {
 							usersdetails.setUserEmail(_ResultSet.getString("email"));
 							usersdetails.setUserCreatedDate(_ResultSet.getString("create_date"));
 							usersdetails.setUserProfileImage(_ResultSet.getString("profile_image"));
+							usersdetails.setCountry(_ResultSet.getString("country_id"));
 							usersdetails.setUserIsActive(_ResultSet.getBoolean("is_active"));
 							usersdetails.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
 							usersdetails.setUserDeletedDate(_ResultSet.getString("deleted_date"));
 							usersdetails.setUserResult("Sucess");
-							
+						}
+							else{
+								usersdetails.setUserResult("Failed");
+								usersdetails.setUserResult("Invalid Country-Id!");
+									//logger.error(_auth.errorstatus);
+						 	}
 					}
 					else{
 						usersdetails.setUserResult("Failed");
@@ -459,6 +493,7 @@ public class UserDetail {
 					_UserDetail.setUserEmail(_ResultSet.getString("email"));
 					_UserDetail.setUserCreatedDate(_ResultSet.getString("create_date"));
 					_UserDetail.setUserProfileImage(_ResultSet.getString("profile_image"));
+					_UserDetail.setCountry(_ResultSet.getString("country_id"));
 					_UserDetail.setUserIsActive(_ResultSet.getBoolean("is_active"));
 					_UserDetail.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
 					_UserDetail.setUserDeletedDate(_ResultSet.getString("deleted_date"));
@@ -510,5 +545,17 @@ public class UserDetail {
 			     return sb.toString().toUpperCase();
 			  }
 			  
-			 
+			  public UserDetail clearall(UserDetail _UserDetail)
+			  {
+				  
+					_UserDetail.setUserFirstName("");
+					_UserDetail.setUserlastName("");
+					_UserDetail.setUserPhone("");
+					_UserDetail.setUserEmail("");
+					_UserDetail.setUserCreatedDate("");
+					_UserDetail.setUserProfileImage("");
+					_UserDetail.setCountry("");
+				  
+				  return _UserDetail;
+			  }
 }

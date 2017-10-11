@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 
 import com.etl.base.CompanyDetail;
-
+import com.etl.base.CountryDeatils;
 import com.etl.base.UserDetail;
 
 
@@ -105,8 +105,19 @@ public class Services {
       return UserDetail.getUserDetails();
     }
     
-    
+    @POST
+    @Path("getcountry")    
+    @Produces("application/json")
+    public CountryDeatils getUser(CountryDeatils _CountryDeatils) {
+      return new CountryDeatils().getCountry(_CountryDeatils);
+    }
 
-    
+    @GET
+    @Path("getcountrydetails")    
+    @Produces("application/json")
+    public ArrayList<CountryDeatils> getcountryDetails() {
+    	
+      return CountryDeatils.getCountryDetails();
+    }
 
 }
