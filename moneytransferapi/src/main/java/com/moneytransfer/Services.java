@@ -11,6 +11,7 @@ import javax.ws.rs.core.GenericEntity;
 
 import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
+import com.etl.base.CustomerDetail;
 import com.etl.base.UserDetail;
 
 
@@ -120,4 +121,50 @@ public class Services {
       return CountryDeatils.getCountryDetails();
     }
 
+    @POST
+    @Path("savecustomer")    
+    @Produces("application/json")
+    public CustomerDetail addcustomer(CustomerDetail _CustomerDetail) {
+      return new CustomerDetail().addCustomer(_CustomerDetail);
+    }
+    
+    @POST
+    @Path("getcustomerbycompanyid")    
+    @Produces("application/json")
+    public ArrayList<CustomerDetail> getcustomerDetailsByCompanyId(CustomerDetail _CustomerDetail) {
+    	
+      return CustomerDetail.getCustomerDetails(_CustomerDetail);
+    }
+    
+   
+    
+    @POST
+    @Path("authenticatecustomer")    
+    @Produces("application/json")
+    public CustomerDetail authenticatecustomer(CustomerDetail _CustomerDetail) {
+      return new CustomerDetail().loginCustomer(_CustomerDetail);
+    }
+    
+    @POST
+    @Path("getcustomerdetails")    
+    @Produces("application/json")
+    public CustomerDetail getcustomer(CustomerDetail _CustomerDetail) {
+      return new CustomerDetail().getCustomerDetail(_CustomerDetail);
+    }
+
+
+    @POST
+    @Path("deletecustomer")    
+    @Produces("application/json")
+    public CustomerDetail deletecustomer(CustomerDetail _CustomerDetail) {
+      return new CustomerDetail().deleteCustomer(_CustomerDetail);
+    }
+    
+    
+    @POST
+    @Path("aa")    
+    @Produces("application/json")
+    public CustomerDetail email(CustomerDetail _CustomerDetail) {
+      return new CustomerDetail().email(_CustomerDetail);
+    }
 }

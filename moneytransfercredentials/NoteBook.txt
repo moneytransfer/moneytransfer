@@ -9,3 +9,9 @@ P:- 12345
 
 U:- test@gmail.com
 P:- 12345
+
+
+Customers credentials:-
+
+U:-mi@gmail.com
+P:-123

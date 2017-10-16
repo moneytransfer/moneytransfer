@@ -6,3 +6,4 @@ com\moneytransfer\Services.class
 com\etl\provider\Configuration\MYSQLConfiguration.class
 com\etl\base\UserDetail.class
 com\etl\util\MYSQLConnection.class
+com\etl\base\CustomerDetail.class

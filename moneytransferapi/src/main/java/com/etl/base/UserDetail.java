@@ -417,10 +417,7 @@ public class UserDetail {
 					ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM users where user_id='"+usersdetails.UserId+"'",_Connection);
 					if (_ResultSet.next())
 					{
-						String _query="SELECT country_id FROM country where country_id='"+usersdetails.CountryId+"'";
-						ResultSet _ResultSetcountry = _MYSQLHelper.GetResultSet(_query,_Connection);
-					if (_ResultSetcountry.next())
-						{
+						
 						
 							usersdetails.setUserId(_ResultSet.getInt("user_id"));
 							usersdetails.setCompanyId(_ResultSet.getInt("Company_Id"));
@@ -435,12 +432,7 @@ public class UserDetail {
 							usersdetails.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
 							usersdetails.setUserDeletedDate(_ResultSet.getString("deleted_date"));
 							usersdetails.setUserResult("Sucess");
-						}
-							else{
-								usersdetails.setUserResult("Failed");
-								usersdetails.setUserResult("Invalid Country-Id!");
-									//logger.error(_auth.errorstatus);
-						 	}
+						
 					}
 					else{
 						usersdetails.setUserResult("Failed");
