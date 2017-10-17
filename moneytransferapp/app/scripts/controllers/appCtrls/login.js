@@ -48,7 +48,7 @@ var authorisedUser = [];
         var vm = $scope;
         vm.UserModel = { "email": "", "password": "" };
         vm.signin = function () {
-            debugger;
+
             var idata = JSON.stringify(vm.UserModel);
 
             var formData = vm.UserModel;
@@ -60,7 +60,7 @@ var authorisedUser = [];
                 dataType: "json",
             })
             .success(function (data, status, headers, config) {
-                debugger;
+               
                 authorisedUser = data;
                 if (authorisedUser.access_token) {
                     $window.sessionStorage.authorisedUser = JSON.stringify(data);
@@ -78,7 +78,7 @@ var authorisedUser = [];
         //$state.go('user.signin');
 
         vm.signUp = function () {
-            debugger;
+
             var idata = JSON.stringify(vm.UserModel);
 
             var formData = vm.UserModel;
@@ -90,7 +90,7 @@ var authorisedUser = [];
                 dataType: "json",
             })
             .success(function (data, status, headers, config) {
-                debugger;
+
                 authorisedUser = data;
                 if (authorisedUser.access_token) {
                     $window.sessionStorage.authorisedUser = JSON.stringify(data);

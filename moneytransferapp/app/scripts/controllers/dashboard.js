@@ -165,17 +165,17 @@ function dashboardCtrl(COLORS) {
   };
 
   //Show notification
-  noty({
-    theme: 'app-noty',
-    text: 'Welcome! You are now using Milestone Bootstrap 4 dashboard template.',
-    type: 'success',
-    timeout: 10000,
-    layout: 'topRight',
-    closeWith: ['button', 'click'],
-    animation: {
-      open: 'animated fadeInDown', // Animate.css class names
-      close: 'animated fadeOutUp', // Animate.css class names
-    }
-  });
+  //noty({
+  //  theme: 'app-noty',
+  //  text: 'Welcome! You are now using Milestone Bootstrap 4 dashboard template.',
+  //  type: 'success',
+  //  timeout: 10000,
+  //  layout: 'topRight',
+  //  closeWith: ['button', 'click'],
+  //  animation: {
+  //    open: 'animated fadeInDown', // Animate.css class names
+  //    close: 'animated fadeOutUp', // Animate.css class names
+  //  }
+  //});
 }
 angular.module('app').controller('dashboardCtrl', ['COLORS', dashboardCtrl]);

@@ -89,11 +89,11 @@
 
         var vm = $scope;
 
-        vm.UserModel = { UserId: "0", CompanyId: "0", Password: ""};
+        vm.UserModel = { UserId: "0", CompanyId: "0",CountryId: "0", Password: ""};
         vm.Companies = [];
 
         vm.header = 'Add New';
-
+        //Get Company
         $http({
             method: 'GET',
             url: baseUrl + 'getcompanydetails',
@@ -104,6 +104,17 @@
            vm.Companies = idata;
 
        });
+        //Get Country
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getcountrydetails',
+            headers: { 'Content-Type': 'application/json' }
+        })
+      .success(function (data) {
+          var idata = data;
+          vm.Countries = idata;
+
+      });
 
 
         if ($stateParams.UserId) {
@@ -120,11 +131,13 @@
                 dataType: "json",
             })
              .success(function (data) {
-              
+               
                  var idata = data;
                  if (idata) {
                      var CompanyId = "";
                      CompanyId = idata.CompanyId;
+                     idata.Phone = parseInt(idata.Phone);
+
                      vm.UserModel = idata;
                      vm.UserModel.CompanyId = JSON.stringify(CompanyId);
 
