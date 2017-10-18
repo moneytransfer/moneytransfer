@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 16, 2017 at 01:28 PM
+-- Generation Time: Oct 17, 2017 at 01:12 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -66,7 +66,8 @@ CREATE TABLE `company` (
 INSERT INTO `company` (`Company_Id`, `name`, `address1`, `address2`, `city`, `state`, `zip_code`, `country_id`, `email`, `phone`, `business_fax`, `contact_person`, `contact_title`, `number_employees`, `annual_revenue`, `industry`, `sub_industry`, `sic_code`, `sic_description`, `website`, `company_number`, `business_id`, `company_type`, `incorporation_date`, `listofficers_duedate`, `businesslicense_expdate`, `created_date`, `is_active`, `is_deleted`, `deleted_date`) VALUES
 (16, 'Moneytransfer', 'test1', 'test', 'delhi', 'delhi', '110027', 246, 'moneytransfer@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-10', 1, 1, '2017-10-10'),
 (17, 'Test Company', 'Delhi', 'd', 'New delhi', 'New delhi', '110033', 344, 'user@gmail.com', '9654523415', '9654523415', 'Ishu', 'Mr.', '20', 120000, 'IT', 'Software', '1254', 'Test', 'http://getbootstrap.com', '25415245125', '2541', 'Phone', '2017-10-18', NULL, NULL, '2017-10-16', 0, 0, NULL),
-(18, 'test123', 'abcd', 'test', 'delhi', 'delhi', '110027', 300, 'test123@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-16', 1, 0, NULL);
+(18, 'test123', 'abcd', 'test', 'delhi', 'delhi', '110027', 300, 'test123@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-16', 1, 0, NULL),
+(19, 'Money Tranfer', 'FL', 'Denmark', 'Gauza', 'USA', '10222', 344, 'money@gmail.com', '1234561230', '232432', 'Test admin', 'moneypay', '4', 20000, 'test', 'ttt', 'mon258', 'test desc', 'http://www.moneytransfer.com', '2017', 'mon_2017', 'MoneyPay', '2017-10-19', '2017-11-24', '2017-10-28', '2017-10-17', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -380,6 +381,26 @@ INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `paymenttype`
+--
+
+CREATE TABLE `paymenttype` (
+  `PaymentTypeId` int(11) NOT NULL,
+  `PaymentType` varchar(50) NOT NULL,
+  `Description` varchar(200) NOT NULL,
+  `PaymentTypeLogo` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `paymenttype`
+--
+
+INSERT INTO `paymenttype` (`PaymentTypeId`, `PaymentType`, `Description`, `PaymentTypeLogo`) VALUES
+(1, 'Authorize', 'Authorize .net payment gateway', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -404,7 +425,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `Company_Id`, `first_name`, `last_name`, `email`, `phone`, `password`, `country_id`, `profile_image`, `is_active`, `create_date`, `is_deleted`, `deleted_date`) VALUES
-(2, 16, 'admin', 'user', 'admin@gmail.com', '1234567890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 246, '', 1, '2017-10-10', 1, '2017-10-10');
+(2, 17, 'admin', 'user', 'admin@gmail.com', '1234567890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 246, '', 1, '2017-10-10', 1, '2017-10-10'),
+(3, 17, 'Alloy', 'zinka', 'user@gmail.com', '9585458568', '7C4A8D09CA3762AF61E59520943DC26494F8941B', 344, NULL, 1, '2017-10-16', 0, NULL),
+(4, 17, 'Admgill', 'chirst', 'test@gmail.com', '96321457890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 344, NULL, 0, '2017-10-17', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -432,6 +455,12 @@ ALTER TABLE `customer`
   ADD KEY `country_id` (`country_id`);
 
 --
+-- Indexes for table `paymenttype`
+--
+ALTER TABLE `paymenttype`
+  ADD PRIMARY KEY (`PaymentTypeId`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -447,7 +476,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `Company_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Company_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `country`
 --
@@ -459,10 +488,15 @@ ALTER TABLE `country`
 ALTER TABLE `customer`
   MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT for table `paymenttype`
+--
+ALTER TABLE `paymenttype`
+  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --

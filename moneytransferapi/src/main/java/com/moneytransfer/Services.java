@@ -12,6 +12,7 @@ import javax.ws.rs.core.GenericEntity;
 import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
 import com.etl.base.CustomerDetail;
+import com.etl.base.PaymentType;
 import com.etl.base.UserDetail;
 
 
@@ -167,4 +168,11 @@ public class Services {
     public CustomerDetail email(CustomerDetail _CustomerDetail) {
       return new CustomerDetail().email(_CustomerDetail);
     }
+    @POST
+    @Path("savepaymenttype")    
+    @Produces("application/json")
+    public PaymentType savePaymentType(PaymentType _PaymentType) {
+      return new PaymentType().savepaymenttype(_PaymentType);
+    }
+    
 }
