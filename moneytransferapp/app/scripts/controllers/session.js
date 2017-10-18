@@ -43,6 +43,7 @@ var authorisedUser = [];
    .module('app')
    .controller('sessionCtrl', sessionCtrl)
     .controller('authenticateController', authenticateController)
+    .controller('logoutController', logoutController)
 
     sessionCtrl.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function sessionCtrl($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
@@ -104,6 +105,21 @@ var authorisedUser = [];
         }
     }
 
+    logoutController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
+    function logoutController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
+
+        var vm = $scope;
+        vm.logout = function () {
+            if ($window.sessionStorage.authorisedUser) {
+                $window.sessionStorage.removeItem('authorisedUser');
+                authorisedUser = [];
+                window.location.reload();
+
+            }
+
+        }
+    }
+   
 })();
 //angular.module('app').controller('sessionCtrl', ['$state', sessionCtrl]);
 

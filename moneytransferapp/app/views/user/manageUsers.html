@@ -1,17 +1,14 @@
 ﻿
     <div class="padding" ng-controller="manageUsersController">
-        <div class="box">
-            <div class="box-header">
-               <!-- <h2>
-                   Manage User
-                </h2>-->
-                <!--<small>Make HTML tables on smaller devices look awesome</small>-->
-            </div>
-         
-            <div class="box-body m-t-1">
-                <div class="col-sm-4 p-a pull-right">
+        <div class="card">
+            <div class="card-header m-t-1">
+             <div class="col-sm-4 pull-right">
                     <button type="submit" class="btn btn-primary pull-right" ng-click="adduser()"><i class="glyphicon glyphicon-plus"></i> Add User </button>
                 </div>
+            </div>
+         
+            <div class="card-block p-a-0">
+                
                 <table id="tblUsers" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
                     <thead>
                         <tr>

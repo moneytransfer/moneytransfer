@@ -1,73 +1,205 @@
 ﻿<div class="padding" ng-controller="addEditCompanyController">
     <div class="row">
-        <div class="col-md-8">
-            <div class="box">
-                <div class="box-header">
-                    <h2>{{header}} Company </h2>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h3>{{header}} Company </h3>
                 </div>
-                <div class="box-divider m-a-0"></div>
-                <div class="box-body">
-                    <form role="form" class="ng-pristine ng-valid" name="tblCompany">
+                <div class="card-block">
+                    <form role="form" class="ng-pristine ng-valid" name="tblCompany" ui-jq="validate">
+                        <legend>Company info:</legend>
                         <div class="form-group row">
-                            <label for="Name" class="col-sm-3 form-control-label">Company Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="CompanyName" placeholder="Company Name" ng-model="CompanyModel.CompanyName" required maxlength="50">
+                            <div class="col-sm-6">
+                                <label for="Name" class="col-sm-3 form-control-label">Company Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="CompanyName" placeholder="Company Name" ng-model="CompanyModel.CompanyName" required maxlength="50">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="Website" class="col-sm-3 form-control-label">Website: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="url" class="form-control" id="Websitelink" placeholder="Website" ng-model="CompanyModel.Website" required aria-required="true" aria-invalid="true">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Address1" class="col-sm-3 form-control-label">Address1 : </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="Address1" placeholder="Company Address1" ng-model="CompanyModel.Address1 " required maxlength="30">
+                            <div class="col-sm-6">
+                                <label for="CompanyNumber" class="col-sm-3 form-control-label">Company Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="CompanyNumber" placeholder="Company Number" ng-model="CompanyModel.CompanyNumber" required maxlength="50">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="CompanyType" class="col-sm-3 form-control-label">Company Type: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="CompanyType" placeholder="Company Type" ng-model="CompanyModel.CompanyType" required maxlength="50">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label for="Address1" class="col-sm-3 form-control-label">Address1 : </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="Address1" placeholder="Company Address1" ng-model="CompanyModel.Address1 " required maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="Address2" class="col-sm-3 form-control-label">Address2 : </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="Address2" placeholder="Company Address2" ng-model="CompanyModel.Address2 " required maxlength="30">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="Address2" class="col-sm-3 form-control-label">Address2 : </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="Address2" placeholder="Company Address2" ng-model="CompanyModel.Address2 " required maxlength="30">
+                            <div class="col-sm-6">
+                                <label for="City" class="col-sm-3 form-control-label">City : </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="City" placeholder="City Name" ng-model="CompanyModel.City " required maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="State" class="col-sm-3 form-control-label">State : </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="State" placeholder="State Name" ng-model="CompanyModel.State " required maxlength="30">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="City" class="col-sm-3 form-control-label">City : </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="City" placeholder="City Name" ng-model="CompanyModel.City " required maxlength="30">
+                            <div class="col-sm-6">
+                                <label for="ZipCode" class="col-sm-3 form-control-label">ZipCode : </label>
+                                <div class="col-sm-8">
+                                    <input type="number" max="5" class="form-control" id="ZipCode" placeholder="ZipCode" ng-model="CompanyModel.ZipCode " required >
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="Country" class="col-sm-3 form-control-label">Country : </label>
+                                <div class="col-sm-8">
+                                    <select name="FamRole" id="ddlCountry" ng-model="CompanyModel.CountryId" class="form-control" required>
+                                        <option value="0">-- Select Country --</option>
+                                        <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="State" class="col-sm-3 form-control-label">State : </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="State" placeholder="State Name" ng-model="CompanyModel.State " required maxlength="30">
+                            <div class="col-sm-6">
+                                <label for="Email" class="col-sm-3 form-control-label">Email: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="CompanyModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required aria-required="true">
+                                    <span class="text-danger" ng-show="tblUser.Email.$error.pattern">Please Enter a valid Email address.</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="Phone" class="col-sm-3 form-control-label">Phone: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="number" min="10" class="form-control" id="Username" placeholder="Phone" ng-model="CompanyModel.Phone" required />
+                                </div>
                             </div>
                         </div>
+                      
+                         <legend>Business info:</legend>
                         <div class="form-group row">
-                            <label for="ZipCode" class="col-sm-3 form-control-label">ZipCode : </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="ZipCode" placeholder="ZipCode" ng-model="CompanyModel.ZipCode " required maxlength="10">
+                            <div class="col-sm-6">
+                                <label for="BusinessFax" class="col-sm-3 form-control-label">Business Fax: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="number" min="10" class="form-control" id="BusinessFax" placeholder="Business Fax" ng-model="CompanyModel.BusinessFax" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="Country" class="col-sm-3 form-control-label">Country : </label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="Country Name" placeholder="Country" ng-model="CompanyModel.Country" required maxlength="10">
+                            <div class="col-sm-6">
+                                <label for="BusinessID" class="col-sm-3 form-control-label">Business ID: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="BusinessID" placeholder="BusinessID" ng-model="CompanyModel.BusinessID" required maxlength="50">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="Email" class="col-sm-3 form-control-label">Email: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
-                                <input type="text" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="CompanyModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
-                                <span class="text-danger" ng-show="tblUser.Email.$error.pattern">Please Enter a valid Email address.</span>
+                            <div class="col-sm-6">
+                                <label for="ContactTitle" class="col-sm-3 form-control-label">Contact Title: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="ContactTitle" placeholder="Contact Title" ng-model="CompanyModel.ContactTitle" required maxlength="10">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="ContactPerson" class="col-sm-3 form-control-label">Contact Person: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="ContactPerson" placeholder="Contact Person" ng-model="CompanyModel.ContactPerson" required maxlength="30">
+                                </div>
+                            </div>
+                        </div>
+                        <legend>Other info:</legend>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label for="NumberofEmployees" class="col-sm-3 form-control-label">Number of Employees: </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="NumberofEmployees" placeholder="Number of Employees" ng-model="CompanyModel.NumberofEmployees" required maxlength="50">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="AnnualRevenue" class="col-sm-3 form-control-label">Annual Revenue: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="number" class="form-control" id="AnnualRevenue" placeholder="Annual Revenue" ng-model="CompanyModel.AnnualRevenue" required maxlength="50">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="Username" class="col-sm-3 form-control-label">Phone: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
-                                <input type="text" class="form-control" id="Username" placeholder="Phone" ng-model="CompanyModel.Phone" required maxlength="20">
+                            <div class="col-sm-6">
+                                <label for="Industry" class="col-sm-3 form-control-label">Industry: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="Industry" placeholder="Industry" ng-model="CompanyModel.Industry" required maxlength="50">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="SubIndustry" class="col-sm-3 form-control-label">Sub Industry: </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="SubIndustry" placeholder="Sub Industry" ng-model="CompanyModel.SubIndustry" maxlength="50">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
+                            <div class="col-sm-6">
+                                <label for="SICCode" class="col-sm-3 form-control-label">SIC Code: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="SICCode" placeholder="SIC Code" ng-model="CompanyModel.SICCode" required maxlength="50">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="SICDescription" class="col-sm-3 form-control-label">SIC Description: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <textarea type="textarea" class="form-control" id="SICDescription" placeholder="SIC Description" ng-model="CompanyModel.SICDescription" required maxlength="200"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+
+                            <div class="col-sm-6">
+                                <label for="IncorporationDate" class="col-sm-3 form-control-label">Incorporation Date: </label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" id="IncorporationDate" placeholder="dd/mm/yyyy" ng-model="CompanyModel.IncorporationDate">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="ListofOfficersDueDate" class="col-sm-3 form-control-label">List of Officers Due Date: </label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" id="ListofOfficersDueDate" placeholder="dd/mm/yyyy" ng-model="CompanyModel.ListofOfficersDueDate">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label for="BusinessLicenseExpDate" class="col-sm-3 form-control-label">Business License Exp Date: </label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" id="BusinessLicenseExpDate" placeholder="dd/mm/yyyy" ng-model="CompanyModel.BusinessLicenseExpDate">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
                                 <div class="col-sm-8 checkbox checkbox-primary form-control-label">
                                     <input id="IsActive" type="checkbox" ng-model="CompanyModel.IsActive" ng-init="UserModel.IsActive=false ">
                                 </div>
+                            </div>
                         </div>
                         <div class="form-group row m-t-md">
-                            <div class="col-sm-9 pull-right">
+                            <div class="col-sm-7 pull-right">
                                 <button type="submit" class="btn btn-primary " ng-click="tblCompany.$valid && Create()">
                                     {{CompanyModel.CompanyId>0?'Update':'Create' }}</button>
                                 <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>

@@ -4,29 +4,31 @@
     'use strict';
     angular
         .module('app')
-        .controller('manageCompanyController', manageCompanyController)
-    .controller('addEditCompanyController', addEditCompanyController)
+        .controller('manageCustomerController', manageCustomerController)
+        .controller('addEditCustomerController', addEditCustomerController)
        
 
 
 
 
-    manageCompanyController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
-    function manageCompanyController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
+    manageCustomerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
+    function manageCustomerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
 
         var vm = $scope;
-        var IsAdmin = false;
-        vm.ManageCompany = [];
-        vm.UserId = 0;
+      
+        vm.ManageCustomer = [];
+        vm.CompanyId = 0;
         
         if ($window.sessionStorage.authorisedUser) {
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
-            if (authorisedUser.UserId) { vm.UserId = parseInt(authorisedUser.UserId); }
+            if (authorisedUser.CompanyId) { vm.CompanyId = parseInt(authorisedUser.CompanyId); }
         }
-        //Get users
+        //Get Customer
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
         $http({
             method: 'GET',
-            url: baseUrl + 'getcompanydetails ',
+            data: formData,
+            url: baseUrl + 'getcustomerbycompanyid ',
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
@@ -85,8 +87,8 @@
 
     }
 
-    addEditCompanyController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
-    function addEditCompanyController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
+    addEditCustomerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
+    function addEditCustomerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
 
         var vm = $scope;
 
@@ -134,11 +136,6 @@
                      if (idata.BusinessLicenseExpDate != null) {
                          idata.BusinessLicenseExpDate = new Date(idata.BusinessLicenseExpDate);
                      }
-
-                     idata.ZipCode = parseInt(idata.ZipCode);
-                     idata.Phone = parseInt(idata.Phone);
-                     idata.BusinessFax = parseInt(idata.BusinessFax);
-                     idata.AnnualRevenue = parseInt(idata.AnnualRevenue);
                      
                      vm.CompanyModel = idata;
 
