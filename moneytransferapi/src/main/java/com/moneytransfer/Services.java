@@ -12,6 +12,7 @@ import javax.ws.rs.core.GenericEntity;
 import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
 import com.etl.base.CustomerDetail;
+import com.etl.base.PaymentMethod;
 import com.etl.base.PaymentType;
 import com.etl.base.UserDetail;
 
@@ -175,4 +176,21 @@ public class Services {
       return new PaymentType().savepaymenttype(_PaymentType);
     }
     
+    
+    @POST
+    @Path("savepaymentmethod")    
+    @Produces("application/json")
+    public PaymentMethod savePaymentMethod(PaymentMethod _PaymentMethod) {
+      return new PaymentMethod().addPaymentMethod(_PaymentMethod);
+    }
+    
+    
+    
+    @POST
+    @Path("getpaymentmethodbycompanyid")    
+    @Produces("application/json")
+    public ArrayList<PaymentMethod> getpaymentMethodByCompanyId(PaymentMethod _PaymentMethod) {
+    	
+      return PaymentMethod.getPaymentMethodDetails(_PaymentMethod);
+    }
 }

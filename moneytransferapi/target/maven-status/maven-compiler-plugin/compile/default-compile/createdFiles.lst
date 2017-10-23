@@ -1,10 +1,11 @@
 com\etl\base\CountryDeatils.class
 com\etl\base\CompanyDetail.class
+com\etl\base\PaymentMethod.class
+com\etl\base\PaymentType.class
+com\etl\provider\Configuration\MYSQLConfiguration.class
+com\etl\base\CustomerDetail.class
 com\etl\base\ProviderBase.class
 com\etl\util\MYSQLHelper.class
 com\moneytransfer\Services.class
-com\etl\base\PaymentType.class
-com\etl\provider\Configuration\MYSQLConfiguration.class
 com\etl\base\UserDetail.class
 com\etl\util\MYSQLConnection.class
-com\etl\base\CustomerDetail.class
