@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 17, 2017 at 01:12 PM
+-- Generation Time: Oct 23, 2017 at 01:13 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -374,9 +374,35 @@ INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName
 (4, 16, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:09:40', NULL),
 (5, 16, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:14:46', NULL),
 (6, 16, '123456789', 'hh', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'hh@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:17:02', NULL),
-(7, 16, '123456789', 'lookas', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'looks@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-16 13:13:41', NULL),
+(7, 16, '123456789', 'lookas', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'looks@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 1, '2017-10-16 13:13:41', '2017-10-23 12:51:29'),
 (8, 16, '123456789', 'zolly', 'mbbs', 'aaa', 'bbb', 'www', 'fl', '12345', 246, '123456789', 'zolly@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-16 11:13:12', NULL),
 (9, 16, '123456789', 'mi', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'mi@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-16 13:16:07', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paymentmethod`
+--
+
+CREATE TABLE `paymentmethod` (
+  `PaymentMethodId` int(11) NOT NULL,
+  `PaymentTypeId` int(11) NOT NULL,
+  `CompanyId` int(11) NOT NULL,
+  `Title` varchar(50) DEFAULT NULL,
+  `Description` varchar(250) DEFAULT NULL,
+  `IsActive` tinyint(1) NOT NULL DEFAULT '1',
+  `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `CreatedDate` date NOT NULL,
+  `DeletedDate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `paymentmethod`
+--
+
+INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `Title`, `Description`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
+(3, 1, 16, 'payu', 'welcome to payu', 1, 0, '2017-10-23', NULL),
+(4, 1, 16, 'demo', 'welcome to demo test', 1, 0, '2017-10-23', NULL);
 
 -- --------------------------------------------------------
 
@@ -455,6 +481,13 @@ ALTER TABLE `customer`
   ADD KEY `country_id` (`country_id`);
 
 --
+-- Indexes for table `paymentmethod`
+--
+ALTER TABLE `paymentmethod`
+  ADD PRIMARY KEY (`PaymentMethodId`),
+  ADD KEY `PaymentTypeId` (`PaymentTypeId`);
+
+--
 -- Indexes for table `paymenttype`
 --
 ALTER TABLE `paymenttype`
@@ -488,6 +521,11 @@ ALTER TABLE `country`
 ALTER TABLE `customer`
   MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT for table `paymentmethod`
+--
+ALTER TABLE `paymentmethod`
+  MODIFY `PaymentMethodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `paymenttype`
 --
 ALTER TABLE `paymenttype`
@@ -513,6 +551,12 @@ ALTER TABLE `company`
 ALTER TABLE `customer`
   ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`Company_Id`) REFERENCES `company` (`Company_Id`),
   ADD CONSTRAINT `customer_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
+
+--
+-- Constraints for table `paymentmethod`
+--
+ALTER TABLE `paymentmethod`
+  ADD CONSTRAINT `paymentmethod_ibfk_1` FOREIGN KEY (`PaymentTypeId`) REFERENCES `paymenttype` (`PaymentTypeId`);
 
 --
 -- Constraints for table `users`
