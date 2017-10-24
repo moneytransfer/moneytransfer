@@ -193,4 +193,18 @@ public class Services {
     	
       return PaymentMethod.getPaymentMethodDetails(_PaymentMethod);
     }
+    
+    @POST
+    @Path("getpaymentmethoddetails")    
+    @Produces("application/json")
+    public PaymentMethod getpaymentmethoddetails(PaymentMethod _PaymentMethod) {
+      return new PaymentMethod().getPaymentMethodById(_PaymentMethod);
+    }
+    
+    @POST
+    @Path("deletepaymentmethod")    
+    @Produces("application/json")
+    public PaymentMethod deletepaymentmethod(PaymentMethod _PaymentMethod) {
+      return new PaymentMethod().deletePaymentMethod(_PaymentMethod);
+    }
 }

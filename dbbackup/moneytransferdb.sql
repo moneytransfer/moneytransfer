@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 23, 2017 at 01:13 PM
+-- Generation Time: Oct 24, 2017 at 06:41 AM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -401,8 +401,8 @@ CREATE TABLE `paymentmethod` (
 --
 
 INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `Title`, `Description`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(3, 1, 16, 'payu', 'welcome to payu', 1, 0, '2017-10-23', NULL),
-(4, 1, 16, 'demo', 'welcome to demo test', 1, 0, '2017-10-23', NULL);
+(1, 1, 16, 'payu', 'welcome to payu', 1, 0, '2017-10-23', NULL),
+(2, 1, 16, 'demo', 'welcome to demo test', 1, 1, '2017-10-23', '2017-10-24');
 
 -- --------------------------------------------------------
 

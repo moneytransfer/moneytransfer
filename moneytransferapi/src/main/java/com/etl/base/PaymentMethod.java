@@ -155,50 +155,60 @@ public class PaymentMethod {
 						}
 					}
 					else{
-						
-						ResultSet _ResultSetPaymentType = _MYSQLHelper.GetResultSet("SELECT PaymentTypeId FROM paymenttype where PaymentTypeId='"+_PaymentMethod.PaymentTypeId+"'",_Connection);
-						if (_ResultSetPaymentType.next())
+						ResultSet _ResultSetPaymentMethodId = _MYSQLHelper.GetResultSet("SELECT PaymentMethodId FROM paymentmethod where PaymentMethodId='"+_PaymentMethod.PaymentMethodId+"'",_Connection);
+						if (_ResultSetPaymentMethodId.next())
 						{
-							ResultSet _ResultSetl = _MYSQLHelper.GetResultSet("SELECT Company_Id FROM company where Company_Id='"+_PaymentMethod.CompanyId+"'",_Connection);
-							if (_ResultSetl.next())
+							ResultSet _ResultSetPaymentType = _MYSQLHelper.GetResultSet("SELECT PaymentTypeId FROM paymenttype where PaymentTypeId='"+_PaymentMethod.PaymentTypeId+"'",_Connection);
+							if (_ResultSetPaymentType.next())
 							{
-								String sInsertStatement ="UPDATE paymentmethod SET 	PaymentTypeId = ?,CompanyId = ? ,Title =?,Description = ? ,IsActive =?,CreatedDate = ? "+ " WHERE PaymentMethodId = ?";
-								_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
-								_PreparedStatement.setInt(1, _PaymentMethod.PaymentTypeId);							
-								_PreparedStatement.setInt(2, _PaymentMethod.CompanyId);	
-								if(_PaymentMethod.Title!="" && _PaymentMethod.Title!=null)
+								ResultSet _ResultSetl = _MYSQLHelper.GetResultSet("SELECT Company_Id FROM company where Company_Id='"+_PaymentMethod.CompanyId+"'",_Connection);
+								if (_ResultSetl.next())
 								{
-									_PreparedStatement.setString(3, _PaymentMethod.Title);
+									String sInsertStatement ="UPDATE paymentmethod SET 	PaymentTypeId = ?,CompanyId = ? ,Title =?,Description = ? ,IsActive =?,CreatedDate = ? "+ " WHERE PaymentMethodId = ?";
+									_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+									_PreparedStatement.setInt(1, _PaymentMethod.PaymentTypeId);							
+									_PreparedStatement.setInt(2, _PaymentMethod.CompanyId);	
+									if(_PaymentMethod.Title!="" && _PaymentMethod.Title!=null)
+									{
+										_PreparedStatement.setString(3, _PaymentMethod.Title);
+									}
+									else{
+										_PreparedStatement.setString(3, "");
+									}
+									if(_PaymentMethod.Description!="" && _PaymentMethod.Description!=null)
+									{
+										_PreparedStatement.setString(4, _PaymentMethod.Description);
+									}
+									else{
+										_PreparedStatement.setString(4, "");
+									}						
+									
+									_PreparedStatement.setBoolean(5, _PaymentMethod.IsActive);							
+									_PreparedStatement.setString(6, _PaymentMethod.CreatedDate);
+									_PreparedStatement.setInt(7, _PaymentMethod.PaymentMethodId);	
+									_PreparedStatement.executeUpdate();
+									_PaymentMethod.setResult("Sucess");
+									clear(_PaymentMethod);
 								}
 								else{
-									_PreparedStatement.setString(3, "");
+									_PaymentMethod.setResult("Failed!");
+									_PaymentMethod.setError("Invalid Company Id!");
+									clear(_PaymentMethod);
 								}
-								if(_PaymentMethod.Description!="" && _PaymentMethod.Description!=null)
-								{
-									_PreparedStatement.setString(4, _PaymentMethod.Description);
-								}
-								else{
-									_PreparedStatement.setString(4, "");
-								}						
-								
-								_PreparedStatement.setBoolean(5, _PaymentMethod.IsActive);							
-								_PreparedStatement.setString(6, _PaymentMethod.CreatedDate);
-								_PreparedStatement.setInt(7, _PaymentMethod.PaymentMethodId);	
-								_PreparedStatement.executeUpdate();
-								_PaymentMethod.setResult("Sucess");
-								clear(_PaymentMethod);
 							}
 							else{
 								_PaymentMethod.setResult("Failed!");
-								_PaymentMethod.setError("Invalid Company Id!");
+								_PaymentMethod.setError("Invalid Payment Type Id!");
 								clear(_PaymentMethod);
 							}
 						}
+						
 						else{
 							_PaymentMethod.setResult("Failed!");
-							_PaymentMethod.setError("Invalid Payment Type Id!");
+							_PaymentMethod.setError("Invalid Payment Method Id!");
 							clear(_PaymentMethod);
 						}
+					
 					}
 				}
 				else{
@@ -224,9 +234,112 @@ public class PaymentMethod {
 		return _PaymentMethod;
 	}
 	
+	public PaymentMethod getPaymentMethodById(PaymentMethod _PaymentMethod) {
+		Connection _Connection = MYSQLConnection.GetConnection();
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		if(_Connection!=null)
+		{
+			try{
+				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where PaymentMethodId='"+_PaymentMethod.PaymentMethodId+"'",_Connection);
+				if(_ResultSet.next())
+				{
+			        _PaymentMethod.setPaymentMethodId(_ResultSet.getInt("PaymentMethodId"));
+			        _PaymentMethod.setPaymentTypeId(_ResultSet.getInt("PaymentTypeId"));
+			        _PaymentMethod.setCompanyId(_ResultSet.getInt("CompanyId"));
+			        _PaymentMethod.setTitle(_ResultSet.getString("Title"));
+			        _PaymentMethod.setDescription(_ResultSet.getString("Description"));
+			        _PaymentMethod.setIsActive(_ResultSet.getBoolean("IsActive"));
+			        _PaymentMethod.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
+			        _PaymentMethod.setCreatedDate(_ResultSet.getString("CreatedDate"));
+			        _PaymentMethod.setDeletedDate(_ResultSet.getString("DeletedDate"));
+			        _PaymentMethod.setResult("Sucess");
+				}
+				else{
+					_PaymentMethod.setResult("Failed!");
+					_PaymentMethod.setError("Invalid Payment Method Id!");
+					clear(_PaymentMethod);
+				}
+				
+			}
+			catch (Exception e) {
+				clear(_PaymentMethod);
+			}
+			finally {
+				
+				if (_Connection != null) {
+					try {
+						_Connection.close();
+					} catch (SQLException e) {
+						//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
+					}
+				}
+			}
+		}
+		else{
+			_PaymentMethod.setResult("Failed!");
+			_PaymentMethod.setError("Error in api backend connectivity !");			
+		}
+		
+		
+		return _PaymentMethod;
+	}
 	
 	
 	
+	public PaymentMethod deletePaymentMethod(PaymentMethod _PaymentMethod) {
+		Connection _Connection = MYSQLConnection.GetConnection();
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		PreparedStatement _PreparedStatement = null;
+		try
+		{
+		 if(_Connection!=null)
+			{
+			 
+			 ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where PaymentMethodId='"+_PaymentMethod.PaymentMethodId+"'",_Connection);
+				if(_ResultSet.next())
+				{
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Calendar cal = Calendar.getInstance();
+					String date=format.format(cal.getTime());
+					_PaymentMethod.setDeletedDate(date);
+					_PaymentMethod.setIsDeleted((true));
+					String sInsertStatement ="UPDATE paymentmethod SET 	IsDeleted = ? "+ ",DeletedDate = ? "+ " WHERE PaymentMethodId = ?";
+					_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+					_PreparedStatement.setBoolean(1, _PaymentMethod.IsDeleted);
+					_PreparedStatement.setString(2,_PaymentMethod.DeletedDate);
+					_PreparedStatement.setInt(3, _PaymentMethod.PaymentMethodId);	
+					_PreparedStatement.executeUpdate();
+					_PaymentMethod.setResult("Sucess");
+					
+				}
+				else{
+					_PaymentMethod.setResult("Failed!");
+					_PaymentMethod.setError("Invalid payment Method Id !");	
+					clear(_PaymentMethod);
+				}
+			}
+		 else{
+				_PaymentMethod.setResult("Failed!");
+				_PaymentMethod.setError("Error in api backend connectivity !");		
+				clear(_PaymentMethod);
+			}
+		}
+		catch (Exception e) {
+			clear(_PaymentMethod);
+		}
+		finally {
+			
+			if (_Connection != null) {
+				try {
+					_Connection.close();
+				} catch (SQLException e) {
+					//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
+				}
+			}
+		}
+		return _PaymentMethod;
+				
+	}
 	
 	
 	
