@@ -280,6 +280,11 @@ public class CustomerDetail {
 								_PreparedStatement.setBoolean(19, _CustomerDetail.IsActive);
 								_PreparedStatement.executeUpdate();	
 								_CustomerDetail.setResult("Sucess");
+								ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(customer_Id) AS customer_Id FROM customer",_Connection);
+								if (_ResultSetld.next()){
+								int lastid = _ResultSetld.getInt("customer_Id");								
+								_CustomerDetail.setCustomerId(lastid);}
+								
 								clear(_CustomerDetail);
 						}
 						else{

@@ -86,6 +86,10 @@ public class PaymentType {
 								}
 								_PreparedStatement.executeUpdate();	
 								_PaymentType.setResult("Sucess");
+								ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(PaymentTypeId) AS PaymentTypeId FROM paymenttype",_Connection);
+								if (_ResultSetld.next()){
+								int lastid = _ResultSetld.getInt("PaymentTypeId");								
+								_PaymentType.setPaymentTypeId(lastid);}
 								clear(_PaymentType);
 						}
 						else{

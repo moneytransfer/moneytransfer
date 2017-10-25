@@ -140,6 +140,10 @@ public class PaymentMethod {
 									_PreparedStatement.setString(6, _PaymentMethod.CreatedDate); 
 									_PreparedStatement.executeUpdate();
 									_PaymentMethod.setResult("Sucess");
+									ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(PaymentMethodId) AS PaymentMethodId FROM paymentmethod",_Connection);
+									if (_ResultSetld.next()){
+									int lastid = _ResultSetld.getInt("PaymentMethodId");								
+									_PaymentMethod.setPaymentMethodId(lastid);}
 							}
 							else{
 								_PaymentMethod.setResult("Failed!");

@@ -165,9 +165,12 @@ public class UserDetail {
 							_PreparedStatement.setBoolean(9, _usersdetails.IsActive);
 							_PreparedStatement.setString(10, _usersdetails.CreatedDate);
 							_PreparedStatement.executeUpdate();
-							_usersdetails.setUserPassword("xxxxxxxxxxxxxxxxxxxxxx");
-							
+							_usersdetails.setUserPassword("xxxxxxxxxxxxxxxxxxxxxx");							
 							_usersdetails.setUserResult("Sucess");
+							ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(user_id) AS user_id FROM users",_Connection);
+							if (_ResultSetld.next()){
+							int lastid = _ResultSetld.getInt("user_id");								
+							_usersdetails.setUserId(lastid);}
 						}
 					else{
 						_usersdetails.setUserResult("Failed");

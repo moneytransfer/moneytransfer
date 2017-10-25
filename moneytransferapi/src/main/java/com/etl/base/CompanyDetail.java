@@ -342,6 +342,11 @@ public CompanyDetail addCompany(CompanyDetail _CompanyDetail) {
 							_PreparedStatement.executeUpdate();					
 						
 							_CompanyDetail.setResult("Sucess");
+							ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(Company_Id) AS Company_Id FROM company",_Connection);
+							if (_ResultSetld.next()){
+							int lastid = _ResultSetld.getInt("Company_Id");								
+							_CompanyDetail.setCompanyId(lastid);}
+							
 							clearall(_CompanyDetail);
 						}
 							else{
