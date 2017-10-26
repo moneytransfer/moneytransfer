@@ -42,9 +42,9 @@
           //    templateUrl: 'views/common/horizontal/layout.html',
           //})
               .state('horizontal', {
-              abstract: true,
-              //  templateUrl: 'views/common/horizontal/layout.html',
-          })
+                  abstract: true,
+                  //  templateUrl: 'views/common/horizontal/layout.html',
+              })
 
 
               .state('app.signin', {
@@ -59,7 +59,7 @@
                   },
                   title: 'Signin',
                   classes: 'no-padding no-footer layout-static',
-                  controller: "authenticateController"
+                  //controller: "authenticateController"
               })
 
 
@@ -69,30 +69,40 @@
                 templateUrl: 'views/dashboard/dashboard.html',
                 resolve: {
                     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                        //return $ocLazyLoad.load([{
-                        //    insertBefore: '#load_styles_before',
-                        //    files: ['vendor/bower-jvectormap/jquery-jvectormap-1.2.2.css']
-                        //}, {
-                        //    serie: true,
-                        //    files: ['vendor/noty/js/noty/packaged/jquery.noty.packaged.min.js', 'scripts/helpers/noty-defaults.js', 'vendor/flot/jquery.flot.js', 'vendor/flot/jquery.flot.resize.js', 'vendor/flot/jquery.flot.stack.js', 'vendor/flot-spline/js/jquery.flot.spline.js']
-                        //}, {
-                        //    name: 'angular-flot',
-                        //    files: ['vendor/angular-flot/angular-flot.js']
-                        //}, {
-                        //    serie: true,
-                        //    name: 'vector',
-                        //    files: ['vendor/bower-jvectormap/jquery-jvectormap-1.2.2.min.js', 'data/maps/jquery-jvectormap-us-aea.js', 'scripts/directives/vector.js']
-                        //}, {
-                        //    name: 'easypiechart',
-                        //    files: ['vendor/jquery.easy-pie-chart/dist/angular.easypiechart.js']
-                        //}]).then(function () {
-                            return $ocLazyLoad.load('scripts/controllers/dashboard.js');
-                        
+                        return $ocLazyLoad.load('scripts/controllers/dashboard.js');
                     }]
                 },
                 title: 'Dashboard',
                 controller: "authenticateController"
             })
+
+              .state('app.login', {
+                  url: '/login',
+                  templateUrl: 'views/Customer/Customer_login.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/CustomerLogin.js');
+                          });
+                      }]
+                  },
+                  title: 'Login',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
+
+               .state('app.Customer_dashboard', {
+                   url: '/Customer_dashboard',
+                   templateUrl: 'views/dashboard/Customer_dashboard.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('scripts/controllers/dashboard.js');
+                       }]
+                   },
+                   title: 'Dashboard',
+                   controller: "authenticateController"
+               })
+
 
               .state('app.Manage_User', {
                   url: '/Manage_User',
@@ -187,6 +197,69 @@
                   controller: "authenticateController"
               })
 
+          //manage payment Method
+              .state('app.Manage_Payment', {
+                  url: '/Manage_Payment',
+                  templateUrl: 'views/paymentMethod/managePaymentMethod.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/PaymentMethod.js');
+                          });
+                      }]
+                  },
+                  title: 'Manage Payment Method',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
+
+
+         .state('app.Manage_PaymentMethod', {
+             url: '/Manage_PaymentMethod',
+             templateUrl: 'views/paymentMethod/managePaymentMethod.html',
+             params: { CompanyId: 0 },
+             resolve: {
+                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                     return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                         return $ocLazyLoad.load('scripts/controllers/appCtrls/PaymentMethod.js');
+                     });
+                 }]
+             },
+             title: 'Manage Payment Method',
+             classes: 'no-padding no-footer layout-static',
+             controller: "authenticateController"
+         })
+
+               .state('app.add_PaymentMethod', {
+                   url: '/add_PaymentMethod',
+                   templateUrl: 'views/paymentMethod/addEditPaymentMethod.html',
+                   params: { companyId: 0 },
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/PaymentMethod.js');
+                           });
+                       }]
+                   },
+                   title: 'Add Payment Method',
+                   classes: 'no-padding no-footer layout-static',
+                   controller: "authenticateController"
+               })
+               .state('app.Edit_PaymentMethod', {
+                   url: '/Edit_PaymentMethod',
+                   templateUrl: 'views/paymentMethod/addEditPaymentMethod.html',
+                   params: { PaymentMethodId: 0 },
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/PaymentMethod.js');
+                           });
+                       }]
+                   },
+                   title: 'Edit Payment Method',
+                   classes: 'no-padding no-footer layout-static',
+                   controller: "authenticateController"
+               })
 
 
             //Dashboard

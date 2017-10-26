@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 25, 2017 at 02:59 PM
+-- Generation Time: Oct 26, 2017 at 03:02 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -64,12 +64,9 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`Company_Id`, `name`, `address1`, `address2`, `city`, `state`, `zip_code`, `country_id`, `email`, `phone`, `business_fax`, `contact_person`, `contact_title`, `number_employees`, `annual_revenue`, `industry`, `sub_industry`, `sic_code`, `sic_description`, `website`, `company_number`, `business_id`, `company_type`, `incorporation_date`, `listofficers_duedate`, `businesslicense_expdate`, `created_date`, `is_active`, `is_deleted`, `deleted_date`) VALUES
-(16, 'Moneytransfer', 'test1', 'test', 'delhi', 'delhi', '110027', 246, 'moneytransfer@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-10', 1, 0, NULL),
-(17, 'Test Company', 'Delhi', 'd', 'New delhi', 'New delhi', '110033', 344, 'user@gmail.com', '9654523415', '9654523415', 'Ishu', 'Mr.', '20', 120000, 'IT', 'Software', '1254', 'Test', 'http://getbootstrap.com', '25415245125', '2541', 'Phone', '2017-10-18', NULL, NULL, '2017-10-16', 0, 0, NULL),
-(18, 'test123', 'abcd', 'test', 'delhi', 'delhi', '110027', 300, 'test123@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-16', 1, 0, NULL),
-(19, 'Money Tranfer', 'FL', 'Denmark', 'Gauza', 'USA', '10222', 344, 'money@gmail.com', '1234561230', '232432', 'Test admin', 'moneypay', '4', 20000, 'test', 'ttt', 'mon258', 'test desc', 'http://www.moneytransfer.com', '2017', 'mon_2017', 'MoneyPay', '2017-10-19', '2017-11-24', '2017-10-28', '2017-10-17', 0, 0, NULL),
-(20, 'abc', 'klo', 'test', 'delhi', 'delhi', '110027', 246, 'abc@gmail.com', '1234567890', '12345', 'abc', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-25', 1, 0, NULL),
-(21, 'lll', 'abcd', 'test', 'delhi', 'delhi', '110027', 246, 'lll@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-25', 1, 0, NULL);
+(0, 'Moneytransfer', 'test1', 'test', 'delhi', 'delhi', '110027', 246, 'moneytransfer@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-10', 1, 1, '2017-10-10'),
+(17, 'moneyishucase', 'noida', 'test', 'delhi', 'delhi', '110027', 250, 'moneytestcase@gmail.com', '1234567890', '12345', 'moneytestcase', 'Mr.', '40', 102356, 'Sale company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-25', 1, 0, NULL),
+(20, 'Moneytransfer', 'abcd', 'test', 'delhi', 'delhi', '110027', 246, 'testsuper@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-26', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -370,18 +367,14 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName`, `LastName`, `Address1`, `Address2`, `City`, `State`, `ZipCode`, `country_id`, `Phone`, `Email`, `Password`, `DOB`, `ProfileImage`, `ActivationCode`, `IsAccountActivated`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 16, '123456789', 'ishu', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'u@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-05 00:00:00', NULL),
-(2, 16, '123456789', 'ff', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'ffu@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 1, '2017-10-02 00:00:00', '2017-10-16 12:08:18'),
-(3, 16, '123456789', 'cc', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'cc@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:06:08', NULL),
-(4, 16, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:09:40', NULL),
-(5, 16, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:14:46', NULL),
-(6, 16, '123456789', 'hh', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'hh@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:17:02', NULL),
-(7, 16, '123456789', 'lookas', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'looks@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 1, '2017-10-16 13:13:41', '2017-10-23 12:51:29'),
-(8, 16, '123456789', 'zolly', 'mbbs', 'aaa', 'bbb', 'www', 'fl', '12345', 246, '123456789', 'zolly@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-16 11:13:12', NULL),
-(9, 16, '123456789', 'mi', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'mi@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-16 13:16:07', NULL),
-(10, 16, '123456789', 'Testing', 'customerapi', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-24 09:32:45', NULL),
-(11, 16, '832498234', 'Rajeev', 'Verma', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dfsjks@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-24 09:37:44', NULL),
-(12, 16, '1478956235', 'manager', 'adam', 'usa', 'greek', 'FL', 'FL', '12345', 258, '154646465456', 'manager@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-25 08:53:48', NULL);
+(1, 17, '123456789', 'ishu', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'u@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-05 00:00:00', NULL),
+(2, 17, '123456789', 'ff', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'ffu@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-02 00:00:00', NULL),
+(3, 17, '123456789', 'cc', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'cc@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:06:08', NULL),
+(4, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:09:40', NULL),
+(5, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:14:46', NULL),
+(6, 17, '123456789', 'hh', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'hh@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 1, '2017-10-14 19:17:02', '2017-10-19 00:00:00'),
+(8, 17, '123456789', 'zolly', 'mbbs', 'aaa', 'bbb', 'www', 'fl', '12345', 246, '123456789', 'zolly@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-16 11:13:12', NULL),
+(9, 17, '123456789', 'Oppo', 'chinese', 'china', 'test', 'china', 'CH', '12345', 258, '123456789', 'oppo@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 00:00:00', 'fff', '1234567890', 1, 1, 0, '2017-10-25 11:42:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -406,8 +399,15 @@ CREATE TABLE `paymentmethod` (
 --
 
 INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `Title`, `Description`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 16, 'payu', 'welcome to payu', 1, 0, '2017-10-23', NULL),
-(2, 1, 16, 'demo', 'welcome to demo test', 1, 1, '2017-10-23', '2017-10-24');
+(1, 1, 17, 'test', 'my custom method', 1, 0, '2017-10-23', NULL),
+(2, 1, 17, 'payU', 'welcome to payu', 1, 0, '2017-10-23', NULL),
+(3, 1, 17, 'Custom', 'welcome to custom method', 1, 0, '2017-10-25', NULL),
+(4, 1, 0, 'Payment', 'Test Description', 1, 0, '2017-10-26', NULL),
+(5, 1, 0, 'Title', 'Descripton', 1, 0, '2017-10-26', NULL),
+(6, 1, 0, 'Test', 'Testing', 1, 0, '2017-10-26', NULL),
+(7, 2, 0, 'Test', 'Testing', 1, 0, '2017-10-26', NULL),
+(8, 2, 0, 'test title', 'testing description', 1, 0, '2017-10-26', NULL),
+(9, 2, 20, 'Testing', 'Test', 1, 0, '2017-10-26', NULL);
 
 -- --------------------------------------------------------
 
@@ -427,7 +427,14 @@ CREATE TABLE `paymenttype` (
 --
 
 INSERT INTO `paymenttype` (`PaymentTypeId`, `PaymentType`, `Description`, `PaymentTypeLogo`) VALUES
-(1, 'Authorize', 'Authorize .net payment gateway', '');
+(1, 'authorize.net', 'Authorize .net payment gateway', ''),
+(2, 'test', 'ishu kumar', ''),
+(3, 'fsdf', 'ishu kumarfdsfsdf', ''),
+(4, 'fsdfsdf', 'ishu fs', ''),
+(5, 'ffsdfsdfsdf', 'ishu fs', ''),
+(6, 'dgd', 'dg fs', ''),
+(7, 'dgdsfsd', 'dg sdffs', ''),
+(8, 'custom', 'Custom payment gateway for testing', '');
 
 -- --------------------------------------------------------
 
@@ -456,9 +463,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `Company_Id`, `first_name`, `last_name`, `email`, `phone`, `password`, `country_id`, `profile_image`, `is_active`, `create_date`, `is_deleted`, `deleted_date`) VALUES
-(2, 17, 'admin', 'user', 'admin@gmail.com', '1234567890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 246, '', 1, '2017-10-10', 1, '2017-10-10'),
-(3, 17, 'Alloy', 'zinka', 'user@gmail.com', '9585458568', '7C4A8D09CA3762AF61E59520943DC26494F8941B', 344, NULL, 1, '2017-10-16', 0, NULL),
-(4, 17, 'Admgill', 'chirst', 'test@gmail.com', '96321457890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 344, NULL, 0, '2017-10-17', 0, NULL);
+(2, 0, 'admin', 'user', 'admin@gmail.com', '1234567890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 246, '', 1, '2017-10-10', 1, '2017-10-10'),
+(3, 17, 'test@gmail.com', 'kumar', 'test@gmail.com', '9638527410', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 246, '', 1, '2017-10-25', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -514,7 +520,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
-  MODIFY `Company_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Company_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `country`
 --
@@ -524,22 +530,22 @@ ALTER TABLE `country`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `paymentmethod`
 --
 ALTER TABLE `paymentmethod`
-  MODIFY `PaymentMethodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `PaymentMethodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `paymenttype`
 --
 ALTER TABLE `paymenttype`
-  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --

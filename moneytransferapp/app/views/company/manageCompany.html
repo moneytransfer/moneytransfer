@@ -1,73 +1,76 @@
-﻿
-    <div class="padding" ng-controller="manageCompanyController">
-        <div class="card">
-            <div class="card-header m-t-1">
-               <div class="col-sm-4 pull-right">
-                    <button type="submit" class="btn btn-primary pull-right" ng-click="addcompany()"><i class="glyphicon glyphicon-plus"></i> Add Company </button>
-                </div>
+﻿<div class="padding" ng-controller="manageCompanyController">
+    <div class="card">
+        <div class="card-header m-t-1">
+            <div class="col-sm-4 pull-right">
+                <button type="submit" class="btn btn-primary pull-right" ng-click="addcompany()"><i class="glyphicon glyphicon-plus"></i>Add Company </button>
             </div>
-         
-            <div class="box-body p-a-0">
-               
-                <table id="tblUsers" class="table table-condensed" ui-jp="footable" data-filter="#filter" data-page-size="10">
-                    <thead>
-                        <tr>
-                            <th>Company Name </th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>City</th>
-                            <th>Status</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="Active" ng-repeat="Company in ManageCompany  |  orderBy: 'CompanyName'">
-                            <td><small>{{Company.CompanyName}} </small></td>
-                            <td><small>{{Company.Email }} </small></td>
-                            <td><small>{{Company.Phone }}</small></td>
-                            <td><small>{{Company.City }}</small></td>
-                            <td><small>{{Company.IsActive }}</small></td>
-                            <td>
-                                <button type="submit" class="btn btn-sm btn-primary" ng-click="EditCompany(Company.CompanyId)">Edit</button>
-                            </td>
-                            <td>
-                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteCompany(Company.CompanyId)">Delete </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot class="hide-if-no-paging">
-                        <tr>
-                            <td colspan="7" class="text-center">
-                                <ul class="pagination"></ul>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+        </div>
+
+        <div class="box-body p-a-0">
+
+            <table id="tblComapny" class="table table-condensed" ui-jp="footable" data-filter="#filter" data-page-size="10">
+                <thead>
+                    <tr>
+                        <th>Company Name </th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="Active" ng-repeat="Company in ManageCompany  |  orderBy: 'CompanyName'">
+                        <td><small>{{Company.CompanyName}} </small></td>
+                        <td><small>{{Company.Email }} </small></td>
+                        <td><small>{{Company.Phone }}</small></td>
+                        <td><small>{{Company.City }}</small></td>
+                        <td><small>{{Company.IsActive }}</small></td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-primary" ng-click="ManagePaymentMethod(Company.CompanyId)">Manage Payment Method </button>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditCompany(Company.CompanyId)">Edit</button>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteCompany(Company.CompanyId)">Delete </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="hide-if-no-paging">
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            <ul class="pagination"></ul>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
 
-            <!-- Large modal -->
-            <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteconfirm">Large modal</button>-->
-            <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header text-danger">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title ">!Confirmation  </h4>
-                        </div>
+        <!-- Large modal -->
+        <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteconfirm">Large modal</button>-->
+        <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title ">!Confirmation  </h4>
+                    </div>
 
-                        <div class="modal-body">
-                            <h6 class="modal-title">Do you want to proceed to delete this 'Company'? </h6>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                        </div>
+                    <div class="modal-body">
+                        <h6 class="modal-title">Do you want to proceed to delete this 'Company'? </h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
                     </div>
                 </div>
             </div>
-            <!-- /.modal -->
-
         </div>
+        <!-- /.modal -->
+
     </div>
+</div>

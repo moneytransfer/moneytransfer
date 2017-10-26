@@ -89,7 +89,7 @@ public class Services {
     @POST 
     @Path("updateuser")    
     @Produces("application/json")
-    public UserDetail updateCompany(UserDetail usersdetails) {
+    public UserDetail updateuser(UserDetail usersdetails) {
        return new UserDetail().updateUserDetail(usersdetails);
     }
     
@@ -100,12 +100,12 @@ public class Services {
       return new UserDetail().getUserDetail(_UserDetail);
     }
     
-    @GET
+    @POST
     @Path("getuserdetails")    
     @Produces("application/json")
-    public ArrayList<UserDetail> getUsersDetails() {
+    public ArrayList<UserDetail> getUsersDetails(UserDetail _UserDetail) {
     	
-      return UserDetail.getUserDetails();
+      return UserDetail.getUserDetails(_UserDetail.CompanyId);
     }
     
     @POST
@@ -135,7 +135,7 @@ public class Services {
     @Produces("application/json")
     public ArrayList<CustomerDetail> getcustomerDetailsByCompanyId(CustomerDetail _CustomerDetail) {
     	
-      return CustomerDetail.getCustomerDetails(_CustomerDetail);
+      return CustomerDetail.getCustomerDetails(_CustomerDetail.CompanyId);
     }
     
    
@@ -176,6 +176,13 @@ public class Services {
       return new PaymentType().savepaymenttype(_PaymentType);
     }
     
+    @GET
+    @Path("getpaymenttypedetails")    
+    @Produces("application/json")
+    public ArrayList<PaymentType> getPaymentTypeDetails() {
+    	
+      return PaymentType.getPaymentTypeDetails();
+    }
     
     @POST
     @Path("savepaymentmethod")    
@@ -184,14 +191,14 @@ public class Services {
       return new PaymentMethod().addPaymentMethod(_PaymentMethod);
     }
     
-    
+   
     
     @POST
     @Path("getpaymentmethodbycompanyid")    
     @Produces("application/json")
     public ArrayList<PaymentMethod> getpaymentMethodByCompanyId(PaymentMethod _PaymentMethod) {
     	
-      return PaymentMethod.getPaymentMethodDetails(_PaymentMethod);
+      return PaymentMethod.getPaymentMethodDetails(_PaymentMethod.CompanyId);
     }
     
     @POST

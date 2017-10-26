@@ -34,7 +34,7 @@
             vm.ManageCompany = idata;
 
             $timeout(function () {
-                $('#tblUsers').trigger('footable_redraw');
+                $('#tblComapny').trigger('footable_redraw');
             }, 100);
 
         });
@@ -49,7 +49,9 @@
             $state.go('app.Edit_Comapny', { CompanyId: CompanyId });
         }
 
-
+        vm.ManagePaymentMethod = function (CompanyId) {
+            $state.go('app.Manage_PaymentMethod', { CompanyId: CompanyId });
+        }
         //DeleteUser
         var DeleteCompanyID = 0;
         vm.deleteCompany = function (Id) {

@@ -453,7 +453,7 @@ public class CustomerDetail {
 	
 	
 	
-	public static ArrayList<CustomerDetail> getCustomerDetails(CustomerDetail _CustomerDetail) {
+	public static ArrayList<CustomerDetail> getCustomerDetails(int CompanyId) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		
 		ArrayList<CustomerDetail> _CustomerDetaillist = new ArrayList<CustomerDetail>();
@@ -461,13 +461,55 @@ public class CustomerDetail {
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		 try
 			{
-				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM customer where Company_Id='"+_CustomerDetail.CompanyId+"'",_Connection);
-				if(_ResultSet.next())			
-				{
+			 if(CompanyId==0)
+			 
+			 {
+				 
+				 ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM customer where IsDeleted=0 ",_Connection);
+					//if(_ResultSet.next())			
+					//{
+						while  (_ResultSet.next())
+						{
+							
+							CustomerDetail _CustomerDetail=new CustomerDetail();
+							_CustomerDetail.setCustomerId(_ResultSet.getInt("customer_Id"));
+							_CustomerDetail.setCompanyId(_ResultSet.getInt("Company_Id"));
+							_CustomerDetail.setAccountNumber(_ResultSet.getString("AccountNumber"));
+							_CustomerDetail.setFirstName(_ResultSet.getString("FirstName"));
+							_CustomerDetail.setLastName(_ResultSet.getString("LastName"));
+							_CustomerDetail.setAddress1(_ResultSet.getString("Address1"));
+							_CustomerDetail.setAddress2(_ResultSet.getString("Address2"));
+							_CustomerDetail.setCity(_ResultSet.getString("City"));
+							_CustomerDetail.setState(_ResultSet.getString("State"));
+							_CustomerDetail.setZipCode(_ResultSet.getString("ZipCode"));
+							_CustomerDetail.setCountryId(_ResultSet.getInt("country_id"));
+							
+							
+							_CustomerDetail.setPhone(_ResultSet.getString("Phone"));
+							_CustomerDetail.setEmail(_ResultSet.getString("Email"));
+							_CustomerDetail.setDOB(_ResultSet.getString("DOB"));
+							_CustomerDetail.setProfileImage(_ResultSet.getString("ProfileImage"));
+							_CustomerDetail.setActivationCode(_ResultSet.getString("ActivationCode"));
+							_CustomerDetail.setIsAccountActivated(_ResultSet.getBoolean("IsAccountActivated"));
+							_CustomerDetail.setIsActive(_ResultSet.getBoolean("IsActive"));
+							_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
+							_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
+							_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
+							_CustomerDetail.setResult("Success");
+							_CustomerDetaillist.add(_CustomerDetail);
+							
+						}
+						 _ResultSet.close();
+					//} 
+			 }
+			 else
+			 {
+				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM customer where Company_Id='"+CompanyId+"' and IsDeleted=0",_Connection);
+				
 					while  (_ResultSet.next())
 					{
 						
-						//CustomerDetail _CustomerDetail=new CustomerDetail();
+						CustomerDetail _CustomerDetail=new CustomerDetail();
 						_CustomerDetail.setCustomerId(_ResultSet.getInt("customer_Id"));
 						_CustomerDetail.setCompanyId(_ResultSet.getInt("Company_Id"));
 						_CustomerDetail.setAccountNumber(_ResultSet.getString("AccountNumber"));
@@ -491,17 +533,14 @@ public class CustomerDetail {
 						_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
-						
+						_CustomerDetail.setResult("Success");
 						_CustomerDetaillist.add(_CustomerDetail);
 						
 					}
 					 _ResultSet.close();
-				}
-				else{
-					_CustomerDetail.setResult("Failed");
-					_CustomerDetail.setError("Invalid Company Id!");
-					
-				}
+				
+			 }
+				
 		
 				
 				

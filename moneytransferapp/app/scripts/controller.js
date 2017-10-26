@@ -3,6 +3,7 @@ var baseUrl = 'http://18.221.150.151:8080/transfermoney/api/';
 //var baseUrl = 'http://192.168.1.2:8080/transfermoney/api/';
 
 var authorisedUser = [];
+var authorisedCustomer = [];
 
 (function () {
     'use strict';
@@ -166,11 +167,15 @@ var authorisedUser = [];
 
 
         // site code
-
         if ($window.sessionStorage.authorisedUser) {
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
             vm.authorisedUser = authorisedUser;
         }
+
+        //if ($window.sessionStorage.authorisedCustomer) {
+        //    authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
+        //    vm.authorisedCustomer = authorisedCustomer;
+        //}
 
 
     };

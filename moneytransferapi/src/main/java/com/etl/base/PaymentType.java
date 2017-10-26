@@ -3,6 +3,8 @@ package com.etl.base;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.etl.util.MYSQLConnection;
 import com.etl.util.MYSQLHelper;
@@ -141,6 +143,49 @@ public class PaymentType {
 		}
 		return _PaymentType;
 	}
+	
+	public static ArrayList<PaymentType> getPaymentTypeDetails() {
+		Connection _Connection = MYSQLConnection.GetConnection();
+		
+		ArrayList<PaymentType> _PaymentTypelist = new ArrayList<PaymentType>();
+		
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM  paymenttype",_Connection);
+		 try
+			{
+			 while  (_ResultSet.next())
+				{
+					
+				 PaymentType _PaymentType=new PaymentType();
+				 _PaymentType.setPaymentTypeId(_ResultSet.getInt("PaymentTypeId"));
+				 _PaymentType.setPaymentType(_ResultSet.getString("PaymentType"));
+				 _PaymentType.setDescription(_ResultSet.getString("Description"));
+				 _PaymentType.setPaymentTypeLogo(_ResultSet.getString("PaymentTypeLogo"));
+				 _PaymentType.setResult("Success");
+				 _PaymentTypelist.add(_PaymentType);
+					
+				}
+			 _ResultSet.close();
+			}
+		 catch (Exception e) {
+			
+		}
+		 finally {
+			 if (_Connection != null) {
+					try {
+						_Connection.close();
+					} catch (SQLException e) {
+						//logger.error(e.getMessage() + " Stack Trace: " + e.getStackTrace());
+					}
+				}
+		}
+		 return _PaymentTypelist;
+	}
+	
+	
+	
+	
+	
 	
 	public PaymentType clear(PaymentType _PaymentType)
 	{

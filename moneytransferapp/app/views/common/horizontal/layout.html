@@ -1,7 +1,9 @@
 <!-- content panel -->
 <div class="main-panel">
   <!-- top header -->
-  <nav class="header navbar" ng-show="authorisedUser.UserId">
+
+
+  <nav class="header navbar" data-ng-if="authorisedUser.UserId">
     <div ng-include="'views/common/horizontal/header.html'"></div>
   </nav>
   <!-- /top header -->

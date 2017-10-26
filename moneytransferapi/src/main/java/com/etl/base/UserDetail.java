@@ -467,16 +467,18 @@ public class UserDetail {
 		 return usersdetails; 
 	  }
 	
-	public static ArrayList<UserDetail> getUserDetails() {
+	public static ArrayList<UserDetail> getUserDetails(int CompanyId) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		
 		ArrayList<UserDetail> _UserDetaillist = new ArrayList<UserDetail>();
 		
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
-		ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM users",_Connection);
+		
 		 try
 			{
-				
+			 if(CompanyId==0)
+				{
+				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM users",_Connection);
 				while  (_ResultSet.next())
 				{
 					
@@ -493,11 +495,36 @@ public class UserDetail {
 					_UserDetail.setUserIsActive(_ResultSet.getBoolean("is_active"));
 					_UserDetail.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
 					_UserDetail.setUserDeletedDate(_ResultSet.getString("deleted_date"));
+					_UserDetail.setUserResult("Success");
 					_UserDetaillist.add(_UserDetail);
 					
 				}
 				
 				 _ResultSet.close();
+		      }
+			 else
+			 {
+				 ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM users where Company_Id='"+CompanyId+"'",_Connection);
+					if (_ResultSet.next())
+					{
+						UserDetail _UserDetail=new UserDetail();
+						_UserDetail.setUserId(_ResultSet.getInt("user_id"));
+						_UserDetail.setCompanyId(_ResultSet.getInt("Company_Id"));
+						_UserDetail.setUserFirstName(_ResultSet.getString("first_name"));
+						_UserDetail.setUserlastName(_ResultSet.getString("last_name"));
+						_UserDetail.setUserPhone(_ResultSet.getString("phone"));
+						_UserDetail.setUserEmail(_ResultSet.getString("email"));
+						_UserDetail.setUserCreatedDate(_ResultSet.getString("create_date"));
+						_UserDetail.setUserProfileImage(_ResultSet.getString("profile_image"));
+						_UserDetail.setCountry(_ResultSet.getString("country_id"));
+						_UserDetail.setUserIsActive(_ResultSet.getBoolean("is_active"));
+						_UserDetail.setUserIsDeleted(_ResultSet.getBoolean("is_deleted"));
+						_UserDetail.setUserDeletedDate(_ResultSet.getString("deleted_date"));
+						_UserDetail.setUserResult("Success");
+						_UserDetaillist.add(_UserDetail);
+						
+					}
+			 }
 			}
 		 catch(Exception e){
 			 e.printStackTrace();
@@ -512,7 +539,7 @@ public class UserDetail {
 					}
 				}
 			}	
-		
+	
 		return _UserDetaillist;
 	}
 	

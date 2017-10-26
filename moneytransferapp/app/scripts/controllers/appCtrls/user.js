@@ -17,15 +17,20 @@
         var IsAdmin = false;
         vm.ManageUsers = [];
         vm.UserId = 0;
+        vm.CompanyId = 0;
         if ($window.sessionStorage.authorisedUser) {
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
-            if (authorisedUser.UserId) { vm.UserId = parseInt(authorisedUser.UserId); }
+            if (authorisedUser.UserId) {
+                vm.UserId = parseInt(authorisedUser.UserId);
+                vm.CompanyId = parseInt(authorisedUser.CompanyId);
+            }
         }
-
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
         //Get users
         $http({
-            method: 'GET',
+            method: 'POST',
             url: baseUrl + 'getuserdetails',
+            data:formData,
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {

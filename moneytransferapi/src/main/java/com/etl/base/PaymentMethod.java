@@ -347,7 +347,7 @@ public class PaymentMethod {
 	
 	
 	
-	public static ArrayList<PaymentMethod> getPaymentMethodDetails(PaymentMethod _PaymentMethod) {
+	public static ArrayList<PaymentMethod> getPaymentMethodDetails(int CompanyId) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		
 		ArrayList<PaymentMethod> _PaymentMethodDetaillist = new ArrayList<PaymentMethod>();
@@ -355,23 +355,22 @@ public class PaymentMethod {
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		 try
 			{
-			 if(_Connection!=null)
+			 if(_Connection!=null)			
+			
 				{
-				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where CompanyId='"+_PaymentMethod.CompanyId+"'",_Connection);
+				 if(CompanyId!=0)
+				 {
+				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where CompanyId='"+CompanyId+"' and IsDeleted=0",_Connection);
 				
 					while  (_ResultSet.next())
 					{
 						
-						//CustomerDetail _CustomerDetail=new CustomerDetail();
+						 PaymentMethod _PaymentMethod=new PaymentMethod();
 						_PaymentMethod.setPaymentMethodId(_ResultSet.getInt("PaymentMethodId"));
 						_PaymentMethod.setCompanyId(_ResultSet.getInt("CompanyId"));
 						_PaymentMethod.setPaymentTypeId(_ResultSet.getInt("PaymentTypeId"));
 						_PaymentMethod.setTitle(_ResultSet.getString("Title"));
-						_PaymentMethod.setDescription(_ResultSet.getString("Description"));
-						
-						
-						
-						
+						_PaymentMethod.setDescription(_ResultSet.getString("Description"));						
 						_PaymentMethod.setIsActive(_ResultSet.getBoolean("IsActive"));
 						_PaymentMethod.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_PaymentMethod.setCreatedDate(_ResultSet.getString("CreatedDate"));
@@ -380,15 +379,34 @@ public class PaymentMethod {
 						_PaymentMethodDetaillist.add(_PaymentMethod);
 						
 					}
-					 //_ResultSet.close();
+					 _ResultSet.close();
 				
-		
+				 }
+				 else
+				 {
+					 ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where IsDeleted=0",_Connection);
+						
+						while  (_ResultSet.next())
+						{
+							
+							 PaymentMethod _PaymentMethod=new PaymentMethod();
+							_PaymentMethod.setPaymentMethodId(_ResultSet.getInt("PaymentMethodId"));
+							_PaymentMethod.setCompanyId(_ResultSet.getInt("CompanyId"));
+							_PaymentMethod.setPaymentTypeId(_ResultSet.getInt("PaymentTypeId"));
+							_PaymentMethod.setTitle(_ResultSet.getString("Title"));
+							_PaymentMethod.setDescription(_ResultSet.getString("Description"));						
+							_PaymentMethod.setIsActive(_ResultSet.getBoolean("IsActive"));
+							_PaymentMethod.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
+							_PaymentMethod.setCreatedDate(_ResultSet.getString("CreatedDate"));
+							_PaymentMethod.setDeletedDate(_ResultSet.getString("DeletedDate"));
+							
+							_PaymentMethodDetaillist.add(_PaymentMethod);
+							
+						}
+						 _ResultSet.close();
+				 }
 				}
-			 else{
-				 _PaymentMethod.setResult("Failed!");
-				 _PaymentMethod.setError("Error in api backend connectivity !");
-					
-				}
+			
 				
 			}
 		 catch(Exception e){

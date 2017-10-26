@@ -14,11 +14,11 @@ function Alert(type, msg) {
     }, 3500);
 }
 
-//$(document).ready(function () {
-//    if (authorisedUser.UserId) {
-//        $("#appheader").removeClass('hide');
-//    }
-//});
+$(document).ready(function () {
+    if (authorisedUser.UserId) {
+        $("#appheader").removeClass('hide');
+    }
+});
 
 function backtotop(div) {
     $("#" + div).animate({
@@ -42,16 +42,19 @@ var authorisedUser = [];
     angular
    .module('app')
    .controller('sessionCtrl', sessionCtrl)
-    .controller('authenticateController', authenticateController)
-    .controller('logoutController', logoutController)
+   .controller('authenticateController', authenticateController)
+   .controller('logoutController', logoutController)
 
     sessionCtrl.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function sessionCtrl($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
         var vm = $scope;
-       
+
         if ($window.sessionStorage.authorisedUser) {
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
             if (authorisedUser.UserId) { $state.go('app.dashboard'); }
+        }
+        else {
+            $state.go('app.signin');
         }
 
         //Login
@@ -82,7 +85,7 @@ var authorisedUser = [];
         }
         //$state.go('user.signin');
 
-       
+
     };
     //vm.submit = function () {
     //    $state.go('app.dashboard');
@@ -90,15 +93,11 @@ var authorisedUser = [];
 
     authenticateController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function authenticateController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
-       
         if ($window.sessionStorage.authorisedUser) {
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
             if (!authorisedUser.UserId) {
                 $window.location.reload();
             }
-            //else {
-            //    $http.defaults.headers.common['Authorization'] = authorisedUser.UserId;
-            //}
         }
         else {
             $window.location.assign('#/app/signin');
@@ -116,10 +115,9 @@ var authorisedUser = [];
                 window.location.reload();
 
             }
-
         }
     }
-   
+
 })();
 //angular.module('app').controller('sessionCtrl', ['$state', sessionCtrl]);
 
