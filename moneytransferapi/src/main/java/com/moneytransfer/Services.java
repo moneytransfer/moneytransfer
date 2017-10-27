@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 
+import com.etl.base.AuthorizePaymentDetails;
 import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
 import com.etl.base.CustomerDetail;
@@ -213,5 +214,32 @@ public class Services {
     @Produces("application/json")
     public PaymentMethod deletepaymentmethod(PaymentMethod _PaymentMethod) {
       return new PaymentMethod().deletePaymentMethod(_PaymentMethod);
+    }
+    
+    @POST
+    @Path("saveauthorizepayment")    
+    @Produces("application/json")
+    public AuthorizePaymentDetails saveauthorizepayment(AuthorizePaymentDetails _AuthorizePaymentDetails) {
+      return new AuthorizePaymentDetails().addAuthorizePayment(_AuthorizePaymentDetails);
+    }
+    @POST
+    @Path("getauthorizepaymentdetails")    
+    @Produces("application/json")
+    public AuthorizePaymentDetails getauthorizepaymentdetails(AuthorizePaymentDetails _AuthorizePaymentDetails) {
+      return new AuthorizePaymentDetails().getAuthorizePaymentById(_AuthorizePaymentDetails);
+    }
+    
+    @POST
+    @Path("deleteauthorizepaymentdetails")    
+    @Produces("application/json")
+    public AuthorizePaymentDetails deleteauthorizepaymentdetails(AuthorizePaymentDetails _AuthorizePaymentDetails) {
+      return new AuthorizePaymentDetails().deleteAuthorizePaymentById(_AuthorizePaymentDetails);
+    }
+    
+    @POST
+    @Path("getauthorizepaymentdsettingsbypaymentmethodid")    
+    @Produces("application/json")
+    public AuthorizePaymentDetails getauthorizepaymentdsettingsbypaymentmethodid(AuthorizePaymentDetails _AuthorizePaymentDetails) {
+      return new AuthorizePaymentDetails().getAuthorizePaymentDetailsbyPaymentMethodId(_AuthorizePaymentDetails);
     }
 }

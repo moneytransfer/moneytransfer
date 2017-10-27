@@ -3,6 +3,7 @@ D:\rajeev\Money_Transfer\src\main\java\com\moneytransfer\Services.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\CountryDeatils.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\provider\Configuration\MYSQLConfiguration.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\CompanyDetail.java
+D:\rajeev\Money_Transfer\src\main\java\com\etl\base\AuthorizePaymentDetails.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\UserDetail.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\util\MYSQLHelper.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\ProviderBase.java

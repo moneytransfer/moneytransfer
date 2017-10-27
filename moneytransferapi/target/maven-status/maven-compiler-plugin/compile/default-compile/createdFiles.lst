@@ -3,6 +3,7 @@ com\etl\base\CompanyDetail.class
 com\etl\base\PaymentMethod.class
 com\etl\base\PaymentType.class
 com\etl\provider\Configuration\MYSQLConfiguration.class
+com\etl\base\AuthorizePaymentDetails.class
 com\etl\base\CustomerDetail.class
 com\etl\base\ProviderBase.class
 com\etl\util\MYSQLHelper.class

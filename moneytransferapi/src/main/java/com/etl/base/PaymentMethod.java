@@ -57,7 +57,7 @@ public class PaymentMethod {
 	}
 	
 	private void setIsActive(boolean IsActive){
-		this.Description = Description;
+		this.IsActive = IsActive;
 	}	
 	private boolean getIsActive(){
 		return IsActive;
