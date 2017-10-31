@@ -13,5 +13,7 @@ P:- 123
 
 Customers credentials:-
 
-U:-mi@gmail.com
+http://18.221.150.151:8080/moneytransfer/app/#/app/customersignin
+
+U:-zolly@gmail.com
 P:-123

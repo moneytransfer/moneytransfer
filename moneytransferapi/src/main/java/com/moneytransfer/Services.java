@@ -10,8 +10,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 
 import com.etl.base.AuthorizePaymentDetails;
+import com.etl.base.AuthrozieTranscation;
+import com.etl.base.BeneficiaryDetails;
+import com.etl.base.BeneficiaryType;
 import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
+import com.etl.base.Currency;
 import com.etl.base.CustomerDetail;
 import com.etl.base.PaymentMethod;
 import com.etl.base.PaymentType;
@@ -242,4 +246,64 @@ public class Services {
     public AuthorizePaymentDetails getauthorizepaymentdsettingsbypaymentmethodid(AuthorizePaymentDetails _AuthorizePaymentDetails) {
       return new AuthorizePaymentDetails().getAuthorizePaymentDetailsbyPaymentMethodId(_AuthorizePaymentDetails);
     }
+  
+    @GET
+    @Path("getcurrencydetails")    
+    @Produces("application/json")
+    public ArrayList<Currency> getCurrencyDetails() {
+    	
+      return Currency.getCurrencyetails();
+    }
+    
+    @GET
+    @Path("getbeneficiarytypedetails")    
+    @Produces("application/json")
+    public ArrayList<BeneficiaryType> getBeneficiaryTypeDetails() {
+    	
+      return BeneficiaryType.getBeneficiaryTypeDetails();
+    }
+    @POST
+    @Path("addbeneficiary")    
+    @Produces("application/json")
+    public BeneficiaryDetails addbeneficiary(BeneficiaryDetails _BeneficiaryDetails) {
+      return new BeneficiaryDetails().addBeneficiaryDetails(_BeneficiaryDetails);
+    }
+    
+    @POST
+    @Path("getbeneficiarydetails")    
+    @Produces("application/json")
+    public ArrayList<BeneficiaryDetails> getBeneficiaryDetailsDetails(BeneficiaryDetails _BeneficiaryDetails) {
+    	
+      return BeneficiaryDetails.getBeneficiaryDetails(_BeneficiaryDetails.CustomerId);
+    }
+    
+    @POST
+    @Path("getbeneficiarydetailsbyId")    
+    @Produces("application/json")
+    public BeneficiaryDetails getbeneficiarydetailsbyId(BeneficiaryDetails _BeneficiaryDetails) {
+      return new BeneficiaryDetails().getBeneficiaryDetailsById(_BeneficiaryDetails);
+    }
+    
+    @POST
+    @Path("deletebeneficiarydetail")    
+    @Produces("application/json")
+    public BeneficiaryDetails deletebeneficiarydetail(BeneficiaryDetails _BeneficiaryDetails) {
+      return new BeneficiaryDetails().deleteBeneficiaryDetails(_BeneficiaryDetails);
+    }
+    
+    @POST
+    @Path("makePayment")    
+    @Produces("application/json")  
+    public AuthrozieTranscation addAuthroziepayment(AuthrozieTranscation _AuthrozieTranscation) {
+      return new AuthrozieTranscation().addTranscation(_AuthrozieTranscation);
+    }
+    
+    @POST
+    @Path("gettranscationdetails")    
+    @Produces("application/json")
+    public ArrayList<AuthrozieTranscation> getBeneficiaryDetailsDetails(AuthrozieTranscation _AuthrozieTranscation) {
+    	
+      return AuthrozieTranscation.getAuthrozieTranscationDetails(_AuthrozieTranscation.CustomerId);
+    }
 }
+

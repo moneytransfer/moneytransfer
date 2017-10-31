@@ -24,7 +24,7 @@ public class AuthorizePaymentDetails {
 	public String DeletedDate;
 	public String Result;
 	public String Error;
-	
+	public int PaymentTypeId;
 	
 	
 	
@@ -105,7 +105,12 @@ public class AuthorizePaymentDetails {
 		return Error;
 	}
 	
-	
+	private void setPaymentTypeId(int PaymentTypeId){
+		this.PaymentTypeId = PaymentTypeId;
+	}	
+	private int getPaymentTypeId(){
+		return PaymentTypeId;
+	}
 public AuthorizePaymentDetails addAuthorizePayment(AuthorizePaymentDetails _AuthorizePaymentDetails) {
 		
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -331,6 +336,7 @@ public AuthorizePaymentDetails getAuthorizePaymentDetailsbyPaymentMethodId(Autho
 			ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where PaymentMethodId='"+_AuthorizePaymentDetails.PaymentMethodId+"'",_Connection);
 			if (_ResultSet.next())
 			{
+				_AuthorizePaymentDetails.setPaymentTypeId(_ResultSet.getInt("PaymentTypeId"));
 				ResultSet _ResultSetPaymentSettingDetails = _MYSQLHelper.GetResultSet("SELECT * FROM authorizepaymentsettings where PaymentMethodId='"+_AuthorizePaymentDetails.PaymentMethodId+"'",_Connection);
 				if (_ResultSetPaymentSettingDetails.next())
 				{
@@ -344,12 +350,14 @@ public AuthorizePaymentDetails getAuthorizePaymentDetailsbyPaymentMethodId(Autho
 					_AuthorizePaymentDetails.setIsDeleted(_ResultSetPaymentSettingDetails.getBoolean("IsDeleted"));
 					_AuthorizePaymentDetails.setCreatedDate(_ResultSetPaymentSettingDetails.getString("CreatedDate"));
 					_AuthorizePaymentDetails.setDeletedDate(_ResultSetPaymentSettingDetails.getString("DeletedDate"));
+					
+					
 					_AuthorizePaymentDetails.setResult("Sucess");
 				}
 				else
 				{
 					_AuthorizePaymentDetails.setResult("Failed!");
-					_AuthorizePaymentDetails.setError("No payment seeting found for this Payment Method Id!");
+					_AuthorizePaymentDetails.setError("No payment setting found for this Payment Method Id!");
 					clear(_AuthorizePaymentDetails);
 				}
 			}
