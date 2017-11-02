@@ -1,11 +1,11 @@
-﻿<div class="" data-ng-controller="LoginCtrl">
+﻿<!--<div class="" data-ng-controller="LoginCtrl">
     <div class="session-content">
         <div class="card card-block form-layout">
-            <form role="form" action="/" ui-jq="validate" name="tblCustomerlogin">
+            <form role="form" ui-jq="validate" name="tblCustomerlogin">
                 <div class="text-xs-center m-b-3">
                     <img src="images/logo-icon.png" alt="" class="m-b-1" />
                     <h5>Welcome back Customer!
-          </h5>
+                    </h5>
                     <p class="text-muted">
                         Sign in with your app id to continue.
          
@@ -33,38 +33,44 @@
                 <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="tblCustomerlogin.$valid && customerlogin()">Login</button>
                 <div class="divider">
                     <span>OR
-          </span>
+                    </span>
                 </div>
                 <div class="text-xs-center">
                     <p>
-                        Login with your social account
-         
+                        <a ui-sref="app.register">Create an account</a>
                     </p>
-                    <button class="btn btn-icon-icon btn-facebook btn-lg m-b-1 m-r-1">
-                        <i class="fa fa-facebook"></i>
-                    </button>
-                    <button class="btn btn-icon-icon btn-github btn-lg m-b-1 m-r-1">
-                        <i class="fa fa-github"></i>
-                    </button>
-                    <button class="btn btn-icon-icon btn-google btn-lg m-b-1 m-r-1">
-                        <i class="fa fa-google-plus"></i>
-                    </button>
-                    <button class="btn btn-icon-icon btn-linkedin btn-lg m-b-1 m-r-1">
-                        <i class="fa fa-linkedin"></i>
-                    </button>
                 </div>
             </form>
         </div>
     </div>
-    <footer class="text-xs-center m-t-1">
-        <p>
-            <a ui-sref="user.forgot">Forgot password?
-      </a>
-            &nbsp;&nbsp;·&nbsp;&nbsp;
-    
-            <!-- <a ui-sref="user.signup">
-        Create an account
-      </a>-->
-        </p>
-    </footer>
+</div>-->
+
+
+
+<!--Login Form-->
+
+<div class="login-form-groupper" data-ng-controller="LoginCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-md-offset-3">
+                <div class="form-container">
+                    <form ui-jq="validate" name="tblCustomerlogin">
+                        <h4 class="login-form-title">Login</h4>
+                        <div class="form-group">
+                            <input type="text" placeholder="Email" ng-model="CustomerModel.Email" name="Email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Password" name="password" ng-model="CustomerModel.Password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" value="" class="btn btn-success custom-form-btn"  ng-click="tblCustomerlogin.$valid && customerlogin()">LOG IN</button>
+                        </div>
+                        <div class="form-group cm-text-center">
+                            <a  ui-sref="app.register" class="btn btn-info custom-form-signup">Don't have account? Sign up for free!</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

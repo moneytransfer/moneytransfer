@@ -53,10 +53,7 @@ var authorisedUser = [];
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
             if (authorisedUser.UserId) { $state.go('app.dashboard'); }
         }
-        else {
-            $state.go('app.signin');
-        }
-
+       
         //Login
         vm.signin = function () {
             var idata = JSON.stringify(vm.UserModel);
@@ -93,15 +90,26 @@ var authorisedUser = [];
 
     authenticateController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function authenticateController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
+
         if ($window.sessionStorage.authorisedUser) {
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
             if (!authorisedUser.UserId) {
                 $window.location.reload();
             }
         }
+       
+        else if ($state.current.url == '/customersignin') {
+            $window.location.assign('#/app/customersignin');
+        }
+        else if ($window.sessionStorage.authorisedCustomer) {
+            authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
+            if (!authorisedCustomer.CustomerId) {
+                $window.location.reload();
+            }
+        }
         else {
             $window.location.assign('#/app/signin');
-        }
+    }
     }
 
     logoutController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
@@ -113,6 +121,15 @@ var authorisedUser = [];
                 $window.sessionStorage.removeItem('authorisedUser');
                 authorisedUser = [];
                 window.location.reload();
+
+            }
+        }
+
+        vm.logoutCustomer = function () {
+            if ($window.sessionStorage.authorisedCustomer) {
+                $window.sessionStorage.removeItem('authorisedCustomer');
+                authorisedCustomer = [];
+                $window.location.assign('#/app/Customer/login');
 
             }
         }

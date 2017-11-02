@@ -1,0 +1,74 @@
+﻿<div class="form-group row">
+    <div class="col-sm-8" name="amountdetails">
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label for="SendingCurrency">Sending Currency : </label>
+                <div class="col-sm-12 p-a-0">
+                    <select name="FamRole" id="ddlSendingCurrency" ng-model="PaymentModel.SendingCurrencyId" class="form-control" disabled="disabled">
+                        <option value="0">-- Select Country --</option>
+                        <option ng-repeat="Currency in Currencydetails" value="{{Currency.CurrencyId}}">{{Currency.CurrencyTitle}}</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <label for="SendingAmount">Transfer Amount: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-12 p-a-0">
+                    <input type="number" class="form-control" id="SendingAmount" ng-keyup="convertAmount()" placeholder="00.00" ng-model="PaymentModel.SendingAmount" required data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 m-t-1">
+            <div class="col-sm-6">
+                <label for="ReceivingCurrencyId">Receiving Currency : </label>
+                <div class="col-sm-12 p-a-0">
+                    <select name="ReceivingCurrency" id="ReceivingCurrency" ng-model="PaymentModel.ReceivingCurrencytId" class="form-control" disabled="disabled">
+                        <option value="0">-- Select Country --</option>
+                        <option ng-repeat="Currency in Currencydetails" value="{{Currency.CurrencyId}}">{{Currency.CurrencyTitle}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="ReceivingAmount">Receiving Amount: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="ReceivingAmount" placeholder="00.00" ng-model="PaymentModel.ReceivingAmount" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" disabled="disabled">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-4">
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <label for="Charges">Charges: </label><div class="col-sm-12 p-a-0">
+                    <label class="form-control" id="Charges" ng-model="PaymentModel.Charges" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">00.00</label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="Fees">Fees: </label><div class="col-sm-12 p-a-0">
+                    <label class="form-control" id="Fees" ng-model="PaymentModel.Fees" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">00.00</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 m-t-1">
+            <div class="col-sm-6">
+                <label for="Tax">Tax: </label><div class="col-sm-12 p-a-0">
+                    <label class="form-control" id="Tax" ng-model="PaymentModel.Tax" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">00.00</label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="ExchangeRate">Exchange Rate: </label><div class="col-sm-12 p-a-0">
+                    <label class="form-control" id="ExchangeRate" ng-model="PaymentModel.ExchangeRate" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">64.60</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 m-t-1">
+        <div class=" pull-right padding">
+            <button type="submit" class="btn btn-primary" ng-disabled="!PaymentModel.SendingAmount" onclick="$('#ben a').trigger('click'); $('#tran a').removeClass('active');" >Next</button>
+        </div>
+    </div>
+</div>
+

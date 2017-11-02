@@ -172,12 +172,10 @@ var authorisedCustomer = [];
             vm.authorisedUser = authorisedUser;
         }
 
-        //if ($window.sessionStorage.authorisedCustomer) {
-        //    authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
-        //    vm.authorisedCustomer = authorisedCustomer;
-        //}
-
-
+        if ($window.sessionStorage.authorisedCustomer) {
+            authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
+            vm.authorisedCustomer = authorisedCustomer;
+        }
     };
 
     function chatModalInstanceCtrl($uibModalInstance, $uibModal) {

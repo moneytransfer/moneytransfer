@@ -292,12 +292,14 @@ public class AuthrozieTranscation {
 								ResultSet _ResultSetSourceCountry = _MYSQLHelper.GetResultSet("SELECT * FROM currency where CurrencyId='"+_AuthrozieTranscation.SendingCurrencyId+"'",_Connection);
 								if (_ResultSetSourceCountry.next())
 								{
-									_AuthrozieTranscation.setSourceCountryId(_ResultSetSourceCountry.getInt("country_id"));
+									int SourceCountryId=(_ResultSetSourceCountry.getInt("country_id"));
+									_AuthrozieTranscation.setSourceCountryId(SourceCountryId);
 								
 									ResultSet _ResultSetDestinationCountry = _MYSQLHelper.GetResultSet("SELECT * FROM currency where CurrencyId='"+_AuthrozieTranscation.ReceivingCurrencytId+"'",_Connection);
 									if (_ResultSetDestinationCountry.next())
 									{
-										_AuthrozieTranscation.setDestinationCountryId(_ResultSetSourceCountry.getInt("country_id"));
+										int DestinationCountryId=(_ResultSetDestinationCountry.getInt("country_id"));
+										_AuthrozieTranscation.setDestinationCountryId(DestinationCountryId);
 									
 										  ApiOperationBase.setEnvironment(Environment.SANDBOX);
 										  MerchantAuthenticationType merchantAuthenticationType  = new MerchantAuthenticationType() ;

@@ -13,4 +13,5 @@ angular
     'ui.jq',
     'ngTouch',
     'pascalprecht.translate'
+    
   ]);

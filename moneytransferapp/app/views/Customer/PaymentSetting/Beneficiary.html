@@ -1,0 +1,143 @@
+﻿<div class="form-group row">
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <div class="col-sm-12">
+                <div class="col-sm-6 p-a-0">
+                    <label for="Beneficiary">Beneficiary : </label>
+                    <div class="col-sm-12 p-a-0">
+                        <select name="Beneficiary" id="BeneficiaryId" ng-model="PaymentModel.BeneficiaryId" class="form-control" ng-change="selectedBeneficiary(PaymentModel.BeneficiaryId)" required>
+                            <option value="0">-- Select Beneficiary --</option>
+                            <option ng-repeat="Beneficiary in Beneficiaries" value="{{Beneficiary.BeneficiaryId}}">{{Beneficiary.FirstName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 m-t-2">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary pull-right" ng-click="addNewBeneficiary()"><i class="glyphicon glyphicon-plus"></i>Add Beneficiary </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 m-t-1">
+                <div class="col-sm-6 p-a-0">
+                    <label for="Name">First Name: </label>
+                    <div class="col-sm-12 p-a-0">
+                        <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="BeneficiaryModel.FirstName" disabled="disabled" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-sm-6 p-a-0">
+                    <label for="LastName">Last Name:</label>
+                    <div class="col-sm-12 p-a-0">
+                        <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="BeneficiaryModel.LastName" disabled="disabled">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 m-t-1">
+                <label for="Email">Email: </label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="BeneficiaryModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" disabled="disabled">
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <label for="Phone">Phone: </label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="number" min="10" class="form-control" id="Username" placeholder="Phone" ng-model="BeneficiaryModel.Phone"  disabled="disabled"/>
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <label for="ZipCode">Date Of Birth : </label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control datetimepicker" id="Text2" placeholder="yyyy-mm-dd" ng-model="BeneficiaryModel.DOB " disabled="disabled">
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <label for="Country">Beneficiary type : </label>
+                <div class="col-sm-12 p-a-0">
+                    <select name="FamRole" id="Select3" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control" disabled="disabled">
+                        <option value="0">-- Select Beneficiary type --</option>
+                        <option ng-repeat="Beneficiary in BeneficiaryType" value="{{Beneficiary.BeneficiaryTypeId}}">{{Beneficiary.BeneficiaryDescription}}</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-6">
+
+            <div class="col-sm-12">
+                <label for="Address1">Address1 :</label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="Address1" placeholder="Address1" ng-model="BeneficiaryModel.Address1 " disabled="disabled" maxlength="30">
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <label for="Address2">Address2 : </label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="Address2" placeholder="Address2" ng-model="BeneficiaryModel.Address2 " disabled="disabled" maxlength="30">
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <label for="City">City : </label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="City" placeholder="City Name" ng-model="BeneficiaryModel.City " disabled="disabled" maxlength="30">
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <label for="State">State :</label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="State" placeholder="State Name" ng-model="BeneficiaryModel.State " disabled="disabled" maxlength="30">
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <label for="ZipCode">ZipCode : </label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="number" class="form-control" id="ZipCode" placeholder="ZipCode" ng-model="BeneficiaryModel.ZipCode" disabled="disabled">
+                </div>
+            </div>
+            <div class="col-sm-12 m-t-1">
+                <label for="Country">Country :</label>
+                <div class="col-sm-12 p-a-0">
+                    <select name="FamRole" id="ddlCountry" ng-model="BeneficiaryModel.CountryId" class="form-control" disabled="disabled">
+                        <option value="0">-- Select Country --</option>
+                        <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 m-t-1">
+        <div class=" pull-right padding">
+            <button type="submit" class="btn btn-primary" ng-disabled="!BeneficiaryModel.FirstName" onclick="$('#CashPickUp a').trigger('click'); $('#CashPickUp').addClass('active');">
+                Next</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addBeneficiaryconfirm">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div ng-include="'views/Customer/PaymentSetting/addEditBeneficiary.html'"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cencel</button>
+            </div>
+        </div>
+    </div>
+</div>

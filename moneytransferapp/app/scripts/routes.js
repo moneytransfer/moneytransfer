@@ -59,7 +59,7 @@
                   },
                   title: 'Signin',
                   classes: 'no-padding no-footer layout-static',
-                  //controller: "authenticateController"
+                  controller: "authenticateController"
               })
 
 
@@ -77,8 +77,8 @@
             })
 
               .state('app.login', {
-                  url: '/login',
-                  templateUrl: 'views/Customer/Customer_login.html',
+                  url: '/customersignin',
+                  templateUrl: 'views/Customer/CustomerLogin/Customer_login.html',
                   resolve: {
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
@@ -88,8 +88,24 @@
                   },
                   title: 'Login',
                   classes: 'no-padding no-footer layout-static',
-                  controller: "authenticateController"
+                  controller: "CustomerauthenticateController"
               })
+
+               .state('app.register', {
+                   url: '/register',
+                   templateUrl: 'views/Customer/CustomerLogin/Customer_Register.html',
+                   params: { CompanyId: 0 },
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/CustomerLogin.js');
+                           });
+                       }]
+                   },
+                   title: 'Register',
+                   classes: 'no-padding no-footer layout-static',
+                   //controller: "authenticateController"
+               })
 
                .state('app.Customer_dashboard', {
                    url: '/Customer_dashboard',
@@ -100,8 +116,118 @@
                        }]
                    },
                    title: 'Dashboard',
-                   controller: "authenticateController"
+                   controller: "CustomerauthenticateController"
                })
+
+               .state('app.profile', {
+                   url: '/Profile',
+                   templateUrl: 'views/Customer/CustomerLogin/Customer_Profile.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/CustomerLogin.js');
+                           });
+                       }]
+                   },
+                   title: 'Customer Profile',
+                   classes: 'no-padding no-footer layout-static',
+                   controller: "CustomerauthenticateController"
+               })
+
+
+              .state('app.PaymentDetails', {
+                  url: '/PaymentDetails',
+                  templateUrl: 'views/Customer/PaymentSetting/PaymentMethodDetails.html',
+                  params: { CompanyId: 0 },
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/PaymentMethod.js');
+                          });
+                      }]
+                  },
+                  title: 'Payment Process',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "CustomerauthenticateController"
+              })
+
+              .state('app.Beneficiary', {
+                  url: '/Beneficiary',
+                  templateUrl: 'views/Customer/Beneficiary/manageBeneficiary.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/Beneficiary.js');
+                          });
+                      }]
+                  },
+                  title: 'Beneficiary Details',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "CustomerauthenticateController"
+              })
+
+              .state('app.add_Beneficiary', {
+                  url: '/add_Beneficiary',
+                  templateUrl: 'views/Customer/Beneficiary/addEditBeneficiary.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/Beneficiary.js');
+                          });
+                      }]
+                  },
+                  title: 'Beneficiary Details',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "CustomerauthenticateController"
+              })
+
+              .state('app.Edit_Beneficiary', {
+                  url: '/Edit_Beneficiary',
+                  templateUrl: 'views/Customer/Beneficiary/addEditBeneficiary.html',
+                  params: { BeneficiaryId: 0 },
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/Beneficiary.js');
+                          });
+                      }]
+                  },
+                  title: 'Beneficiary Details',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "CustomerauthenticateController"
+              })
+
+              .state('app.Transaction', {
+                  url: '/Transaction',
+                  templateUrl: 'views/Customer/Transaction/manageTransaction.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/Transaction.js');
+                          });
+                      }]
+                  },
+                  title: 'Transaction Details',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "CustomerauthenticateController"
+              })
+
+              .state('app.Thankyou', {
+                  url: '/Thankyou',
+                  templateUrl: 'views/Customer/PaymentSetting/ThankyouPage.html',
+                  params: { CompanyId: 0 },
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/PaymentMethod.js');
+                          });
+                      }]
+                  },
+                  title: '',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "CustomerauthenticateController"
+              })
+
 
 
               .state('app.Manage_User', {
