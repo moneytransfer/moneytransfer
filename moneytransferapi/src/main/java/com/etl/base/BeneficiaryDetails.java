@@ -198,8 +198,8 @@ public class BeneficiaryDetails {
 								if (_ResultSetCountry.next())
 								{
 									
-									//if(_BeneficiaryDetails.BeneficiaryId<=0)
-									//{
+									if(_BeneficiaryDetails.BeneficiaryId<=0)
+									{
 										String sInsertStatement = "INSERT INTO beneficiary( CompanyId, BeneficiaryTypeId, CustomerId,FirstName,LastName,Phone,Email,Address1,Address2,City,State,ZipCode,CountryId,DOB,IsActive,CreatedDate)";
 										 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?)";
 										   _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
@@ -229,41 +229,46 @@ public class BeneficiaryDetails {
 											clear(_BeneficiaryDetails);
 											}
 										
-									//}
-									//else
-									//{
-										//ResultSet _ResultSetBeneficiary = _MYSQLHelper.GetResultSet("SELECT BeneficiaryId FROM beneficiary where BeneficiaryId='"+_BeneficiaryDetails.BeneficiaryId+"'",_Connection);
-										//if (_ResultSetBeneficiary.next())
-										//{
-											//String sInsertStatement ="UPDATE beneficiary SET CompanyId = ?,BeneficiaryTypeId = ? ,CustomerId =?,FirstName = ? ,LastName =?,Phone = ?,Email = ?,Address1 = ?,Address2 = ?,City = ?,State = ?,ZipCode = ?,CountryId = ?,DOB = ?,IsActive = ? "+ " WHERE BeneficiaryId = ?";
-											//_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
-											//_PreparedStatement.setInt(1, _BeneficiaryDetails.CompanyId);							
-											//_PreparedStatement.setInt(2, _BeneficiaryDetails.BeneficiaryTypeId);
-											////_PreparedStatement.setInt(3, _BeneficiaryDetails.CustomerId);
-											//_PreparedStatement.setString(4, _BeneficiaryDetails.FirstName);
-											//_PreparedStatement.setString(5, _BeneficiaryDetails.LastName);
-											//_PreparedStatement.setString(6, _BeneficiaryDetails.Phone);
-											//_PreparedStatement.setString(7, _BeneficiaryDetails.Email);
-											//_PreparedStatement.setString(8, _BeneficiaryDetails.Address1);
-											//_PreparedStatement.setString(9, _BeneficiaryDetails.Address2);
-											//_PreparedStatement.setString(10, _BeneficiaryDetails.City);
-											//_PreparedStatement.setString(11, _BeneficiaryDetails.State);
-											//_PreparedStatement.setString(12, _BeneficiaryDetails.ZipCode);
-											//_PreparedStatement.setInt(13, _BeneficiaryDetails.CountryId);
-											//_PreparedStatement.setString(14, _BeneficiaryDetails.DOB);
-											//_PreparedStatement.setBoolean(15, _BeneficiaryDetails.IsActive);
-											//_PreparedStatement.setInt(16, _BeneficiaryDetails.BeneficiaryId);
-											//_PreparedStatement.executeUpdate();
-											//BeneficiaryDetails.setResult("Sucess");
-											//clear(_BeneficiaryDetails);
+									}
+									else
+									{
+										ResultSet _ResultSetBeneficiary = _MYSQLHelper.GetResultSet("SELECT BeneficiaryId FROM beneficiary where BeneficiaryId='"+_BeneficiaryDetails.BeneficiaryId+"'",_Connection);
+										if (_ResultSetBeneficiary.next())
+										{
+											String sInsertStatement ="UPDATE beneficiary SET CompanyId = ?,BeneficiaryTypeId = ? ,CustomerId =?,FirstName = ? ,LastName =?,Phone = ?,Email = ?,Address1 = ?,Address2 = ?,City = ?,State = ?,ZipCode = ?,CountryId = ?,DOB = ?,IsActive = ? "+ " WHERE BeneficiaryId = ?";
+											_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+											_PreparedStatement.setInt(1, _BeneficiaryDetails.CompanyId);							
+											_PreparedStatement.setInt(2, _BeneficiaryDetails.BeneficiaryTypeId);
+											_PreparedStatement.setInt(3, _BeneficiaryDetails.CustomerId);
+											_PreparedStatement.setString(4, _BeneficiaryDetails.FirstName);
+											_PreparedStatement.setString(5, _BeneficiaryDetails.LastName);
+											_PreparedStatement.setString(6, _BeneficiaryDetails.Phone);
+											_PreparedStatement.setString(7, _BeneficiaryDetails.Email);
+											_PreparedStatement.setString(8, _BeneficiaryDetails.Address1);
+											_PreparedStatement.setString(9, _BeneficiaryDetails.Address2);
+											_PreparedStatement.setString(10, _BeneficiaryDetails.City);
+											_PreparedStatement.setString(11, _BeneficiaryDetails.State);
+											_PreparedStatement.setString(12, _BeneficiaryDetails.ZipCode);
+											_PreparedStatement.setInt(13, _BeneficiaryDetails.CountryId);
+											_PreparedStatement.setString(14, _BeneficiaryDetails.DOB);
+											_PreparedStatement.setBoolean(15, _BeneficiaryDetails.IsActive);
+											_PreparedStatement.setInt(16, _BeneficiaryDetails.BeneficiaryId);
+										    _PreparedStatement.executeUpdate();
+											_BeneficiaryDetails.setResult("Sucess");
+											clear(_BeneficiaryDetails);
 											
-										//}
-										//else{
-										//	_BeneficiaryDetails.setResult("Failed!");
-										//	_BeneficiaryDetails.setError("Invalid Beneficiary Id !");
-									////		clear(_BeneficiaryDetails);
-									//	}
-									//}
+										}
+										else{
+											_BeneficiaryDetails.setResult("Failed!");
+											_BeneficiaryDetails.setError("Invalid Beneficiary Id !");
+											clear(_BeneficiaryDetails);
+									  }
+									}
+								}
+								else{
+									_BeneficiaryDetails.setResult("Failed!");
+									_BeneficiaryDetails.setError("Invalid Country Id !");
+									clear(_BeneficiaryDetails);
 								}
 						//	}
 						//	else{
@@ -294,7 +299,8 @@ public class BeneficiaryDetails {
 			
 			catch (Exception e) {
 				_BeneficiaryDetails.setResult("Failed!");
-				_BeneficiaryDetails.setError(e.getMessage() + " Stack Trace: " + e.getStackTrace());
+				//_BeneficiaryDetails.setError(e.getMessage() + " Stack Trace: " + e.getStackTrace());
+				clear(_BeneficiaryDetails);
 			}
 		return _BeneficiaryDetails;
 	}

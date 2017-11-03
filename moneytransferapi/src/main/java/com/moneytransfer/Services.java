@@ -19,6 +19,7 @@ import com.etl.base.Currency;
 import com.etl.base.CustomerDetail;
 import com.etl.base.PaymentMethod;
 import com.etl.base.PaymentType;
+import com.etl.base.StripeTest;
 import com.etl.base.UserDetail;
 
 
@@ -304,6 +305,13 @@ public class Services {
     public ArrayList<AuthrozieTranscation> getBeneficiaryDetailsDetails(AuthrozieTranscation _AuthrozieTranscation) {
     	
       return AuthrozieTranscation.getAuthrozieTranscationDetails(_AuthrozieTranscation.CustomerId);
+    }
+    
+    @POST
+    @Path("test")    
+    @Produces("application/json")  
+    public StripeTest addAuthroziepayment(StripeTest _StripeTest) {
+      return new StripeTest().main(_StripeTest);
     }
 }
 
