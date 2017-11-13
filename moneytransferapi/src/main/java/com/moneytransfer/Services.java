@@ -17,6 +17,7 @@ import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
 import com.etl.base.Currency;
 import com.etl.base.CustomerDetail;
+import com.etl.base.PaymentFees;
 import com.etl.base.PaymentMethod;
 import com.etl.base.PaymentType;
 import com.etl.base.StripeTest;
@@ -312,6 +313,37 @@ public class Services {
     @Produces("application/json")  
     public StripeTest addAuthroziepayment(StripeTest _StripeTest) {
       return new StripeTest().main(_StripeTest);
+    }
+    
+    @POST
+    @Path("addPaymentFees")    
+    @Produces("application/json")
+    public PaymentFees getBeneficiaryDetailsDetails(PaymentFees _PaymentFees) {
+    	
+      return new PaymentFees().addPaymentFees(_PaymentFees);
+    }
+    @POST
+    @Path("getPaymentFeesById")    
+    @Produces("application/json")
+    public PaymentFees getPaymentFeesById(PaymentFees _PaymentFees) {
+    	
+      return new PaymentFees().getPaymentFeesById(_PaymentFees);
+    }
+    
+    @GET
+    @Path("getPaymentFeesDetails")    
+    @Produces("application/json")
+    public ArrayList<PaymentFees> getPaymentFeesBy() {
+    	
+      return PaymentFees.getPaymentFeesDetails();
+    }
+    
+    @POST
+    @Path("deletePaymentFeesById")    
+    @Produces("application/json")
+    public PaymentFees deletePaymentFeesById(PaymentFees _PaymentFees) {
+    	
+      return new PaymentFees().deletePaymentFeesById(_PaymentFees);
     }
 }
 
