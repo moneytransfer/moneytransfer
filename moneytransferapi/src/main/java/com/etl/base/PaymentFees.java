@@ -163,7 +163,7 @@ public class PaymentFees {
 						ResultSet _PaymentFess = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfess where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
 						if (_PaymentFess.next())
 						{
-							String sInsertStatement ="UPDATE paymentfess SET PaymentMethodId = ?,country_id = ? ,StartingAmount =?,StartingAmount = ? ,FeesType =?,Fees = ?,CreatedDate=? "+ " WHERE PaymentFessId = ?";
+							String sInsertStatement ="UPDATE paymentfess SET PaymentMethodId = ?,country_id = ? ,StartingAmount =?,EndAmount = ? ,FeesType =?,Fees = ?,CreatedDate=? "+ " WHERE PaymentFessId = ?";
 							_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 							
 							_PreparedStatement.setInt(1, _PaymentFees.PaymentMethodId);							
