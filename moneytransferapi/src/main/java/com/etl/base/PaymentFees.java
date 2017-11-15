@@ -128,7 +128,7 @@ public class PaymentFees {
 							if (_Country.next())
 							{
 								
-								String sInsertStatement = "INSERT INTO paymentfess( PaymentMethodId, country_id, StartingAmount,EndAmount,FeesType,Fees,CreatedDate)";
+								String sInsertStatement = "INSERT INTO paymentfees( PaymentMethodId, country_id, StartingAmount,EndAmount,FeesType,Fees,CreatedDate)";
 								 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?)";
 								  _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 									_PreparedStatement.setInt(1, _PaymentFees.PaymentMethodId);							
@@ -140,7 +140,7 @@ public class PaymentFees {
 									_PreparedStatement.setString(7, _PaymentFees.CreatedDate);
 									_PreparedStatement.executeUpdate();
 									_PaymentFees.setResult("Sucess");
-									ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(PaymentFessId) AS PaymentFessId FROM paymentfess",_Connection);
+									ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(PaymentFessId) AS PaymentFessId FROM paymentfees",_Connection);
 									if (_ResultSetld.next()){
 									int lastid = _ResultSetld.getInt("PaymentFessId");								
 									_PaymentFees.setPaymentFessId(lastid);}
@@ -160,10 +160,10 @@ public class PaymentFees {
 						}
 					}
 					else{
-						ResultSet _PaymentFess = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfess where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
+						ResultSet _PaymentFess = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfees where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
 						if (_PaymentFess.next())
 						{
-							String sInsertStatement ="UPDATE paymentfess SET PaymentMethodId = ?,country_id = ? ,StartingAmount =?,EndAmount = ? ,FeesType =?,Fees = ?,CreatedDate=? "+ " WHERE PaymentFessId = ?";
+							String sInsertStatement ="UPDATE paymentfees SET PaymentMethodId = ?,country_id = ? ,StartingAmount =?,EndAmount = ? ,FeesType =?,Fees = ?,CreatedDate=? "+ " WHERE PaymentFessId = ?";
 							_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 							
 							_PreparedStatement.setInt(1, _PaymentFees.PaymentMethodId);							
@@ -222,7 +222,7 @@ public class PaymentFees {
 			
 				{
 				
-				 ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfess where IsDeleted=0",_Connection);
+				 ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfees where IsDeleted=0",_Connection);
 				
 					while  (_ResultSet.next())
 					{
@@ -276,7 +276,7 @@ public class PaymentFees {
 			{
 				if(_Connection!=null)
 				{
-					ResultSet _PaymentFessId = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfess where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
+					ResultSet _PaymentFessId = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfees where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
 					if (_PaymentFessId.next())
 					{
 						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -284,7 +284,7 @@ public class PaymentFees {
 						String date=format.format(cal.getTime());
 						_PaymentFees.setDeletedDate(date);
 						_PaymentFees.setIsDeleted((true));
-						String sInsertStatement ="UPDATE paymentfess SET 	IsDeleted = ? "+ ",DeletedDate = ? "+ " WHERE PaymentFessId = ?";
+						String sInsertStatement ="UPDATE paymentfees SET 	IsDeleted = ? "+ ",DeletedDate = ? "+ " WHERE PaymentFessId = ?";
 						_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 						_PreparedStatement.setBoolean(1, _PaymentFees.IsDeleted);
 						_PreparedStatement.setString(2,_PaymentFees.DeletedDate);
@@ -336,7 +336,7 @@ public class PaymentFees {
 			{
 				if(_Connection!=null)
 				{
-					ResultSet _PaymentFessId = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfess where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
+					ResultSet _PaymentFessId = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfees where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
 					if (_PaymentFessId.next())
 					{
 						

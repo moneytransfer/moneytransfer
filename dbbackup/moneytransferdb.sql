@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 13, 2017 at 02:55 PM
+-- Generation Time: Nov 15, 2017 at 12:56 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -497,10 +497,10 @@ INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName
 -- --------------------------------------------------------
 
 --
--- Table structure for table `paymentfess`
+-- Table structure for table `paymentfees`
 --
 
-CREATE TABLE `paymentfess` (
+CREATE TABLE `paymentfees` (
   `PaymentFessId` int(11) NOT NULL,
   `PaymentMethodId` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
@@ -514,13 +514,17 @@ CREATE TABLE `paymentfess` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `paymentfess`
+-- Dumping data for table `paymentfees`
 --
 
-INSERT INTO `paymentfess` (`PaymentFessId`, `PaymentMethodId`, `country_id`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 1, 475, '1000', '2500', 1, '200', '2017-11-13', 0, NULL),
+INSERT INTO `paymentfees` (`PaymentFessId`, `PaymentMethodId`, `country_id`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
+(1, 1, 475, '250', '2500', 1, '200', '2017-11-14', 0, NULL),
 (2, 10, 475, '1000', '2500', 1, '200', '2017-11-13', 0, NULL),
-(3, 1, 475, '1000000', '2500', 2, '200', '2017-11-13', 0, NULL);
+(3, 1, 475, '1000000', '2500', 2, '200', '2017-11-13', 0, NULL),
+(4, 1, 475, '600', '2550', 2, '251', '2017-11-14', 0, NULL),
+(5, 10, 475, '100', '25000', 2, '2000', '2017-11-15', 0, NULL),
+(6, 1, 475, '456', '7865', 1, '260', '2017-11-14', 0, NULL),
+(7, 1, 475, '456', '5765', 1, '260', '2017-11-14', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -705,9 +709,9 @@ ALTER TABLE `customer`
   ADD KEY `country_id` (`country_id`);
 
 --
--- Indexes for table `paymentfess`
+-- Indexes for table `paymentfees`
 --
-ALTER TABLE `paymentfess`
+ALTER TABLE `paymentfees`
   ADD PRIMARY KEY (`PaymentFessId`),
   ADD KEY `PaymentMethodId` (`PaymentMethodId`),
   ADD KEY `country_id` (`country_id`);
@@ -787,10 +791,10 @@ ALTER TABLE `currency`
 ALTER TABLE `customer`
   MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
--- AUTO_INCREMENT for table `paymentfess`
+-- AUTO_INCREMENT for table `paymentfees`
 --
-ALTER TABLE `paymentfess`
-  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `paymentfees`
+  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `paymentmethod`
 --
@@ -841,11 +845,11 @@ ALTER TABLE `customer`
   ADD CONSTRAINT `customer_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
 
 --
--- Constraints for table `paymentfess`
+-- Constraints for table `paymentfees`
 --
-ALTER TABLE `paymentfess`
-  ADD CONSTRAINT `paymentfess_ibfk_1` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`),
-  ADD CONSTRAINT `paymentfess_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
+ALTER TABLE `paymentfees`
+  ADD CONSTRAINT `paymentfees_ibfk_1` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`),
+  ADD CONSTRAINT `paymentfees_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
 
 --
 -- Constraints for table `paymentmethod`
