@@ -19,7 +19,13 @@ public class PaymentFees {
 	public double EndAmount;
 	public int FeesType;
 	public double Fees;
+	
+	public int DestinationCountry;
+	public int FeesCategoryId;
+	public int AgentId;	
 	public String CreatedDate;
+	public boolean ChargeSendingAmount;
+	
 	public boolean IsDeleted;
 	public String DeletedDate;
 	public String Result;
@@ -66,6 +72,25 @@ public class PaymentFees {
 	}
 	
 	
+	private void setDestinationCountry(int DestinationCountry){
+		this.DestinationCountry = DestinationCountry;
+	}	
+	private int getDestinationCountry(){
+		return DestinationCountry;
+	}
+	private void setFeesCategoryId(int FeesCategoryId){
+		this.FeesCategoryId = FeesCategoryId;
+	}	
+	private int getFeesCategoryId(){
+		return FeesCategoryId;
+	}
+	private void setAgentId(int AgentId){
+		this.AgentId = AgentId;
+	}	
+	private int getAgentId(){
+		return AgentId;
+	}
+	
 	private void setFees(double Fees){
 		this.Fees = Fees;
 	}	
@@ -106,9 +131,17 @@ public class PaymentFees {
 		return IsDeleted;
 	}
 	
+	private void setChargeSendingAmount(Boolean ChargeSendingAmount){
+		this.ChargeSendingAmount = ChargeSendingAmount;
+	}	
+	private Boolean getChargeSendingAmount(){
+		return ChargeSendingAmount;
+	}
+	
 	public PaymentFees addPaymentFees(PaymentFees _PaymentFees) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		 PreparedStatement _PreparedStatement = null;
+		 MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 			try
 			{
 				if(_Connection!=null)
@@ -116,74 +149,114 @@ public class PaymentFees {
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Calendar cal = Calendar.getInstance();
 					String date=format.format(cal.getTime());
-					_PaymentFees.setCreatedDate(date);	
-					MYSQLHelper _MYSQLHelper = new MYSQLHelper();
-					if(_PaymentFees.PaymentFessId <=0)
+					_PaymentFees.setCreatedDate(date);
+					ResultSet _ResultSetPaymentMethod = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where PaymentMethodId='"+_PaymentFees.PaymentMethodId+"'",_Connection);
+					if (_ResultSetPaymentMethod.next())
 					{
-					
-						ResultSet _ResultSetPaymentMethod = _MYSQLHelper.GetResultSet("SELECT * FROM paymentmethod where PaymentMethodId='"+_PaymentFees.PaymentMethodId+"'",_Connection);
-						if (_ResultSetPaymentMethod.next())
+						ResultSet _Country = _MYSQLHelper.GetResultSet("SELECT * FROM currency where country_id='"+_PaymentFees.CountryId+"'",_Connection);
+						if (_Country.next())
 						{
-							ResultSet _Country = _MYSQLHelper.GetResultSet("SELECT * FROM currency where country_id='"+_PaymentFees.CountryId+"'",_Connection);
-							if (_Country.next())
+							ResultSet _destinationCountry = _MYSQLHelper.GetResultSet("SELECT * FROM currency where country_id='"+_PaymentFees.DestinationCountry+"'",_Connection);
+							if (_destinationCountry.next())
 							{
+								ResultSet _feesCategoryId = _MYSQLHelper.GetResultSet("SELECT * FROM feescategory where FeesCategoryId='"+_PaymentFees.FeesCategoryId+"'",_Connection);
+								if (_feesCategoryId.next())
+								{
+									ResultSet _agentId = _MYSQLHelper.GetResultSet("SELECT * FROM agent where AgentId='"+_PaymentFees.AgentId+"'",_Connection);
+									if (_agentId.next())
+									{
+										
+										if(_PaymentFees.PaymentFessId <=0)
+										{
+											
+																String sInsertStatement = "INSERT INTO paymentfees( PaymentMethodId, country_id,DestinationCountry,FeesCategoryId,AgentId,StartingAmount,EndAmount,FeesType,Fees,ChargeSendingAmount,CreatedDate)";
+																 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?,?,?,?,?)";
+																  _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+																	_PreparedStatement.setInt(1, _PaymentFees.PaymentMethodId);							
+																	_PreparedStatement.setInt(2, _PaymentFees.CountryId);
+																	_PreparedStatement.setInt(3, _PaymentFees.DestinationCountry);
+																	_PreparedStatement.setInt(4, _PaymentFees.FeesCategoryId);
+																	_PreparedStatement.setInt(5, _PaymentFees.AgentId);
+																	_PreparedStatement.setDouble(6, _PaymentFees.StartingAmount);
+																	_PreparedStatement.setDouble(7, _PaymentFees.EndAmount);
+																	_PreparedStatement.setInt(8, _PaymentFees.FeesType);
+																	_PreparedStatement.setDouble(9, _PaymentFees.Fees);
+																	_PreparedStatement.setBoolean(10, _PaymentFees.ChargeSendingAmount);
+																	_PreparedStatement.setString(11, _PaymentFees.CreatedDate);
+																	_PreparedStatement.executeUpdate();
+																	_PaymentFees.setResult("Sucess");
+																	ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(PaymentFessId) AS PaymentFessId FROM paymentfees",_Connection);
+																	if (_ResultSetld.next()){
+																	int lastid = _ResultSetld.getInt("PaymentFessId");								
+																	_PaymentFees.setPaymentFessId(lastid);}
+																	 clear(_PaymentFees);
+															
+										}
+										else{
+											ResultSet _PaymentFess = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfees where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
+											if (_PaymentFess.next())
+											{
+												String sInsertStatement ="UPDATE paymentfees SET PaymentMethodId = ?,country_id = ? ,DestinationCountry = ?,FeesCategoryId = ?,AgentId = ?,StartingAmount =?,EndAmount = ? ,FeesType =?,Fees = ?,ChargeSendingAmount = ?,CreatedDate=? "+ " WHERE PaymentFessId = ?";
+												_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+												
+												_PreparedStatement.setInt(1, _PaymentFees.PaymentMethodId);							
+												_PreparedStatement.setInt(2, _PaymentFees.CountryId);
+												_PreparedStatement.setInt(3, _PaymentFees.DestinationCountry);
+												_PreparedStatement.setInt(4, _PaymentFees.FeesCategoryId);
+												_PreparedStatement.setInt(5, _PaymentFees.AgentId);
+												_PreparedStatement.setDouble(6, _PaymentFees.StartingAmount);
+												_PreparedStatement.setDouble(7, _PaymentFees.EndAmount);
+												_PreparedStatement.setInt(8, _PaymentFees.FeesType);
+												_PreparedStatement.setDouble(9, _PaymentFees.Fees);
+												_PreparedStatement.setBoolean(10, _PaymentFees.ChargeSendingAmount);
+												_PreparedStatement.setString(11, _PaymentFees.CreatedDate);
+												_PreparedStatement.setInt(12, _PaymentFees.PaymentFessId);
+												_PreparedStatement.executeUpdate();
+												_PaymentFees.setResult("Sucess");
+												clear(_PaymentFees);
+											}
+											
+											else{
+												_PaymentFees.setResult("Failed!");
+												_PaymentFees.setError("Invalid Payment Fess Id!");
+												clear(_PaymentFees);
+											}
+										}
+									}
+									else{
+										_PaymentFees.setResult("Failed!");
+										_PaymentFees.setError("Invalid Agent Id!");
+									     clear(_PaymentFees);
+									}
+								}
+								else{
+									_PaymentFees.setResult("Failed!");
+									_PaymentFees.setError("Invalid Fees Category Id!");
+								     clear(_PaymentFees);
+								}
 								
-								String sInsertStatement = "INSERT INTO paymentfees( PaymentMethodId, country_id, StartingAmount,EndAmount,FeesType,Fees,CreatedDate)";
-								 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?)";
-								  _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
-									_PreparedStatement.setInt(1, _PaymentFees.PaymentMethodId);							
-									_PreparedStatement.setInt(2, _PaymentFees.CountryId);
-									_PreparedStatement.setDouble(3, _PaymentFees.StartingAmount);
-									_PreparedStatement.setDouble(4, _PaymentFees.EndAmount);
-									_PreparedStatement.setInt(5, _PaymentFees.FeesType);
-									_PreparedStatement.setDouble(6, _PaymentFees.Fees);
-									_PreparedStatement.setString(7, _PaymentFees.CreatedDate);
-									_PreparedStatement.executeUpdate();
-									_PaymentFees.setResult("Sucess");
-									ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(PaymentFessId) AS PaymentFessId FROM paymentfees",_Connection);
-									if (_ResultSetld.next()){
-									int lastid = _ResultSetld.getInt("PaymentFessId");								
-									_PaymentFees.setPaymentFessId(lastid);}
-									 clear(_PaymentFees);
-									
 							}
 							else{
 								_PaymentFees.setResult("Failed!");
-								_PaymentFees.setError("Invalid Payment Method Id!");
+								_PaymentFees.setError("Invalid Deatination Country Id!");
 							     clear(_PaymentFees);
 							}
+							
 						}
 						else{
 							_PaymentFees.setResult("Failed!");
-							_PaymentFees.setError("Invalid Payment Method Id!");
+							_PaymentFees.setError("Invalid source Country Id!");
 						     clear(_PaymentFees);
 						}
 					}
 					else{
-						ResultSet _PaymentFess = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfees where PaymentFessId='"+_PaymentFees.PaymentFessId+"'",_Connection);
-						if (_PaymentFess.next())
-						{
-							String sInsertStatement ="UPDATE paymentfees SET PaymentMethodId = ?,country_id = ? ,StartingAmount =?,EndAmount = ? ,FeesType =?,Fees = ?,CreatedDate=? "+ " WHERE PaymentFessId = ?";
-							_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
-							
-							_PreparedStatement.setInt(1, _PaymentFees.PaymentMethodId);							
-							_PreparedStatement.setInt(2, _PaymentFees.CountryId);	
-							_PreparedStatement.setDouble(3, _PaymentFees.StartingAmount);
-							_PreparedStatement.setDouble(4, _PaymentFees.EndAmount);
-							_PreparedStatement.setInt(5, _PaymentFees.FeesType);
-							_PreparedStatement.setDouble(6, _PaymentFees.Fees);
-							_PreparedStatement.setString(7, _PaymentFees.CreatedDate);
-							_PreparedStatement.setInt(8, _PaymentFees.PaymentFessId);
-							_PreparedStatement.executeUpdate();
-							_PaymentFees.setResult("Sucess");
-							clear(_PaymentFees);
-						}
-						else{
-							_PaymentFees.setResult("Failed!");
-							_PaymentFees.setError("Invalid Payment Fess Id!");
-							clear(_PaymentFees);
-						}
+						_PaymentFees.setResult("Failed!");
+						_PaymentFees.setError("Invalid Payment Method Id!");
+					     clear(_PaymentFees);
 					}
+					
+					
+					
 				}
 				else{
 					_PaymentFees.setResult("Failed!");
@@ -235,6 +308,10 @@ public class PaymentFees {
 						_PaymentFees.setEndAmount(_ResultSet.getDouble("EndAmount"));
 						_PaymentFees.setFees(_ResultSet.getDouble("Fees"));
 						_PaymentFees.setFeesType(_ResultSet.getInt("FeesType"));
+						_PaymentFees.setDestinationCountry(_ResultSet.getInt("DestinationCountry"));
+						_PaymentFees.setFeesCategoryId(_ResultSet.getInt("FeesCategoryId"));
+						_PaymentFees.setAgentId(_ResultSet.getInt("AgentId"));
+						_PaymentFees.setChargeSendingAmount(_ResultSet.getBoolean("ChargeSendingAmount"));
 						_PaymentFees.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_PaymentFees.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_PaymentFees.setDeletedDate(_ResultSet.getString("DeletedDate"));
@@ -347,6 +424,10 @@ public class PaymentFees {
 						_PaymentFees.setEndAmount(_PaymentFessId.getDouble("EndAmount"));
 						_PaymentFees.setFees(_PaymentFessId.getDouble("Fees"));
 						_PaymentFees.setFeesType(_PaymentFessId.getInt("FeesType"));
+						_PaymentFees.setDestinationCountry(_PaymentFessId.getInt("DestinationCountry"));
+						_PaymentFees.setFeesCategoryId(_PaymentFessId.getInt("FeesCategoryId"));
+						_PaymentFees.setAgentId(_PaymentFessId.getInt("AgentId"));
+						_PaymentFees.setChargeSendingAmount(_PaymentFessId.getBoolean("ChargeSendingAmount"));
 						_PaymentFees.setCreatedDate(_PaymentFessId.getString("CreatedDate"));
 						_PaymentFees.setIsDeleted(_PaymentFessId.getBoolean("IsDeleted"));
 						_PaymentFees.setDeletedDate(_PaymentFessId.getString("DeletedDate"));

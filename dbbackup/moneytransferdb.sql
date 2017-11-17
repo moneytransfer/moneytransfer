@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 15, 2017 at 12:56 PM
+-- Generation Time: Nov 17, 2017 at 02:13 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -19,6 +19,46 @@ SET time_zone = "+00:00";
 --
 -- Database: `moneytransferdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `agent`
+--
+
+CREATE TABLE `agent` (
+  `AgentId` int(11) NOT NULL,
+  `AgentName` varchar(100) NOT NULL,
+  `customer_Id` int(11) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `Phone` varchar(15) NOT NULL,
+  `AgentCode` varchar(100) NOT NULL,
+  `Email` varchar(50) NOT NULL,
+  `SerialNumberPrefix` varchar(100) NOT NULL,
+  `Address1` varchar(200) NOT NULL,
+  `Address2` varchar(200) DEFAULT NULL,
+  `SerialNumberLength` varchar(50) NOT NULL,
+  `City` varchar(50) NOT NULL,
+  `PostalCode` varchar(20) NOT NULL,
+  `BureauDeChange` tinyint(1) NOT NULL DEFAULT '0',
+  `IsAllowedCreateAgent` tinyint(1) NOT NULL DEFAULT '0',
+  `AllowedCasiherTellerApproval` tinyint(1) NOT NULL DEFAULT '0',
+  `ApproveeachTransByCashierTeller` tinyint(1) NOT NULL DEFAULT '0',
+  `CreateComplianceGroup` tinyint(1) NOT NULL DEFAULT '0',
+  `AssignAdminToAgent` int(11) NOT NULL DEFAULT '0',
+  `CreatedDate` datetime NOT NULL,
+  `IsActive` tinyint(1) NOT NULL DEFAULT '1',
+  `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `DeletedDate` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `agent`
+--
+
+INSERT INTO `agent` (`AgentId`, `AgentName`, `customer_Id`, `country_id`, `Phone`, `AgentCode`, `Email`, `SerialNumberPrefix`, `Address1`, `Address2`, `SerialNumberLength`, `City`, `PostalCode`, `BureauDeChange`, `IsAllowedCreateAgent`, `AllowedCasiherTellerApproval`, `ApproveeachTransByCashierTeller`, `CreateComplianceGroup`, `AssignAdminToAgent`, `CreatedDate`, `IsActive`, `IsDeleted`, `DeletedDate`) VALUES
+(0, 'mario', 8, 475, '4234', '34', 'sdfsdf@gmail.com', '4', 'ewrwer', 'rwer', '4', 'rewr', '42434', 0, 0, 0, 0, 0, 0, '2017-11-15 00:00:00', 1, 0, NULL),
+(1, 'Test Agent', 8, 475, '4569871230', '1023', 'test@gmail.com', '45', 'test', 'test', '5', 'test', '10236', 0, 0, 0, 0, 0, 0, '2017-11-16 00:00:00', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -497,6 +537,31 @@ INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `feescategory`
+--
+
+CREATE TABLE `feescategory` (
+  `FeesCategoryId` int(11) NOT NULL,
+  `FeesCategoryName` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `feescategory`
+--
+
+INSERT INTO `feescategory` (`FeesCategoryId`, `FeesCategoryName`) VALUES
+(0, 'PaymentMethod'),
+(1, 'Remittance'),
+(2, 'Money transfer cancellation'),
+(3, 'Wallet money fund transfer'),
+(4, 'Wallet money load cash'),
+(5, 'Airtime topup'),
+(6, 'Bill'),
+(7, 'Wallet money cash out');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `paymentfees`
 --
 
@@ -504,10 +569,14 @@ CREATE TABLE `paymentfees` (
   `PaymentFessId` int(11) NOT NULL,
   `PaymentMethodId` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
+  `DestinationCountry` int(11) NOT NULL,
+  `FeesCategoryId` int(11) NOT NULL,
+  `AgentId` int(11) NOT NULL,
   `StartingAmount` decimal(10,0) NOT NULL,
   `EndAmount` decimal(10,0) NOT NULL,
   `FeesType` int(11) NOT NULL,
   `Fees` decimal(10,0) NOT NULL,
+  `ChargeSendingAmount` tinyint(1) NOT NULL DEFAULT '0',
   `CreatedDate` date NOT NULL,
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `DeletedDate` date DEFAULT NULL
@@ -517,14 +586,15 @@ CREATE TABLE `paymentfees` (
 -- Dumping data for table `paymentfees`
 --
 
-INSERT INTO `paymentfees` (`PaymentFessId`, `PaymentMethodId`, `country_id`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 1, 475, '250', '2500', 1, '200', '2017-11-14', 0, NULL),
-(2, 10, 475, '1000', '2500', 1, '200', '2017-11-13', 0, NULL),
-(3, 1, 475, '1000000', '2500', 2, '200', '2017-11-13', 0, NULL),
-(4, 1, 475, '600', '2550', 2, '251', '2017-11-14', 0, NULL),
-(5, 10, 475, '100', '25000', 2, '2000', '2017-11-15', 0, NULL),
-(6, 1, 475, '456', '7865', 1, '260', '2017-11-14', 0, NULL),
-(7, 1, 475, '456', '5765', 1, '260', '2017-11-14', 0, NULL);
+INSERT INTO `paymentfees` (`PaymentFessId`, `PaymentMethodId`, `country_id`, `DestinationCountry`, `FeesCategoryId`, `AgentId`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `ChargeSendingAmount`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
+(1, 1, 475, 344, 0, 0, '1', '2', 2, '3', 0, '2017-11-14', 0, NULL),
+(2, 1, 475, 344, 0, 0, '1000', '2500', 1, '200', 0, '2017-11-13', 1, '2017-11-17'),
+(3, 1, 475, 344, 0, 0, '1', '2', 1, '3', 0, '2017-11-15', 0, NULL),
+(4, 1, 475, 475, 0, 0, '1', '2500', 1, '300', 0, '2017-11-17', 0, NULL),
+(5, 1, 475, 344, 1, 1, '10', '200', 2, '30', 0, '2017-11-17', 0, NULL),
+(6, 1, 475, 344, 1, 1, '10', '250000', 2, '3000', 0, '2017-11-17', 0, NULL),
+(7, 1, 475, 475, 0, 0, '6', '26', 1, '3', 0, '2017-11-17', 0, NULL),
+(8, 1, 475, 344, 1, 1, '30', '450', 2, '200', 0, '2017-11-17', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -658,6 +728,14 @@ INSERT INTO `users` (`user_id`, `Company_Id`, `first_name`, `last_name`, `email`
 --
 
 --
+-- Indexes for table `agent`
+--
+ALTER TABLE `agent`
+  ADD PRIMARY KEY (`AgentId`),
+  ADD KEY `country_id` (`country_id`),
+  ADD KEY `customer_Id` (`customer_Id`);
+
+--
 -- Indexes for table `authorizepaymentsettings`
 --
 ALTER TABLE `authorizepaymentsettings`
@@ -709,12 +787,21 @@ ALTER TABLE `customer`
   ADD KEY `country_id` (`country_id`);
 
 --
+-- Indexes for table `feescategory`
+--
+ALTER TABLE `feescategory`
+  ADD PRIMARY KEY (`FeesCategoryId`);
+
+--
 -- Indexes for table `paymentfees`
 --
 ALTER TABLE `paymentfees`
   ADD PRIMARY KEY (`PaymentFessId`),
   ADD KEY `PaymentMethodId` (`PaymentMethodId`),
-  ADD KEY `country_id` (`country_id`);
+  ADD KEY `country_id` (`country_id`),
+  ADD KEY `DestinationCountry` (`DestinationCountry`),
+  ADD KEY `FeesCategoryId` (`FeesCategoryId`),
+  ADD KEY `AgentId` (`AgentId`);
 
 --
 -- Indexes for table `paymentmethod`
@@ -756,6 +843,11 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `agent`
+--
+ALTER TABLE `agent`
+  MODIFY `AgentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `authorizepaymentsettings`
 --
 ALTER TABLE `authorizepaymentsettings`
@@ -791,10 +883,15 @@ ALTER TABLE `currency`
 ALTER TABLE `customer`
   MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
+-- AUTO_INCREMENT for table `feescategory`
+--
+ALTER TABLE `feescategory`
+  MODIFY `FeesCategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT for table `paymentfees`
 --
 ALTER TABLE `paymentfees`
-  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `paymentmethod`
 --
@@ -818,6 +915,13 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `agent`
+--
+ALTER TABLE `agent`
+  ADD CONSTRAINT `agent_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
+  ADD CONSTRAINT `agent_ibfk_2` FOREIGN KEY (`customer_Id`) REFERENCES `customer` (`customer_Id`);
 
 --
 -- Constraints for table `authorizepaymentsettings`
@@ -849,7 +953,10 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `paymentfees`
   ADD CONSTRAINT `paymentfees_ibfk_1` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`),
-  ADD CONSTRAINT `paymentfees_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
+  ADD CONSTRAINT `paymentfees_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
+  ADD CONSTRAINT `paymentfees_ibfk_3` FOREIGN KEY (`DestinationCountry`) REFERENCES `currency` (`country_id`),
+  ADD CONSTRAINT `paymentfees_ibfk_4` FOREIGN KEY (`FeesCategoryId`) REFERENCES `feescategory` (`FeesCategoryId`),
+  ADD CONSTRAINT `paymentfees_ibfk_5` FOREIGN KEY (`AgentId`) REFERENCES `agent` (`AgentId`);
 
 --
 -- Constraints for table `paymentmethod`
