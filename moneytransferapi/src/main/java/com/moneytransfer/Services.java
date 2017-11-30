@@ -13,6 +13,7 @@ import com.etl.base.AuthorizePaymentDetails;
 import com.etl.base.AuthrozieTranscation;
 import com.etl.base.BeneficiaryDetails;
 import com.etl.base.BeneficiaryType;
+import com.etl.base.BillPay;
 import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
 import com.etl.base.Currency;
@@ -344,6 +345,13 @@ public class Services {
     public PaymentFees deletePaymentFeesById(PaymentFees _PaymentFees) {
     	
       return new PaymentFees().deletePaymentFeesById(_PaymentFees);
+    }
+    
+    @POST
+    @Path("billPay")    
+    @Produces("application/json")
+    public  BillPay billPay(BillPay _BillPay) {    	
+    	 return new BillPay().billpayment(_BillPay);
     }
 }
 

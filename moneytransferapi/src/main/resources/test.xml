@@ -1,0 +1,36 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:pin="http://www.pininteract.com">
+   <soapenv:Header>
+      <pin:AuthenticationHeader>
+         <!--Optional:-->
+         <pin:userId>Falcontest</pin:userId>
+         <!--Optional:-->
+         <pin:password>Hello@123</pin:password>
+      </pin:AuthenticationHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <pin:BillPay>
+         <!--Optional:-->
+         <pin:version>1.0</pin:version>
+         <pin:skuId>1560</pin:skuId>
+         <pin:amount>02</pin:amount>
+         <!--Optional:-->
+         <pin:accountNumber>?</pin:accountNumber>
+         <!--Optional:-->
+         <pin:checkDigits>?</pin:checkDigits>
+         <!--Optional:-->
+         <pin:correlationId>?</pin:correlationId>
+         <!--Optional:-->
+         <pin:senderName>Ishu Kumar</pin:senderName>
+         <!--Optional:-->
+         <pin:senderMobile>8010276833</pin:senderMobile>
+         <!--Optional:-->
+         <pin:storeId>?</pin:storeId>
+         <!--Optional:-->
+         <pin:mobileNumber>8802176788</pin:mobileNumber>
+         <!--Optional:-->
+         <pin:accountType>?</pin:accountType>
+         <!--Optional:-->
+         <pin:accountStatus>?</pin:accountStatus>
+      </pin:BillPay>
+   </soapenv:Body>
+</soapenv:Envelope>

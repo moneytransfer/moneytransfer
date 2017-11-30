@@ -238,7 +238,7 @@ public class PaymentFees {
 							}
 							else{
 								_PaymentFees.setResult("Failed!");
-								_PaymentFees.setError("Invalid Deatination Country Id!");
+								_PaymentFees.setError("Invalid Destination Country Id!");
 							     clear(_PaymentFees);
 							}
 							
