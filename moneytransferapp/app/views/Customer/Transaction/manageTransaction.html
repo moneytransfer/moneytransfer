@@ -1,12 +1,19 @@
 ﻿<div class="padding" ng-controller="manageTransactionController">
     <div class="card m-t-1">
         <div class="card-header m-t-1">
-            <div class="col-sm-7 pull-center">
+            <div class="col-sm-12 pull-center">
+                <div class="col-sm-6">
                 <button type="submit" class="btn btn-default pull-right" ui-sref="app.PaymentDetails">
                     <span class="text-danger">
                         <i class="fa fa-paper-plane fa-4x" aria-hidden="true"></i></span>
                     <span class="col-sm-12 m-t-1">SEND MONEY</span>
-                </button>
+                </button></div>
+                <div class="col-sm-6">
+                <button type="submit" class="btn btn-default" ui-sref="app.Pay_Bill">
+                    <span class="text-warning">
+                        <i class="fa fa-money fa-4x" aria-hidden="true"></i></span>
+                    <span class="col-sm-12 m-t-1">PAY BILL</span>
+                </button></div>
             </div>
         </div>
         <div class="card-block p-a-0">

@@ -353,5 +353,13 @@ public class Services {
     public  BillPay billPay(BillPay _BillPay) {    	
     	 return new BillPay().billpayment(_BillPay);
     }
+    
+    @POST
+    @Path("getBillPayDetails")    
+    @Produces("application/json")
+    public ArrayList<BillPay> getBillPayDetails(BillPay _BillPay) {
+    	
+      return BillPay.getBillPayDetails(_BillPay.CustomerId);
+    }
 }
 

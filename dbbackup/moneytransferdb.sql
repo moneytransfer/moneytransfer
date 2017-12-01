@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 17, 2017 at 02:13 PM
+-- Generation Time: Dec 01, 2017 at 04:04 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -84,7 +84,7 @@ CREATE TABLE `authorizepaymentsettings` (
 --
 
 INSERT INTO `authorizepaymentsettings` (`AuthorizePaymentSettingsId`, `PaymentMethodId`, `Mode`, `PaymentUrl`, `MerchantLoginId`, `MerchantTransactionKey`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 'TEST', 'ww.testcase.com', '6cUR4e9b', '5p583ZeR2Y84Mf6s', 1, 0, '2017-10-27', NULL),
+(1, 1, 'TEST', 'ww.testcase.com', '6cUR4e9b', '5p583ZeR2Y84Mf6s', 1, 0, '2017-11-20', NULL),
 (2, 5, 'Test', 'test', 'Testing', 'Test', 1, 0, '2017-10-27', NULL),
 (3, 1, 'Mode', 'Url', 'Login', 'Key', 1, 0, '2017-10-27', NULL),
 (4, 10, 'Test payment', 'www.testpay.com', 'test123', 'tggjhgjh78', 1, 0, '2017-10-28', NULL);
@@ -150,6 +150,40 @@ CREATE TABLE `beneficiarytype` (
 
 INSERT INTO `beneficiarytype` (`BeneficiaryTypeId`, `BeneficiaryDescription`) VALUES
 (1, 'Individual');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `billpaydetails`
+--
+
+CREATE TABLE `billpaydetails` (
+  `BillPayId` int(11) NOT NULL,
+  `CompanyId` int(11) NOT NULL,
+  `CustomerId` int(11) NOT NULL,
+  `SenderName` varchar(200) NOT NULL,
+  `SenderMobileNumber` varchar(50) NOT NULL,
+  `MobileNumber` varchar(50) NOT NULL,
+  `Version` varchar(50) NOT NULL,
+  `SkuId` varchar(250) NOT NULL,
+  `InvoiceNumber` varchar(200) NOT NULL,
+  `TransactionDate` datetime NOT NULL,
+  `InvoiceAmount` decimal(10,0) NOT NULL,
+  `FaceValueAmount` decimal(10,0) NOT NULL,
+  `ResponseCode` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `billpaydetails`
+--
+
+INSERT INTO `billpaydetails` (`BillPayId`, `CompanyId`, `CustomerId`, `SenderName`, `SenderMobileNumber`, `MobileNumber`, `Version`, `SkuId`, `InvoiceNumber`, `TransactionDate`, `InvoiceAmount`, `FaceValueAmount`, `ResponseCode`) VALUES
+(1, 17, 8, 'Ishu kumar', '8965213689', '9685632102', '1.0', '1560', '17693363', '2017-12-01 07:48:48', '11', '10', '000'),
+(2, 17, 8, 'Rishi Kumar', '7894561300', '8520147896', '1.0', '1560', '17693364', '2017-12-01 07:49:36', '23', '22', '000'),
+(3, 17, 8, 'ggdfg', '4335543', '901577', '1.0', '1560', '17693367', '2017-12-01 07:51:43', '11', '10', '000'),
+(4, 17, 8, 'Test', '8965236987', '9874563210', '1.0', '1560', '17693368', '2017-12-01 08:12:06', '21', '20', '000'),
+(5, 17, 8, 'user test', '42342', '324234', '1.0', '1560', '17693369', '2017-12-01 08:13:52', '11', '10', '000'),
+(6, 17, 8, 'Send', '8393372837', '384939203', '1.0', '1560', '17693370', '2017-12-01 09:12:38', '21', '20', '000');
 
 -- --------------------------------------------------------
 
@@ -532,7 +566,8 @@ INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName
 (12, 17, '985458', 'Ishu Test', 'test', 'address', 'Address2', 'City', 'State', '854854', 344, '8545859654', 'ishutest@gamil.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '95848', 1, 1, 0, '2017-10-30 06:27:55', NULL),
 (13, 17, '', 'Customer', 'test', '', '', '', '', '', 258, '123456789', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-10-30 09:27:09', NULL),
 (14, 17, NULL, 'KARAN', 'LUTHRA', '', '', '', '', '', 344, '9999999999', 'KARAN@TEST.COM', 'FF4C7367E4DA28145902749E950F81039557C4BE', '', '', '', 0, 0, 0, '2017-10-31 13:45:51', NULL),
-(15, 17, NULL, 'Rajeev', 'Verma', '', '', '', '', '', 344, '9728372328', 'rajeevdesizn@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-11-01 16:52:51', NULL);
+(15, 17, NULL, 'Rajeev', 'Verma', '', '', '', '', '', 344, '9728372328', 'rajeevdesizn@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-11-01 16:52:51', NULL),
+(16, 17, NULL, 'Lhuui', 'Castro', '', '', '', '', '', 475, '209740-4318', 'rey0825@gmail.com', '7110EDA4D09E062AA5E4A390B0A572AC0D2C0220', '', '', '', 0, 0, 0, '2017-11-20 18:42:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -619,7 +654,7 @@ CREATE TABLE `paymentmethod` (
 --
 
 INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `Title`, `Description`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 17, 'Authorize', 'my custom method', 1, 0, '2017-10-27', NULL),
+(1, 1, 17, 'Authorize', 'my custom method', 1, 0, '2017-11-20', NULL),
 (2, 1, 0, 'payU', 'welcome to payu', 1, 0, '2017-10-23', NULL),
 (3, 1, 0, 'Custom test', 'welcome to custom method test', 1, 0, '2017-10-27', NULL),
 (4, 1, 0, 'Payment', 'Test Description', 1, 0, '2017-10-26', NULL),
@@ -759,6 +794,14 @@ ALTER TABLE `beneficiarytype`
   ADD PRIMARY KEY (`BeneficiaryTypeId`);
 
 --
+-- Indexes for table `billpaydetails`
+--
+ALTER TABLE `billpaydetails`
+  ADD PRIMARY KEY (`BillPayId`),
+  ADD KEY `CustomerId` (`CustomerId`),
+  ADD KEY `CompanyId` (`CompanyId`);
+
+--
 -- Indexes for table `company`
 --
 ALTER TABLE `company`
@@ -863,6 +906,11 @@ ALTER TABLE `beneficiary`
 ALTER TABLE `beneficiarytype`
   MODIFY `BeneficiaryTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `billpaydetails`
+--
+ALTER TABLE `billpaydetails`
+  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
@@ -881,7 +929,7 @@ ALTER TABLE `currency`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `feescategory`
 --
@@ -928,6 +976,13 @@ ALTER TABLE `agent`
 --
 ALTER TABLE `authorizepaymentsettings`
   ADD CONSTRAINT `authorizepaymentsettings_ibfk_1` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`);
+
+--
+-- Constraints for table `billpaydetails`
+--
+ALTER TABLE `billpaydetails`
+  ADD CONSTRAINT `billpaydetails_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `customer` (`customer_Id`),
+  ADD CONSTRAINT `billpaydetails_ibfk_2` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`);
 
 --
 -- Constraints for table `company`

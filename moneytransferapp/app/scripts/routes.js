@@ -212,6 +212,36 @@
                   controller: "CustomerauthenticateController"
               })
 
+               .state('app.manage_pay_bill', {
+                   url: '/Manage_PayBill',
+                   templateUrl: 'views/Customer/PayBill/PaidBillList.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                           });
+                       }]
+                   },
+                   title: '',
+                   classes: 'no-padding no-footer layout-static',
+                   controller: "CustomerauthenticateController"
+               })
+
+           .state('app.Pay_Bill', {
+               url: '/PayBill',
+               templateUrl: 'views/Customer/PayBill/payBill.html',
+               resolve: {
+                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                           return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                       });
+                   }]
+               },
+               title: '',
+               classes: 'no-padding no-footer layout-static',
+               controller: "CustomerauthenticateController"
+           })
+
               .state('app.Thankyou', {
                   url: '/Thankyou',
                   templateUrl: 'views/Customer/PaymentSetting/ThankyouPage.html',

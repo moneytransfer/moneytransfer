@@ -30,12 +30,6 @@
         })
         .success(function (data) {
             var idata = data;
-            //vm.ManageTransaction = idata;
-            debugger;
-            
-            //$timeout(function () {
-            //    $('#tblBeneficiary').trigger('footable_redraw');
-            //}, 100);
 
            // $timeout(function () {
             vm.totalItems = idata.length;

@@ -498,7 +498,6 @@
     thankyouController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
     function thankyouController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
         var vm = $scope;
-
         setTimeout(function () {
             $state.go('app.Transaction');
         }, 3000);

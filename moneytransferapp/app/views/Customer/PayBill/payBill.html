@@ -1,0 +1,116 @@
+﻿<div class="padding" ng-controller="addPayBillController">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h3>Pay Bill </h3>
+                </div>
+                <div class="card-block">
+                    <form role="form" class="ng-pristine ng-valid" name="tblPayBill" ui-jq="validate">
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <label for="Name" class="col-sm-4 form-control-label">Sender Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-7">
+                                    <input type="text" class="form-control" id="FirstName" placeholder="" ng-model="PaybillModel.SenderName" required maxlength="50">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <label for="LastName" class="col-sm-4 form-control-label">Sender Mobile Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-7">
+                                    <input type="number" class="form-control" onkeypress="if(this.value.length==10) return false;" id="SenderMobileNumber" ng-model="PaybillModel.SenderMobileNumber" required aria-required="true" aria-invalid="true">
+                                 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <label for="Email" class="col-sm-4 form-control-label">Account Number or Postpaid Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-7">
+                                    <input type="number" name="number" class="form-control" onkeypress="if(this.value.length==10) return false;" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required aria-required="true" aria-invalid="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <label for="Phone" class="col-sm-4 form-control-label">Amount: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-7">
+                                    <input type="number" class="form-control" id="Amount" placeholder="00.00" ng-model="PaybillModel.Amount" required aria-required="true" aria-invalid="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row m-t-md">
+                            <div class="col-sm-7 pull-right">
+                                <button type="submit" class="btn btn-primary " ng-click="tblPayBill.$valid && PaybillModel.Amount !='0' Create()">Make Payment</button>
+                                <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="ThankyouPaybill">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-danger">
+                    <h4 class="col-md-offset-2 modal-title ">Thankyou for your payment  </h4>
+                </div>
+                <div class="modal-body p-a-0">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-offset-2 col-sm-8">
+
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-md-offset-2 modal-title ">Payment Details  </td>
+                                        </tr>
+                                        <tr class="active bold">
+                                            <td>Transaction Id:</td>
+                                            <td>{{PayDetails.InvoiceNumber}}</td>
+                                        </tr>
+                                        <tr class="active bold">
+                                            <td>Mobile Number:</td>
+                                            <td>{{PayDetails.MobileNumber}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bold"><b>Sender Name:</b></td>
+                                            <td class="bold"><b>{{PayDetails.SenderName}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bill Amount:</td>
+                                            <td>{{PayDetails.FaceAmount | number:2}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Fee:</td>
+                                            <td>{{PayDetails.InvoiceAmount - PayDetails.FaceAmount | number:2}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Total:</td>
+                                            <td>{{PayDetails.InvoiceAmount | number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datetimepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    })
+</script>
