@@ -42,11 +42,15 @@ var authorisedCustomer = [];
         }
         ]).config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('httpInterceptor');
+
+            //extra
+            //$httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
+            //$httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
         }]);
 
-    AppCtrl.$inject = ['$scope', '$http', '$localStorage', '$timeout', '$translate', '$uibModal', '$location', '$window'];
+    AppCtrl.$inject = ['$scope', '$http', '$localStorage', '$timeout', '$translate', '$uibModal', '$location', '$window', '$cookies'];
 
-    function AppCtrl($scope, $http, $localStorage, $timeout, $translate, $uibModal, $location, $window) {
+    function AppCtrl($scope, $http, $localStorage, $timeout, $translate, $uibModal, $location, $window, $cookies) {
 
         var vm = $scope;
 
@@ -70,6 +74,13 @@ var authorisedCustomer = [];
         } else {
             $localStorage.app = vm.app;
         }
+
+        var cookies = $cookies.getAll();
+        angular.forEach(cookies, function (v, k) {
+            
+            $cookies.remove(k);
+        });
+
 
         $scope.$watch('app', function () {
             $localStorage.app = vm.app;

@@ -32,13 +32,19 @@
         })
         .success(function (data) {
             var idata = data;
-            vm.totalItems = idata.length;
-            vm.currentPage = 1;
-            vm.itemsPerPage = 10;
+            //if (idata.length > 5) {
+                vm.totalItems = idata.length;
+                vm.currentPage = 1;
+                vm.itemsPerPage = 15;
 
-            vm.$watch("currentPage", function () {
-                setPagingData(vm.currentPage);
-            });
+                vm.$watch("currentPage", function () {
+                    setPagingData(vm.currentPage);
+                });
+            //}
+            //else {
+            //    vm.ManagePayBill = idata;
+            //}
+
 
             function setPagingData(page) {
                 var pagedData = idata.slice(
@@ -75,13 +81,43 @@
             }
         }
 
+
+        vm.PaymentMethods = [];
+        //Get Method Details
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getpaymentmethodbycompanyid ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+            var idata = data;
+            vm.PaymentMethods = idata;
+        });
+
+
+
+
         vm.PayDetails = { SenderName: '', FaceAmount: '', InvoiceAmount: '', MobileNumber: '', InvoiceNumber: '' };
-        vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId }
+        vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId, PaymentMethodId: '0'}
+        vm.ExpireModel = {}
         //Get Method Details
 
-        vm.Create = function () {
 
+
+        vm.Create = function () {
+            debugger;
             var idata = vm.PaybillModel;
+
+            var sMonth = vm.ExpireModel.ExpireMonth;
+            if (sMonth < 10) {
+                sMonth = '0' + sMonth
+            }
+            var sYear = vm.ExpireModel.ExpireYear;
+            var expiremonth = sMonth + '' + sYear;
+            idata.setExpirationDate = expiremonth;
+
             var formData = JSON.stringify(idata);
             $http({
                 method: 'POST',

@@ -1,5 +1,21 @@
 ﻿<div class="padding" ng-controller="addPayBillController">
-    <div class="row">
+   
+    
+      <div class="card-block" id="tabs">
+        <form role="form" class="ng-pristine ng-valid" id="tblpayment">
+            <uib-tabset class="m-b-0" active="active">
+                        <uib-tab heading="BILL INFORMATION" id="Bill" title="AmountDetails" index="0">
+                            <div ng-include="'views/Customer/PayBill/PayBillDetails.html'"></div> 
+                                                      </uib-tab>
+                               <uib-tab heading="PAYMENT DETAILS" id="Pay" title="Payment" index="1">
+                              <div ng-include="'views/Customer/PayBill/PaymentDetails.html'"></div>  
+                                                                       </uib-tab>
+                       
+                 </uib-tabset>
+        </form>
+    </div>
+    
+    <!-- <div class="row">
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header m-t-1">
@@ -38,7 +54,7 @@
                         </div>
                         <div class="form-group row m-t-md">
                             <div class="col-sm-7 pull-right">
-                                <button type="submit" class="btn btn-primary " ng-click="tblPayBill.$valid && PaybillModel.Amount !='0' Create()">Make Payment</button>
+                                <button type="submit" class="btn btn-primary " ng-click="tblPayBill.$valid && PaybillModel.Amount !='0' && Create()">Make Payment</button>
                                 <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
                             </div>
                         </div>
@@ -46,7 +62,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
 
 

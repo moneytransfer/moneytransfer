@@ -3,17 +3,19 @@
         <div class="card-header m-t-1">
             <div class="col-sm-12 pull-center">
                 <div class="col-sm-6">
-                <button type="submit" class="btn btn-default pull-right" ui-sref="app.PaymentDetails">
-                    <span class="text-danger">
-                        <i class="fa fa-paper-plane fa-4x" aria-hidden="true"></i></span>
-                    <span class="col-sm-12 m-t-1">SEND MONEY</span>
-                </button></div>
+                    <button type="submit" class="btn btn-default pull-right" ui-sref="app.PaymentDetails">
+                        <span class="text-danger">
+                            <i class="fa fa-paper-plane fa-4x" aria-hidden="true"></i></span>
+                        <span class="col-sm-12 m-t-1">SEND MONEY</span>
+                    </button>
+                </div>
                 <div class="col-sm-6">
-                <button type="submit" class="btn btn-default" ui-sref="app.Pay_Bill">
-                    <span class="text-warning">
-                        <i class="fa fa-money fa-4x" aria-hidden="true"></i></span>
-                    <span class="col-sm-12 m-t-1">PAY BILL</span>
-                </button></div>
+                    <button type="submit" class="btn btn-default" ui-sref="app.Pay_Bill">
+                        <span class="text-warning">
+                            <i class="fa fa-money fa-4x" aria-hidden="true"></i></span>
+                        <span class="col-sm-12 m-t-1">PAY BILL</span>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="card-block p-a-0">
@@ -30,7 +32,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:CreatedDate">
+                    <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:'-CreatedDate'">
                         <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
                         <td><small>{{Transaction.TransactionDetail}} </small></td>
                         <td><small>{{Transaction.TransferPurpose }} </small></td>
@@ -44,11 +46,12 @@
 
 
             </table>
-
-            <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
+            <div class="" ng-show="totalItems>15">
+                <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
 
 
             </uib-pagination>
+            </div>
         </div>
 
         <script id="uib/template/pagination/pagination.html" type="text/ng-template">

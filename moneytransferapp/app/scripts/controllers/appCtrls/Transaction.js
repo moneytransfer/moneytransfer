@@ -29,12 +29,13 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
+
             var idata = data;
 
            // $timeout(function () {
             vm.totalItems = idata.length;
             vm.currentPage = 1;
-            vm.itemsPerPage = 5;
+            vm.itemsPerPage = 15;
 
             vm.$watch("currentPage", function () {
                 setPagingData(vm.currentPage);

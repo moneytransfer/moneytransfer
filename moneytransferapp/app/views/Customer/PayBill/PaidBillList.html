@@ -1,13 +1,13 @@
 ﻿<div class="padding" ng-controller="managePayBillController">
     <div class="card m-t-1">
         <div class="card-header m-t-1">
-           <div class="col-sm-7 pull-center">
+            <div class="col-sm-7 pull-center">
                 <button type="submit" class="btn btn-default pull-right" ui-sref="app.Pay_Bill">
                     <span class="text-warning">
                         <i class="fa fa-money fa-2x" aria-hidden="true"></i></span>
                     <span class="col-sm-12 m-t-1">PAY BILL</span>
                 </button>
-            </div>  
+            </div>
         </div>
         <div class="card-block p-a-0">
 
@@ -19,7 +19,7 @@
                         <th>Sender Name</th>
                         <th>Amount</th>
                         <th>Fees</th>
-                         <th>Total Paid Amount</th>
+                        <th>Total Paid Amount</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -30,7 +30,7 @@
                         <td><small>{{Transaction.SenderName }} </small></td>
                         <td><small>{{Transaction.FaceAmount | number:2  }}</small></td>
                         <td><small>{{Transaction.InvoiceAmount- Transaction.FaceAmount| number:2  }}</small></td>
-                           <td><small>{{Transaction.InvoiceAmount | number:2  }}</small></td>
+                        <td><small>{{Transaction.InvoiceAmount | number:2  }}</small></td>
                         <td><small>{{Transaction.Result}}</small></td>
 
 
@@ -39,11 +39,12 @@
 
 
             </table>
-
-            <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
+            <div class="" ng-show="totalItems>15">
+                <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
 
 
             </uib-pagination>
+            </div>
         </div>
 
         <script id="uib/template/pagination/pagination.html" type="text/ng-template">
@@ -56,7 +57,7 @@
     <li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="page-item pagination-last"><a href class="page-link" ng-click="selectPage(totalPages, $event)">{{::getText('last')}}</a></li>
   </ul>
 </nav>
-</script>
+        </script>
 
     </div>
 </div>
