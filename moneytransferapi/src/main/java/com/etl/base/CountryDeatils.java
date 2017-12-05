@@ -10,8 +10,12 @@ import com.etl.util.MYSQLHelper;
 
 public class CountryDeatils {
 	public int CountryId;
-	public String CountryCode;
+	public String iso;
 	public String CountryName;
+	public String CountryNiceName;
+	public String iso3;
+	public String CountryCode;	
+	public int phonecode;
 	public String Result;
 	public String Error;
 	
@@ -21,6 +25,13 @@ public class CountryDeatils {
 	}	
 	private int getcountry_id(){
 		return CountryId;
+	}
+	
+	private void setiso(String iso){
+		this.iso = iso;
+	}	
+	private String getiso(){
+		return iso;
 	}
 	
 	private void setcountry_code(String CountryCode){
@@ -36,6 +47,28 @@ public class CountryDeatils {
 	private String getcountry_name(){
 		return CountryName;
 	}
+	
+	private void setCountryNiceName(String CountryNiceName){
+		this.CountryNiceName = CountryNiceName;
+	}	
+	private String getCountryNiceName(){
+		return CountryNiceName;
+	}
+	private void setiso3(String iso3){
+		this.iso3 = iso3;
+	}	
+	private String getiso3(){
+		return iso3;
+	}
+	
+	private void setphonecode(int phonecode){
+		this.phonecode = phonecode;
+	}	
+	private int getphonecode(){
+		return phonecode;
+	}
+	
+	
 	private void setResult(String Result){
 		this.Result = Result;
 	}	
@@ -63,7 +96,10 @@ public class CountryDeatils {
 				_CountryDeatils.setcountry_id(_ResultSet.getInt("country_id"));
 				_CountryDeatils.setcountry_code(_ResultSet.getString("country_code"));
 				_CountryDeatils.setcountry_name(_ResultSet.getString("country_name"));				
-				
+				_CountryDeatils.setiso(_ResultSet.getString("iso"));
+				_CountryDeatils.setCountryNiceName(_ResultSet.getString("country_nicename"));
+				_CountryDeatils.setiso3(_ResultSet.getString("iso3"));
+				_CountryDeatils.setphonecode(_ResultSet.getInt("phonecode"));
 				_CountryDeatils.setResult("Sucess");
 			}
 			else{
@@ -104,7 +140,11 @@ public class CountryDeatils {
 				 _CountryDeatils.setcountry_id(_ResultSet.getInt("country_id"));
 				 _CountryDeatils.setcountry_code(_ResultSet.getString("country_code"));
 				 _CountryDeatils.setcountry_name(_ResultSet.getString("country_name"));				
-					
+				 _CountryDeatils.setiso(_ResultSet.getString("iso"));
+					_CountryDeatils.setCountryNiceName(_ResultSet.getString("country_nicename"));
+					_CountryDeatils.setiso3(_ResultSet.getString("iso3"));
+					_CountryDeatils.setphonecode(_ResultSet.getInt("phonecode"));
+					_CountryDeatils.setResult("Success");
 				 _CountryDetaillist.add(_CountryDeatils);
 					
 				}
@@ -123,6 +163,52 @@ public class CountryDeatils {
 				}
 		}
 		 return _CountryDetaillist;
+	}
+	
+	
+	
+	public CountryDeatils getCountryDetailsIso(int phoneCode) {
+		CountryDeatils _CountryDeatils=new CountryDeatils();
+		Connection _Connection = MYSQLConnection.GetConnection();	
+		try
+		{
+			
+			if(_Connection!=null)
+			{
+				
+			MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+			ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM country where phonecode='"+phoneCode+"'",_Connection);
+			if (_ResultSet.next())
+			{
+				_CountryDeatils.setcountry_id(_ResultSet.getInt("country_id"));
+				_CountryDeatils.setcountry_code(_ResultSet.getString("country_code"));
+				_CountryDeatils.setcountry_name(_ResultSet.getString("country_name"));				
+				_CountryDeatils.setiso(_ResultSet.getString("iso"));
+				_CountryDeatils.setCountryNiceName(_ResultSet.getString("country_nicename"));
+				_CountryDeatils.setiso3(_ResultSet.getString("iso3"));
+				_CountryDeatils.setphonecode(_ResultSet.getInt("phonecode"));
+				_CountryDeatils.setResult("Sucess");
+			}
+			else{
+				_CountryDeatils.setResult("Failed");
+				_CountryDeatils.setError("Invalid country Phone Code Id!");
+				//logger.error(_auth.errorstatus);
+	    	}
+			}
+			else{
+				_CountryDeatils.setResult("Failed");
+				_CountryDeatils.setError("Error in api backend connectivity !");
+				//logger.error(_auth.errorstatus);
+	    	}
+			
+		}
+		catch (Exception e) {
+			 e.printStackTrace();
+		}
+		finally {
+			
+		}
+		return _CountryDeatils;
 	}
 	
 }

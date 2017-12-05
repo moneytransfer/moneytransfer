@@ -14,6 +14,7 @@ import com.etl.base.AuthrozieTranscation;
 import com.etl.base.BeneficiaryDetails;
 import com.etl.base.BeneficiaryType;
 import com.etl.base.BillPay;
+import com.etl.base.CarrierInfoByMobileNumber;
 import com.etl.base.CompanyDetail;
 import com.etl.base.CountryDeatils;
 import com.etl.base.Currency;
@@ -131,6 +132,13 @@ public class Services {
       return CountryDeatils.getCountryDetails();
     }
 
+    @POST
+    @Path("getcountryByPhoneCode")    
+    @Produces("application/json")
+    public CountryDeatils getcountryByIso(CountryDeatils _CountryDeatils) {
+      return new CountryDeatils().getCountryDetailsIso(_CountryDeatils.phonecode);
+    }
+    
     @POST
     @Path("savecustomer")    
     @Produces("application/json")
@@ -360,6 +368,13 @@ public class Services {
     public ArrayList<BillPay> getBillPayDetails(BillPay _BillPay) {
     	
       return BillPay.getBillPayDetails(_BillPay.CustomerId);
+    }
+    
+    @POST
+    @Path("getCarrierInfoByMobileNumber")    
+    @Produces("application/json")
+    public  CarrierInfoByMobileNumber billPay(CarrierInfoByMobileNumber _CarrierInfoByMobileNumber) {    	
+    	 return new CarrierInfoByMobileNumber().getCarrierInfoByMobileNumber(_CarrierInfoByMobileNumber);
     }
 }
 

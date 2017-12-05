@@ -51,7 +51,6 @@ public class BillPay {
 	public int CompanyId;
 	public int CustomerId;
 	public String SenderName;
-	public String SenderMobileNumber;
 	public double Amount;
 	public String MobileNumber;
 	public String ResponseCode;
@@ -151,12 +150,7 @@ public class BillPay {
 	private String getTransactionDate(){
 		return TransactionDate;
 	}
-	private void setSenderMobileNumber(String SenderMobileNumber){
-		this.SenderMobileNumber = SenderMobileNumber;
-	}	
-	private String getSenderMobileNumber(){
-		return SenderMobileNumber;
-	}
+	
 	private void setAmount(double Amount){
 		this.Amount = Amount;
 	}	
@@ -245,7 +239,7 @@ public class BillPay {
 	private String getPaymentGatewayTransactionId(){
 		return PaymentGatewayTransactionId;
 	}
-	public static String  GetRequest(String sUsername, String sPassword, String sVersion, String sSku, double dAmount, String sSenderName, String sSenderMobile, String sMobileNumber)
+	public static String  GetRequest(String sUsername, String sPassword, String sVersion, String sSku, double dAmount,String sMobileNumber)
 	{
 		String sRequest = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:pin=\"http://www.pininteract.com\">";
 		sRequest += "<soapenv:Header>";
@@ -261,9 +255,7 @@ public class BillPay {
 		sRequest += "<pin:amount>" + dAmount + "</pin:amount>";
 		sRequest += "<pin:accountNumber>?</pin:accountNumber>";
 		sRequest += "<pin:checkDigits>?</pin:checkDigits>";
-		sRequest += "<pin:correlationId>?</pin:correlationId>";
-		sRequest += "<pin:senderName>" + sSenderName + "</pin:senderName>";
-		sRequest += "<pin:senderMobile>" + sSenderMobile + "</pin:senderMobile>";
+		sRequest += "<pin:correlationId>?</pin:correlationId>";		
 		sRequest += "<pin:storeId>?</pin:storeId>";
 		sRequest += "<pin:mobileNumber>" + sMobileNumber + "</pin:mobileNumber>";
 		sRequest += "<pin:accountType>?</pin:accountType>";
@@ -352,7 +344,7 @@ public class BillPay {
 										 String strSoapAction = "http://www.pininteract.com/BillPay";
 
 										 PostMethod post = new PostMethod(strURL);
-										 String sRequest = GetRequest("Falcontest", "Hello@123", "1.0", "1560", _BillPay.Amount , _BillPay.SenderName, _BillPay.SenderMobileNumber, _BillPay.MobileNumber);
+										 String sRequest = GetRequest("Falcontest", "Hello@123", "1.0", "1560", _BillPay.Amount , _BillPay.MobileNumber);
 										 RequestEntity entity = new StringRequestEntity(sRequest);
 										 
 									        post.setRequestEntity(entity);
@@ -475,8 +467,8 @@ public class BillPay {
 																	_PreparedStatement.setInt(14, 3); 
 																	_PreparedStatement.setInt(15, 0); 
 																	_PreparedStatement.setInt(16, _BillPay.PaymentMethodId); 
-																	_PreparedStatement.setInt(17, 491); 
-																	_PreparedStatement.setInt(18, 491); 
+																	_PreparedStatement.setInt(17, 226); 
+																	_PreparedStatement.setInt(18, 226); 
 																	_PreparedStatement.setBoolean(19, _BillPay.IsLive); 
 																	_PreparedStatement.setString(20, "Bill Payment"); 
 																	_PreparedStatement.setDouble(21, 0); 
@@ -494,22 +486,21 @@ public class BillPay {
 																		
 																		_BillPay.setSkuId("1560");
 																					_BillPay.setVersionNo("1.0");
-																					String sInsertStatement = "INSERT INTO billpaydetails( CompanyId, CustomerId,TransactionId,SenderName,SenderMobileNumber,MobileNumber, Version,SkuId,InvoiceNumber,TransactionDate,InvoiceAmount,FaceValueAmount,ResponseCode)";
-																					 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?,?,?,?)";
+																					String sInsertStatement = "INSERT INTO billpaydetails( CompanyId, CustomerId,TransactionId,SenderName,MobileNumber, Version,SkuId,InvoiceNumber,TransactionDate,InvoiceAmount,FaceValueAmount,ResponseCode)";
+																					 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?,?,?)";
 																					   _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 																						_PreparedStatement.setInt(1, _BillPay.CompanyId);							
 																						_PreparedStatement.setInt(2, _BillPay.CustomerId); 
 																						_PreparedStatement.setInt(3, _BillPay.TransactionId); 
-																						_PreparedStatement.setString(4, _BillPay.SenderName); 
-																						_PreparedStatement.setString(5, _BillPay.SenderMobileNumber);
-																						_PreparedStatement.setString(6, _BillPay.MobileNumber);
-																						_PreparedStatement.setString(7, _BillPay.VersionNo); 
-																						_PreparedStatement.setString(8, _BillPay.SkuId); 
-																						_PreparedStatement.setString(9, _BillPay.InvoiceNumber); 
-																						_PreparedStatement.setString(10, _BillPay.TransactionDate); 
-																						_PreparedStatement.setDouble(11, _BillPay.InvoiceAmount);
-																						_PreparedStatement.setString(12, _BillPay.FaceAmount); 	
-																						_PreparedStatement.setString(13, _BillPay.ResponseCode); 
+																						_PreparedStatement.setString(4, _BillPay.SenderName); 																						
+																						_PreparedStatement.setString(5, _BillPay.MobileNumber);
+																						_PreparedStatement.setString(6, _BillPay.VersionNo); 
+																						_PreparedStatement.setString(7, _BillPay.SkuId); 
+																						_PreparedStatement.setString(8, _BillPay.InvoiceNumber); 
+																						_PreparedStatement.setString(9, _BillPay.TransactionDate); 
+																						_PreparedStatement.setDouble(10, _BillPay.InvoiceAmount);
+																						_PreparedStatement.setString(11, _BillPay.FaceAmount); 	
+																						_PreparedStatement.setString(12, _BillPay.ResponseCode); 
 																						_PreparedStatement.executeUpdate();
 																						_BillPay.setResult("Success");
 																						
@@ -646,8 +637,7 @@ public class BillPay {
 						_BillPay.setCompanyId(_ResultSet.getInt("CompanyId"));
 						_BillPay.setCustomerId(_ResultSet.getInt("CustomerId"));
 						_BillPay.setTransactionId(_ResultSet.getInt("TransactionId"));
-						_BillPay.setSenderName(_ResultSet.getString("SenderName"));
-						_BillPay.setSenderMobileNumber(_ResultSet.getString("SenderMobileNumber"));
+						_BillPay.setSenderName(_ResultSet.getString("SenderName"));					
 						_BillPay.setMobileNumber(_ResultSet.getString("MobileNumber"));
 						_BillPay.setVersionNo(_ResultSet.getString("Version"));
 						_BillPay.setSkuId(_ResultSet.getString("SkuId"));						
@@ -690,8 +680,7 @@ public class BillPay {
 		//_BillPay.setInvoiceAmount("");
 		_BillPay.setVersionNo("");
 		_BillPay.setSkuId("");
-		_BillPay.setSenderName("");
-		_BillPay.setSenderMobileNumber("");
+		_BillPay.setSenderName("");		
 		_BillPay.setAmount(0);
 		_BillPay.setMobileNumber("");
 		_BillPay.setResponseCode("");

@@ -42,6 +42,7 @@ com\etl\base\XMLHelper.class
 com\etl\base\PaymentType.class
 com\pininteract\AccountInfo.class
 com\pininteract\www\ServiceManagerSoapStub.class
+com\etl\base\CarrierInfoByMobileNumber.class
 com\etl\base\CustomerDetail.class
 com\pininteract\www\Carrier.class
 com\pininteract\www\ServiceManagerSoap.class

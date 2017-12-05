@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 01, 2017 at 04:04 PM
+-- Generation Time: Dec 05, 2017 at 02:18 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -57,8 +57,8 @@ CREATE TABLE `agent` (
 --
 
 INSERT INTO `agent` (`AgentId`, `AgentName`, `customer_Id`, `country_id`, `Phone`, `AgentCode`, `Email`, `SerialNumberPrefix`, `Address1`, `Address2`, `SerialNumberLength`, `City`, `PostalCode`, `BureauDeChange`, `IsAllowedCreateAgent`, `AllowedCasiherTellerApproval`, `ApproveeachTransByCashierTeller`, `CreateComplianceGroup`, `AssignAdminToAgent`, `CreatedDate`, `IsActive`, `IsDeleted`, `DeletedDate`) VALUES
-(0, 'mario', 8, 475, '4234', '34', 'sdfsdf@gmail.com', '4', 'ewrwer', 'rwer', '4', 'rewr', '42434', 0, 0, 0, 0, 0, 0, '2017-11-15 00:00:00', 1, 0, NULL),
-(1, 'Test Agent', 8, 475, '4569871230', '1023', 'test@gmail.com', '45', 'test', 'test', '5', 'test', '10236', 0, 0, 0, 0, 0, 0, '2017-11-16 00:00:00', 1, 0, NULL);
+(0, 'mario', 8, 226, '4234', '34', 'sdfsdf@gmail.com', '4', 'ewrwer', 'rwer', '4', 'rewr', '42434', 0, 0, 0, 0, 0, 0, '2017-11-15 00:00:00', 1, 0, NULL),
+(1, 'Test Agent', 8, 226, '4569871230', '1023', 'test@gmail.com', '45', 'test', 'test', '5', 'test', '10236', 0, 0, 0, 0, 0, 0, '2017-11-16 00:00:00', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -84,7 +84,7 @@ CREATE TABLE `authorizepaymentsettings` (
 --
 
 INSERT INTO `authorizepaymentsettings` (`AuthorizePaymentSettingsId`, `PaymentMethodId`, `Mode`, `PaymentUrl`, `MerchantLoginId`, `MerchantTransactionKey`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 'TEST', 'ww.testcase.com', '6cUR4e9b', '5p583ZeR2Y84Mf6s', 1, 0, '2017-11-20', NULL),
+(1, 1, 'TEST', 'ww.testcase.com', '6cUR4e9b', '8Q6338wTVa647Rfe', 1, 0, '2017-10-27', NULL),
 (2, 5, 'Test', 'test', 'Testing', 'Test', 1, 0, '2017-10-27', NULL),
 (3, 1, 'Mode', 'Url', 'Login', 'Key', 1, 0, '2017-10-27', NULL),
 (4, 10, 'Test payment', 'www.testpay.com', 'test123', 'tggjhgjh78', 1, 0, '2017-10-28', NULL);
@@ -110,11 +110,11 @@ CREATE TABLE `beneficiary` (
   `State` varchar(50) NOT NULL,
   `ZipCode` varchar(50) NOT NULL,
   `CountryId` int(11) NOT NULL,
-  `DOB` date NOT NULL,
+  `DOB` datetime NOT NULL,
   `IsActive` tinyint(1) NOT NULL DEFAULT '1',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
-  `CreatedDate` date NOT NULL,
-  `DeletedDate` date DEFAULT NULL
+  `CreatedDate` datetime NOT NULL,
+  `DeletedDate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -122,16 +122,13 @@ CREATE TABLE `beneficiary` (
 --
 
 INSERT INTO `beneficiary` (`BeneficiaryId`, `CompanyId`, `BeneficiaryTypeId`, `CustomerId`, `FirstName`, `LastName`, `Phone`, `Email`, `Address1`, `Address2`, `City`, `State`, `ZipCode`, `CountryId`, `DOB`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 17, 1, 8, 'Ram', 'Rahim', '1234567890', 'ram@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 350, '2017-01-02', 1, 0, '2017-10-30', NULL),
-(2, 17, 1, 8, 'Suresh', 'Mohil', '8010276833', 'suresh@gmail.com', 'nahan', 'jamli', 'Kangra', 'HP', '110027', 350, '2017-01-01', 0, 0, '2017-10-31', NULL),
-(3, 17, 1, 8, 'abc', 'pindu', '7894561230', 'saa@gmail.com', 'galino 10', 'chd', 'ch', 'UT', '110014', 350, '2017-01-01', 1, 1, '2017-10-31', '2017-10-31'),
-(4, 17, 1, 8, 'Baba', 'Ram Dev', '1234567890', 'ramdev@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 350, '2017-01-01', 1, 0, '2017-10-31', NULL),
-(5, 17, 1, 8, 'Test', 'Kumar', '1234567890', 'test@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 350, '2017-01-01', 1, 0, '2017-10-31', NULL),
-(6, 17, 1, 8, 'Test', 'Beneficiary', '9685458965', 'beneficiary@gmail.com', 'address', 'Address2', 'City', 'State', '96584', 344, '2017-10-25', 1, 1, '2017-10-31', '2017-10-31'),
-(7, 17, 1, 15, 'John', 'Adam', '8374726232', 'john@hsj.com', 'skdfsd', 'ddd', 'San', 'California', '23232', 475, '2017-11-15', 0, 0, '2017-11-01', NULL),
-(8, 17, 1, 8, 'Girish', 'TEst', '9685458965', 'Girish@gmail.com', 'Delhi', 'test', 'New delhi', 'delhi', '110033', 344, '2017-11-14', 1, 0, '2017-11-02', NULL),
-(9, 17, 1, 8, 'Ishu', 'test', '7579052252', 'ishutest@gamil.com', 'test', 'test', 'city', 'State', '110033', 344, '2017-11-21', 1, 0, '2017-11-02', NULL),
-(10, 17, 1, 8, 'Javed', 'Kumar', '1234567890', 'javed@gmail.com', 'Patodi', 'Gurgayon', 'Gurugram', 'HR', '110027', 450, '2017-01-01', 1, 0, '2017-11-03', NULL);
+(0, 17, 2, 8, 'Test ', 'User', '1234567890', 'testuser@gmail.com', 'test', 'test', 'test', 'test', '12345', 226, '2017-12-20 00:00:00', 1, 0, '2017-12-04 00:00:00', NULL),
+(1, 17, 1, 8, 'Ram', 'Rahim', '1234567890', 'ram@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-30 20:55:22', NULL),
+(2, 17, 1, 8, 'Suresh', 'Mohil', '8010276833', 'suresh@gmail.com', 'nahan', 'jamli', 'Kangra', 'HP', '110027', 226, '2017-01-01 00:00:00', 0, 0, '2017-10-31 11:18:19', NULL),
+(3, 17, 1, 8, 'abc', 'pindu', '7894561230', 'saa@gmail.com', 'galino 10', 'chd', 'ch', 'UT', '110014', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-31 11:41:45', NULL),
+(4, 17, 1, 8, 'uuu', 'yy', '1234567890', 'yy@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-31 12:53:37', NULL),
+(5, 17, 1, 8, 'abu', 'yadav', '1234567890', 'abu@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-31 16:10:29', NULL),
+(6, 17, 1, 8, 'Javed', 'Kumar', '1234567890', 'javed@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-11-03 11:05:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -149,7 +146,8 @@ CREATE TABLE `beneficiarytype` (
 --
 
 INSERT INTO `beneficiarytype` (`BeneficiaryTypeId`, `BeneficiaryDescription`) VALUES
-(1, 'Individual');
+(1, 'Individual'),
+(2, 'BillPay');
 
 -- --------------------------------------------------------
 
@@ -161,8 +159,8 @@ CREATE TABLE `billpaydetails` (
   `BillPayId` int(11) NOT NULL,
   `CompanyId` int(11) NOT NULL,
   `CustomerId` int(11) NOT NULL,
+  `TransactionId` int(11) NOT NULL,
   `SenderName` varchar(200) NOT NULL,
-  `SenderMobileNumber` varchar(50) NOT NULL,
   `MobileNumber` varchar(50) NOT NULL,
   `Version` varchar(50) NOT NULL,
   `SkuId` varchar(250) NOT NULL,
@@ -177,13 +175,11 @@ CREATE TABLE `billpaydetails` (
 -- Dumping data for table `billpaydetails`
 --
 
-INSERT INTO `billpaydetails` (`BillPayId`, `CompanyId`, `CustomerId`, `SenderName`, `SenderMobileNumber`, `MobileNumber`, `Version`, `SkuId`, `InvoiceNumber`, `TransactionDate`, `InvoiceAmount`, `FaceValueAmount`, `ResponseCode`) VALUES
-(1, 17, 8, 'Ishu kumar', '8965213689', '9685632102', '1.0', '1560', '17693363', '2017-12-01 07:48:48', '11', '10', '000'),
-(2, 17, 8, 'Rishi Kumar', '7894561300', '8520147896', '1.0', '1560', '17693364', '2017-12-01 07:49:36', '23', '22', '000'),
-(3, 17, 8, 'ggdfg', '4335543', '901577', '1.0', '1560', '17693367', '2017-12-01 07:51:43', '11', '10', '000'),
-(4, 17, 8, 'Test', '8965236987', '9874563210', '1.0', '1560', '17693368', '2017-12-01 08:12:06', '21', '20', '000'),
-(5, 17, 8, 'user test', '42342', '324234', '1.0', '1560', '17693369', '2017-12-01 08:13:52', '11', '10', '000'),
-(6, 17, 8, 'Send', '8393372837', '384939203', '1.0', '1560', '17693370', '2017-12-01 09:12:38', '21', '20', '000');
+INSERT INTO `billpaydetails` (`BillPayId`, `CompanyId`, `CustomerId`, `TransactionId`, `SenderName`, `MobileNumber`, `Version`, `SkuId`, `InvoiceNumber`, `TransactionDate`, `InvoiceAmount`, `FaceValueAmount`, `ResponseCode`) VALUES
+(1, 17, 8, 1, 'Rishi', '9599902870', '1.0', '1560', '17723424', '2017-12-05 04:41:25', '10', '9', '000'),
+(2, 17, 8, 2, 'Ishu', '9599902810', '1.0', '1560', '17723425', '2017-12-05 04:44:07', '21', '20', '000'),
+(3, 17, 8, 3, 'sandhu', '9599902310', '1.0', '1560', '17723426', '2017-12-05 04:46:02', '34', '33', '000'),
+(4, 17, 8, 4, 'ram ranjana kumari', '9599902190', '1.0', '1560', '17723427', '2017-12-05 05:18:55', '10', '9', '000');
 
 -- --------------------------------------------------------
 
@@ -229,9 +225,9 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`Company_Id`, `name`, `address1`, `address2`, `city`, `state`, `zip_code`, `country_id`, `email`, `phone`, `business_fax`, `contact_person`, `contact_title`, `number_employees`, `annual_revenue`, `industry`, `sub_industry`, `sic_code`, `sic_description`, `website`, `company_number`, `business_id`, `company_type`, `incorporation_date`, `listofficers_duedate`, `businesslicense_expdate`, `created_date`, `is_active`, `is_deleted`, `deleted_date`) VALUES
-(0, 'Moneytransfer', 'test1', 'test', 'delhi', 'delhi', '110027', 246, 'moneytransfer@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-10', 1, 1, '2017-10-10'),
-(17, 'moneyishucase', 'noida', 'test', 'delhi', 'delhi', '110027', 250, 'moneytestcase@gmail.com', '1234567890', '12345', 'moneytestcase', 'Mr.', '40', 102356, 'Sale company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-25', 1, 0, NULL),
-(20, 'Moneytransfer', 'abcd', 'test', 'delhi', 'delhi', '110027', 246, 'testsuper@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-26', 1, 0, NULL);
+(0, 'Moneytransfer', 'test1', 'test', 'delhi', 'delhi', '110027', 226, 'moneytransfer@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-10', 1, 1, '2017-10-10'),
+(17, 'moneyishucase', 'noida', 'test', 'delhi', 'delhi', '110027', 226, 'moneytestcase@gmail.com', '1234567890', '12345', 'moneytestcase', 'Mr.', '40', 102356, 'Sale company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-25', 1, 0, NULL),
+(20, 'Moneytransfer', 'abcd', 'test', 'delhi', 'delhi', '110027', 226, 'testsuper@gmail.com', '1234567890', '12345', 'money', 'Mr.', '4', 200000, 'it company', 'partnership', '1111', 'test way', 'www.test.com', '11112122', 'tttt', 'test', NULL, NULL, NULL, '2017-10-26', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -241,260 +237,258 @@ INSERT INTO `company` (`Company_Id`, `name`, `address1`, `address2`, `city`, `st
 
 CREATE TABLE `country` (
   `country_id` int(11) NOT NULL,
+  `iso` varchar(5) NOT NULL,
+  `country_name` varchar(100) NOT NULL,
+  `country_nicename` varchar(80) NOT NULL,
+  `iso3` varchar(5) NOT NULL,
   `country_code` varchar(2) NOT NULL,
-  `country_name` varchar(100) NOT NULL
+  `phonecode` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `country`
 --
 
-INSERT INTO `country` (`country_id`, `country_code`, `country_name`) VALUES
-(246, 'AF', 'Afghanistan'),
-(247, 'AL', 'Albania'),
-(248, 'DZ', 'Algeria'),
-(249, 'DS', 'American Samoa'),
-(250, 'AD', 'Andorra'),
-(251, 'AO', 'Angola'),
-(252, 'AI', 'Anguilla'),
-(253, 'AQ', 'Antarctica'),
-(254, 'AG', 'Antigua and Barbuda'),
-(255, 'AR', 'Argentina'),
-(256, 'AM', 'Armenia'),
-(257, 'AW', 'Aruba'),
-(258, 'AU', 'Australia'),
-(259, 'AT', 'Austria'),
-(260, 'AZ', 'Azerbaijan'),
-(261, 'BS', 'Bahamas'),
-(262, 'BH', 'Bahrain'),
-(263, 'BD', 'Bangladesh'),
-(264, 'BB', 'Barbados'),
-(265, 'BY', 'Belarus'),
-(266, 'BE', 'Belgium'),
-(267, 'BZ', 'Belize'),
-(268, 'BJ', 'Benin'),
-(269, 'BM', 'Bermuda'),
-(270, 'BT', 'Bhutan'),
-(271, 'BO', 'Bolivia'),
-(272, 'BA', 'Bosnia and Herzegovina'),
-(273, 'BW', 'Botswana'),
-(274, 'BV', 'Bouvet Island'),
-(275, 'BR', 'Brazil'),
-(276, 'IO', 'British Indian Ocean Territory'),
-(277, 'BN', 'Brunei Darussalam'),
-(278, 'BG', 'Bulgaria'),
-(279, 'BF', 'Burkina Faso'),
-(280, 'BI', 'Burundi'),
-(281, 'KH', 'Cambodia'),
-(282, 'CM', 'Cameroon'),
-(283, 'CA', 'Canada'),
-(284, 'CV', 'Cape Verde'),
-(285, 'KY', 'Cayman Islands'),
-(286, 'CF', 'Central African Republic'),
-(287, 'TD', 'Chad'),
-(288, 'CL', 'Chile'),
-(289, 'CN', 'China'),
-(290, 'CX', 'Christmas Island'),
-(291, 'CC', 'Cocos (Keeling) Islands'),
-(292, 'CO', 'Colombia'),
-(293, 'KM', 'Comoros'),
-(294, 'CG', 'Congo'),
-(295, 'CK', 'Cook Islands'),
-(296, 'CR', 'Costa Rica'),
-(297, 'HR', 'Croatia (Hrvatska)'),
-(298, 'CU', 'Cuba'),
-(299, 'CY', 'Cyprus'),
-(300, 'CZ', 'Czech Republic'),
-(301, 'DK', 'Denmark'),
-(302, 'DJ', 'Djibouti'),
-(303, 'DM', 'Dominica'),
-(304, 'DO', 'Dominican Republic'),
-(305, 'TP', 'East Timor'),
-(306, 'EC', 'Ecuador'),
-(307, 'EG', 'Egypt'),
-(308, 'SV', 'El Salvador'),
-(309, 'GQ', 'Equatorial Guinea'),
-(310, 'ER', 'Eritrea'),
-(311, 'EE', 'Estonia'),
-(312, 'ET', 'Ethiopia'),
-(313, 'FK', 'Falkland Islands (Malvinas)'),
-(314, 'FO', 'Faroe Islands'),
-(315, 'FJ', 'Fiji'),
-(316, 'FI', 'Finland'),
-(317, 'FR', 'France'),
-(318, 'FX', 'France, Metropolitan'),
-(319, 'GF', 'French Guiana'),
-(320, 'PF', 'French Polynesia'),
-(321, 'TF', 'French Southern Territories'),
-(322, 'GA', 'Gabon'),
-(323, 'GM', 'Gambia'),
-(324, 'GE', 'Georgia'),
-(325, 'DE', 'Germany'),
-(326, 'GH', 'Ghana'),
-(327, 'GI', 'Gibraltar'),
-(328, 'GK', 'Guernsey'),
-(329, 'GR', 'Greece'),
-(330, 'GL', 'Greenland'),
-(331, 'GD', 'Grenada'),
-(332, 'GP', 'Guadeloupe'),
-(333, 'GU', 'Guam'),
-(334, 'GT', 'Guatemala'),
-(335, 'GN', 'Guinea'),
-(336, 'GW', 'Guinea-Bissau'),
-(337, 'GY', 'Guyana'),
-(338, 'HT', 'Haiti'),
-(339, 'HM', 'Heard and Mc Donald Islands'),
-(340, 'HN', 'Honduras'),
-(341, 'HK', 'Hong Kong'),
-(342, 'HU', 'Hungary'),
-(343, 'IS', 'Iceland'),
-(344, 'IN', 'India'),
-(345, 'IM', 'Isle of Man'),
-(346, 'ID', 'Indonesia'),
-(347, 'IR', 'Iran (Islamic Republic of)'),
-(348, 'IQ', 'Iraq'),
-(349, 'IE', 'Ireland'),
-(350, 'IL', 'Israel'),
-(351, 'IT', 'Italy'),
-(352, 'CI', 'Ivory Coast'),
-(353, 'JE', 'Jersey'),
-(354, 'JM', 'Jamaica'),
-(355, 'JP', 'Japan'),
-(356, 'JO', 'Jordan'),
-(357, 'KZ', 'Kazakhstan'),
-(358, 'KE', 'Kenya'),
-(359, 'KI', 'Kiribati'),
-(360, 'KP', 'Korea, Democratic People\'s Republic of'),
-(361, 'KR', 'Korea, Republic of'),
-(362, 'XK', 'Kosovo'),
-(363, 'KW', 'Kuwait'),
-(364, 'KG', 'Kyrgyzstan'),
-(365, 'LA', 'Lao People\'s Democratic Republic'),
-(366, 'LV', 'Latvia'),
-(367, 'LB', 'Lebanon'),
-(368, 'LS', 'Lesotho'),
-(369, 'LR', 'Liberia'),
-(370, 'LY', 'Libyan Arab Jamahiriya'),
-(371, 'LI', 'Liechtenstein'),
-(372, 'LT', 'Lithuania'),
-(373, 'LU', 'Luxembourg'),
-(374, 'MO', 'Macau'),
-(375, 'MK', 'Macedonia'),
-(376, 'MG', 'Madagascar'),
-(377, 'MW', 'Malawi'),
-(378, 'MY', 'Malaysia'),
-(379, 'MV', 'Maldives'),
-(380, 'ML', 'Mali'),
-(381, 'MT', 'Malta'),
-(382, 'MH', 'Marshall Islands'),
-(383, 'MQ', 'Martinique'),
-(384, 'MR', 'Mauritania'),
-(385, 'MU', 'Mauritius'),
-(386, 'TY', 'Mayotte'),
-(387, 'MX', 'Mexico'),
-(388, 'FM', 'Micronesia, Federated States of'),
-(389, 'MD', 'Moldova, Republic of'),
-(390, 'MC', 'Monaco'),
-(391, 'MN', 'Mongolia'),
-(392, 'ME', 'Montenegro'),
-(393, 'MS', 'Montserrat'),
-(394, 'MA', 'Morocco'),
-(395, 'MZ', 'Mozambique'),
-(396, 'MM', 'Myanmar'),
-(397, 'NA', 'Namibia'),
-(398, 'NR', 'Nauru'),
-(399, 'NP', 'Nepal'),
-(400, 'NL', 'Netherlands'),
-(401, 'AN', 'Netherlands Antilles'),
-(402, 'NC', 'New Caledonia'),
-(403, 'NZ', 'New Zealand'),
-(404, 'NI', 'Nicaragua'),
-(405, 'NE', 'Niger'),
-(406, 'NG', 'Nigeria'),
-(407, 'NU', 'Niue'),
-(408, 'NF', 'Norfolk Island'),
-(409, 'MP', 'Northern Mariana Islands'),
-(410, 'NO', 'Norway'),
-(411, 'OM', 'Oman'),
-(412, 'PK', 'Pakistan'),
-(413, 'PW', 'Palau'),
-(414, 'PS', 'Palestine'),
-(415, 'PA', 'Panama'),
-(416, 'PG', 'Papua New Guinea'),
-(417, 'PY', 'Paraguay'),
-(418, 'PE', 'Peru'),
-(419, 'PH', 'Philippines'),
-(420, 'PN', 'Pitcairn'),
-(421, 'PL', 'Poland'),
-(422, 'PT', 'Portugal'),
-(423, 'PR', 'Puerto Rico'),
-(424, 'QA', 'Qatar'),
-(425, 'RE', 'Reunion'),
-(426, 'RO', 'Romania'),
-(427, 'RU', 'Russian Federation'),
-(428, 'RW', 'Rwanda'),
-(429, 'KN', 'Saint Kitts and Nevis'),
-(430, 'LC', 'Saint Lucia'),
-(431, 'VC', 'Saint Vincent and the Grenadines'),
-(432, 'WS', 'Samoa'),
-(433, 'SM', 'San Marino'),
-(434, 'ST', 'Sao Tome and Principe'),
-(435, 'SA', 'Saudi Arabia'),
-(436, 'SN', 'Senegal'),
-(437, 'RS', 'Serbia'),
-(438, 'SC', 'Seychelles'),
-(439, 'SL', 'Sierra Leone'),
-(440, 'SG', 'Singapore'),
-(441, 'SK', 'Slovakia'),
-(442, 'SI', 'Slovenia'),
-(443, 'SB', 'Solomon Islands'),
-(444, 'SO', 'Somalia'),
-(445, 'ZA', 'South Africa'),
-(446, 'GS', 'South Georgia South Sandwich Islands'),
-(447, 'ES', 'Spain'),
-(448, 'LK', 'Sri Lanka'),
-(449, 'SH', 'St. Helena'),
-(450, 'PM', 'St. Pierre and Miquelon'),
-(451, 'SD', 'Sudan'),
-(452, 'SR', 'Suriname'),
-(453, 'SJ', 'Svalbard and Jan Mayen Islands'),
-(454, 'SZ', 'Swaziland'),
-(455, 'SE', 'Sweden'),
-(456, 'CH', 'Switzerland'),
-(457, 'SY', 'Syrian Arab Republic'),
-(458, 'TW', 'Taiwan'),
-(459, 'TJ', 'Tajikistan'),
-(460, 'TZ', 'Tanzania, United Republic of'),
-(461, 'TH', 'Thailand'),
-(462, 'TG', 'Togo'),
-(463, 'TK', 'Tokelau'),
-(464, 'TO', 'Tonga'),
-(465, 'TT', 'Trinidad and Tobago'),
-(466, 'TN', 'Tunisia'),
-(467, 'TR', 'Turkey'),
-(468, 'TM', 'Turkmenistan'),
-(469, 'TC', 'Turks and Caicos Islands'),
-(470, 'TV', 'Tuvalu'),
-(471, 'UG', 'Uganda'),
-(472, 'UA', 'Ukraine'),
-(473, 'AE', 'United Arab Emirates'),
-(474, 'GB', 'United Kingdom'),
-(475, 'US', 'United States'),
-(476, 'UM', 'United States minor outlying islands'),
-(477, 'UY', 'Uruguay'),
-(478, 'UZ', 'Uzbekistan'),
-(479, 'VU', 'Vanuatu'),
-(480, 'VA', 'Vatican City State'),
-(481, 'VE', 'Venezuela'),
-(482, 'VN', 'Vietnam'),
-(483, 'VG', 'Virgin Islands (British)'),
-(484, 'VI', 'Virgin Islands (U.S.)'),
-(485, 'WF', 'Wallis and Futuna Islands'),
-(486, 'EH', 'Western Sahara'),
-(487, 'YE', 'Yemen'),
-(488, 'ZR', 'Zaire'),
-(489, 'ZM', 'Zambia'),
-(490, 'ZW', 'Zimbabwe');
+INSERT INTO `country` (`country_id`, `iso`, `country_name`, `country_nicename`, `iso3`, `country_code`, `phonecode`) VALUES
+(1, 'AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', '4', 93),
+(2, 'AL', 'ALBANIA', 'Albania', 'ALB', '8', 355),
+(3, 'DZ', 'ALGERIA', 'Algeria', 'DZA', '12', 213),
+(4, 'AS', 'AMERICAN SAMOA', 'American Samoa', 'ASM', '16', 1684),
+(5, 'AD', 'ANDORRA', 'Andorra', 'AND', '20', 376),
+(6, 'AO', 'ANGOLA', 'Angola', 'AGO', '24', 244),
+(7, 'AI', 'ANGUILLA', 'Anguilla', 'AIA', '66', 1264),
+(8, 'AQ', 'ANTARCTICA', 'Antarctica', '', '', 0),
+(9, 'AG', 'ANTIGUA AND BARBUDA', 'Antigua and Barbuda', 'ATG', '28', 1268),
+(10, 'AR', 'ARGENTINA', 'Argentina', 'ARG', '32', 54),
+(11, 'AM', 'ARMENIA', 'Armenia', 'ARM', '51', 374),
+(12, 'AW', 'ARUBA', 'Aruba', 'ABW', '53', 297),
+(13, 'AU', 'AUSTRALIA', 'Australia', 'AUS', '36', 61),
+(14, 'AT', 'AUSTRIA', 'Austria', 'AUT', '40', 43),
+(15, 'AZ', 'AZERBAIJAN', 'Azerbaijan', 'AZE', '31', 994),
+(16, 'BS', 'BAHAMAS', 'Bahamas', 'BHS', '44', 1242),
+(17, 'BH', 'BAHRAIN', 'Bahrain', 'BHR', '48', 973),
+(18, 'BD', 'BANGLADESH', 'Bangladesh', 'BGD', '50', 880),
+(19, 'BB', 'BARBADOS', 'Barbados', 'BRB', '52', 1246),
+(20, 'BY', 'BELARUS', 'Belarus', 'BLR', '11', 375),
+(21, 'BE', 'BELGIUM', 'Belgium', 'BEL', '56', 32),
+(22, 'BZ', 'BELIZE', 'Belize', 'BLZ', '84', 501),
+(23, 'BJ', 'BENIN', 'Benin', 'BEN', '20', 229),
+(24, 'BM', 'BERMUDA', 'Bermuda', 'BMU', '60', 1441),
+(25, 'BT', 'BHUTAN', 'Bhutan', 'BTN', '64', 975),
+(26, 'BO', 'BOLIVIA', 'Bolivia', 'BOL', '68', 591),
+(27, 'BA', 'BOSNIA AND HERZEGOVINA', 'Bosnia and Herzegovina', 'BIH', '70', 387),
+(28, 'BW', 'BOTSWANA', 'Botswana', 'BWA', '72', 267),
+(29, 'BV', 'BOUVET ISLAND', 'Bouvet Island', '', '', 0),
+(30, 'BR', 'BRAZIL', 'Brazil', 'BRA', '76', 55),
+(31, 'IO', 'BRITISH INDIAN OCEAN TERRITORY', 'British Indian Ocean Territory', '', '', 246),
+(32, 'BN', 'BRUNEI DARUSSALAM', 'Brunei Darussalam', 'BRN', '96', 673),
+(33, 'BG', 'BULGARIA', 'Bulgaria', 'BGR', '10', 359),
+(34, 'BF', 'BURKINA FASO', 'Burkina Faso', 'BFA', '85', 226),
+(35, 'BI', 'BURUNDI', 'Burundi', 'BDI', '10', 257),
+(36, 'KH', 'CAMBODIA', 'Cambodia', 'KHM', '11', 855),
+(37, 'CM', 'CAMEROON', 'Cameroon', 'CMR', '12', 237),
+(38, 'CA', 'CANADA', 'Canada', 'CAN', '12', 1),
+(39, 'CV', 'CAPE VERDE', 'Cape Verde', 'CPV', '13', 238),
+(40, 'KY', 'CAYMAN ISLANDS', 'Cayman Islands', 'CYM', '13', 1345),
+(41, 'CF', 'CENTRAL AFRICAN REPUBLIC', 'Central African Republic', 'CAF', '14', 236),
+(42, 'TD', 'CHAD', 'Chad', 'TCD', '14', 235),
+(43, 'CL', 'CHILE', 'Chile', 'CHL', '15', 56),
+(44, 'CN', 'CHINA', 'China', 'CHN', '15', 86),
+(45, 'CX', 'CHRISTMAS ISLAND', 'Christmas Island', '', '', 61),
+(46, 'CC', 'COCOS (KEELING) ISLANDS', 'Cocos (Keeling) Islands', '', '', 672),
+(47, 'CO', 'COLOMBIA', 'Colombia', 'COL', '17', 57),
+(48, 'KM', 'COMOROS', 'Comoros', 'COM', '17', 269),
+(49, 'CG', 'CONGO', 'Congo', 'COG', '17', 242),
+(50, 'CD', 'CONGO, THE DEMOCRATIC REPUBLIC OF THE', 'Congo, the Democratic Republic of the', 'COD', '18', 242),
+(51, 'CK', 'COOK ISLANDS', 'Cook Islands', 'COK', '18', 682),
+(52, 'CR', 'COSTA RICA', 'Costa Rica', 'CRI', '18', 506),
+(53, 'CI', 'COTE D\'IVOIRE', 'Cote D\'Ivoire', 'CIV', '38', 225),
+(54, 'HR', 'CROATIA', 'Croatia', 'HRV', '19', 385),
+(55, 'CU', 'CUBA', 'Cuba', 'CUB', '19', 53),
+(56, 'CY', 'CYPRUS', 'Cyprus', 'CYP', '19', 357),
+(57, 'CZ', 'CZECH REPUBLIC', 'Czech Republic', 'CZE', '20', 420),
+(58, 'DK', 'DENMARK', 'Denmark', 'DNK', '20', 45),
+(59, 'DJ', 'DJIBOUTI', 'Djibouti', 'DJI', '26', 253),
+(60, 'DM', 'DOMINICA', 'Dominica', 'DMA', '21', 1767),
+(61, 'DO', 'DOMINICAN REPUBLIC', 'Dominican Republic', 'DOM', '21', 1809),
+(62, 'EC', 'ECUADOR', 'Ecuador', 'ECU', '21', 593),
+(63, 'EG', 'EGYPT', 'Egypt', 'EGY', '81', 20),
+(64, 'SV', 'EL SALVADOR', 'El Salvador', 'SLV', '22', 503),
+(65, 'GQ', 'EQUATORIAL GUINEA', 'Equatorial Guinea', 'GNQ', '22', 240),
+(66, 'ER', 'ERITREA', 'Eritrea', 'ERI', '23', 291),
+(67, 'EE', 'ESTONIA', 'Estonia', 'EST', '23', 372),
+(68, 'ET', 'ETHIOPIA', 'Ethiopia', 'ETH', '23', 251),
+(69, 'FK', 'FALKLAND ISLANDS (MALVINAS)', 'Falkland Islands (Malvinas)', 'FLK', '23', 500),
+(70, 'FO', 'FAROE ISLANDS', 'Faroe Islands', 'FRO', '23', 298),
+(71, 'FJ', 'FIJI', 'Fiji', 'FJI', '24', 679),
+(72, 'FI', 'FINLAND', 'Finland', 'FIN', '24', 358),
+(73, 'FR', 'FRANCE', 'France', 'FRA', '25', 33),
+(74, 'GF', 'FRENCH GUIANA', 'French Guiana', 'GUF', '25', 594),
+(75, 'PF', 'FRENCH POLYNESIA', 'French Polynesia', 'PYF', '25', 689),
+(76, 'TF', 'FRENCH SOUTHERN TERRITORIES', 'French Southern Territories', '', '', 0),
+(77, 'GA', 'GABON', 'Gabon', 'GAB', '26', 241),
+(78, 'GM', 'GAMBIA', 'Gambia', 'GMB', '27', 220),
+(79, 'GE', 'GEORGIA', 'Georgia', 'GEO', '26', 995),
+(80, 'DE', 'GERMANY', 'Germany', 'DEU', '27', 49),
+(81, 'GH', 'GHANA', 'Ghana', 'GHA', '28', 233),
+(82, 'GI', 'GIBRALTAR', 'Gibraltar', 'GIB', '29', 350),
+(83, 'GR', 'GREECE', 'Greece', 'GRC', '30', 30),
+(84, 'GL', 'GREENLAND', 'Greenland', 'GRL', '30', 299),
+(85, 'GD', 'GRENADA', 'Grenada', 'GRD', '30', 1473),
+(86, 'GP', 'GUADELOUPE', 'Guadeloupe', 'GLP', '31', 590),
+(87, 'GU', 'GUAM', 'Guam', 'GUM', '31', 1671),
+(88, 'GT', 'GUATEMALA', 'Guatemala', 'GTM', '32', 502),
+(89, 'GN', 'GUINEA', 'Guinea', 'GIN', '32', 224),
+(90, 'GW', 'GUINEA-BISSAU', 'Guinea-Bissau', 'GNB', '62', 245),
+(91, 'GY', 'GUYANA', 'Guyana', 'GUY', '32', 592),
+(92, 'HT', 'HAITI', 'Haiti', 'HTI', '33', 509),
+(93, 'HM', 'HEARD ISLAND AND MCDONALD ISLANDS', 'Heard Island and Mcdonald Islands', '', '', 0),
+(94, 'VA', 'HOLY SEE (VATICAN CITY STATE)', 'Holy See (Vatican City State)', 'VAT', '33', 39),
+(95, 'HN', 'HONDURAS', 'Honduras', 'HND', '34', 504),
+(96, 'HK', 'HONG KONG', 'Hong Kong', 'HKG', '34', 852),
+(97, 'HU', 'HUNGARY', 'Hungary', 'HUN', '34', 36),
+(98, 'IS', 'ICELAND', 'Iceland', 'ISL', '35', 354),
+(99, 'IN', 'INDIA', 'India', 'IND', '35', 91),
+(100, 'ID', 'INDONESIA', 'Indonesia', 'IDN', '36', 62),
+(101, 'IR', 'IRAN, ISLAMIC REPUBLIC OF', 'Iran, Islamic Republic of', 'IRN', '36', 98),
+(102, 'IQ', 'IRAQ', 'Iraq', 'IRQ', '36', 964),
+(103, 'IE', 'IRELAND', 'Ireland', 'IRL', '37', 353),
+(104, 'IL', 'ISRAEL', 'Israel', 'ISR', '37', 972),
+(105, 'IT', 'ITALY', 'Italy', 'ITA', '38', 39),
+(106, 'JM', 'JAMAICA', 'Jamaica', 'JAM', '38', 1876),
+(107, 'JP', 'JAPAN', 'Japan', 'JPN', '39', 81),
+(108, 'JO', 'JORDAN', 'Jordan', 'JOR', '40', 962),
+(109, 'KZ', 'KAZAKHSTAN', 'Kazakhstan', 'KAZ', '39', 7),
+(110, 'KE', 'KENYA', 'Kenya', 'KEN', '40', 254),
+(111, 'KI', 'KIRIBATI', 'Kiribati', 'KIR', '29', 686),
+(112, 'KP', 'KOREA, DEMOCRATIC PEOPLE\'S REPUBLIC OF', 'Korea, Democratic People\'s Republic of', 'PRK', '40', 850),
+(113, 'KR', 'KOREA, REPUBLIC OF', 'Korea, Republic of', 'KOR', '41', 82),
+(114, 'KW', 'KUWAIT', 'Kuwait', 'KWT', '41', 965),
+(115, 'KG', 'KYRGYZSTAN', 'Kyrgyzstan', 'KGZ', '41', 996),
+(116, 'LA', 'LAO PEOPLE\'S DEMOCRATIC REPUBLIC', 'Lao People\'s Democratic Republic', 'LAO', '41', 856),
+(117, 'LV', 'LATVIA', 'Latvia', 'LVA', '42', 371),
+(118, 'LB', 'LEBANON', 'Lebanon', 'LBN', '42', 961),
+(119, 'LS', 'LESOTHO', 'Lesotho', 'LSO', '42', 266),
+(120, 'LR', 'LIBERIA', 'Liberia', 'LBR', '43', 231),
+(121, 'LY', 'LIBYAN ARAB JAMAHIRIYA', 'Libyan Arab Jamahiriya', 'LBY', '43', 218),
+(122, 'LI', 'LIECHTENSTEIN', 'Liechtenstein', 'LIE', '43', 423),
+(123, 'LT', 'LITHUANIA', 'Lithuania', 'LTU', '44', 370),
+(124, 'LU', 'LUXEMBOURG', 'Luxembourg', 'LUX', '44', 352),
+(125, 'MO', 'MACAO', 'Macao', 'MAC', '44', 853),
+(126, 'MK', 'MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF', 'Macedonia, the Former Yugoslav Republic of', 'MKD', '80', 389),
+(127, 'MG', 'MADAGASCAR', 'Madagascar', 'MDG', '45', 261),
+(128, 'MW', 'MALAWI', 'Malawi', 'MWI', '45', 265),
+(129, 'MY', 'MALAYSIA', 'Malaysia', 'MYS', '45', 60),
+(130, 'MV', 'MALDIVES', 'Maldives', 'MDV', '46', 960),
+(131, 'ML', 'MALI', 'Mali', 'MLI', '46', 223),
+(132, 'MT', 'MALTA', 'Malta', 'MLT', '47', 356),
+(133, 'MH', 'MARSHALL ISLANDS', 'Marshall Islands', 'MHL', '58', 692),
+(134, 'MQ', 'MARTINIQUE', 'Martinique', 'MTQ', '47', 596),
+(135, 'MR', 'MAURITANIA', 'Mauritania', 'MRT', '47', 222),
+(136, 'MU', 'MAURITIUS', 'Mauritius', 'MUS', '48', 230),
+(137, 'YT', 'MAYOTTE', 'Mayotte', '', '', 269),
+(138, 'MX', 'MEXICO', 'Mexico', 'MEX', '48', 52),
+(139, 'FM', 'MICRONESIA, FEDERATED STATES OF', 'Micronesia, Federated States of', 'FSM', '58', 691),
+(140, 'MD', 'MOLDOVA, REPUBLIC OF', 'Moldova, Republic of', 'MDA', '49', 373),
+(141, 'MC', 'MONACO', 'Monaco', 'MCO', '49', 377),
+(142, 'MN', 'MONGOLIA', 'Mongolia', 'MNG', '49', 976),
+(143, 'MS', 'MONTSERRAT', 'Montserrat', 'MSR', '50', 1664),
+(144, 'MA', 'MOROCCO', 'Morocco', 'MAR', '50', 212),
+(145, 'MZ', 'MOZAMBIQUE', 'Mozambique', 'MOZ', '50', 258),
+(146, 'MM', 'MYANMAR', 'Myanmar', 'MMR', '10', 95),
+(147, 'NA', 'NAMIBIA', 'Namibia', 'NAM', '51', 264),
+(148, 'NR', 'NAURU', 'Nauru', 'NRU', '52', 674),
+(149, 'NP', 'NEPAL', 'Nepal', 'NPL', '52', 977),
+(150, 'NL', 'NETHERLANDS', 'Netherlands', 'NLD', '52', 31),
+(151, 'AN', 'NETHERLANDS ANTILLES', 'Netherlands Antilles', 'ANT', '53', 599),
+(152, 'NC', 'NEW CALEDONIA', 'New Caledonia', 'NCL', '54', 687),
+(153, 'NZ', 'NEW ZEALAND', 'New Zealand', 'NZL', '55', 64),
+(154, 'NI', 'NICARAGUA', 'Nicaragua', 'NIC', '55', 505),
+(155, 'NE', 'NIGER', 'Niger', 'NER', '56', 227),
+(156, 'NG', 'NIGERIA', 'Nigeria', 'NGA', '56', 234),
+(157, 'NU', 'NIUE', 'Niue', 'NIU', '57', 683),
+(158, 'NF', 'NORFOLK ISLAND', 'Norfolk Island', 'NFK', '57', 672),
+(159, 'MP', 'NORTHERN MARIANA ISLANDS', 'Northern Mariana Islands', 'MNP', '58', 1670),
+(160, 'NO', 'NORWAY', 'Norway', 'NOR', '57', 47),
+(161, 'OM', 'OMAN', 'Oman', 'OMN', '51', 968),
+(162, 'PK', 'PAKISTAN', 'Pakistan', 'PAK', '58', 92),
+(163, 'PW', 'PALAU', 'Palau', 'PLW', '58', 680),
+(164, 'PS', 'PALESTINIAN TERRITORY, OCCUPIED', 'Palestinian Territory, Occupied', '', '', 970),
+(165, 'PA', 'PANAMA', 'Panama', 'PAN', '59', 507),
+(166, 'PG', 'PAPUA NEW GUINEA', 'Papua New Guinea', 'PNG', '59', 675),
+(167, 'PY', 'PARAGUAY', 'Paraguay', 'PRY', '60', 595),
+(168, 'PE', 'PERU', 'Peru', 'PER', '60', 51),
+(169, 'PH', 'PHILIPPINES', 'Philippines', 'PHL', '60', 63),
+(170, 'PN', 'PITCAIRN', 'Pitcairn', 'PCN', '61', 0),
+(171, 'PL', 'POLAND', 'Poland', 'POL', '61', 48),
+(172, 'PT', 'PORTUGAL', 'Portugal', 'PRT', '62', 351),
+(173, 'PR', 'PUERTO RICO', 'Puerto Rico', 'PRI', '63', 1787),
+(174, 'QA', 'QATAR', 'Qatar', 'QAT', '63', 974),
+(175, 'RE', 'REUNION', 'Reunion', 'REU', '63', 262),
+(176, 'RO', 'ROMANIA', 'Romania', 'ROM', '64', 40),
+(177, 'RU', 'RUSSIAN FEDERATION', 'Russian Federation', 'RUS', '64', 70),
+(178, 'RW', 'RWANDA', 'Rwanda', 'RWA', '64', 250),
+(179, 'SH', 'SAINT HELENA', 'Saint Helena', 'SHN', '65', 290),
+(180, 'KN', 'SAINT KITTS AND NEVIS', 'Saint Kitts and Nevis', 'KNA', '65', 1869),
+(181, 'LC', 'SAINT LUCIA', 'Saint Lucia', 'LCA', '66', 1758),
+(182, 'PM', 'SAINT PIERRE AND MIQUELON', 'Saint Pierre and Miquelon', 'SPM', '66', 508),
+(183, 'VC', 'SAINT VINCENT AND THE GRENADINES', 'Saint Vincent and the Grenadines', 'VCT', '67', 1784),
+(184, 'WS', 'SAMOA', 'Samoa', 'WSM', '88', 684),
+(185, 'SM', 'SAN MARINO', 'San Marino', 'SMR', '67', 378),
+(186, 'ST', 'SAO TOME AND PRINCIPE', 'Sao Tome and Principe', 'STP', '67', 239),
+(187, 'SA', 'SAUDI ARABIA', 'Saudi Arabia', 'SAU', '68', 966),
+(188, 'SN', 'SENEGAL', 'Senegal', 'SEN', '68', 221),
+(189, 'CS', 'SERBIA AND MONTENEGRO', 'Serbia and Montenegro', '', '', 381),
+(190, 'SC', 'SEYCHELLES', 'Seychelles', 'SYC', '69', 248),
+(191, 'SL', 'SIERRA LEONE', 'Sierra Leone', 'SLE', '69', 232),
+(192, 'SG', 'SINGAPORE', 'Singapore', 'SGP', '70', 65),
+(193, 'SK', 'SLOVAKIA', 'Slovakia', 'SVK', '70', 421),
+(194, 'SI', 'SLOVENIA', 'Slovenia', 'SVN', '70', 386),
+(195, 'SB', 'SOLOMON ISLANDS', 'Solomon Islands', 'SLB', '90', 677),
+(196, 'SO', 'SOMALIA', 'Somalia', 'SOM', '70', 252),
+(197, 'ZA', 'SOUTH AFRICA', 'South Africa', 'ZAF', '71', 27),
+(198, 'GS', 'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS', 'South Georgia and the South Sandwich Islands', '', '', 0),
+(199, 'ES', 'SPAIN', 'Spain', 'ESP', '72', 34),
+(200, 'LK', 'SRI LANKA', 'Sri Lanka', 'LKA', '14', 94),
+(201, 'SD', 'SUDAN', 'Sudan', 'SDN', '73', 249),
+(202, 'SR', 'SURINAME', 'Suriname', 'SUR', '74', 597),
+(203, 'SJ', 'SVALBARD AND JAN MAYEN', 'Svalbard and Jan Mayen', 'SJM', '74', 47),
+(204, 'SZ', 'SWAZILAND', 'Swaziland', 'SWZ', '74', 268),
+(205, 'SE', 'SWEDEN', 'Sweden', 'SWE', '75', 46),
+(206, 'CH', 'SWITZERLAND', 'Switzerland', 'CHE', '75', 41),
+(207, 'SY', 'SYRIAN ARAB REPUBLIC', 'Syrian Arab Republic', 'SYR', '76', 963),
+(208, 'TW', 'TAIWAN, PROVINCE OF CHINA', 'Taiwan, Province of China', 'TWN', '15', 886),
+(209, 'TJ', 'TAJIKISTAN', 'Tajikistan', 'TJK', '76', 992),
+(210, 'TZ', 'TANZANIA, UNITED REPUBLIC OF', 'Tanzania, United Republic of', 'TZA', '83', 255),
+(211, 'TH', 'THAILAND', 'Thailand', 'THA', '76', 66),
+(212, 'TL', 'TIMOR-LESTE', 'Timor-Leste', '', '', 670),
+(213, 'TG', 'TOGO', 'Togo', 'TGO', '76', 228),
+(214, 'TK', 'TOKELAU', 'Tokelau', 'TKL', '77', 690),
+(215, 'TO', 'TONGA', 'Tonga', 'TON', '77', 676),
+(216, 'TT', 'TRINIDAD AND TOBAGO', 'Trinidad and Tobago', 'TTO', '78', 1868),
+(217, 'TN', 'TUNISIA', 'Tunisia', 'TUN', '78', 216),
+(218, 'TR', 'TURKEY', 'Turkey', 'TUR', '79', 90),
+(219, 'TM', 'TURKMENISTAN', 'Turkmenistan', 'TKM', '79', 7370),
+(220, 'TC', 'TURKS AND CAICOS ISLANDS', 'Turks and Caicos Islands', 'TCA', '79', 1649),
+(221, 'TV', 'TUVALU', 'Tuvalu', 'TUV', '79', 688),
+(222, 'UG', 'UGANDA', 'Uganda', 'UGA', '80', 256),
+(223, 'UA', 'UKRAINE', 'Ukraine', 'UKR', '80', 380),
+(224, 'AE', 'UNITED ARAB EMIRATES', 'United Arab Emirates', 'ARE', '78', 971),
+(225, 'GB', 'UNITED KINGDOM', 'United Kingdom', 'GBR', '82', 44),
+(226, 'US', 'UNITED STATES', 'United States', 'USA', '84', 1),
+(227, 'UM', 'UNITED STATES MINOR OUTLYING ISLANDS', 'United States Minor Outlying Islands', '', '', 1),
+(228, 'UY', 'URUGUAY', 'Uruguay', 'URY', '85', 598),
+(229, 'UZ', 'UZBEKISTAN', 'Uzbekistan', 'UZB', '86', 998),
+(230, 'VU', 'VANUATU', 'Vanuatu', 'VUT', '54', 678),
+(231, 'VE', 'VENEZUELA', 'Venezuela', 'VEN', '86', 58),
+(232, 'VN', 'VIET NAM', 'Viet Nam', 'VNM', '70', 84),
+(233, 'VG', 'VIRGIN ISLANDS, BRITISH', 'Virgin Islands, British', 'VGB', '92', 1284),
+(234, 'VI', 'VIRGIN ISLANDS, U.S.', 'Virgin Islands, U.s.', 'VIR', '85', 1340),
+(235, 'WF', 'WALLIS AND FUTUNA', 'Wallis and Futuna', 'WLF', '87', 681),
+(236, 'EH', 'WESTERN SAHARA', 'Western Sahara', 'ESH', '73', 212),
+(237, 'YE', 'YEMEN', 'Yemen', 'YEM', '88', 967),
+(238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', '89', 260),
+(239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', '71', 263);
 
 -- --------------------------------------------------------
 
@@ -514,8 +508,9 @@ CREATE TABLE `currency` (
 --
 
 INSERT INTO `currency` (`CurrencyId`, `CurrencyTitle`, `country_id`, `CurrencySymbol`) VALUES
-(1, 'USD', 475, 'Dollar'),
-(2, 'INR', 344, 'Rupees');
+(1, 'USD', 226, 'Dollar'),
+(2, 'INR', 99, 'Rupees'),
+(3, 'MX', 138, 'MX');
 
 -- --------------------------------------------------------
 
@@ -553,21 +548,18 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName`, `LastName`, `Address1`, `Address2`, `City`, `State`, `ZipCode`, `country_id`, `Phone`, `Email`, `Password`, `DOB`, `ProfileImage`, `ActivationCode`, `IsAccountActivated`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 17, '123456789', 'ishu', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'u@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-05 00:00:00', NULL),
-(2, 17, '123456789', 'ff', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'ffu@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-02 00:00:00', NULL),
-(3, 17, '123456789', 'cc', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'cc@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:06:08', NULL),
-(4, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:09:40', NULL),
-(5, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:14:46', NULL),
-(6, 17, '123456789', 'hh', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 250, '123456789', 'hh@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 1, '2017-10-14 19:17:02', '2017-10-19 00:00:00'),
-(8, 17, '123456789', 'zolly', 'mbbs', 'aaa', 'bbb', 'www', 'fl', '12345', 246, '123456789', 'zolly@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-16 11:13:12', NULL),
-(9, 17, '123456789', 'Oppo', 'chinese', 'china', 'test', 'china', 'CH', '12345', 258, '123456789', 'oppo@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-25 11:42:21', NULL),
-(10, 17, '35434', 'test', 'test', 'test', 'test', 'test', 'trst', 'tres', 344, '2345324523', 'testre@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '34534', 1, 1, 0, '2017-10-27 11:25:23', NULL),
-(11, 17, '25432', 'Girish', 'test', 'Delhi', 'test', 'City', 'State', '110033', 344, '968545868', 'Girishtest@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '32432', 1, 1, 0, '2017-10-27 11:28:05', NULL),
-(12, 17, '985458', 'Ishu Test', 'test', 'address', 'Address2', 'City', 'State', '854854', 344, '8545859654', 'ishutest@gamil.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '95848', 1, 1, 0, '2017-10-30 06:27:55', NULL),
-(13, 17, '', 'Customer', 'test', '', '', '', '', '', 258, '123456789', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-10-30 09:27:09', NULL),
-(14, 17, NULL, 'KARAN', 'LUTHRA', '', '', '', '', '', 344, '9999999999', 'KARAN@TEST.COM', 'FF4C7367E4DA28145902749E950F81039557C4BE', '', '', '', 0, 0, 0, '2017-10-31 13:45:51', NULL),
-(15, 17, NULL, 'Rajeev', 'Verma', '', '', '', '', '', 344, '9728372328', 'rajeevdesizn@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-11-01 16:52:51', NULL),
-(16, 17, NULL, 'Lhuui', 'Castro', '', '', '', '', '', 475, '209740-4318', 'rey0825@gmail.com', '7110EDA4D09E062AA5E4A390B0A572AC0D2C0220', '', '', '', 0, 0, 0, '2017-11-20 18:42:42', NULL);
+(1, 17, '123456789', 'ishu', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'u@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-05 00:00:00', NULL),
+(2, 17, '123456789', 'ff', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'ffu@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-02 00:00:00', NULL),
+(3, 17, '123456789', 'cc', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'cc@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:06:08', NULL),
+(4, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:09:40', NULL),
+(5, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:14:46', NULL),
+(6, 17, '123456789', 'hh', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'hh@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 1, '2017-10-14 19:17:02', '2017-10-19 00:00:00'),
+(8, 17, '123456789', 'zolly', 'mbbs', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'zolly@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-16 11:13:12', NULL),
+(9, 17, '123456789', 'Oppo', 'chinese', 'china', 'test', 'china', 'CH', '12345', 226, '123456789', 'oppo@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-25 11:42:21', NULL),
+(10, 17, '35434', 'test', 'test', 'test', 'test', 'test', 'trst', 'tres', 226, '2345324523', 'testre@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '34534', 1, 1, 0, '2017-10-27 11:25:23', NULL),
+(11, 17, '25432', 'Girish', 'test', 'Delhi', 'test', 'City', 'State', '110033', 226, '968545868', 'Girishtest@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '32432', 1, 1, 0, '2017-10-27 11:28:05', NULL),
+(12, 17, '985458', 'Ishu Test', 'test', 'address', 'Address2', 'City', 'State', '854854', 226, '8545859654', 'ishutest@gamil.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '95848', 1, 1, 0, '2017-10-30 06:27:55', NULL),
+(13, 17, '', 'Customer', 'test', '', '', '', '', '', 226, '123456789', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-10-30 09:27:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -622,14 +614,12 @@ CREATE TABLE `paymentfees` (
 --
 
 INSERT INTO `paymentfees` (`PaymentFessId`, `PaymentMethodId`, `country_id`, `DestinationCountry`, `FeesCategoryId`, `AgentId`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `ChargeSendingAmount`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 1, 475, 344, 0, 0, '1', '2', 2, '3', 0, '2017-11-14', 0, NULL),
-(2, 1, 475, 344, 0, 0, '1000', '2500', 1, '200', 0, '2017-11-13', 1, '2017-11-17'),
-(3, 1, 475, 344, 0, 0, '1', '2', 1, '3', 0, '2017-11-15', 0, NULL),
-(4, 1, 475, 475, 0, 0, '1', '2500', 1, '300', 0, '2017-11-17', 0, NULL),
-(5, 1, 475, 344, 1, 1, '10', '200', 2, '30', 0, '2017-11-17', 0, NULL),
-(6, 1, 475, 344, 1, 1, '10', '250000', 2, '3000', 0, '2017-11-17', 0, NULL),
-(7, 1, 475, 475, 0, 0, '6', '26', 1, '3', 0, '2017-11-17', 0, NULL),
-(8, 1, 475, 344, 1, 1, '30', '450', 2, '200', 0, '2017-11-17', 0, NULL);
+(1, 1, 226, 99, 0, 0, '1', '2', 2, '3', 0, '2017-11-14', 0, NULL),
+(2, 1, 226, 99, 0, 0, '1000', '2500', 1, '200', 0, '2017-11-13', 0, NULL),
+(3, 1, 226, 99, 0, 0, '1', '2', 1, '3', 0, '2017-11-15', 0, NULL),
+(4, 1, 226, 99, 0, 0, '1', '2500', 1, '300', 0, '2017-11-17', 0, NULL),
+(5, 1, 226, 99, 1, 1, '10', '200', 2, '30', 0, '2017-11-17', 0, NULL),
+(6, 1, 226, 99, 1, 1, '10', '250000', 2, '3000', 0, '2017-11-17', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -654,16 +644,16 @@ CREATE TABLE `paymentmethod` (
 --
 
 INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `Title`, `Description`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 17, 'Authorize', 'my custom method', 1, 0, '2017-11-20', NULL),
-(2, 1, 0, 'payU', 'welcome to payu', 1, 0, '2017-10-23', NULL),
-(3, 1, 0, 'Custom test', 'welcome to custom method test', 1, 0, '2017-10-27', NULL),
+(1, 1, 17, 'Authorize', 'my custom method', 1, 0, '2017-10-27', NULL),
+(2, 1, 17, 'payU', 'welcome to payu', 1, 0, '2017-10-23', NULL),
+(3, 1, 17, 'Custom test', 'welcome to custom method test', 1, 0, '2017-10-27', NULL),
 (4, 1, 0, 'Payment', 'Test Description', 1, 0, '2017-10-26', NULL),
 (5, 1, 0, 'Title', 'Descripton', 1, 0, '2017-10-27', NULL),
 (6, 1, 0, 'Test', 'Testing', 1, 0, '2017-10-26', NULL),
 (7, 2, 0, 'Test', 'Testing', 1, 0, '2017-10-26', NULL),
 (8, 2, 0, 'test title', 'testing description', 1, 0, '2017-10-26', NULL),
 (9, 2, 20, 'Testing', 'Test', 1, 0, '2017-10-26', NULL),
-(10, 1, 0, 'testing', 'testing', 1, 0, '2017-10-28', NULL);
+(10, 1, 17, 'testing', 'testing', 1, 0, '2017-10-28', NULL);
 
 -- --------------------------------------------------------
 
@@ -724,9 +714,10 @@ CREATE TABLE `transactiondetails` (
 --
 
 INSERT INTO `transactiondetails` (`TransactionId`, `CompanyId`, `CustomerId`, `TransactionDetail`, `SendingAmount`, `Charges`, `Fees`, `Tax`, `TransactionDate`, `Status`, `PaymentGatewayResponse`, `PaymentGatewayTransactionId`, `SendingCurrencyId`, `ReceivingAmount`, `ReceivingCurrencytId`, `BeneficiaryId`, `PaymentMethodId`, `DestinationCountryId`, `SourceCountryId`, `IsLive`, `TransferPurpose`, `ExchangeRate`, `DeliveryType`, `CreatedDate`) VALUES
-(25, 17, 8, 'pay to my grand pa for personal use', '5500', '0', '0', '0', '2017-11-02 05:49:30', 'Success', '1', '40008079924', 1, '5000', 2, 1, 1, 344, 475, 0, 'peronal', '0', '0', '2017-11-02 05:49:30'),
-(29, 17, 8, 'test transcation', '120', '0', '0', '0', '2017-11-02 14:37:07', 'Success', '1', '40008092240', 1, '7752', 2, 9, 1, 344, 475, 0, 'for test case by developer', '65', 'test', '2017-11-02 14:37:07'),
-(30, 17, 8, 'test', '1321', '0', '0', '0', '2017-11-02 15:15:06', 'Success', '1', '40008092885', 1, '85337', 2, 2, 1, 344, 475, 0, 'test', '65', 'test', '2017-11-02 15:15:06');
+(1, 17, 8, 'Rishi', '10', '0', '0', '0', '2017-12-05 04:41:25', 'Success', '1', '40008804854', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 16:11:25'),
+(2, 17, 8, 'Ishu', '21', '0', '0', '0', '2017-12-05 04:44:07', 'Success', '1', '40008804889', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 16:14:07'),
+(3, 17, 8, 'sandhu', '34', '0', '0', '0', '2017-12-05 04:46:02', 'Success', '1', '40008804914', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 16:16:01'),
+(4, 17, 8, 'ram ranjana kumari', '10', '0', '0', '0', '2017-12-05 05:18:55', 'Success', '1', '40008805256', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 11:18:53');
 
 -- --------------------------------------------------------
 
@@ -755,8 +746,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `Company_Id`, `first_name`, `last_name`, `email`, `phone`, `password`, `country_id`, `profile_image`, `is_active`, `create_date`, `is_deleted`, `deleted_date`) VALUES
-(2, 0, 'admin', 'user', 'admin@gmail.com', '1234567890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 246, '', 1, '2017-10-10', 1, '2017-10-10'),
-(3, 17, 'test@gmail.com', 'kumar', 'test@gmail.com', '9638527410', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 246, '', 1, '2017-10-25', 0, NULL);
+(2, 0, 'admin', 'user', 'admin@gmail.com', '1234567890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 226, '', 1, '2017-10-10', 0, NULL),
+(3, 17, 'test@gmail.com', 'kumar', 'test@gmail.com', '9638527410', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 226, '', 1, '2017-10-25', 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -899,17 +890,17 @@ ALTER TABLE `authorizepaymentsettings`
 -- AUTO_INCREMENT for table `beneficiary`
 --
 ALTER TABLE `beneficiary`
-  MODIFY `BeneficiaryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `BeneficiaryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `beneficiarytype`
 --
 ALTER TABLE `beneficiarytype`
-  MODIFY `BeneficiaryTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `BeneficiaryTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `billpaydetails`
 --
 ALTER TABLE `billpaydetails`
-  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `company`
 --
@@ -919,17 +910,17 @@ ALTER TABLE `company`
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
-  MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=491;
+  MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 --
 -- AUTO_INCREMENT for table `currency`
 --
 ALTER TABLE `currency`
-  MODIFY `CurrencyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `CurrencyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `feescategory`
 --
@@ -939,7 +930,7 @@ ALTER TABLE `feescategory`
 -- AUTO_INCREMENT for table `paymentfees`
 --
 ALTER TABLE `paymentfees`
-  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `paymentmethod`
 --
@@ -949,12 +940,12 @@ ALTER TABLE `paymentmethod`
 -- AUTO_INCREMENT for table `paymenttype`
 --
 ALTER TABLE `paymenttype`
-  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `transactiondetails`
 --
 ALTER TABLE `transactiondetails`
-  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -965,79 +956,10 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `agent`
---
-ALTER TABLE `agent`
-  ADD CONSTRAINT `agent_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
-  ADD CONSTRAINT `agent_ibfk_2` FOREIGN KEY (`customer_Id`) REFERENCES `customer` (`customer_Id`);
-
---
 -- Constraints for table `authorizepaymentsettings`
 --
 ALTER TABLE `authorizepaymentsettings`
   ADD CONSTRAINT `authorizepaymentsettings_ibfk_1` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`);
-
---
--- Constraints for table `billpaydetails`
---
-ALTER TABLE `billpaydetails`
-  ADD CONSTRAINT `billpaydetails_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `customer` (`customer_Id`),
-  ADD CONSTRAINT `billpaydetails_ibfk_2` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`);
-
---
--- Constraints for table `company`
---
-ALTER TABLE `company`
-  ADD CONSTRAINT `company_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
-
---
--- Constraints for table `currency`
---
-ALTER TABLE `currency`
-  ADD CONSTRAINT `currency_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
-
---
--- Constraints for table `customer`
---
-ALTER TABLE `customer`
-  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`Company_Id`) REFERENCES `company` (`Company_Id`),
-  ADD CONSTRAINT `customer_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
-
---
--- Constraints for table `paymentfees`
---
-ALTER TABLE `paymentfees`
-  ADD CONSTRAINT `paymentfees_ibfk_1` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`),
-  ADD CONSTRAINT `paymentfees_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
-  ADD CONSTRAINT `paymentfees_ibfk_3` FOREIGN KEY (`DestinationCountry`) REFERENCES `currency` (`country_id`),
-  ADD CONSTRAINT `paymentfees_ibfk_4` FOREIGN KEY (`FeesCategoryId`) REFERENCES `feescategory` (`FeesCategoryId`),
-  ADD CONSTRAINT `paymentfees_ibfk_5` FOREIGN KEY (`AgentId`) REFERENCES `agent` (`AgentId`);
-
---
--- Constraints for table `paymentmethod`
---
-ALTER TABLE `paymentmethod`
-  ADD CONSTRAINT `paymentmethod_ibfk_1` FOREIGN KEY (`PaymentTypeId`) REFERENCES `paymenttype` (`PaymentTypeId`);
-
---
--- Constraints for table `transactiondetails`
---
-ALTER TABLE `transactiondetails`
-  ADD CONSTRAINT `transactiondetails_ibfk_1` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`),
-  ADD CONSTRAINT `transactiondetails_ibfk_2` FOREIGN KEY (`CustomerId`) REFERENCES `customer` (`customer_Id`),
-  ADD CONSTRAINT `transactiondetails_ibfk_3` FOREIGN KEY (`SendingCurrencyId`) REFERENCES `currency` (`CurrencyId`),
-  ADD CONSTRAINT `transactiondetails_ibfk_4` FOREIGN KEY (`ReceivingCurrencytId`) REFERENCES `currency` (`CurrencyId`),
-  ADD CONSTRAINT `transactiondetails_ibfk_5` FOREIGN KEY (`BeneficiaryId`) REFERENCES `beneficiary` (`BeneficiaryId`),
-  ADD CONSTRAINT `transactiondetails_ibfk_6` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`),
-  ADD CONSTRAINT `transactiondetails_ibfk_7` FOREIGN KEY (`DestinationCountryId`) REFERENCES `country` (`country_id`),
-  ADD CONSTRAINT `transactiondetails_ibfk_8` FOREIGN KEY (`SourceCountryId`) REFERENCES `country` (`country_id`);
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`Company_Id`) REFERENCES `company` (`Company_Id`),
-  ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
