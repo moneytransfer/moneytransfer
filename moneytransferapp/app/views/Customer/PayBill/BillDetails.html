@@ -1,0 +1,45 @@
+﻿<div class="row">
+    <form role="form" class="ng-pristine ng-valid" name="tblPayBill" ui-jq="validate">
+        <div class="form-group cm-form-group-wrap bill-detail">
+            <div class="bill-label">Destination</div>
+            <div class="input-number-wrap">
+                <span class="flag-icon"><i class="fa fa-globe" aria-hidden="true"></i>
+                    <span ng-if="FlagModel.Result=='Success'" class="flag" style="background-image: url(./images/Flag/{{FlagModel.countryCode}}.png);"></span>
+                </span>
+                <span class="flag-code {{FlagModel.Result=='Success'?'code-block':''}}">+{{FlagModel.internationalCodes}}</span>
+                <input type="text" class="form-control" pattern="[0-9]*" maxlength="10" id="Text1" ng-model="PaybillModel.MobileNumber" disabled="disabled">
+            </div>
+        </div>
+        <div class="choose-amount">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3" ng-repeat="pay in PayAmount">
+                        <a class="custom-amount" onclick="$('#Pay a').trigger('click'); $('#Pay').addClass('active');" ng-click="Setamount(pay.Amount)"><span><span>{{pay.Amount}}</span> USD</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group row m-t-md">
+            <div class="col-sm-7 pull-right">
+                <button type="submit" class="btn btn-primary "
+                    onclick="$('#Numberd a').trigger('click'); $('#Numberd').addClass('active');">
+                    Back</button>
+                <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datetimepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    })
+</script>

@@ -341,6 +341,10 @@ public class CarrierInfoByMobileNumber {
 								}
 							}
 						}
+						else{
+							_CarrierInfoByMobileNumber.setResult("Failed");
+							_CarrierInfoByMobileNumber.setError("Server was unable to process request, please contact administrator.");
+						}
 					}
 				}
 				else{
@@ -351,7 +355,8 @@ public class CarrierInfoByMobileNumber {
 					{
 						Element _tElement = (Element) _tNode;
 						//_CarrierInfoByMobileNumber.setResponseCode(_tElement.getAttribute("invoiceNumber"));
-						_CarrierInfoByMobileNumber.setResult("Failed!");
+						_CarrierInfoByMobileNumber.setResult("Failed");
+						_CarrierInfoByMobileNumber.setError("Server was unable to process request, please contact administrator.");
 						//_CarrierInfoByMobileNumber.setError(_tElement.getAttribute("responseMessage"));
 						//clear(_CarrierInfoByMobileNumber);
 					}

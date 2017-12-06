@@ -493,6 +493,7 @@
             window.location.reload();
             //$state.go('app.PaymentDetalis');
         }
+
     }
 
     thankyouController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];

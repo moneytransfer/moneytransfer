@@ -72,12 +72,13 @@
 
         vm.CompanyId = 0;
         vm.CustomerId = 0;
-
+        vm.CustomerName = '';
         if ($window.sessionStorage.authorisedCustomer) {
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             if (authorisedCustomer.CustomerId) {
                 vm.CompanyId = parseInt(authorisedCustomer.CompanyId);
                 vm.CustomerId = parseInt(authorisedCustomer.CustomerId);
+                vm.CustomerName = (authorisedCustomer.FirstName);
             }
         }
 
@@ -97,19 +98,52 @@
         });
 
 
-
-
+        vm.FlagModel = [];
+       
         vm.PayDetails = { SenderName: '', FaceAmount: '', InvoiceAmount: '', MobileNumber: '', InvoiceNumber: '' };
-        vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId, PaymentMethodId: '0'}
+        vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId, SenderName: vm.CustomerName, PaymentMethodId: '0',Amount:'0.00' }
         vm.ExpireModel = {}
         //Get Method Details
 
+        vm.EnteredNumber = function (iNumber) {
 
+            if (iNumber.length > 9) {
+                var iEnteredNumber =parseInt(iNumber);
+                var formData = JSON.parse(JSON.stringify({ "MobileNumber": iEnteredNumber }));
+                $http({
+                    method: 'POST',
+                    data: formData,
+                    url: baseUrl + 'getCarrierInfoByMobileNumber ',
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata.countryCode != null) {
+                        idata.countryCode = idata.countryCode.toLowerCase();
+
+                        vm.FlagModel = idata;
+                    }
+                    else {
+                        vm.FlagModel = [];
+                        Alert(2, "!" + idata.Error);
+                    }
+
+                    
+                });
+                
+            }
+          
+        }
+
+        //Payment Confirmation
+        vm.Paynow = function () {
+            $('#Payconfirm').modal('toggle');
+        }
 
         vm.Create = function () {
-            debugger;
-            var idata = vm.PaybillModel;
+            $('#Payconfirm').modal('toggle');
 
+            var idata = vm.PaybillModel;
             var sMonth = vm.ExpireModel.ExpireMonth;
             if (sMonth < 10) {
                 sMonth = '0' + sMonth
@@ -117,7 +151,7 @@
             var sYear = vm.ExpireModel.ExpireYear;
             var expiremonth = sMonth + '' + sYear;
             idata.setExpirationDate = expiremonth;
-
+           
             var formData = JSON.stringify(idata);
             $http({
                 method: 'POST',
@@ -150,7 +184,6 @@
             });
         }
 
-
         //Format date
         $scope.formatDate = function (date) {
             var dateOut = new Date(date);
@@ -158,11 +191,39 @@
             return dateOut;
         };
 
+        vm.Setamount = function (value) {
+            if (value != null) {
+                vm.PaybillModel.Amount = value;
+            }
+        }
+
+        vm.PayAmount = [{ AmountId: '1', Amount: '02.00' }, { AmountId: '2', Amount: '04.00' },
+        { AmountId: '3', Amount: '06.00' }, { AmountId: '4', Amount: '08.00' },
+        { AmountId: '5', Amount: '10.00' }, { AmountId: '6', Amount: '12.00' },
+        { AmountId: '7', Amount: '14.00' }, { AmountId: '8', Amount: '16.00' },
+        { AmountId: '9', Amount: '18.00' }, { AmountId: '10', Amount: '20.00' },
+        { AmountId: '11', Amount: '22.00' }, { AmountId: '12', Amount: '24.00' },
+        { AmountId: '13', Amount: '26.00' }, { AmountId: '14', Amount: '28.00' },
+        { AmountId: '15', Amount: '30.00' }, { AmountId: '16', Amount: '32.00' }]
+
         vm.cancel = function () {
             $state.go('app.manage_pay_bill');
         }
+
+        //vm.select = function ($event) {
+        //    if (vm.PaybillModel.MobileNumber == null) {
+        //        $event.preventDefault();
+        //    }
+           
+        //}
+
+        //vm.selectTwo = function ($event) {
+        //    if (vm.PaybillModel.Amount == "0.00") {
+        //        $event.preventDefault();
+        //    }
+
+        //}
+      
+ 
     }
-
-
-
 })();

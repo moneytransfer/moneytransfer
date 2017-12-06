@@ -8,13 +8,13 @@
                 <div class="card-block" id="tabs">
                     <form role="form" class="ng-pristine ng-valid" id="tblpayment">
                         <uib-tabset class="m-b-0" active="active">
-                        <uib-tab heading="TRANSACTION INFORMATION" id="tran" title="AmountDetails" index="0">
+                        <uib-tab heading="TRANSACTION INFORMATION" id="tran" title="AmountDetails" index="0" >
                             <div ng-include="'views/Customer/PaymentSetting/AmountDetails.html'"></div> 
                                                       </uib-tab>
                                <uib-tab heading="BENEFICIARY DETAILS" id="ben" title="Beneficiary" index="1">
                               <div ng-include="'views/Customer/PaymentSetting/Beneficiary.html'"></div>  
                                                                        </uib-tab>
-                    <uib-tab heading="CASH PICKUP DETAILS" title="CashPickUp" id="CashPickUp" index="2">
+                    <uib-tab heading="CASH PICKUP DETAILS" title="CashPickUp" id="CashPickUp" index="2" >
                          <div ng-include="'views/Customer/PaymentSetting/CashPickUp.html'"></div> 
                                           </uib-tab>
                         <div class="" ng-show="selected==true">

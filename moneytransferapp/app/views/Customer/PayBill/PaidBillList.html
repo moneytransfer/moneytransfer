@@ -28,9 +28,9 @@
                         <td><small>{{formatDate(Transaction.TransactionDate) | date:'yyyy-MM-dd'}}</small></td>
                         <td><small>{{Transaction.InvoiceNumber}} </small></td>
                         <td><small>{{Transaction.SenderName }} </small></td>
-                        <td><small>{{Transaction.FaceAmount | number:2  }}</small></td>
-                        <td><small>{{Transaction.InvoiceAmount- Transaction.FaceAmount| number:2  }}</small></td>
-                        <td><small>{{Transaction.InvoiceAmount | number:2  }}</small></td>
+                        <td><small>$&nbsp;{{Transaction.FaceAmount | number:2  }}</small></td>
+                        <td><small>$&nbsp;{{Transaction.InvoiceAmount- Transaction.FaceAmount| number:2  }}</small></td>
+                        <td><small>$&nbsp;{{Transaction.InvoiceAmount | number:2  }}</small></td>
                         <td><small>{{Transaction.Result}}</small></td>
 
 
