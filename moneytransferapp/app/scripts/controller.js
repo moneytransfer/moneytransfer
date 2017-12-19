@@ -5,6 +5,8 @@ var baseUrl = 'http://18.221.150.151:8080/transfermoney/api/';
 var authorisedUser = [];
 var authorisedCustomer = [];
 
+
+
 (function () {
     'use strict';
     angular
@@ -187,6 +189,10 @@ var authorisedCustomer = [];
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             vm.authorisedCustomer = authorisedCustomer;
         }
+
+
+
+      
     };
 
     function chatModalInstanceCtrl($uibModalInstance, $uibModal) {

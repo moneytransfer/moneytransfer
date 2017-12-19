@@ -32,7 +32,7 @@
 }
 .input-number-wrap .form-control {
     float: left;
-    width: auto;
+    width: 65%;
     border: none !important;
     outline: none !important;
     box-shadow: none !important;

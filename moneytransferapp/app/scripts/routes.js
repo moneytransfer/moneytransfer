@@ -238,8 +238,8 @@
                    }]
                },
                title: '',
-               classes: 'no-padding no-footer layout-static',
-               controller: "CustomerauthenticateController"
+               classes: 'no-padding no-footer layout-static'
+               //controller: "CustomerauthenticateController"
            })
 
               .state('app.Thankyou', {
@@ -1109,7 +1109,87 @@
                 },
                 title: 'Lockscreen',
                 classes: 'no-padding no-footer layout-static'
-            });
+            })
+
+            .state('app.customerPortal', {
+                url: '/customerPortal',
+                templateUrl: 'views/customerPortal/customerPortal.html',
+                resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                title: 'customerPortal'
+            })
+
+            .state('app.chooseAmount', {
+                url: '/chooseAmount',
+                templateUrl: 'views/customerPortal/chooseAmount.html',
+                resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                title: 'customerPortal',
+                params: { numberDetails: 0 }
+            })
+            .state('app.Login', {
+                url: '/Login',
+                templateUrl: 'views/customerPortal/login.html',
+                resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                title: 'customerPortal'
+            })
+
+            .state('app.userRegister', {
+                url: '/userRegister',
+                templateUrl: 'views/customerPortal/userRegister.html',
+                resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                title: 'customerPortal'
+            })
+
+            .state('app.makePayment', {
+                url: '/makePayment',
+                templateUrl: 'views/customerPortal/makepayment.html',
+                resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                               return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                                   return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                title: 'customerPortal'
+            })
+
+            .state('app.transactionDetails', {
+                url: '/transactionDetails',
+                templateUrl: 'views/customerPortal/transactionDetails.html',
+                resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                               return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                                   return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                title: 'customerPortal'
+            })
+
       }
 
 

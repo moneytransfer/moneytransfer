@@ -6,14 +6,14 @@
         .module('app')
         .controller('managePayBillController', managePayBillController)
         .controller('addPayBillController', addPayBillController)
-        .controller('addPayBillController', addPayBillController)
+        //.controller('addPayBillController', addPayBillController)
 
     managePayBillController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function managePayBillController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
         var CompanyId = 0;
         vm.CustomerId = 0;
-
+        
         if ($window.sessionStorage.authorisedCustomer) {
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             if (authorisedCustomer.CustomerId) {
@@ -102,11 +102,11 @@
        
         vm.PayDetails = { SenderName: '', FaceAmount: '', InvoiceAmount: '', MobileNumber: '', InvoiceNumber: '' };
         vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId, SenderName: vm.CustomerName, PaymentMethodId: '0',Amount:'0.00' }
+        
         vm.ExpireModel = {}
         //Get Method Details
 
         vm.EnteredNumber = function (iNumber) {
-
             if (iNumber.length > 9) {
                 var iEnteredNumber =parseInt(iNumber);
                 var formData = JSON.parse(JSON.stringify({ "MobileNumber": iEnteredNumber }));
@@ -120,30 +120,47 @@
                     var idata = data;
                     if (idata.countryCode != null) {
                         idata.countryCode = idata.countryCode.toLowerCase();
-
                         vm.FlagModel = idata;
+                        //$localStorage.numberDetails = idata;
+                        //$('#shfirstbutton').prop('disabled', false);
                     }
                     else {
                         vm.FlagModel = [];
                         Alert(2, "!" + idata.Error);
                     }
-
-                    
                 });
                 
             }
           
         }
 
+
+        vm.showPaymentForm = function () {
+
+            $('#showPaymentForm').show();
+        }
+
+
+
         //Payment Confirmation
         vm.Paynow = function () {
-            $('#Payconfirm').modal('toggle');
+            //debugger;
+           
+            $('#PaymentConfirm').modal('toggle');
+            //$('#PaymentConfirmbtn').click();
         }
 
         vm.Create = function () {
-            $('#Payconfirm').modal('toggle');
+            debugger;
+            $('#PaymentConfirm').modal('toggle');
 
             var idata = vm.PaybillModel;
+            if($location.path() != "/app/PayBill"){
+               idata.Amount =  $localStorage.numberDetails.Ammount;
+               idata.PaymentMethodId = 1;
+               idata.MobileNumber = $localStorage.numberDetails.MobileNumber;
+            }
+
             var sMonth = vm.ExpireModel.ExpireMonth;
             if (sMonth < 10) {
                 sMonth = '0' + sMonth
@@ -163,19 +180,28 @@
                 dataType: "json",
             })
             .success(function (data) {
+
                 var idata = data;
                 vm.PayDetails = idata;
                 if (idata && idata.BillPayId > 0) {
 
-                    $timeout(function () {
-                        $('#ThankyouPaybill').modal('toggle');
-                    }, 500);
+                    $('#ThankyouPaybill').modal('toggle');
 
                     $timeout(function () {
-                        $('#ThankyouPaybill').modal('toggle');
-                        $('.modal-backdrop').remove();
-                        $state.go('app.manage_pay_bill');
-                    }, 10000);
+                        $state.go('app.Transaction');
+                    }, 4000);
+
+                    //$timeout(function () {
+                    //    //clean local storage and redirect to dashboard page.
+                    //    if ($location.path() != "/app/PayBill") {
+                    //        $('#ThankyouPaybill').modal('toggle');
+                    //        $localStorage.numberDetails = null;
+                    //        $state.go('app.transactionDetails');
+                    //    }else{
+                    //        $state.go('app.manage_pay_bill');
+                    //    }
+                        
+                    //}, 5000);
 
                 }
                 else {

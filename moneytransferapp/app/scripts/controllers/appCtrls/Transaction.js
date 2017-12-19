@@ -11,6 +11,9 @@
         var vm = $scope;
         var CompanyId = 0;
         vm.CustomerId = 0;
+        
+        
+        $('body').removeClass('modal-open').css('padding-right', '0px');
 
         if ($window.sessionStorage.authorisedCustomer) {
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
@@ -19,7 +22,9 @@
                 vm.CustomerId = parseInt(authorisedCustomer.CustomerId);
             }
         }
-      
+        //Remove BackDrop
+        $('.modal-backdrop').remove();
+
         //Get Method Details
         var formData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId }));
         $http({

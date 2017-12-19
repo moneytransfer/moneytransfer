@@ -43,7 +43,7 @@
                             <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">Beneficiary type : <b class="text-danger">&nbsp;*</b></label>
                                 <div class="col-sm-8">
-                                    <select name="FamRole" id="Select1" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control" required>
+                                    <select name="ben" id="Select1" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control" required>
                                         <option value="0">-- Select Beneficiary type --</option>
                                         <option ng-repeat="Beneficiary in BeneficiaryType" value="{{Beneficiary.BeneficiaryTypeId}}">{{Beneficiary.BeneficiaryDescription}}</option>
                                     </select>

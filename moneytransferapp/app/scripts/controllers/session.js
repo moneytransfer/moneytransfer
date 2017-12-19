@@ -1,4 +1,5 @@
 function Alert(type, msg) {
+    debugger;
     var div = "";
     switch (type) {
         case 1:

@@ -40,11 +40,11 @@ var authorisedCustomer = [];
 (function () {
     'use strict';
     angular
-   .module('app')
-   .controller('LoginCtrl', LoginCtrl)
-   .controller('CustomerProfileController', CustomerProfileController)
-   .controller('CustomerauthenticateController', CustomerauthenticateController)
-   .controller('CustomerlogoutController', CustomerlogoutController)
+    .module('app')
+    .controller('LoginCtrl', LoginCtrl)
+    .controller('CustomerProfileController', CustomerProfileController)
+    .controller('CustomerauthenticateController', CustomerauthenticateController)
+    .controller('CustomerlogoutController', CustomerlogoutController)
 
     LoginCtrl.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function LoginCtrl($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
@@ -53,6 +53,9 @@ var authorisedCustomer = [];
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             if (authorisedCustomer.CustomerId) { $state.go('app.Transaction'); }
         }
+
+        // Limit time for 3 mintue to login
+
 
         vm.CompanyId = 0;
         if ($stateParams.CompanyId) {
@@ -64,11 +67,11 @@ var authorisedCustomer = [];
             url: baseUrl + 'getcountrydetails',
             headers: { 'Content-Type': 'application/json' }
         })
-      .success(function (data) {
-          var idata = data;
-          vm.Countries = idata;
+        .success(function (data) {
+            var idata = data;
+            vm.Countries = idata;
 
-      });
+        });
 
         vm.CustomerModel = { "Email": "", "Password": "" };
         vm.customerlogin = function () {
@@ -130,7 +133,9 @@ var authorisedCustomer = [];
                             if (authorisedCustomer.CustomerId) {
                                 $window.sessionStorage.authorisedCustomer = JSON.stringify(data);
                                 Alert(1, "! Login successful.. ");
+
                                 setTimeout(function () { window.location.reload(); }, 1000);
+
                             }
                             else {
                                 Alert(2, "! Invalid Customer or password. ");
@@ -158,7 +163,7 @@ var authorisedCustomer = [];
             }
         }
         else {
-           // $state.go('app.login');
+            // $state.go('app.login');
             $window.location.assign('#/app/customersignin');
         }
     }
@@ -167,7 +172,7 @@ var authorisedCustomer = [];
     function CustomerlogoutController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
 
         var vm = $scope;
-        
+
         vm.logoutCustomer = function () {
             if ($window.sessionStorage.authorisedCustomer) {
                 $window.sessionStorage.removeItem('authorisedCustomer');
@@ -195,13 +200,13 @@ var authorisedCustomer = [];
             url: baseUrl + 'getcountrydetails',
             headers: { 'Content-Type': 'application/json' }
         })
-      .success(function (data) {
-          var idata = data;
-          vm.Countries = idata;
+        .success(function (data) {
+            var idata = data;
+            vm.Countries = idata;
 
-      });
+        });
 
-        var formData = JSON.stringify({"CustomerId" : CustomerId});
+        var formData = JSON.stringify({ "CustomerId": CustomerId });
         $http({
             url: baseUrl + 'getcustomerdetails',
             method: 'POST',
@@ -209,21 +214,21 @@ var authorisedCustomer = [];
             headers: { 'Content-Type': 'application/json' },
             dataType: "json",
         })
-           .success(function (data) {
-               var idata = data;
-               if (idata && idata.CustomerId) {
-                   var CountryId = "";
-                   CountryId = idata.CountryId;
-                   idata.CountryId = JSON.stringify(CountryId);
-                   idata.Phone = parseInt(idata.Phone);
-                   idata.DOB = $filter('date')(idata.DOB, "yyyy/MM/dd");
-                   vm.CustomerModel = idata;
-               }
+        .success(function (data) {
+            var idata = data;
+            if (idata && idata.CustomerId) {
+                var CountryId = "";
+                CountryId = idata.CountryId;
+                idata.CountryId = JSON.stringify(CountryId);
+                idata.Phone = parseInt(idata.Phone);
+                idata.DOB = $filter('date')(idata.DOB, "yyyy/MM/dd");
+                vm.CustomerModel = idata;
+            }
 
-           })
-         .error(function (data, status, headers, config) {
-             Alert(2, "! " + data);
-         });
+        })
+        .error(function (data, status, headers, config) {
+            Alert(2, "! " + data);
+        });
 
 
         vm.update = function () {
