@@ -1,5 +1,6 @@
 com\pininteract\Carrier.class
 com\etl\base\BeneficiaryDetails.class
+com\etl\base\MagicPay.class
 com\etl\base\BillPay.class
 com\pininteract\Sku.class
 com\pininteract\www\ServiceManager.class
@@ -22,6 +23,7 @@ com\etl\base\UserDetail.class
 com\pininteract\www\CarrierResponse.class
 com\pininteract\www\SimPortInStatusResponse.class
 com\pininteract\OrderResponse.class
+com\etl\base\CurrencyConversion.class
 com\etl\base\CompanyDetail.class
 com\pininteract\www\ServiceManagerSoapProxy.class
 com\pininteract\AccountLookupResponse.class
@@ -37,6 +39,7 @@ com\pininteract\www\ServiceManagerLocator.class
 com\pininteract\PromotionsResponse.class
 com\etl\base\Currency.class
 com\etl\base\BeneficiaryType.class
+com\etl\base\MagicPay$1.class
 com\etl\base\StringHelper.class
 com\etl\base\XMLHelper.class
 com\etl\base\PaymentType.class

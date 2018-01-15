@@ -10,6 +10,7 @@ D:\rajeev\Money_Transfer\src\main\java\com\pininteract\Sku.java
 D:\rajeev\Money_Transfer\src\main\java\com\moneytransfer\Services.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\OrderResponse.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\UserDetail.java
+D:\rajeev\Money_Transfer\src\main\java\com\etl\base\MagicPay.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\ServiceManagerSoapProxy.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\StripeTest.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\CountryDeatils.java
@@ -24,6 +25,7 @@ D:\rajeev\Money_Transfer\src\main\java\com\etl\base\CarrierInfoByMobileNumber.ja
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\PaymentFees.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\BeneficiaryType.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\CarrierResponse.java
+D:\rajeev\Money_Transfer\src\main\java\com\etl\base\CurrencyConversion.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\CarrierListResponse.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\ExchangeRateInfo.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\StringHelper.java
