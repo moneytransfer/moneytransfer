@@ -1,14 +1,13 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageCustomerLoginController">
         <a class="navbar-brand" ui-sref='app.customerPortal'>
-            <img src="images/logo.png" alt="Recharge phone"> <span>SENDINGLOOP</span></a>
+            <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones"></a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
             <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true" ng-click="logoutGustCustomer()"></i>&nbsp;Log out</a></li>
             <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
-                <li class="nav-item"><a class="nav-link" ui-sref='app.customerPortal'>Home</a></li>
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions </a></li>
 
             </ul>
@@ -22,7 +21,7 @@
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb">
-                        <li class="col-md-4 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ui-sref='app.customerPortal'>Destination Number</li>
+                        <li class="col-md-4 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ng-click="goBack()">Destination Number</li>
                         <li class="col-md-4">Choose Amount</li>
                         <li class="col-md-4">Payment</li>
                     </ul>
@@ -33,7 +32,7 @@
     <!--end master banner-->
     <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
         <div class="container">
-            <div class="row">
+            <div class="row choose-amt">
                 <div class="col-sm">
                     <h3 class="text-center mb-4">Select the amount you want to send</h3>
                     <form>
@@ -45,52 +44,154 @@
                                     </span>
 
                                     <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">+{{localStorage.SelectedCountry.internationalCodes}}</span>
-                                    <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(localStorage.MobileNumber)" id="MobileNumber" ng-model="localStorage.SelectedCountry.MobileNumber" required disabled>
+                                    <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(localStorage.MobileNumber)" id="MobileNumber" ng-model="localStorage.GustData" required disabled>
                                 </div>
                             </div>
                             <div class="col-md-4 form-group pr-md-0">
-                                <input type="number" class="form-control cm-input" id="amountfeild" placeholder="Amount" onchange="amountInput()">
+                                <input type="number" class="form-control cm-input" id="amountfeild" placeholder="Amount" onchange="amountInput()" required>
                             </div>
                             <div class="col-md-2 form-group text-center text-md-left">
-                                <button type="button" id="proceedButton" class="btn cm-btn-control" ng-click='proceed()'>Proceed</button>
+                                <button type="submit" id="proceedButton" class="btn cm-btn-control" ng-click='proceed()'>Proceed</button>
                                 <!--<button type="button" id="proceedButton" class="btn cm-btn-control" ui-sref='app.Login'>Proceed</button>-->
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="row">
+            <div class="row choose-amt">
                 <div class="col-sm">
                     <div class="choose-amount mt-5">
                         <div class="row">
-                            <div class="col-sm-6 col-md-3" ng-repeat="Amount in PayAmount" ng-click><a class="custom-amount d-flex justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount.Amount)"><span>{{Amount.Amount}}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</a> </div>
+                            <div class="col-sm-6 col-md-3" ng-repeat="Amount in PayAmount" ng-click>
+                                <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount.Amount)">
+                                    <center><span>{{Amount.Amount * localStorage.SelectedCountry.ConvertAmount | number:2}}</span> &nbsp;USD</center>
+                                    <small class="d-inline-block"> <span>{{Amount.Amount}}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</small></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <hr>
+            <div class="row footercol">
+                <div class="col-md-3 ftr-bdr">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon01.png" class="" />
+                    </div>
+                    <div>
+                        <h5>24/7 HELP</h5>
+                        <p>Call us 1-800-970-9618</p>
+                    </div>
+                </div>
+                <div class="col-md-3 ftr-bdr">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon02.png" class="" />
+                    </div>
+                    <div>
+                        <h5>Trusted Pay</h5>
+                        <p>100% Payment Protection &amp; Easy Return</p>
+                    </div>
+                </div>
+                <div class="col-md-3 ftr-bdr">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon03.png" class="" />
+                    </div>
+                    <div>
+                        <h5>Secured Payment</h5>
+                        <p>All Major Credit &amp; Debit Cards Accepted</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon04.png" class="" />
+                    </div>
+                    <div>
+                        <h5>REGHARGE on app</h5>
+                        <p>Just Download our App to get Best Offers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="newsletter-bg"></div>
+                <div class="newsletter">
+                    <img src="assets/image/signup-newsletter.png" width="85%" />
+                </div>
+            </div>
+            <div class="row footercol last">
+                <div class="col-md-3 ftr-txt">
+                    <div>
+                        <p>
+                            <img src="assets/image/ftr-logo.png" width="45%" />
+                        </p>
+                        <p>Your Money | Your Best Option | Your Best Solution!</p>
+                        <p>
+                            Address: FalconLoop Inc.
+                <br>
+                            506 Second Ave. Suite 1400<br>
+                            Seattle WA, 98104<br>
+                            United States of America<br>
+                            1-800-970-9618
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 ftr-txt">
+                    <h5>ABOUT US</h5>
+                    <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
+                </div>
+                <div class="col-md-3 ftr-txt">
+                    <h5>HELP &amp; SUPPORT</h5>
+                    <ul>
+                        <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
+                        <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
+                        <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>
+                        <li><a target="_blank" ui-sref='app.Track_Transfers'>Track Transfers</a></li>
+                        <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ftr-txt">
+                    <h5>SECURITY &amp; PRIVACY</h5>
+                    <ul>
+                        <li><a target="_blank" ui-sref='app.US_state_lcensing'>U.S. State Licensing</a></li>
+                        <li><a target="_blank" ui-sref='app.International_Licensing'>International Licensing</a></li>
+                        <li><a target="_blank" ui-sref='app.Security_Center'>Security Center</a></li>
+                        <li><a target="_blank" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
+                        <li><a target="_blank" ui-sref='app.User_agreement'>User Agreement</a></li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </section>
-    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
+    <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header text-success">
-                    <h4 class="modal-title ">!Confirmation  </h4>
+                    <h4 class="modal-title ">Confirmation !</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="modal-body">
-                    <h6 class="mb-4">Are you sure to proceed to pay this 'Bill'? </h6>
+                    <h6 class="mb-4">Please click yes to proceed </h6>
                     <table class="table">
                         <thead class="thead-default">
                             <tr>
+                               
                                 <td>Mobile Number</td>
-                                <td>Amount</td>
+                                <td>Country</td>
+                                <td>Base Amount</td>
+                                <td>Fare Amount</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{localStorage.SelectedCountry.MobileNumber}}</td>
+                                 
+                                <td>+{{localStorage.SelectedCountry.internationalCodes}} &nbsp;{{localStorage.GustData}}</td>
+                                <td>
+                                    <span class="flag-icon">
+                                       <img src="images/Flag/{{localStorage.SelectedCountry.countryCode}}.png" alt=""></span>
+                                    <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">{{localStorage.SelectedCountry.currencyCode}}</span>
+                                </td>
                                 <td>{{localStorage.Ammount}} {{localStorage.SelectedCountry.currencyCode}}</td>
+                                <td>{{localStorage.FareAmmount | number:2}} USD</td>
                             </tr>
                         </tbody>
 
@@ -104,15 +205,19 @@
         </div>
     </div>
 </div>
+
+
 <footer class="footer-container-wrapper pt-4 pb-2">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <p>Copyright 2017 © Money Transfer. All Rights Reserved.</p>
+                <p>Copyright 2017 © Falconloop. All Rights Reserved.</p>
             </div>
         </div>
     </div>
 </footer>
+
+
 <script type="text/javascript">
     function amountInput() {
         var Ammount = $('#amountfeild').val();

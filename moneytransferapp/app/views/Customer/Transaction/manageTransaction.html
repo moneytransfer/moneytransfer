@@ -23,6 +23,7 @@
             <table id="tblBeneficiary" class="table datatable m-b-none">
                 <thead>
                     <tr>
+                          <th>Transaction Id </th>
                         <th>Transaction Date </th>
                         <th>Transaction </th>
                         <th>Purpose</th>
@@ -33,6 +34,7 @@
                 </thead>
                 <tbody>
                     <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:'-CreatedDate'">
+                         <td><small>{{Transaction.PaymentGatewayTransactionId}} </small></td>
                         <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
                         <td><small>{{Transaction.TransactionDetail}} </small></td>
                         <td><small>{{Transaction.TransferPurpose }} </small></td>

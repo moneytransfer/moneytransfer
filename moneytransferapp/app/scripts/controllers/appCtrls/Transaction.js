@@ -55,7 +55,6 @@
             }
             //}, 100);
         });
-
         //Format date
         $scope.formatDate = function (date) {
             var dateOut = new Date(date);

@@ -13,6 +13,12 @@
                 </div>
             </div>
 
+            <div class="alertmsg alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
+                <span class="p-a">You are not able to make Payment, please contact with administrator.</span>
+            </div>
+
+
+
             <div ng-show="PaybillModel.PaymentMethodId>0">
                 <div class="form-group row">
                     <div class="col-sm-12">
@@ -48,10 +54,10 @@
             </div>
         </div>
     </div>
-    
 
-            <!--Confirmation model-->
-  <button type="button" hidden="hidden" id="PaymentConfirmbtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#PaymentConfirm"></button>
+
+    <!--Confirmation model-->
+    <button type="button" hidden="hidden" id="PaymentConfirmbtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#PaymentConfirm"></button>
     <div class="modal fade" role="dialog" aria-labelledby="myLargeModalLabel" id="PaymentConfirm">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">

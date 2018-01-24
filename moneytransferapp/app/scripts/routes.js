@@ -1115,38 +1115,40 @@
                 url: '/customerPortal',
                 templateUrl: 'views/customerPortal/customerPortal.html',
                 resolve: {
-                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
-                           });
-                       }]
-                   },
-                title: 'customerPortal'
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                        });
+                    }]
+                },
+                title: 'customerPortal',
+                controller: "authenticateGuestController"
             })
 
             .state('app.chooseAmount', {
                 url: '/chooseAmount',
                 templateUrl: 'views/customerPortal/chooseAmount.html',
                 resolve: {
-                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
-                           });
-                       }]
-                   },
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                        });
+                    }]
+                },
                 title: 'customerPortal',
                 params: { numberDetails: 0 }
+                //controller: "authenticateGuestController"
             })
             .state('app.Login', {
                 url: '/Login',
                 templateUrl: 'views/customerPortal/login.html',
                 resolve: {
-                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
-                           });
-                       }]
-                   },
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                        });
+                    }]
+                },
                 title: 'customerPortal'
             })
 
@@ -1154,12 +1156,12 @@
                 url: '/userRegister',
                 templateUrl: 'views/customerPortal/userRegister.html',
                 resolve: {
-                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
-                           });
-                       }]
-                   },
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                        });
+                    }]
+                },
                 title: 'customerPortal'
             })
 
@@ -1167,29 +1169,238 @@
                 url: '/makePayment',
                 templateUrl: 'views/customerPortal/makepayment.html',
                 resolve: {
-                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                               return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                                   return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
-                           });
-                       }]
-                   },
-                title: 'customerPortal'
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                        });
+                    }]
+                },
+                title: 'customerPortal',
+                controller: "authenticateGuestController"
             })
 
             .state('app.transactionDetails', {
                 url: '/transactionDetails',
                 templateUrl: 'views/customerPortal/transactionDetails.html',
                 resolve: {
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                            return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                        });
+                    }]
+                },
+                title: 'customerPortal',
+                controller: "authenticateGuestController"
+            })
+
+            .state('app.User_agreement', {
+                url: '/User_agreement',
+                templateUrl: 'views/customerPortal/LinkPage/user-agreement.html',
+                resolve: {
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                            return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                        });
+                    }]
+                },
+                title: 'customerPortal',
+            })
+                     .state('app.privacy_policy', {
+                         url: '/privacy-policy',
+                         templateUrl: 'views/customerPortal/LinkPage/privacy-policy.html',
+                         resolve: {
+                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                 return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                                     //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                                     return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                                 });
+                             }]
+                         },
+                         title: 'customerPortal',
+                     })
+                    .state('app.US_state_lcensing', {
+                        url: '/US-state-lcensing',
+                        templateUrl: 'views/customerPortal/LinkPage/US-state-lcensing.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                                    //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                                    return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                                });
+                            }]
+                        },
+                        title: 'customerPortal',
+                    })
+
+              .state('app.Contact_us', {
+                  url: '/Contact_us',
+                  templateUrl: 'views/customerPortal/LinkPage/Contact-us.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+              })
+
+                .state('app.Supported_Currencies', {
+                    url: '/Supported_Currencies',
+                    templateUrl: 'views/customerPortal/LinkPage/Supported-Currencies.html',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                                //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                                return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                            });
+                        }]
+                    },
+                    title: 'customerPortal',
+                })
+
+              .state('app.Swift_BIC_Codes', {
+                  url: '/Swift_BIC_Codes',
+                  templateUrl: 'views/customerPortal/LinkPage/Swift-BIC-Codes.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+              })
+
+              .state('app.Track_Transfers', {
+                  url: '/Track_Transfers',
+                  templateUrl: 'views/customerPortal/LinkPage/Track-Transfers.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+              })
+
+
+              .state('app.Rate_Alerts', {
+                  url: '/Rate_Alerts',
+                  templateUrl: 'views/customerPortal/LinkPage/Rate-Alerts.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+              })
+
+              .state('app.International_Licensing', {
+                  url: '/International_Licensing',
+                  templateUrl: 'views/customerPortal/LinkPage/International-Licensing.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+              })
+              .state('app.SendMoneylogin', {
+                  url: '/sendmoneylogin',
+                  templateUrl: 'views/SendMoney/login.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+                
+              })
+               .state('app.SendMoneyUserRegister', {
+                   url: '/sendmoneyuserRegister',
+                   templateUrl: 'views/SendMoney/userRegister.html',
+                   resolve: {
                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                               return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                                   return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
                            });
                        }]
                    },
-                title: 'customerPortal'
-            })
+                   title: 'customerPortal',
 
+               })
+
+              .state('app.CashPickUp', {
+                  url: '/CashPickUp',
+                  templateUrl: 'views/SendMoney/CashPickUp.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+                  //controller: "authenticateSendMoneyController"
+
+              })
+
+              .state('app.SendMoney', {
+                  url: '/SendMoney',
+                  templateUrl: 'views/SendMoney/sendMoney.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal'
+              })
+
+              .state('app.addEditBeneficiary', {
+                  url: '/AddBeneficiary',
+                  templateUrl: 'views/SendMoney/Beneficiary.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+                  controller: "authenticateSendMoneyController"
+              })
+              .state('app.Security_Center', {
+                  url: '/Security_Center',
+                  templateUrl: 'views/customerPortal/LinkPage/Security-Center.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+              })
       }
 
 

@@ -151,7 +151,6 @@
         }
 
         vm.Create = function () {
-            debugger;
             $('#PaymentConfirm').modal('toggle');
 
             var idata = vm.PaybillModel;
@@ -168,7 +167,6 @@
             var sYear = vm.ExpireModel.ExpireYear;
             var expiremonth = sMonth + '' + sYear;
             idata.setExpirationDate = expiremonth;
-           
             var formData = JSON.stringify(idata);
             $http({
                 method: 'POST',
@@ -182,9 +180,13 @@
             .success(function (data) {
 
                 var idata = data;
+                if (idata.PaymentMethodId == 12) {
+                    idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
+                    idata.InvoiceAmount = idata.Amount;
+                    idata.FaceAmount = idata.Amount;
+                }
                 vm.PayDetails = idata;
                 if (idata && idata.BillPayId > 0) {
-
                     $('#ThankyouPaybill').modal('toggle');
 
                     $timeout(function () {

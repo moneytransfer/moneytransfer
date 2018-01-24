@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html ng-app="app" lang="en">
 <head>
     <meta charset="utf-8" />
@@ -41,6 +41,7 @@
    
     
      <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" ng-if="$state.current.title == 'customerPortal'" rel="stylesheet">
     <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal'" href="assets/css/bootstrap.min.css" >
     <!--custom css-->
     <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal'" href="assets/css/custom-style.css">
@@ -63,7 +64,7 @@
             }
         };
     </script>-->
-
+     
     <!-- build:js({.tmp,app}) scripts/app.min.js -->
     <script src="vendor/jquery/dist/jquery.js"></script>
     <script src="vendor/pace/pace.js"></script>
@@ -93,12 +94,15 @@
 
     <!-- costomerPortal js files -->
     <script src="assets/js/bootstrap.bundle.min.js" ng-if="$state.current.title == 'customerPortal'"></script> 
+    <script src="assets/js/jquery.payform.min.js" ng-if="$state.current.title == 'customerPortal'"></script>
+   
     <!-- /costomerPortal js files -->
 
     <script src="scripts/module.js"></script>
     <script src="scripts/constants.js"></script>
     <script src="scripts/controller.js"></script>
     <script src="scripts/routes.js"></script>
+  
     <script src="scripts/language.js"></script>
     <script src="scripts/directives/navigation.js"></script>
     <script src="scripts/directives/offscreen.js"></script>
@@ -114,7 +118,7 @@
     <script src="scripts/controllers/session.js"></script>
     <script src="scripts/controllers/appCtrls/CustomerLogin.js"></script>
     <script src="scripts/controllers/appCtrls/user.js"></script>
-
+    
 
     
 </body>

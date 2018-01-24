@@ -3,64 +3,54 @@
         <a class="navbar-brand" ui-sref='app.customerPortal'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
-        <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
-            <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Log out</a></li>
-
-            <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
-        </ul>
-        <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
-            <ul class="navbar-nav ">
-                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.Login'>Signin</a></li>
-                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.userRegister'>Signup</a></li>
-                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>
-            </ul>
-        </div>
     </div>
 </header>
-<!--end header-->
-<div class="body-container-wrapper" ng-controller="manageGustCustomerController">
-    <div id="view"></div>
-    <div class="master-banner d-flex">
-        <div class="container position-relative d-flex justify-content-center align-items-center">
-            <div class="banner-form w-100 text-center">
-                <h5 class="display-4">Recharge Mobile Phones credits<br>
-                    to your friends and family</h5>
-                <form class="banner-form-wrapper d-flex flex-column">
+<style>
+    body{
+        font-family: 'Montserrat', sans-serif;
+        max-width: 1170px;
+        width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+        padding: 20px;
+    } 
+    
+    table {    
+    border-collapse: collapse;
+    width: 100%;
+}
 
-                    <div class="form-group">
-                        <select class="form-control banner-input" id="CountrySelected" ng-model="CountryDetails.phonecode" ng-change="getcountrydata(CountryDetails.phonecode)" ng-init="CountryDetails.phonecode='0'">
-                            <option value="0">Select Country</option>
-                            <option ng-repeat="Country in Countries" value="{{Country.phonecode}}">{{Country.CountryName}}</option>
-                        </select>
-                    </div>
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
 
-
-                    <div class="form-group w-100 pull-left">
-                        <div class="input-number-wrap position-relative pull-left">
-                            <span class="flag-code" ng-if="FlagModel.Result =='Success'">+{{FlagModel.internationalCodes}}</span>
-                            <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required>
-                        </div>
-                        <button type="submit" id="shfirstbutton" ng-click="submitForm()" class="btn cm-btn pull-right">GO</button>
-                    </div>
-
-                    <div class="d-flex align-items-center wrap custom-new-flag" data-ng-if="FlagModel.Result =='Success'">
-                        <div class="col-sm-3 mb-3 mb-sm-0 text-sm-left">
-                            <span class="flag-wrapper">
-                                <img src="images/Flag/{{FlagModel.countryCode}}.png" alt=""></span>
-                        </div>
-                        <div class="col-sm-9 pl-sm-0">
-                            <span class="country-text-wrap">{{FlagModel.carrierName}}</span>
-                        </div>
-                    </div>
-                    <div ng-if="validnumber" class="alert alert-danger text-left position-static">
-                        <span id="AlertText"></span>
-                    </div>
-                </form>
-            </div>
-        </div>
+tr:nth-child(odd) {
+    background-color: #f4f4f4;
+}
+</style>
+<div class="body-container-wrapper" style="margin-top: 100px;">
+    <div class="text-center">
+      <h1>Jurisdiction Regulatory Agency Statue License</h1>
     </div>
-    <!--end master banner-->
-    <section class="payment-section pt-5 pb-5">
+<!--<h3>U.S. State Licensing</h3>-->
+<table>
+  <tr>
+    <td>Jurisdiction</td>
+    <td>Regulatory Agency</td>
+    <td>Statue</td>
+    <td>Licence</td>
+  </tr>
+  <tr>
+    <td>Washington</td>
+    <td>Washington Department of Financial Institutions</td>
+    <td>Washington Money Transmitter (Includes Currency Exchange)</td>
+    <td>550-MT-106269</td>
+  </tr>  
+</table>
+
+      <section class="payment-section pt-5 pb-5">
         <div class="container">
             <div class="row section-01">
                 <div class="col-md d-flex mb-4 mb-md-0">
@@ -78,7 +68,7 @@
                             <img src="assets/image/send.jpg" alt="Low cost">
                         </div>
                         <h4>Get on-the-go convenience</h4>
-                        <p>Reload at home or on-the-go. Weâ€™ll send it instantly and your Family or Friends will get a text message the moment it arrives.</p>
+                        <p>Reload at home or on-the-go. We’ll send it instantly and your Family or Friends will get a text message the moment it arrives.</p>
                     </div>
                 </div>
                 <div class="col-md d-flex">
@@ -123,7 +113,8 @@
             <div class="row footercol">
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon01.png" class="" /></div>
+                        <img src="assets/image/footer-icon01.png" class="" />
+                    </div>
                     <div>
                         <h5>24/7 HELP</h5>
                         <p>Call us 1-800-970-9618</p>
@@ -131,7 +122,8 @@
                 </div>
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon02.png" class="" /></div>
+                        <img src="assets/image/footer-icon02.png" class="" />
+                    </div>
                     <div>
                         <h5>Trusted Pay</h5>
                         <p>100% Payment Protection &amp; Easy Return</p>
@@ -139,7 +131,8 @@
                 </div>
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon03.png" class="" /></div>
+                        <img src="assets/image/footer-icon03.png" class="" />
+                    </div>
                     <div>
                         <h5>Secured Payment</h5>
                         <p>All Major Credit &amp; Debit Cards Accepted</p>
@@ -147,7 +140,8 @@
                 </div>
                 <div class="col-md-3">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon04.png" class="" /></div>
+                        <img src="assets/image/footer-icon04.png" class="" />
+                    </div>
                     <div>
                         <h5>REGHARGE on app</h5>
                         <p>Just Download our App to get Best Offers</p>
@@ -157,13 +151,15 @@
             <div class="row">
                 <div class="newsletter-bg"></div>
                 <div class="newsletter">
-                    <img src="assets/image/signup-newsletter.png" width="85%" /></div>
+                    <img src="assets/image/signup-newsletter.png" width="85%" />
+                </div>
             </div>
             <div class="row footercol last">
                 <div class="col-md-3 ftr-txt">
                     <div>
                         <p>
-                            <img src="assets/image/ftr-logo.png" width="45%" /></p>
+                            <img src="assets/image/ftr-logo.png" width="45%" />
+                        </p>
                         <p>Your Money | Your Best Option | Your Best Solution!</p>
                         <p>
                             Address: FalconLoop Inc.
@@ -177,9 +173,9 @@
                 </div>
                 <div class="col-md-3 ftr-txt">
                     <h5>ABOUT US</h5>
-                    <p>FalconLoopâ€™s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
+                    <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
                 </div>
-                <div class="col-md-3 ftr-txt">
+                 <div class="col-md-3 ftr-txt">
                     <h5>HELP &amp; SUPPORT</h5>
                     <ul>
                         <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
@@ -199,18 +195,7 @@
                         <li><a target="_blank" ui-sref='app.User_agreement'>User Agreement</a></li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </section>
-
 </div>
-<footer class="footer-container-wrapper pt-4 pb-2">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <p>Copyright 2017 Â© Falconloop. All Rights Reserved.</p>
-            </div>
-        </div>
-    </div>
-</footer>

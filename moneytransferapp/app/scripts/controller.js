@@ -1,6 +1,6 @@
 
 var baseUrl = 'http://18.221.150.151:8080/transfermoney/api/';
-//var baseUrl = 'http://192.168.1.2:8080/transfermoney/api/';
+//var baseUrl = 'http://192.168.1.6:8080/transfermoney/api/';
 
 var authorisedUser = [];
 var authorisedCustomer = [];
@@ -79,7 +79,7 @@ var authorisedCustomer = [];
 
         var cookies = $cookies.getAll();
         angular.forEach(cookies, function (v, k) {
-            
+
             $cookies.remove(k);
         });
 
@@ -177,7 +177,19 @@ var authorisedCustomer = [];
                 results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-
+        
+        //vm.ConvertMoney = function () {
+        //    var accesstoken = 'rxv51rk8b4y1kjhasvww';
+        //    $http({
+        //        url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: "INR", amount: "20" }),
+        //        method: 'POST',
+        //        headers: { 'Content-Type': 'application/json' },
+        //        dataType: "json",
+        //    })
+        //        .success(function (data) {
+        //            var idata = data;
+        //        });
+        //}
 
         // site code
         if ($window.sessionStorage.authorisedUser) {
@@ -192,7 +204,7 @@ var authorisedCustomer = [];
 
 
 
-      
+
     };
 
     function chatModalInstanceCtrl($uibModalInstance, $uibModal) {

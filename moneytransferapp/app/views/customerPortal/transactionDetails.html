@@ -1,17 +1,13 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageGuestCustomerTransactionController">
         <a class="navbar-brand" ui-sref='app.customerPortal'>
-            <img src="images/logo.png" alt="Recharge phone">
-            <span>SENDINGLOOP</span></a>
+            <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones"></a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2">
-            <!--  <li class="nav-item"><a class="nav-link" href="" ui-sref="app.Login"><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="" ui-sref="app.userRegister"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign up</a></li>-->
             <li ng-if="localStorage.GustCustomer !=''" class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Log out</a></li>
             <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
-                <li class="nav-item"><a class="nav-link" ui-sref='app.customerPortal'>Home</a></li>
                 <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>
             </ul>
         </div>
@@ -29,41 +25,44 @@
         </div>
     </div>
     <!--end master banner-->
-    <section class="transaction-details-wrapper pt-5 pb-5">
-        <div class="container">
-            <div class="table-responsive">
-                <table class="table background-white transaction-details-table table-striped">
-                    <thead class="thead-default">
-                        <tr>
-                            <th>Transaction Date </th>
-                            <th>Transaction </th>
-                            <th>Purpose</th>
-                            <th>Transferred Amount</th>
-                            <th>Received Amount</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:'-CreatedDate'">
-                            <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
-                            <td><small>{{Transaction.TransactionDetail}} </small></td>
-                            <td><small>{{Transaction.TransferPurpose }} </small></td>
-                            <td><small>$&nbsp;{{Transaction.SendingAmount | number:2  }}</small></td>
-                            <td><small><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{Transaction.ReceivingAmount | number:2  }}</small></td>
-                            <td><small>{{Transaction.Status}}</small></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="" ng-show="totalItems>15">
-                    <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
+    <div class="container">
+        <section class="transaction-details-wrapper pt-5 pb-5">
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table background-white transaction-details-table table-striped">
+                        <thead class="thead-default">
+                            <tr>
+                                <th>Transaction Id</th>
+                                <th>Transaction Date </th>
+                                <th>Transaction By </th>
+                                <th>Purpose</th>
+                                <th>Transferred Amount</th>
+
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:'-CreatedDate'">
+                                <td><small>{{Transaction.PaymentGatewayTransactionId }}</small></td>
+                                <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
+                                <td><small>{{Transaction.TransactionDetail}} </small></td>
+                                <td><small>{{Transaction.TransferPurpose }} </small></td>
+                                <td><small>$&nbsp;{{Transaction.SendingAmount | number:2  }}</small></td>
+
+                                <td><small>{{Transaction.Status}}</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="" ng-show="totalItems>15">
+                        <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
 
 
             </uib-pagination>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-            <script id="uib/template/pagination/pagination.html" type="text/ng-template">
+        </section>
+        <script id="uib/template/pagination/pagination.html" type="text/ng-template">
 <nav class="col-sm-8 pull-right">
   <ul class="pagination">
     <li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="page-item pagination-first"><a href class="page-link" ng-click="selectPage(1, $event)">{{::getText('first')}}</a></li>
@@ -73,19 +72,107 @@
     <li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="page-item pagination-last"><a href class="page-link" ng-click="selectPage(totalPages, $event)">{{::getText('last')}}</a></li>
   </ul>
 </nav>
-</script>
+        </script>
 
 
 
+        <hr>
+        <div class="row footercol">
+            <div class="col-md-3 ftr-bdr">
+                <div class="ftr-img">
+                    <img src="assets/image/footer-icon01.png" class="" />
+                </div>
+                <div>
+                    <h5>24/7 HELP</h5>
+                    <p>Call us 1-800-970-9618</p>
+                </div>
+            </div>
+            <div class="col-md-3 ftr-bdr">
+                <div class="ftr-img">
+                    <img src="assets/image/footer-icon02.png" class="" />
+                </div>
+                <div>
+                    <h5>Trusted Pay</h5>
+                    <p>100% Payment Protection &amp; Easy Return</p>
+                </div>
+            </div>
+            <div class="col-md-3 ftr-bdr">
+                <div class="ftr-img">
+                    <img src="assets/image/footer-icon03.png" class="" />
+                </div>
+                <div>
+                    <h5>Secured Payment</h5>
+                    <p>All Major Credit &amp; Debit Cards Accepted</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="ftr-img">
+                    <img src="assets/image/footer-icon04.png" class="" />
+                </div>
+                <div>
+                    <h5>REGHARGE on app</h5>
+                    <p>Just Download our App to get Best Offers</p>
+                </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="newsletter-bg"></div>
+            <div class="newsletter">
+                <img src="assets/image/signup-newsletter.png" width="85%" />
+            </div>
+        </div>
 
+        <div class="row footercol last">
+            <div class="col-md-3 ftr-txt">
+                <div>
+                    <p>
+                        <img src="assets/image/ftr-logo.png" width="45%" />
+                    </p>
+                    <p>Your Money | Your Best Option | Your Best Solution!</p>
+                    <p>
+                        Address: FalconLoop Inc.
+                <br>
+                        506 Second Ave. Suite 1400<br>
+                        Seattle WA, 98104<br>
+                        United States of America<br>
+                        1-800-970-9618
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3 ftr-txt">
+                <h5>ABOUT US</h5>
+                <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
+            </div>
+            <div class="col-md-3 ftr-txt">
+                <h5>HELP &amp; SUPPORT</h5>
+                <ul>
+                    <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
+                    <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
+                    <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>
+                    <li><a target="_blank" ui-sref='app.Track_Transfers'>Track Transfers</a></li>
+                    <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 ftr-txt">
+                <h5>SECURITY &amp; PRIVACY</h5>
+                <ul>
+                    <li><a target="_blank" ui-sref='app.US_state_lcensing'>U.S. State Licensing</a></li>
+                    <li><a target="_blank" ui-sref='app.International_Licensing'>International Licensing</a></li>
+                    <li><a target="_blank" ui-sref='app.Security_Center'>Security Center</a></li>
+                    <li><a target="_blank" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
+                    <li><a target="_blank" ui-sref='app.User_agreement'>User Agreement</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer class="footer-container-wrapper pt-4 pb-2">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <p>Copyright 2017 © Money Transfer. All Rights Reserved.</p>
+                <p>Copyright 2017 © Falconloop. All Rights Reserved.</p>
             </div>
         </div>
     </div>

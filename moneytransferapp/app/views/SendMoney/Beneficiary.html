@@ -1,0 +1,340 @@
+﻿<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
+    <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
+        <a class="navbar-brand" ui-sref='app.SendMoney'>
+            <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
+        </a>
+        <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
+            <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Log out</a></li>
+            <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
+        </ul>
+        <!--<div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
+        </div>-->
+    </div>
+</header>
+
+
+<div class="body-container-wrapper m-t-3" ng-controller="addEditBeneficiaryController">
+    <div class="master-banner inner-page-banner d-flex align-items-end">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 desaturated-blue">
+                    <ul class="row custom-banner-breadcrumb cm-white-space">
+                        <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ui-sref='app.SendMoney'>TRANSACTION INFORMATION</li>
+                        <!--<li class="col-md-3">TRANSACTION INFORMATION</li>-->
+                        <li class="col-md-3">BENEFICIARY DETAILS</li>
+                        <li class="col-md-3">CASH PICKUP DETAILS</li>
+                        <li class="col-md-3">Payment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container-wrapper container " ng-cotroller="addEditBeneficiaryController">
+        <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
+            <div class="container">
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-6 float-left">
+                            <div class="col-sm-12 float-left">
+                                <div class="col-sm-6 p-0 float-left">
+                                    <label for="Beneficiary">Beneficiary : </label>
+                                    <div class="col-sm-12 p-0">
+                                        <select name="Beneficiary" id="BeneficiaryId" ng-init="PaymentModel.BeneficiaryId='0'" ng-model="PaymentModel.BeneficiaryId" class="form-control" ng-change="selectedBeneficiary(PaymentModel.BeneficiaryId)" required>
+                                            <option value="0">-- Select Beneficiary --</option>
+                                            <option ng-repeat="Beneficiary in Beneficiaries" value="{{Beneficiary.BeneficiaryId}}">{{Beneficiary.FirstName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 float-left m-t-30">
+                                    <div class="col-sm-12 ">
+                                        <button type="submit" class="btn btn-primary pull-right" ng-click="addNewBeneficiary()"><i class="glyphicon glyphicon-plus"></i>Add Beneficiary </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12 m-t-1 float-left">
+                                <div class="col-sm-6 p-0 float-left">
+                                    <label for="Name">First Name: </label>
+                                    <div class="col-sm-12 p-0 ">
+                                        <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="BeneficiaryModel.FirstName" disabled="disabled" maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 p-a-0 float-left">
+                                    <label for="LastName">Last Name:</label>
+                                    <div class="col-sm-12 p-0">
+                                        <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="BeneficiaryModel.LastName" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12 m-t-1 cm-clearfix">
+                                <label for="Email">Email: </label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="BeneficiaryModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 m-t-1">
+                                <label for="Phone">Phone: </label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="number" min="10" class="form-control" id="Username" placeholder="Phone" ng-model="BeneficiaryModel.Phone" disabled="disabled" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 m-t-1">
+                                <label for="ZipCode">Date Of Birth : </label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="text" class="form-control datetimepicker" id="Text2" placeholder="yyyy-mm-dd" ng-model="BeneficiaryModel.DOB " disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 m-t-1">
+                                <label for="Country">Beneficiary type : </label>
+                                <div class="col-sm-12 p-0">
+                                    <select name="FamRole" id="Select3" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control" disabled="disabled">
+                                        <option value="0">-- Select Beneficiary type --</option>
+                                        <option ng-repeat="Beneficiary in BeneficiaryType" value="{{Beneficiary.BeneficiaryTypeId}}">{{Beneficiary.BeneficiaryDescription}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-sm-6 float-left">
+
+                            <div class="col-sm-12 float-left">
+                                <label for="Address1">Address1 :</label>
+                                <div class="col-sm-12 p-0 float-left">
+                                    <input type="text" class="form-control" id="Address1" placeholder="Address1" ng-model="BeneficiaryModel.Address1 " disabled="disabled" maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 m-t-1 float-left">
+                                <label for="Address2">Address2 : </label>
+                                <div class="col-sm-12 p-0 float-left">
+                                    <input type="text" class="form-control" id="Address2" placeholder="Address2" ng-model="BeneficiaryModel.Address2 " disabled="disabled" maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 m-t-1">
+                                <label for="City">City : </label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="text" class="form-control" id="City" placeholder="City Name" ng-model="BeneficiaryModel.City " disabled="disabled" maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 m-t-1">
+                                <label for="State">State :</label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="text" class="form-control" id="State" placeholder="State Name" ng-model="BeneficiaryModel.State " disabled="disabled" maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 m-t-1">
+                                <label for="ZipCode">ZipCode : </label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="number" class="form-control" id="ZipCode" placeholder="ZipCode" ng-model="BeneficiaryModel.ZipCode" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 m-t-1">
+                                <label for="Country">Country :</label>
+                                <div class="col-sm-12 p-0">
+                                    <select name="FamRole" id="ddlCountry" ng-model="BeneficiaryModel.CountryId" class="form-control" disabled="disabled">
+                                        <option value="0">-- Select Country --</option>
+                                        <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 m-t">
+                        <div class="pull-right padding">
+                            <button type="submit" class="btn btn-primary" ng-disabled="!BeneficiaryModel.FirstName" ng-click="CashPickUp(PaymentModel.BeneficiaryId)">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+        <section class="payment-section pt-5 pb-5">
+            <div class="container">
+                <div class="row section-01">
+                    <div class="col-md d-flex mb-4 mb-md-0">
+                        <div class="">
+                            <div class="reason-image mb-4">
+                                <img src="assets/image/gift.jpg" alt="easy and fast">
+                            </div>
+                            <h4>Give the gift of talk and connect</h4>
+                            <p>Surprise your Family and Friends with airtime anytime, for any occasion. Giving is easy. All you need is their phone number.</p>
+                        </div>
+                    </div>
+                    <div class="col-md d-flex mb-4 mb-md-0">
+                        <div class="">
+                            <div class="reason-image mb-4">
+                                <img src="assets/image/send.jpg" alt="Low cost">
+                            </div>
+                            <h4>Get on-the-go convenience</h4>
+                            <p>Reload at home or on-the-go. We’ll send it instantly and your Family or Friends will get a text message the moment it arrives.</p>
+                        </div>
+                    </div>
+                    <div class="col-md d-flex">
+                        <div class="">
+                            <div class="reason-image mb-4">
+                                <img src="assets/image/sync.jpg" alt="120+ countries supported">
+                            </div>
+                            <h4>Do more than just reload</h4>
+                            <p>Whether you want to recharge a prepaid phone, send money or pay a bill, you can do it all with SendingLoop.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row section-02">
+                    <div class="phoneReload"></div>
+                    <div class="col-md d-flex mb-12 mb-md-0">
+                        <div class="flowimg">
+                            <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="moneyReload"></div>
+                    <div class="col-md topnotch d-flex mb-6 mb-md-0">
+                        <div class="">
+                            <div class="mb-6">
+                                <img src="assets/image/money-bck.png" width="12%" alt="easy and fast">
+                            </div>
+                            <h4>Money-back guarantee</h4>
+                            <p>We stand behind the reliability of our service. If your reload doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+                        </div>
+                    </div>
+                    <div class="col-md topnotch d-flex mb-6 mb-md-0">
+                        <div class="">
+                            <div class="mb-6">
+                                <img src="assets/image/security.png" width="9%" alt="Low cost">
+                            </div>
+                            <h4>Top-notch security</h4>
+                            <p>We employ top-tier technology to keep your information safe at all times.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row footercol">
+                    <div class="col-md-3 ftr-bdr">
+                        <div class="ftr-img">
+                            <img src="assets/image/footer-icon01.png" class="" />
+                        </div>
+                        <div>
+                            <h5>24/7 HELP</h5>
+                            <p>Call us 1-800-970-9618</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 ftr-bdr">
+                        <div class="ftr-img">
+                            <img src="assets/image/footer-icon02.png" class="" />
+                        </div>
+                        <div>
+                            <h5>Trusted Pay</h5>
+                            <p>100% Payment Protection &amp; Easy Return</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 ftr-bdr">
+                        <div class="ftr-img">
+                            <img src="assets/image/footer-icon03.png" class="" />
+                        </div>
+                        <div>
+                            <h5>Secured Payment</h5>
+                            <p>All Major Credit &amp; Debit Cards Accepted</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="ftr-img">
+                            <img src="assets/image/footer-icon04.png" class="" />
+                        </div>
+                        <div>
+                            <h5>REGHARGE on app</h5>
+                            <p>Just Download our App to get Best Offers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="newsletter-bg"></div>
+                    <div class="newsletter">
+                        <img src="assets/image/signup-newsletter.png" width="85%" />
+                    </div>
+                </div>
+                <div class="row footercol last">
+                    <div class="col-md-3 ftr-txt">
+                        <div>
+                            <p>
+                                <img src="assets/image/ftr-logo.png" width="45%" />
+                            </p>
+                            <p>Your Money | Your Best Option | Your Best Solution!</p>
+                            <p>
+                                Address: FalconLoop Inc.
+                                <br>
+                                506 Second Ave. Suite 1400<br>
+                                Seattle WA, 98104<br>
+                                United States of America<br>
+                                1-800-970-9618
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 ftr-txt">
+                        <h5>ABOUT US</h5>
+                        <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
+                    </div>
+                    <div class="col-md-3 ftr-txt">
+                        <h5>HELP &amp; SUPPORT</h5>
+                        <ul>
+                            <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
+                            <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
+                            <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>
+                            <li><a target="_blank" ui-sref='app.Track_Transfers'>Track Transfers</a></li>
+                            <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 ftr-txt">
+                        <h5>SECURITY &amp; PRIVACY</h5>
+                        <ul>
+                            <li><a target="_blank" ui-sref='app.US_state_lcensing'>U.S. State Licensing</a></li>
+                            <li><a target="_blank" ui-sref='app.International_Licensing'>International Licensing</a></li>
+                            <li><a target="_blank" ui-sref='app.Security_Center'>Security Center</a></li>
+                            <li><a target="_blank" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
+                            <li><a target="_blank" ui-sref='app.User_agreement'>User Agreement</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addBeneficiaryconfirm">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div ng-include="'views/SendMoney/addEditBeneficiary.html'"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cencel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+    </div>
+
+<footer class="footer-container-wrapper pt-4 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>Copyright 2017 © Falconloop. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+    
+

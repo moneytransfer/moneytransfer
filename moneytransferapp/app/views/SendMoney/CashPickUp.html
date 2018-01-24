@@ -1,0 +1,63 @@
+﻿<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
+    <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
+        <a class="navbar-brand" ui-sref='app.SendMoney'>
+            <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
+        </a>
+        <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
+            <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Log out</a></li>
+            <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
+        </ul>
+        <!--<div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
+        </div>-->
+    </div>
+</header>
+<div class="body-container-wrapper m-t-3" ng-controller="addCashPickUpController">
+    <div class="master-banner inner-page-banner d-flex align-items-end">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 desaturated-blue">
+                    <ul class="row custom-banner-breadcrumb cm-white-space">
+                        <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ng-click="goBack()">TRANSACTION INFORMATION</li>
+                        <!--<li class="col-md-3">TRANSACTION INFORMATION</li>-->
+                        <li class="col-md-3 {{localStorage.SelectedCountry !=''?'active':''}} " ui-sref='app.addEditBeneficiary'>BENEFICIARY DETAILS</li>
+                        <li class="col-md-3">CASH PICKUP DETAILS</li>
+                        <li class="col-md-3">Payment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="body-container-wrapper container " ng-cotroller="addCashPickUpController">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <label for="TransferPurpose">Transfer Purpose: <b class="text-danger">&nbsp;*</b></label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="TransferPurpose" placeholder="Transfer Purpose" ng-model="PaymentModel.TransferPurpose" required aria-required="true" aria-invalid="true">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <label for="TransactionDetail">Description: <b class="text-danger">&nbsp;*</b></label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="TransactionDetail" placeholder="Transaction Detail" ng-model="PaymentModel.TransactionDetail" required maxlength="50">
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <label for="DeliveryType">Delivery Type: <b class="text-danger">&nbsp;*</b></label>
+                <div class="col-sm-12 p-a-0">
+                    <input type="text" class="form-control" id="DeliveryType" placeholder="Delivery Type" ng-model="PaymentModel.DeliveryType" required aria-required="true" aria-invalid="true">
+                </div>
+            </div>
+
+            <div class="col-sm-12 m-t-1">
+                <div class="pull-right padding">
+                    <button type="submit" class="btn btn-primary"
+                            ng-disabled="!PaymentModel.TransferPurpose"
+                            onclick="$('#PAYMENT a').trigger('click'); $('#PAYMENT').addClass('active');">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

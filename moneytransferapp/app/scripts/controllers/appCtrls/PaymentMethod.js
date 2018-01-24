@@ -32,7 +32,7 @@
         $http({
             method: 'POST',
             data: formData,
-            url: baseUrl + 'getpaymentmethodbycompanyid ',
+            url: baseUrl + 'getpaymentmethodbycompany ',
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
@@ -115,7 +115,6 @@
             vm.header = 'Update';
             var iPaymentMethodID = "";
             iPaymentMethodID = parseInt($stateParams.PaymentMethodId);
-
             var formData = JSON.parse(JSON.stringify({ "PaymentMethodId": iPaymentMethodID }));
             $http({
                 method: 'POST',
@@ -142,6 +141,9 @@
                  })
               .success(function (data) {
                   var idata = data;
+                  if (idata.Port != '') {
+                      idata.Port = parseInt(idata.Port);
+                  }
                   vm.AuthorizePaymentModel = idata;
 
               });
@@ -257,9 +259,10 @@
 
         vm.cancel = function () {
             //$state.go('app.Manage_PaymentMethod');
+
             if (authorisedUser.CompanyId == 0) {
                 $state.go('app.Manage_PaymentMethod', { CompanyId: parseInt(window.localStorage.getItem('CompanyId')) });
-                window.localStorage.$reset('');
+                //window.localStorage.$reset('');
             }
             else {
                 window.location.href = "#app/Manage_Payment";
@@ -343,7 +346,7 @@
 
 
 
-        vm.PaymentModel = { PaymentMethodId: '0', CompanyId: vm.companyId, CustomerId: vm.CustomerId, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0',ExchangeRate:'64.60', setExpirationDate: '',ReceivingAmount:'' }
+        vm.PaymentModel = { PaymentMethodId: '0', CompanyId: vm.companyId, CustomerId: vm.CustomerId, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '' }
         vm.Message = '';
         vm.ExpireModel = {}
         vm.selectedMethod = function (Id) {
@@ -381,7 +384,6 @@
                 dataType: "json",
             })
              .success(function (data) {
-
                  var idata = data;
                  if (idata) {
                      idata.ZipCode = parseInt(idata.ZipCode);
@@ -451,7 +453,7 @@
             vm.PaymentModel.ReceivingAmount = parseFloat(ReceivingAm);
         }
 
-       
+
         vm.Create = function () {
             var idata = vm.PaymentModel;
 
@@ -462,18 +464,25 @@
             var sYear = vm.ExpireModel.ExpireYear;
             var expiremonth = sMonth + '' + sYear;
             idata.setExpirationDate = expiremonth;
-
+            var Method = '';
+            if (idata.PaymentMethodId == "1") {
+                Method = 'makePayment';
+            }
+            else if (idata.PaymentMethodId == "12") {
+                Method = 'magicPay';
+                idata.SenderName = authorisedCustomer.FirstName;
+            }
             var formData = JSON.stringify(idata);
             $http({
                 method: 'POST',
                 data: formData,
-                url: baseUrl + 'makePayment',
+                url: baseUrl + Method,
                 headers: { 'Content-Type': 'application/json' },
                 dataType: "json",
             })
             .success(function (data) {
                 var idata = data;
-                if (idata && idata.Result == "Sucess") {
+                if (idata && idata.TransactionId > 0) {
                     Alert(1, "! Payment processed successfully");
                     vm.PaymentModel = angular.copy(vm.PaymentModel);
                     $state.go('app.Thankyou');

@@ -1,6 +1,6 @@
 ﻿<form role="form" class="ng-pristine ng-valid" id="payment" name="" ui-jq="validate">
     <div class="form-group row">
-        
+
         <div class=" col-sm-8">
             <h5 class="font-weight-bold p-l-2">Choose your payment method</h5>
             <div class="col-sm-12 m-b-1">
@@ -13,7 +13,9 @@
                     </div>
                 </div>
             </div>
-
+            <div class="alertmsg alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
+                <span>You are not able to make Payment, please contact with administrator.</span>
+            </div>
             <div ng-show="PaymentModel.PaymentMethodId>0">
                 <div class="form-group row">
                     <div class="col-sm-12">
@@ -52,6 +54,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
 
@@ -89,7 +92,7 @@
                     <label id="totaltopay" class="font-weight-bold">{{PaymentModel.SendingAmount | number:2}}</label>
                 </div>
             </div>
-           
+
             <div class="col-sm-12 b-t">
                 <label for="Charges" class="col-sm-8 form-control-label font-weight-bold">Your beneficiary recieves: </label>
                 <div class="col-sm-4">

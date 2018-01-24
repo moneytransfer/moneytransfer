@@ -3,7 +3,7 @@
    ========================================================================== */
 
 body {
-    background-color: #efefef;
+    background-color: #fff;
     color: #888;
     display: -webkit-box;
     display: -moz-box;
@@ -20,12 +20,130 @@ body {
     height: 100vh;
 }
 
+.ftr-bdr {
+    border-right: 1px solid #eee;
+}
+
+.ftr-txt {
+    border-right: 1px solid #eee;
+    text-align: left !important;
+}
+
+.ftr-txt:last-child {
+    border-right: none;
+}
+
+.footercol h5 {
+    font-size: 12px;
+    text-align: center;
+}
+
+.footercol.last {
+    margin-top: 40px;
+}
+
+.footercol.last h5 {
+    font-size: 12px;
+    text-align: left;
+}
+
+.ftr-img {
+    text-align: center;
+}
+
+.footercol .ftr-img img {
+    width: 28%;
+    height: 28%;
+}
+
+.ftr-txt ul li a {
+    font-size: 11px;
+    text-align: left;
+    margin-bottom: 10px;
+    color:#888;
+}
+
+.footercol p {
+    font-size: 10px;
+    text-align: center;
+}
+
+.ftr-txt p {
+    font-size: 11px;
+    text-align: left;
+}
+
+.col-md {
+    padding-right: 20px;
+}
+
+.col-md.topnotch {
+    padding-right: 80px;
+    padding-top: 60px;
+    padding-bottom: 45px;
+}
+
+.phoneReload {
+    background: #2acee1;
+    position: absolute;
+    left: 0;
+    height: 300px;
+    width: 100%;
+}
+
+.newsletter {
+    text-align: center;
+}
+
+.newsletter-bg {
+    background: #1fa2ea;
+    position: absolute;
+    left: 0;
+    height: 78px;
+    width: 100%;
+    z-index: -1;
+}
+
+.moneyReload {
+    background: #eee;
+    position: absolute;
+    left: 0;
+    height: 300px;
+    width: 100%;
+}
+
+.flowimg {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 36px;
+}
+
+.section-01 {
+    margin-bottom: 60px;
+}
+
+.section-02 {
+    margin-top: 40px;
+}
+
+
 .page-wrap {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+}
+
+.reason-image {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.reason-image img {
+    height: 40px !important;
 }
 
 
@@ -56,6 +174,16 @@ h6 {
     color: #32495e;
 }
 
+
+h4 {
+    font-size:1.3em;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 0.9em
+}
 
 /* Anchor Links */
 
@@ -217,6 +345,14 @@ label {
     color: #000;
 }
 
+.has-error .cm-input {
+    border-color: #d9534f !important;
+}
+
+.has-success .cm-input {
+  border-color: #5cb85c !important;
+}
+
 .log-sign-tab > li > a {
     display: block;
     font-size: 18px;
@@ -247,13 +383,14 @@ label {
 .header-container-wrapper {
     position: relative;
     z-index: 999;
-    background-color: rgba(57, 66, 69, 0.8);
+    background-color: #fff;
     -moz-box-shadow: 0 -3px 10px rgba(0, 0, 0, .25);
     -webkit-box-shadow: 0 -3px 10px rgba(0, 0, 0, .25);
     box-shadow: 0 -3px 10px rgba(0, 0, 0, .25);
     -moz-transition: box-shadow .25s;
     -webkit-transition: box-shadow .25s;
     transition: box-shadow .25s;
+    height: 95px;
 }
 .navbar-brand {
     font-size: 24px;
@@ -264,17 +401,16 @@ label {
 .navbar-brand img {
     height: 100%;
     width: 100%;
-    max-width: 70px;
+    max-width: 200px;
 }
 
 .navbar-nav .nav-item .nav-link {
     font-family: 'Montserrat', sans-serif;
-    color: #e1e1e1;
+    color: #444;
     position: relative;
     font-size: 14px;
     line-height: normal;
     padding: 28px 20px;
-    text-shadow: 1px 1px rgba(0, 0, 0, 0.6);
     border-right: 1px solid transparent;
     border-left: 1px solid transparent;
     border-bottom: 1px solid transparent;
@@ -295,11 +431,11 @@ label {
     margin-right: 5px;
 }
 
-.navbar-nav .nav-item .nav-link:hover {
+/*.navbar-nav .nav-item .nav-link:hover {
     background-color: rgba(0, 0, 0, 0.15);
     border-color: rgba(57, 66, 69, 0.8);
     border-bottom-color: #2e3537;
-}
+}*/
 
 .navbar-nav .nav-item .nav-link > i {
     margin-right: 0;
@@ -362,12 +498,13 @@ label {
    ========================================================================== */
 
 .footer-container-wrapper {
-    background: #2b3c4e;
-    color: #fff;
+    background: #fff;
+    border-top: 1px solid #eee;
 }
 
 .footer-container-wrapper * {
-    color: #fff;
+    color: #999;
+    font-size: 10px;
 }
 
 
@@ -377,15 +514,22 @@ label {
 
 .master-banner {
     position: relative;
-    min-height: 450px;
+    min-height: 570px;
     background: url('../image/master-banner.jpg') no-repeat center top;
     background-size: cover;
     padding-top: 85px;
 }
 
 .master-banner.inner-page-banner {
-    min-height: 250px;
+    min-height: 350px;
     background-position: center center;
+}
+
+.display-4 {
+    font-size: 2.5rem;
+    color:#fff;
+    margin-top: -20px;
+    margin-bottom: 10px;
 }
 
 .master-banner:before {
@@ -395,7 +539,6 @@ label {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.6);
 }
 
 .banner-form h1 {
@@ -408,10 +551,16 @@ label {
     font-size: 48px;
 }
 
+.banner-form h1 img {
+    max-width: 75px;
+    vertical-align: text-bottom;
+}
+
 .banner-form-wrapper {
     max-width: 500px;
     margin: 0 auto;
     position: relative;
+    margin-top: 50px;
 }
 
 .banner-form-wrapper .input-number-wrap {
@@ -662,8 +811,9 @@ label {
    Custom Amount Card                                      
    ========================================================================== */
 
-.amount-wrap .container {
+.choose-amt {
     max-width: 900px;
+    margin: 0 auto;
 }
 
 .custom-amount {
@@ -694,9 +844,12 @@ label {
     border-color: #3abafd;
 }
 
-.custom-amount > span {
+.custom-amount center > span {
     color: #3abafd;
 }
+
+
+
 
 @media (max-width: 500px) {
     .custom-payment-amount {
@@ -708,4 +861,26 @@ label {
     position:absolute;
     bottom:0px;
     right:0px;
+}
+
+/*Send Money*/
+
+.m-t-3 {
+    margin-top: 9rem;
+}
+ul.cm-white-space li{
+        white-space: nowrap;
+}
+.m-t-30{
+  margin-top:30px;
+}
+.p-0{
+    padding:0px;
+}
+.m-t{
+    margin-top:3rem;
+    padding-right: 45px;
+}
+.cm-clearfix{
+    clear:both;
 }
