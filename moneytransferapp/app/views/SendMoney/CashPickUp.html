@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb cm-white-space">
-                        <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ng-click="goBack()">TRANSACTION INFORMATION</li>
+                        <li class="col-md-3 {{localStorage.PaymentModel.SendingAmount !=''?'active':''}}" ng-click="goBack()">TRANSACTION INFORMATION</li>
                         <!--<li class="col-md-3">TRANSACTION INFORMATION</li>-->
                         <li class="col-md-3 {{localStorage.SelectedCountry !=''?'active':''}} " ui-sref='app.addEditBeneficiary'>BENEFICIARY DETAILS</li>
                         <li class="col-md-3">CASH PICKUP DETAILS</li>
@@ -52,8 +52,8 @@
             <div class="col-sm-12 m-t-1">
                 <div class="pull-right padding">
                     <button type="submit" class="btn btn-primary"
-                            ng-disabled="!PaymentModel.TransferPurpose"
-                            onclick="$('#PAYMENT a').trigger('click'); $('#PAYMENT').addClass('active');">
+                            ng-disabled="!PaymentModel.TransferPurpose || !PaymentModel.DeliveryType ||!PaymentModel.TransactionDetail"
+                            ng-click="SaveCashPickUp()">
                         Next
                     </button>
                 </div>

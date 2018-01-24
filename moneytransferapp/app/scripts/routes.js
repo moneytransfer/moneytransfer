@@ -1344,7 +1344,7 @@
                    title: 'customerPortal',
 
                })
-
+          
               .state('app.CashPickUp', {
                   url: '/CashPickUp',
                   templateUrl: 'views/SendMoney/CashPickUp.html',
@@ -1357,6 +1357,20 @@
                   },
                   title: 'customerPortal',
                   //controller: "authenticateSendMoneyController"
+
+              })
+              .state('app.Payment', {
+                  url: '/MakePayment',
+                  templateUrl: 'views/SendMoney/Payment.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+                  controller: "authenticateSendMoneyController"
 
               })
 
@@ -1401,6 +1415,32 @@
                   },
                   title: 'customerPortal',
               })
+           .state('app.SendMoneyThankyou', {
+               url: '/SendMoneyThankyou',
+               templateUrl: 'views/SendMoney/ThankyouPage.html',
+               resolve: {
+                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                           //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                           return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                       });
+                   }]
+               },
+               title: 'customerPortal',
+           })
+           .state('app.SendMoneyTransaction', {
+               url: '/SendMoneyTransaction',
+               templateUrl: 'views/SendMoney/manageTransaction.html',
+               resolve: {
+                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                           //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                           return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                       });
+                   }]
+               },
+               title: 'customerPortal',
+           })
       }
 
 

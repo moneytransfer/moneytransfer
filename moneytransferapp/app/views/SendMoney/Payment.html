@@ -3,162 +3,167 @@
         <a class="navbar-brand" ui-sref='app.SendMoney'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
+
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
             <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Log out</a></li>
+
             <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
         </ul>
-        <!--<div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
-        </div>-->
+        <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
+            <ul class="navbar-nav ">
+                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Signin</a></li>
+                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Signup</a></li>
+            </ul>
+        </div>
     </div>
 </header>
-
-
-<div class="body-container-wrapper m-t-3" ng-controller="addEditBeneficiaryController">
+<!--end header-->
+<div class="body-container-wrapper m-t-3" ng-controller="makeSendMoneyPaymentController">
     <div class="master-banner inner-page-banner d-flex align-items-end">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb cm-white-space">
+                        <!--<li class="col-md-4 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ng-click="goBack()">Destination Number</li>-->
                         <li class="col-md-3 {{localStorage.PaymentModel.SendingAmount !=''?'active':''}}" ui-sref='app.SendMoney'>TRANSACTION INFORMATION</li>
-                        <!--<li class="col-md-3">TRANSACTION INFORMATION</li>-->
-                        <li class="col-md-3">BENEFICIARY DETAILS</li>
-                        <li class="col-md-3">CASH PICKUP DETAILS</li>
+                        <li  class="col-md-3 {{localStorage.SelectedCountry !=''?'active':''}} " ui-sref='app.addEditBeneficiary'>BENEFICIARY DETAILS</li>
+                        <li class="col-md-3 {{localStorage.PaymentModel.TransferPurpose !=''?'active':''}}" ui-sref='app.CashPickUp'>CASH PICKUP DETAILS</li>
                         <li class="col-md-3">Payment</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <div class="body-container-wrapper container " ng-cotroller="addEditBeneficiaryController">
+    <div class="body-container-wrapper container">
+       <div id="view"></div>
         <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
-            <div class="container">
+            <form role="form" class="ng-pristine ng-valid" id="payment" name="" ui-jq="validate">
                 <div class="form-group row">
-                    <div class="col-sm-12">
-                        <div class="col-sm-6 float-left">
-                            <div class="col-sm-12 float-left">
-                                <div class="col-sm-6 p-0 float-left">
-                                    <label for="Beneficiary">Beneficiary : </label>
-                                    <div class="col-sm-12 p-0">
-                                        <select name="Beneficiary" id="BeneficiaryId" ng-init="PaymentModel.BeneficiaryId='0'" ng-model="PaymentModel.BeneficiaryId" class="form-control" ng-change="selectedBeneficiary(PaymentModel.BeneficiaryId)" required>
-                                            <option value="0">-- Select Beneficiary --</option>
-                                            <option ng-repeat="Beneficiary in Beneficiaries" value="{{Beneficiary.BeneficiaryId}}">{{Beneficiary.FirstName}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 float-left m-t-30">
-                                    <div class="col-sm-12 ">
-                                        <button type="submit" class="btn btn-primary pull-right" ng-click="addNewBeneficiary()"><i class="glyphicon glyphicon-plus"></i>Add Beneficiary </button>
-                                    </div>
+
+                    <div class="col-sm-8">
+                        <h5 class="font-weight-bold p-l-2">Choose your payment method</h5>
+                        <div class="col-sm-12 m-b-1">
+                            <label for="Status" class="col-sm-4 form-control-label">Payment Method: </label>
+                            <div class="col-sm-8 p-0">
+                                <div class="col-sm-4" ng-repeat="PaymentMethod in PaymentMethods">
+                                    <label class="form-control-label">
+                                        <input type="radio" name="methods" ng-model="PaymentModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaymentModel.PaymentMethodId)" required />
+                                        {{PaymentMethod.Title}}
+                                    </label>
                                 </div>
                             </div>
-
-
-                            <div class="col-sm-12 m-t-1 float-left">
-                                <div class="col-sm-6 p-0 float-left">
-                                    <label for="Name">First Name: </label>
-                                    <div class="col-sm-12 p-0 ">
-                                        <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="BeneficiaryModel.FirstName" disabled="disabled" maxlength="50">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 p-a-0 float-left">
-                                    <label for="LastName">Last Name:</label>
-                                    <div class="col-sm-12 p-0">
-                                        <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="BeneficiaryModel.LastName" disabled="disabled">
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-sm-12 m-t-1 cm-clearfix">
-                                <label for="Email">Email: </label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="BeneficiaryModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" disabled="disabled">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12 m-t-1">
-                                <label for="Phone">Phone: </label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="number" min="10" class="form-control" id="Username" placeholder="Phone" ng-model="BeneficiaryModel.Phone" disabled="disabled" />
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12 m-t-1">
-                                <label for="ZipCode">Date Of Birth : </label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="text" class="form-control datetimepicker" id="Text2" placeholder="yyyy-mm-dd" ng-model="BeneficiaryModel.DOB " disabled="disabled">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12 m-t-1">
-                                <label for="Country">Beneficiary type : </label>
-                                <div class="col-sm-12 p-0">
-                                    <select name="FamRole" id="Select3" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control" disabled="disabled">
-                                        <option value="0">-- Select Beneficiary type --</option>
-                                        <option ng-repeat="Beneficiary in BeneficiaryType" value="{{Beneficiary.BeneficiaryTypeId}}">{{Beneficiary.BeneficiaryDescription}}</option>
-                                    </select>
-                                </div>
-                            </div>
-
-
                         </div>
-                        <div class="col-sm-6 float-left">
-
-                            <div class="col-sm-12 float-left">
-                                <label for="Address1">Address1 :</label>
-                                <div class="col-sm-12 p-0 float-left">
-                                    <input type="text" class="form-control" id="Address1" placeholder="Address1" ng-model="BeneficiaryModel.Address1 " disabled="disabled" maxlength="30">
+                        <div class="alertmsg alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
+                            <span>You are not able to make Payment, please contact with administrator.</span>
+                        </div>
+                        <div ng-show="PaymentModel.PaymentMethodId>0">
+                            <div class="form-group row">
+                                <div class="col-sm-12" id="card-number-field">
+                                    <label for="CardNumber" class="col-sm-3 form-control-label">Card Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8 form-group" id="card-number-field">
+                                        <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="PaymentModel.CardNumber" onkeypress="if(this.value.length==16) return false;" required>
+                                    </div>
                                 </div>
+                                <div class="col-sm-12 m-t-1">
+                                    <label for="ExpireDate" class="col-sm-3 form-control-label">Expire Date: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-4">
+                                        <input type="number" class="form-control float-left" id="Expiremonth" placeholder="mm" ng-model="ExpireModel.ExpireMonth" onkeypress="if(this.value.length==2) return false;"  required>
+                                    </div>
+                                    <div class="col-sm-4 float-left">
+                                        <input type="number" class="form-control float-left" id="Year" placeholder="yy" ng-model="ExpireModel.ExpireYear" onkeypress="if(this.value.length==2) return false;" ng-change="CheckYear(ExpireModel.ExpireYear)"required >
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-12 m-t-1">
+                                    <label for="CVV" class="col-sm-3 form-control-label">CVV: <b class="text-danger">&nbsp;*</b></label>
+                                    <div id="cvv-Field" class="col-sm-8" >
+                                        <input type="number" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="PaymentModel.cvv" onkeypress="if(this.value.length == 4) return false;" required>
+                                    </div>
+                                </div>
+
+                                <div ng-if="alert" id="alertDiv" class="alert alert-danger text-left position-static">
+                                    <span id="PaymentAlertText"></span>
+                                </div>
+
                             </div>
 
-                            <div class="col-sm-12 m-t-1 float-left">
-                                <label for="Address2">Address2 : </label>
-                                <div class="col-sm-12 p-0 float-left">
-                                    <input type="text" class="form-control" id="Address2" placeholder="Address2" ng-model="BeneficiaryModel.Address2 " disabled="disabled" maxlength="30">
+                            <div class="form-group row m-t-md">
+                                <div class="col-sm-7 pull-right">
+                                    <button type="submit" class="btn btn-primary"
+                                            ng-disabled="!isCardValid || !ExpireModel.ExpireMonth || !ExpireModel.ExpireYear||!PaymentModel.cvv"
+                                            ng-click="PayNow();">
+                                        Pay Now
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-sm-12 m-t-1">
-                                <label for="City">City : </label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="text" class="form-control" id="City" placeholder="City Name" ng-model="BeneficiaryModel.City " disabled="disabled" maxlength="30">
+                    </div>
+                    <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-success">
+                                    <h4 class="modal-title ">Confirmation ! </h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                            </div>
-
-                            <div class="col-sm-12 m-t-1">
-                                <label for="State">State :</label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="text" class="form-control" id="State" placeholder="State Name" ng-model="BeneficiaryModel.State " disabled="disabled" maxlength="30">
+                                <div class="modal-body">
+                                    <h6 class="modal-title">Please click yes to proceed </h6>
                                 </div>
-                            </div>
-
-                            <div class="col-sm-12 m-t-1">
-                                <label for="ZipCode">ZipCode : </label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="number" class="form-control" id="ZipCode" placeholder="ZipCode" ng-model="BeneficiaryModel.ZipCode" disabled="disabled">
-                                </div>
-                            </div>
-                            <div class="col-sm-12 m-t-1">
-                                <label for="Country">Country :</label>
-                                <div class="col-sm-12 p-0">
-                                    <select name="FamRole" id="ddlCountry" ng-model="BeneficiaryModel.CountryId" class="form-control" disabled="disabled">
-                                        <option value="0">-- Select Country --</option>
-                                        <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
-                                    </select>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" ng-click="Create()">Yes</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 m-t">
-                        <div class="pull-right padding">
-                            <button type="submit" class="btn btn-primary" ng-disabled="!BeneficiaryModel.FirstName" ng-click="CashPickUp(PaymentModel.BeneficiaryId)">
-                                Next
-                            </button>
+                   
+                    <div class="col-sm-4">
+                        <h5 class="font-weight-bold p-l-2">Payment details</h5>
+                        <div class="col-sm-12">
+                            <label for="Charges" class="col-sm-8 form-control-label font-weight-bold float-left">Sending Amount: </label>
+                            <div class="col-sm-4 float-left">
+                                <label id="SendingAmount" class="font-weight-bold">${{PaymentModel.SendingAmount | number:2}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label for="Charges" class="col-sm-8 form-control-label font-weight-bold float-left">Tax: </label>
+                            <div class="col-sm-4 float-left">
+                                <label id="fee" class="font-weight-bold">$00.00</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="Charges" class="col-sm-8 form-control-label font-weight-bold float-left">Charges: </label>
+                            <div class="col-sm-4 float-left">
+                                <label id="Charges" class="font-weight-bold">$00.00</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="Charges" class="col-sm-8 form-control-label font-weight-bold float-left">Payment Fee: </label>
+                            <div class="col-sm-4 float-left">
+                                <label id="Paymentfee" class="font-weight-bold">$00.00</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 b-t">
+                            <label for="Charges" class="col-sm-8 form-control-label font-weight-bold float-left">Total to pay: </label>
+                            <div class="col-sm-4 float-left">
+                                <label id="totaltopay" class="font-weight-bold">${{PaymentModel.SendingAmount | number:2}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 b-t">
+                            <label for="Charges" class="col-sm-8 form-control-label font-weight-bold float-left">Your beneficiary recieves: </label>
+                            <div class="col-sm-4 float-left">
+                                <label id="Recieve" class="font-weight-bold">${{PaymentModel.ReceivingAmount | number:2}}</label>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-                </div>
+            </form>
             </section>
+        <!--end master banner-->
         <section class="payment-section pt-5 pb-5">
             <div class="container">
                 <div class="row section-01">
@@ -308,25 +313,9 @@
                 </div>
             </div>
         </section>
-        <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addBeneficiaryconfirm">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-primary">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
 
-                    <div class="modal-body">
-                        <div ng-include="'views/SendMoney/addEditBeneficiary.html'"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cencel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </div>
+</div>
     </div>
-
 <footer class="footer-container-wrapper pt-4 pb-2">
     <div class="container">
         <div class="row">
@@ -336,5 +325,5 @@
         </div>
     </div>
 </footer>
-    
+
 

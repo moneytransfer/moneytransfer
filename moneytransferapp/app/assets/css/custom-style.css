@@ -884,3 +884,16 @@ ul.cm-white-space li{
 .cm-clearfix{
     clear:both;
 }
+.cm-alignment{
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+.cm-align-heading{
+     text-align:  center;
+}
+.cm-m-t{
+        margin-top: 125px;
+    margin-left: auto;
+    margin-right: auto;
+}

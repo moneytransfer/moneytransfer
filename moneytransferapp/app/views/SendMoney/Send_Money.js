@@ -7,11 +7,17 @@
         .controller('authenticateSendMoneyController', authenticateSendMoneyController)
         .controller('addEditBeneficiaryController', addEditBeneficiaryController)
         .controller('addCashPickUpController', addCashPickUpController)
+         .controller('makeSendMoneyPaymentController', makeSendMoneyPaymentController)
+    .controller('sendMoneythankyouController', sendMoneythankyouController)
+    .controller('managesendMoneyTransactionController', managesendMoneyTransactionController)
+    
 
     manageSendMoneyController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function manageSendMoneyController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
-        vm.PaymentModel = [{ SendingAmount: 0, BeneficiaryId :'0'}];
+        vm.PaymentData = { PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', SendingAmount: '' };
+        vm.PaymentModel = [{ PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', SendingAmount :''}];
+        $localStorage.PaymentData = vm.PaymentData
         vm.localStorage = [];
         if ($localStorage.SendMoney) {
             vm.localStorage = $localStorage.SendMoney;
@@ -25,7 +31,7 @@
             var SendingAmmout = vm.PaymentModel.SendingAmount;
             
             if (SendingAmmout) {
-                $localStorage.SendingAmmout = SendingAmmout;
+                $localStorage.PaymentData.SendingAmount = SendingAmmout;
                 if (!$localStorage.GustCustomer) {
                   $state.go('app.SendMoneylogin');
                 } else {
@@ -35,7 +41,7 @@
            
             }
             else if ($localStorage.GustCustomer && SendingAmmout) {
-                $localStorage.SendingAmmout = SendingAmmout;
+                $localStorage.PaymentData.SendingAmount = SendingAmmout;
                 $state.go('app.addEditBeneficiary');
                
             }
@@ -45,6 +51,15 @@
            
 
            
+        }
+        vm.convertAmount = function () {
+            debugger
+            var exrate = 64.60;
+            var amount = parseInt(document.getElementById('SendingAmount').value);
+
+            var ReceivingAm = (exrate * amount).toFixed(2);
+            vm.PaymentModel.ReceivingAmount = parseFloat(ReceivingAm);
+            $localStorage.PaymentData.ReceivingAmount = vm.PaymentModel.ReceivingAmount;
         }
 
 
@@ -100,7 +115,7 @@
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-                    if ($localStorage.SendingAmmout) {
+                    if ($localStorage.PaymentData.SendingAmount) {
                         debugger;
                         $state.go('app.addEditBeneficiary')
                         //setTimeout(function () { window.location.reload(); }, 1000);
@@ -152,6 +167,7 @@
                     $localStorage.numberDetails = null;
                     $localStorage.Ammount = '';
                     $localStorage.GustData = '';
+                    $localStorage.PaymentData = '';
                     $localStorage.MobileNumber = '';
                     $localStorage.SelectedCountry = '';
                     $state.go('app.customerPortal');
@@ -160,9 +176,8 @@
         }
 
         vm.goBack = function () {
-            vm.localStorage.Ammount = '';
-            vm.localStorage.GustData = '';
-            
+           vm.localStorage.GustData = '';
+           $localStorage.PaymentModel = '';
             $state.go('app.customerPortal');
         }
 
@@ -203,7 +218,7 @@
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
                           
-                                if ($localStorage.SendingAmount) {
+                                if ($localStorage.PaymentData.SendingAmount) {
                                     $state.go('app.addEditBeneficiary')
                                     //setTimeout(function () { window.location.reload(); }, 1000);
                                 } else {
@@ -228,14 +243,16 @@
         vm.logoutGustCustomer = function () {
 
             $localStorage.GustCustomer = '';
-            $localStorage.SendingAmmout = '';
+            $localStorage.PaymentData = '';
             $localStorage.BeneficiaryId = '';
+            $localStorage.ReceivingAmount = '';
 
             $localStorage = [];
-            setTimeout(function () {
-                $window.location.reload();
-                //$state.go('app.customerPortal');
-            }, 1000);
+            $state.go('app.SendMoney');
+            //setTimeout(function () {
+            //    $window.location.reload();
+               
+            //}, 1000);
 
         }
 
@@ -340,9 +357,37 @@
                      idata.BeneficiaryTypeId = JSON.stringify(idata.BeneficiaryTypeId);
 
                      vm.BeneficiaryModel = idata;
-                 }
+                                     }
              });
         }
+        vm.CreateBeneficiary = function () {
+            if (!vm.BeneficiaryModel.Address2) {
+                vm.BeneficiaryModel.Address2 = "";
+            }
+            var idata = vm.BeneficiaryModel;
+            //idata.ZipCode = JSON.stringify(idata.ZipCode);
+            var formData = JSON.stringify(idata);
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'addbeneficiary',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata && idata.Result == "Sucess") {
+                    $('#addBeneficiaryconfirm').modal('toggle');
+                    Alert(1, "! Beneficiary created successfully");
+                    vm.BeneficiaryModel = angular.copy(vm.BeneficiaryModel);
+                    $window.location.reload();
+                }
+                else {
+                    Alert(2, idata.Error);
+                }
+            });
+        }
+
 
 
         vm.CashPickUp = function (Id) {
@@ -350,7 +395,7 @@
             var BenificryId = parseInt(Id);
             if (BenificryId > 0) {
                
-                $localStorage.BeneficiaryId = BenificryId;
+                $localStorage.PaymentData.BeneficiaryId = BenificryId;
                 $state.go('app.CashPickUp')
             }
             else {
@@ -364,18 +409,361 @@
     addCashPickUpController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function addCashPickUpController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
+
         vm.PaymentModel = [{ SendingAmount: 0, BeneficiaryId: '0' }];
         vm.localStorage = [];
-        if ($localStorage.BeneficiaryId) {
-            vm.PaymentModel.BeneficiaryId = $localStorage.BeneficiaryId;
+
+        if ($localStorage.PaymentData.BeneficiaryId) {
+            vm.PaymentModel.BeneficiaryId = $localStorage.PaymentData.BeneficiaryId;
         }
         else {
             $state.go('app.SendMoney')
+        }
+        vm.SaveCashPickUp = function () {
+          $localStorage.PaymentData.TransactionDetail = vm.PaymentModel.TransactionDetail;
+            $localStorage.PaymentData.TransferPurpose = vm.PaymentModel.TransferPurpose;
+            $localStorage.PaymentData.DeliveryType = vm.PaymentModel.DeliveryType;
+             $state.go('app.Payment');
         }
      
 
 
     }
+    makeSendMoneyPaymentController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
+    function makeSendMoneyPaymentController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+        var vm = $scope;
+        vm.SelectedCustomer = [];
+  
+        vm.PaymentModel = '';
+        if(($localStorage.PaymentData.CardNumber)){
+            $localStorage.PaymentData.CardNumber='';
+        } if ($localStorage.PaymentData.cvv) {
+            $localStorage.PaymentData.cvv = '';
+        } if ($localStorage.PaymentData.PaymentMethodId) {
+            $localStorage.PaymentData.PaymentMethodId = '';
+        }
+       
+        vm.PaymentModel = $localStorage.PaymentData;
+        vm.companyId = 0;
+        vm.CustomerId = 0;
+        if ($localStorage.GustCustomer) {
+            vm.SelectedCustomer = $localStorage.GustCustomer;
+            if (vm.SelectedCustomer.CustomerId) {
+                vm.companyId = vm.SelectedCustomer.CompanyId;
+                vm.CustomerId = vm.SelectedCustomer.CustomerId;
+            }
+        }
+        
+        
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.companyId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getpaymentmethodbycompanyid ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+            var idata = data;
+            vm.PaymentMethods = idata;
+        });
 
+
+        var cardNumber = $('#CardNumber');
+        var cardNumberField = $('#card-number-field');
+        var CvvNumberField = $('#cvv-Field');
+        var CVV = $("#cvv");
+        vm.isCardValid = false;
+        cardNumber.keyup(function () {
+            debugger;
+            if ($.payform.validateCardNumber(cardNumber.val()) == false) {
+                cardNumberField.addClass('has-error');
+                vm.isCardValid = false;
+            } else {
+                cardNumberField.removeClass('has-error');
+                cardNumberField.addClass('has-success');
+                vm.isCardValid = $.payform.validateCardNumber(cardNumber.val());
+            }
+
+        });
+
+        vm.isCvvValid = false;
+       
+        CVV.keyup(function () {
+            debugger
+            var cvvlength = CVV.val().length;
+            if ($.payform.parseCardType(cardNumber.val()) == 'amex') {
+                if (cvvlength < 4) {
+                    CvvNumberField.removeClass('has-success');
+                    CvvNumberField.addClass('has-error');
+                    vm.isCvvValid = false;
+                }
+                else {
+                    CvvNumberField.removeClass('has-error');
+                    CvvNumberField.addClass('has-success');
+                    vm.isCvvValid = $.payform.validateCardCVC(CVV.val());
+                    $("#alertDiv").hide();
+                }
+            }
+            else {
+                if (cvvlength == 3) {
+                    CvvNumberField.removeClass('has-error');
+                    CvvNumberField.addClass('has-success');
+                    vm.isCvvValid = $.payform.validateCardCVC(CVV.val());
+                    $("#alertDiv").hide();
+                }
+                else {
+                    if (CvvNumberField.hasClass('has-success')) {
+                        CvvNumberField.removeClass('has-success');
+                        CvvNumberField.addClass('has-error');
+                    } else {
+                        CvvNumberField.addClass('has-error');
+                    }
+                  
+                    vm.isCvvValid = false;
+                }
+            }
+        });
+        vm.ExpireModel = { ExpireMonth: '0', ExpireYear: '0' }
+        vm.CheckYear = function (year) {
+            vm.alert = false;
+            var sYear = year;
+            var CurrentDate = new Date().getFullYear();
+            var Currentyear = CurrentDate.toString().replace(/\D/g, '').substr(2);
+
+            if (parseInt(sYear) > parseInt(Currentyear)) {
+                vm.alert = false;
+            }
+            else {
+                vm.alert = true;
+                setTimeout(function () {
+                    $("#PaymentAlertText").text("Your card is expired");
+                }, 100);
+            }
+        }
+
+        vm.PayNow = function () {
+            $('#Payconfirm').modal('toggle');
+            vm.alert = false;
+        }
+
+
+        vm.Create = function () {
+            debugger
+            $('#Payconfirm').modal('toggle');
+            vm.alert = false;
+            var isCardValid = $.payform.validateCardNumber(cardNumber.val());
+            var isCvvValid = $.payform.validateCardCVC(CVV.val());
+            var IsValid = false;
+            var cvvlength = CVV.val().length;
+            if ($.payform.parseCardType(cardNumber.val()) == 'amex') {
+                if (cvvlength < 4) {
+                    CvvNumberField.removeClass('has-success');
+                    CvvNumberField.addClass('has-error');
+                    vm.alert = true;
+                    setTimeout(function () {
+                        $("#PaymentAlertText").text('Invaild CVV number');
+                    }, 100);
+                    return
+                }
+                else {
+                    IsValid = true; vm.alert = false;
+                }
+            }
+            else {
+                if (cvvlength != 3) {
+                    CvvNumberField.removeClass('has-success');
+                    CvvNumberField.addClass('has-error');
+                    vm.alert = true;
+                    setTimeout(function () {
+                        $("#PaymentAlertText").text('Invaild CVV number');
+                    }, 100);
+                    return
+                }
+                else { IsValid = true; vm.alert = false; }
+            }
+            if (isCardValid && IsValid) {
+                if (isCvvValid) {
+                    var idata = vm.PaymentModel;
+
+                    var sMonth = vm.ExpireModel.ExpireMonth;
+                    if (sMonth < 10) {
+                        sMonth = '0' + sMonth
+                    }
+                    var sYear = vm.ExpireModel.ExpireYear;
+                    var expiremonth = sMonth + '' + sYear;
+                    idata.setExpirationDate = expiremonth;
+                    var Method = '';
+                    if (idata.PaymentMethodId == "1") {
+                        Method = 'makePayment';
+                    }
+                    else if (idata.PaymentMethodId == "12") {
+                        Method = 'magicPay';
+                        idata.SenderName = vm.SelectedCustomer.FirstName;
+                    }
+                    idata.CompanyId = vm.companyId;
+                    idata.CustomerId = vm.CustomerId;
+                    var formData = JSON.stringify(idata);
+                    $http({
+                        method: 'POST',
+                        data: formData,
+                        url: baseUrl + Method,
+                        headers: { 'Content-Type': 'application/json' },
+                        dataType: "json",
+                    })
+                    .success(function (data) {
+                        var idata = data;
+                        if (idata && idata.TransactionId > 0) {
+                            Alert(1, "! Payment processed successfully");
+                            vm.PaymentModel = angular.copy(vm.PaymentModel);
+                            $localStorage.PaymentData = '';
+                            $state.go('app.SendMoneyThankyou');
+                            setTimeout(function () {
+                                $state.go('app.SendMoneyThankyou');
+                            }, 1000);
+                        }
+                        else {
+                            idata = [];
+                            Alert(2, idata.Error);
+                        }
+                    });
+                }
+                else {
+                    vm.alert = true;
+                    setTimeout(function () {
+                        $("#PaymentAlertText").text('Invaild Card');
+                    }, 100);
+                }
+            }
+            else {
+                vm.alert = true;
+                setTimeout(function () {
+                    $("#PaymentAlertText").text('Invaild CVV number ');
+                }, 100);
+            }
+            }
+           
+        vm.cancel = function () {
+           vm.localStorage.GustData = '';
+           $localStorage.PaymentData = '';
+            vm.localStorage.SelectedCountry = '';
+            $state.go('app.SendMoney');
+        }
+    }
+
+
+
+    sendMoneythankyouController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
+    function sendMoneythankyouController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+        var vm = $scope;
+        var CompanyId = 0;
+        vm.CustomerId = 0;
+        if ($localStorage.GustCustomer) {
+            vm.SelectedCustomer = $localStorage.GustCustomer;
+            if (vm.SelectedCustomer.CustomerId) {
+                vm.companyId = vm.SelectedCustomer.CompanyId;
+                vm.CustomerId = vm.SelectedCustomer.CustomerId;
+            }
+        }
+        vm.viewTransactions = function () {
+            if ($localStorage.GustCustomer) {
+                $state.go('app.SendMoneyTransaction');
+            } else {
+                $state.go('app.SendMoney');
+            }
+           
+        }
+
+    }
+
+    managesendMoneyTransactionController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
+    function managesendMoneyTransactionController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+        var vm = $scope;
+        var CompanyId = 0;
+        vm.CustomerId = 0;
+
+
+        $('body').removeClass('modal-open').css('padding-right', '0px');
+
+        if ($localStorage.GustCustomer) {
+            vm.SelectedCustomer = $localStorage.GustCustomer;
+            if (vm.SelectedCustomer.CustomerId) {
+                vm.companyId = vm.SelectedCustomer.CompanyId;
+                vm.CustomerId = vm.SelectedCustomer.CustomerId;
+            }
+        }
+        //Remove BackDrop
+        $('.modal-backdrop').remove();
+
+        //Get Method Details
+        var formData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'gettranscationdetails',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+
+            var idata = data;
+
+            // $timeout(function () {
+            vm.totalItems = idata.length;
+            vm.currentPage = 1;
+            vm.itemsPerPage = 15;
+
+            vm.$watch("currentPage", function () {
+                setPagingData(vm.currentPage);
+            });
+
+            function setPagingData(page) {
+                var pagedData = idata.slice(
+                  (page - 1) * vm.itemsPerPage,
+                  page * vm.itemsPerPage
+                );
+                vm.ManageTransaction = pagedData;
+            }
+            //}, 100);
+        });
+        //Format date
+        $scope.formatDate = function (date) {
+            var dateOut = new Date(date);
+
+            return dateOut;
+        };
+
+        //DeleteUser
+        var PaymentMethodID = 0;
+        vm.deleteTransaction = function (Id) {
+            PaymentMethodID = Id;
+            $('#deleteconfirm').modal('toggle');
+        }
+
+        vm.deleteconfirm = function () {
+            $('#deleteconfirm').modal('toggle');
+            var iPaymentMethodID = "";
+            iPaymentMethodID = JSON.stringify(PaymentMethodID);
+
+            var formData = JSON.parse(JSON.stringify({ "PaymentMethodId": iPaymentMethodID }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'deletepaymentmethod',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata.PaymentMethodId > 0) {
+                    Alert(1, "! Payment Method deleted successfully");
+                    var iPaymentMethods = vm.PaymentMethods;
+                    vm.PaymentMethods = [];
+                    for (var i = 0; i < iPaymentMethods.length; i++) {
+                        if (iPaymentMethods[i].PaymentMethodId !== PaymentMethodID) vm.PaymentMethods.push(iPaymentMethods[i]);
+                    }
+                }
+            });
+        }
+
+    }
 
 })();
