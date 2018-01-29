@@ -1372,11 +1372,10 @@
                   title: 'customerPortal',
                   controller: "authenticateSendMoneyController"
 
-              })
-
-              .state('app.SendMoney', {
+              }) 
+              .state('app.SendMoneyAmount', {
                   url: '/SendMoney',
-                  templateUrl: 'views/SendMoney/sendMoney.html',
+                  templateUrl: 'views/SendMoney/SendMoney.html',
                   resolve: {
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
@@ -1386,6 +1385,21 @@
                       }]
                   },
                   title: 'customerPortal'
+              })
+
+              .state('app.SendMoney', {
+                  url: '/AmountDetails',
+                  templateUrl: 'views/SendMoney/AmountDetails.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+                  
               })
 
               .state('app.addEditBeneficiary', {
