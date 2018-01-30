@@ -10,9 +10,9 @@
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
-                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.Login'>Signin</a></li>
-                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.userRegister'>Signup</a></li>
-                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>
+                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Log In</a></li>
+                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Signup</a></li>
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
             </ul>
         </div>
     </div>
@@ -28,52 +28,120 @@
                 <form class="banner-form-wrapper d-flex flex-column">
 
                     <div class="form-group">
-                        <select class="form-control banner-input" id="CountrySelected" ng-model="CountryDetails.phonecode" ng-change="getcountrydata(CountryDetails.phonecode)" ng-init="CountryDetails.phonecode='0'">
-                            <option value="0">Select Country</option>
-                            <option ng-repeat="Country in Countries" value="{{Country.phonecode}}">{{Country.CountryName}}</option>
-                        </select>
+                        <label class="additional-info" id="SelectedStatelabel">Sending Money from the U.S.A.</label>
                     </div>
+
                     <div class="form-group">
                         <select class="form-control banner-input" id="StateSelected" ng-model="SelectedState">
                             <option value="0">Select State</option>
                             <option ng-repeat="(key,value) in States" value="{{key}}">{{key}}</option>
                         </select>
                     </div>
-                    
 
-                    <div class="form-group text-left " ng-if="FlagModel.Result =='Success'">
-                      <label class="" for="exampleInputAmount">You're sending</label>
-                        <div class="input-group">                            
-                            <input type="text"  onkeypress='return event.charCode >= 48 && event.charCode <= 57'     class="form-control cm-bg-white" id="exampleSendingAmount" maxlength="3" ng-model="FlagModel.Amount"  ng-change="EnteredNumber(FlagModel.Amount)" >
-                            <div class="input-group-addon"><select class="cm-select-USD" ><option value="0" selected="selected" label="USD">USD</option></select>
+                    <div class="form-group">
+                        <label class="additional-info" id="SelectedCountryLabel">Destination Country</label>
+                    </div>
+                    <div class="form-group form-group-country">
+                        <span class="flag-icon" style="background-image: url(./images/Flag/{{FlagModel.iso}}.png);">
+                            <i class="fa fa-globe" ng-if="FlagModel.Result!='Success'" aria-hidden="true"></i>
+                        </span>
+                        <select class="form-control banner-input" id="CountrySelected" ng-model="CountryDetails.phonecode" ng-change="getcountrydata(CountryDetails.phonecode)" ng-init="CountryDetails.phonecode='0'">
+                            <option value="0">Select Country</option>
+                            <option ng-repeat="Country in Countries" value="{{Country.phonecode}}">{{Country.CountryName}}</option>
+                        </select>
+                    </div>
+
+                    <div ng-if="CountryDetails.phonecode=='52'">
+
+                        <div class="form-group form-group-country fl-w-100">
+                            <span class="flag-icon" style="background-image: url(./images/Flag/{{FlagModel.iso}}.png);">
+                                <i class="fa fa-globe" ng-if="FlagModel.Result!='Success'" aria-hidden="true"></i>
+                            </span>
+                            <select class="form-control banner-input" id="SelectCountyState" ng-model="FlagModel.SelectedCountryState" ng-init="FlagModel.SelectedCountryState='0'">
+                                <option value="0">Select State</option>
+                                <option value="DIF">Distrito Federal</option>
+                                <option value="AGS">Aguascalientes</option>
+                                <option value="BCN">Baja California</option>
+                                <option value="BCS">Baja California Sur</option>
+                                <option value="CAM">Campeche</option>
+                                <option value="CHP">Chiapas</option>
+                                <option value="CHI">Chihuahua</option>
+                                <option value="COA">Coahuila</option>
+                                <option value="COL">Colima</option>
+                                <option value="DUR">Durango</option>
+                                <option value="GTO">Guanajuato</option>
+                                <option value="GRO">Guerrero</option>
+                                <option value="HGO">Hidalgo</option>
+                                <option value="JAL">Jalisco</option>
+                                <option value="MEX">M&eacute;xico</option>
+                                <option value="MIC">Michoac&aacute;n</option>
+                                <option value="MOR">Morelos</option>
+                                <option value="NAY">Nayarit</option>
+                                <option value="NLE">Nuevo Le&oacute;n</option>
+                                <option value="OAX">Oaxaca</option>
+                                <option value="PUE">Puebla</option>
+                                <option value="QRO">Quer&eacute;taro</option>
+                                <option value="ROO">Quintana Roo</option>
+                                <option value="SLP">San Luis Potos&iacute;</option>
+                                <option value="SIN">Sinaloa</option>
+                                <option value="SON">Sonora</option>
+                                <option value="TAB">Tabasco</option>
+                                <option value="TAM">Tamaulipas</option>
+                                <option value="TLX">Tlaxcala</option>
+                                <option value="VER">Veracruz</option>
+                                <option value="YUC">Yucat&aacute;n</option>
+                                <option value="ZAC">Zacatecas</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group text-left " ng-if="FlagModel.Result =='Success'">
+                            <label class="" for="exampleInputAmount">You're sending</label>
+                            <div class="input-group">
+                                <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control cm-bg-white" id="exampleSendingAmount" maxlength="3" ng-model="FlagModel.Amount" ng-change="EnteredNumber(FlagModel.Amount)">
+                                <div class="input-group-addon">
+                                    <select class="cm-select-USD">
+                                        <option value="0" selected="selected" label="USD">USD</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group text-left" ng-if="FlagModel.Result =='Success'">
-                        <label class="" for="exampleInputAmount">RECIPIENT GETS</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control cm-bg-white" id="exampleInputAmount" ng-pattern="/^[0-9]*$/" maxlength="12" placeholder="0.00" ng-model="FlagModel.RecipientAmmount" >
-                            <div class="input-group-addon">
-                                <select class="cm-select-USD"><option value="0" selected="selected" label="{{FlagModel.CurrencyCode}}">{{FlagModel.CurrencyCode}}</option></select>
+
+                        <div class="form-group text-left" ng-if="FlagModel.Result =='Success'">
+                            <label class="" for="exampleInputAmount">RECIPIENT GETS</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control cm-bg-white" id="exampleInputAmount" ng-pattern="/^[0-9]*$/" maxlength="12" placeholder="0.00" ng-model="FlagModel.RecipientAmmount">
+                                <div class="input-group-addon">
+                                    <select class="cm-select-USD">
+                                        <option value="0" selected="selected" label="{{FlagModel.CurrencyCode}}">{{FlagModel.CurrencyCode}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                   <div class="row">
 
-                  
-                        <div class="col-sm-6 info-cell" ng-if="FlagModel.IsData">
-                            <label>Exchange rate:</label>
-                            <span class="additional-info">{{FlagModel.ExchangeRate?FlagModel.ExchangeRate:0.0000}}</span>
-                        </div>
-                        <div class="info-cell col-sm-6"  ng-if="FlagModel.IsData">
-                          
+                        <div class="row">
+                            <div class="col-sm-6 info-cell" ng-if="FlagModel.IsData">
+                                <label>Exchange rate:</label>
+                                <span class="additional-info">1 USD = {{FlagModel.ExchangeRate?FlagModel.ExchangeRate:0.0000}}&nbsp; {{FlagModel.CurrencyCode}}</span>
+                            </div>
+                            <!-- <div class="info-cell col-sm-6" ng-if="FlagModel.IsData">
+
                             <label>Fee:</label>
                             <span class="additional-info">2.0 USD</span>
+                        </div>-->
                         </div>
-                       </div>
-                      <button class="button-send" ng-click="sendMoneyClick()" ng-disabled="!isValidData || SelectedState=='0'" >
-                      Send money
+                    </div>
+
+                    <div ng-if="CountryDetails.phonecode !='52' && CountryDetails.phonecode>0" class="alert alert-danger text-left position-static">
+                        <span>Sorry, We are unable to proceed with this country.!</span>
+                    </div>
+                    <button class="button-send" ng-click="sendMoneyClick()" ng-disabled="!isValidData || SelectedState=='0'">
+                        Send money
                     </button>
+                    <div ng-if="!IsLogin" ng-controller="manageSendMoneyLoginController" style="margin-bottom: 1rem;">
+                        <a ng-if="!IsLogin" class="text-white" ui-sref='app.SendMoneylogin'>Log In</a> &nbsp; &nbsp;
+                        <a ng-if="!IsLogin" class="text-white" ui-sref='app.SendMoneyUserRegister'>Signup</a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -142,7 +210,8 @@
             <div class="row footercol">
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon01.png" class="" /></div>
+                        <img src="assets/image/footer-icon01.png" class="" />
+                    </div>
                     <div>
                         <h5>24/7 HELP</h5>
                         <p>Call us 1-800-970-9618</p>
@@ -150,7 +219,8 @@
                 </div>
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon02.png" class="" /></div>
+                        <img src="assets/image/footer-icon02.png" class="" />
+                    </div>
                     <div>
                         <h5>Trusted Pay</h5>
                         <p>100% Payment Protection &amp; Easy Return</p>
@@ -158,7 +228,8 @@
                 </div>
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon03.png" class="" /></div>
+                        <img src="assets/image/footer-icon03.png" class="" />
+                    </div>
                     <div>
                         <h5>Secured Payment</h5>
                         <p>All Major Credit &amp; Debit Cards Accepted</p>
@@ -166,7 +237,8 @@
                 </div>
                 <div class="col-md-3">
                     <div class="ftr-img">
-                        <img src="assets/image/footer-icon04.png" class="" /></div>
+                        <img src="assets/image/footer-icon04.png" class="" />
+                    </div>
                     <div>
                         <h5>REGHARGE on app</h5>
                         <p>Just Download our App to get Best Offers</p>
@@ -176,13 +248,15 @@
             <div class="row">
                 <div class="newsletter-bg"></div>
                 <div class="newsletter">
-                    <img src="assets/image/signup-newsletter.png" width="85%" /></div>
+                    <img src="assets/image/signup-newsletter.png" width="85%" />
+                </div>
             </div>
             <div class="row footercol last">
                 <div class="col-md-3 ftr-txt">
                     <div>
                         <p>
-                            <img src="assets/image/ftr-logo.png" width="45%" /></p>
+                            <img src="assets/image/ftr-logo.png" width="45%" />
+                        </p>
                         <p>Your Money | Your Best Option | Your Best Solution!</p>
                         <p>
                             Address: FalconLoop Inc.

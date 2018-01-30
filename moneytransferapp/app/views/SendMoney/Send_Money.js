@@ -10,17 +10,17 @@
          .controller('makeSendMoneyPaymentController', makeSendMoneyPaymentController)
     .controller('sendMoneythankyouController', sendMoneythankyouController)
     .controller('managesendMoneyTransactionController', managesendMoneyTransactionController)
-    
+
 
     manageSendMoneyController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function manageSendMoneyController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
         vm.PaymentData = { PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', SendingAmount: '', };
-        vm.PaymentModel = [{ PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', SendingAmount: '', CountryId: "", CountryName: "", iso: "" }];
+        vm.PaymentModel = [{ PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', SendingAmount: '', CountryId: "", CountryName: "", iso: "", SelectedCountryState: "", SelectedState: '', BankDeposit: "", CashPickUp: "" }];
         vm.FlagModel = [];
         vm.PaybillModel = { CountryId: 0, CountryName: '', iso: "", CurrencyName: "", CurrencySymbol: "", CurrencyCode: "", Amount: '0.00' }
-        vm.AmountDetails = { CurrencyCode: "", Amount: "", ExchangeRate: "", RecipientAmmount: "", SendingCurrency: "", CountryName: "", CountryId: "", iso:"" };
-        debugger;
+        vm.AmountDetails = { CurrencyCode: "", Amount: "", ExchangeRate: "", RecipientAmmount: "", SendingCurrency: "", CountryName: "", CountryId: "", iso: "", SelectedCountryState: "", SelectedState: "" };
+        vm.localStorage = [];
         if ($localStorage.AmountDetails) {
             vm.PaymentModel.iso = $localStorage.AmountDetails.iso;
             vm.PaymentModel.CountryName = $localStorage.AmountDetails.CountryName;
@@ -30,6 +30,10 @@
             vm.PaymentModel.SendingCurrency = $localStorage.AmountDetails.SendingCurrency;
             vm.PaymentModel.ReceivingCurrency = $localStorage.AmountDetails.CurrencyCode;
             vm.PaymentModel.ExchangeRate = $localStorage.AmountDetails.ExchangeRate;
+
+            vm.PaymentModel.SelectedCountryState = $localStorage.AmountDetails.SelectedCountryState;
+
+            vm.PaymentModel.SelectedState = $localStorage.AmountDetails.SelectedState;
             $localStorage.AmountDetails = $localStorage.AmountDetails;
         } else {
             $localStorage.PaymentData = vm.PaymentData;
@@ -37,75 +41,76 @@
             $state.go('app.SendMoneyAmount')
         }
         vm.SelectedState = "0";
+
         vm.States = {
-              'Alabama': 'AL',
-              'Alaska': 'AK',
-              'American Samoa': 'AS',
-              'Arizona': 'AZ',
-              'Arkansas': 'AR',
-              'California': 'CA',
-              'Colorado': 'CO',
-              'Connecticut': 'CT',
-              'Delaware': 'DE',
-              'District Of Columbia': 'DC',
-              'Federated States Of Micronesia': 'FM',
-              'Florida': 'FL',
-              'Georgia': 'GA',
-              'Guam': 'GU',
-              'Hawaii': 'HI',
-              'Idaho': 'ID',
-              'Illinois': 'IL',
-              'Indiana': 'IN',
-              'Iowa': 'IA',
-              'Kansas': 'KS',
-              'Kentucky': 'KY',
-              'Louisiana': 'LA',
-              'Maine': 'ME',
-              'Marshall Islands': 'MH',
-              'Maryland': 'MD',
-              'Massachusetts': 'MA',
-              'Michigan': 'MI',
-              'Minnesota': 'MN',
-              'Mississippi': 'MS',
-              'Missouri': 'MO',
-              'Montana': 'MT',
-              'Nebraska': 'NE',
-              'Nevada': 'NV',
-              'New Hampshire': 'NH',
-              'New Jersey': 'NJ',
-              'New Mexico': 'NM',
-              'New York': 'NY',
-              'North Carolina': 'NC',
-              'North Dakota': 'ND',
-              'Northern Mariana Islands': 'MP',
-              'Ohio': 'OH',
-              'Oklahoma': 'OK',
-              'Oregon': 'OR',
-              'Palau': 'PW',
-              'Pennsylvania': 'PA',
-              'Puerto Rico': 'PR',
-              'Rhode Island': 'RI',
-              'South Carolina': 'SC',
-              'South Dakota': 'SD',
-              'Tennessee': 'TN',
-              'Texas': 'TX',
-              'Utah': 'UT',
-              'Vermont': 'VT',
-              'Virgin Islands': 'VI',
-              'Virginia': 'VA',
-              'Washington': 'WA',
-              'West Virginia': 'WV',
-              'Wisconsin': 'WI',
-              'Wyoming': 'WY'
+            'Alabama': 'AL',
+            'Alaska': 'AK',
+            'American Samoa': 'AS',
+            'Arizona': 'AZ',
+            'Arkansas': 'AR',
+            'California': 'CA',
+            'Colorado': 'CO',
+            'Connecticut': 'CT',
+            'Delaware': 'DE',
+            'District Of Columbia': 'DC',
+            'Federated States Of Micronesia': 'FM',
+            'Florida': 'FL',
+            'Georgia': 'GA',
+            'Guam': 'GU',
+            'Hawaii': 'HI',
+            'Idaho': 'ID',
+            'Illinois': 'IL',
+            'Indiana': 'IN',
+            'Iowa': 'IA',
+            'Kansas': 'KS',
+            'Kentucky': 'KY',
+            'Louisiana': 'LA',
+            'Maine': 'ME',
+            'Marshall Islands': 'MH',
+            'Maryland': 'MD',
+            'Massachusetts': 'MA',
+            'Michigan': 'MI',
+            'Minnesota': 'MN',
+            'Mississippi': 'MS',
+            'Missouri': 'MO',
+            'Montana': 'MT',
+            'Nebraska': 'NE',
+            'Nevada': 'NV',
+            'New Hampshire': 'NH',
+            'New Jersey': 'NJ',
+            'New Mexico': 'NM',
+            'New York': 'NY',
+            'North Carolina': 'NC',
+            'North Dakota': 'ND',
+            'Northern Mariana Islands': 'MP',
+            'Ohio': 'OH',
+            'Oklahoma': 'OK',
+            'Oregon': 'OR',
+            'Palau': 'PW',
+            'Pennsylvania': 'PA',
+            'Puerto Rico': 'PR',
+            'Rhode Island': 'RI',
+            'South Carolina': 'SC',
+            'South Dakota': 'SD',
+            'Tennessee': 'TN',
+            'Texas': 'TX',
+            'Utah': 'UT',
+            'Vermont': 'VT',
+            'Virgin Islands': 'VI',
+            'Virginia': 'VA',
+            'Washington': 'WA',
+            'West Virginia': 'WV',
+            'Wisconsin': 'WI',
+            'Wyoming': 'WY'
         }
-      
-      
-     
-      
-        
-     
-        
-       
+
+
+
+
+
+
+
+
         //Get Country
         $http({
             method: 'GET',
@@ -142,14 +147,13 @@
 
             });
         }
-       
+
 
 
         var timeout;
         var delay = 500;
         vm.isValidData = false;
         vm.EnteredNumber = function () {
-            debugger;
             vm.validnumber = false;
             if (timeout) {
                 clearTimeout(timeout);
@@ -160,7 +164,6 @@
         }
 
         function Searchdata() {
-            debugger;
             if (vm.FlagModel.Amount != "0" && vm.FlagModel.CurrencyCode != "") {
                 vm.FlagModel.IsData = false;
                 if (vm.FlagModel.CurrencyCode == "USD") {
@@ -175,9 +178,12 @@
                     $localStorage.AmountDetails.CurrencyCode = vm.FlagModel.CurrencyCode;
                     $localStorage.AmountDetails.ExchangeRate = vm.FlagModel.ExchangeRate;
                     $localStorage.AmountDetails.SendingCurrency = "USD";
+                    $localStorage.AmountDetails.SelectedCountryState = vm.FlagModel.SelectedCountryState;
+                    $localStorage.AmountDetails.SelectedState = vm.SelectedState;
+                    $localStorage.AmountDetails.Result = vm.FlagModel.Result;
                 } else {
                     vm.FlagModel.IsValid = false;
-                  
+
                     ConvertMoney(vm.FlagModel.CurrencyCode);
                 }
             } else {
@@ -194,7 +200,7 @@
         }
 
         function ConvertMoney(code) {
-            debugger;
+
             //$localStorage.SelectedCountry.ConvertAmount = 0;
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
@@ -204,7 +210,6 @@
                 dataType: "json",
             })
                 .success(function (data) {
-                    debugger;
                     var idata = data;
                     if (idata.currency[0].value > 0) {
                         vm.FlagModel.IsData = true;
@@ -221,6 +226,9 @@
                         $localStorage.AmountDetails.CurrencyCode = vm.FlagModel.CurrencyCode;
                         $localStorage.AmountDetails.ExchangeRate = vm.FlagModel.ExchangeRate;
                         $localStorage.AmountDetails.SendingCurrency = "USD";
+                        $localStorage.AmountDetails.SelectedCountryState = vm.FlagModel.SelectedCountryState;
+                        $localStorage.AmountDetails.SelectedState = vm.SelectedState;
+                        $localStorage.AmountDetails.Result = vm.FlagModel.Result;
                     }
                     else {
                         vm.isValidData = false;
@@ -229,7 +237,7 @@
                             Alert(2, "!sorry we can't proceed. ");
                         }, 100);
                         vm.FlagModel.ExchangeRate = 0.00;
-                         }
+                    }
 
                     //return 
                 });
@@ -245,12 +253,31 @@
 
 
         vm.CashPickUp = function () {
-           $state.go('app.CashPickUp');
+           
+                if (vm.PaymentModel.PaymentType == "BankDeposit") {
+                    if ($localStorage.GustCustomer) {
+                        $state.go('app.addEditBeneficiary');
+                    } else {
+                        $state.go('app.SendMoneylogin');
+                    }
+                }
+                else if (vm.PaymentModel.PaymentType == "CashPickup") {
+                    if ($localStorage.GustCustomer) {
+                        $state.go('app.SendMoney');
+                    } else {
+                        $state.go('app.SendMoneylogin');
+                    }
+                }
+                else {
+                    return false;
+                }
+            }
+            //$state.go('app.CashPickUp');
 
-        }
+        
         vm.SendBack = function () {
             $state.go('app.SendMoneyAmount');
-}
+        }
     }
 
 
@@ -259,7 +286,7 @@
     manageSendMoneyLoginController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function manageSendMoneyLoginController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
-        debugger;
+
         var CompanyId = 0;
         vm.CustomerID = 0;
         vm.IsLogin = false;
@@ -281,7 +308,7 @@
 
 
         if ($localStorage.GustCustomer) {
-            debugger;
+
 
             vm.localStorage = $localStorage;
         }
@@ -297,20 +324,19 @@
                 dataType: "json",
             })
             .success(function (data, status, headers, config) {
-                debugger;
+
                 var iCustomer = data;
                 if (iCustomer.CustomerId) {
                     var GustCustomer = [];
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-                    if ($localStorage.PaymentData.SendingAmount) {
-                        debugger;
+                    if ($localStorage.AmountDetails.Amount) {
                         $state.go('app.addEditBeneficiary')
                         //setTimeout(function () { window.location.reload(); }, 1000);
                     } else {
                         //$state.go('app.makepayment');
-                        $state.go('app.SendMoney')
+                        $state.go('app.SendMoneyAmount')
                     }
 
                 }
@@ -366,8 +392,8 @@
         }
 
         vm.goBack = function () {
-           vm.localStorage.GustData = '';
-           $localStorage.PaymentModel = '';
+            vm.localStorage.GustData = '';
+            $localStorage.PaymentModel = '';
             $state.go('app.customerPortal');
         }
 
@@ -386,7 +412,7 @@
                 dataType: "json",
             })
             .success(function (data) {
-                debugger;
+
                 var idata = data;
                 if (idata.CustomerId) {
                     Alert(1, "! Customer registered successfully..");
@@ -402,18 +428,18 @@
                             dataType: "json",
                         })
                         .success(function (data, status, headers, config) {
-                            debugger;
+
                             var GustCustomer = data;
                             if (GustCustomer.CustomerId) {
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
-                          
-                                if ($localStorage.PaymentData.SendingAmount) {
-                                    $state.go('app.addEditBeneficiary')
+
+                                if ($localStorage.AmountDetails.Amount) {
+                                    $state.go('app.CashPickUp')
                                     //setTimeout(function () { window.location.reload(); }, 1000);
                                 } else {
                                     //$state.go('app.makepayment');
-                                    $state.go('app.SendMoney')
+                                    $state.go('app.SendMoneyAmount');
                                 }
                             }
                             else {
@@ -442,7 +468,7 @@
             $state.go('app.SendMoney');
             //setTimeout(function () {
             //    $window.location.reload();
-               
+
             //}, 1000);
 
         }
@@ -497,6 +523,7 @@
         });
         vm.PaymentMethods = [];
         vm.BeneficiaryModel = { CompanyId: vm.companyId, CustomerId: vm.CustomerId, CountryId: "0", BeneficiaryTypeId: '0' };
+        vm.Beneficiary = { AccountNumber: 0, RoutingNumber: 0 }
         //Get Method Details
 
         $http({
@@ -548,7 +575,7 @@
                      idata.BeneficiaryTypeId = JSON.stringify(idata.BeneficiaryTypeId);
 
                      vm.BeneficiaryModel = idata;
-                                     }
+                 }
              });
         }
         vm.CreateBeneficiary = function () {
@@ -582,10 +609,10 @@
 
 
         vm.CashPickUp = function (Id) {
-            debugger;
+
             var BenificryId = parseInt(Id);
             if (BenificryId > 0) {
-               
+
                 $localStorage.PaymentData.BeneficiaryId = BenificryId;
                 $state.go('app.CashPickUp')
             }
@@ -600,31 +627,42 @@
     addCashPickUpController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function addCashPickUpController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
+        vm.MoneyReceived = "";
+        vm.PaymentModel = [{ PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', RecipientAmmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', Amount: '', CountryId: "", CountryName: "", iso: "", BankDeposit: "", CashPickUp: "" }];
+        vm.localStorage = {};
 
-        vm.PaymentModel = [{ PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', RecipientAmmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', Amount: '', CountryId: "", CountryName: "", iso: "", BankDeposit:"", CashPickUp:"" }];
-        vm.localStorage = [];
+        if ($localStorage.AmountDetails) {
 
-        if ($localStorage.AmountDetails.Amount) {
             vm.PaymentModel = $localStorage.AmountDetails;
             vm.PaymentModel.SendingCurrencyId = $localStorage.AmountDetails.SendingCurrency;
             vm.PaymentModel.ReceivingCurrencytId = $localStorage.AmountDetails.CurrencyCode;
+            if ($localStorage.GustCustomer) {
+                vm.localStorage = $localStorage.GustCustomer;
+            }
             console.log(vm.PaymentModel);
         }
         else {
             $state.go('app.SendMoneyAmount')
         }
         vm.checkStuff = function (value) {
-            debugger;
-            console.log(value);
-}
+            if (value == "Cash Pickup") {
+                vm.MoneyReceived = value;
+            } else {
+                vm.MoneyReceived = value;
+            }
+        }
 
         vm.goToPaymentMethod = function () {
-            console.log(vm.PaymentModel)
+            if ($localStorage.GustCustomer) {
+                $localStorage.AmountDetails.MoneyReceived = vm.MoneyReceived;
+            } else {
+                $state.go('app.SendMoneylogin');
+            }
         }
         vm.SendBack = function () {
             $state.go('app.SendMoney');
         }
-     
+
 
 
     }
@@ -632,16 +670,16 @@
     function makeSendMoneyPaymentController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
         vm.SelectedCustomer = [];
-  
+
         vm.PaymentModel = '';
-        if(($localStorage.PaymentData.CardNumber)){
-            $localStorage.PaymentData.CardNumber='';
+        if (($localStorage.PaymentData.CardNumber)) {
+            $localStorage.PaymentData.CardNumber = '';
         } if ($localStorage.PaymentData.cvv) {
             $localStorage.PaymentData.cvv = '';
         } if ($localStorage.PaymentData.PaymentMethodId) {
             $localStorage.PaymentData.PaymentMethodId = '';
         }
-       
+
         vm.PaymentModel = $localStorage.PaymentData;
         vm.companyId = 0;
         vm.CustomerId = 0;
@@ -652,8 +690,8 @@
                 vm.CustomerId = vm.SelectedCustomer.CustomerId;
             }
         }
-        
-        
+
+
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.companyId }));
         $http({
             method: 'POST',
@@ -673,7 +711,7 @@
         var CVV = $("#cvv");
         vm.isCardValid = false;
         cardNumber.keyup(function () {
-            debugger;
+
             if ($.payform.validateCardNumber(cardNumber.val()) == false) {
                 cardNumberField.addClass('has-error');
                 vm.isCardValid = false;
@@ -686,7 +724,7 @@
         });
 
         vm.isCvvValid = false;
-       
+
         CVV.keyup(function () {
             debugger
             var cvvlength = CVV.val().length;
@@ -717,7 +755,7 @@
                     } else {
                         CvvNumberField.addClass('has-error');
                     }
-                  
+
                     vm.isCvvValid = false;
                 }
             }
@@ -747,7 +785,7 @@
 
 
         vm.Create = function () {
-            debugger
+
             $('#Payconfirm').modal('toggle');
             vm.alert = false;
             var isCardValid = $.payform.validateCardNumber(cardNumber.val());
@@ -839,11 +877,11 @@
                     $("#PaymentAlertText").text('Invaild CVV number ');
                 }, 100);
             }
-            }
-           
+        }
+
         vm.cancel = function () {
-           vm.localStorage.GustData = '';
-           $localStorage.PaymentData = '';
+            vm.localStorage.GustData = '';
+            $localStorage.PaymentData = '';
             vm.localStorage.SelectedCountry = '';
             $state.go('app.SendMoney');
         }
@@ -869,7 +907,7 @@
             } else {
                 $state.go('app.SendMoney');
             }
-           
+
         }
 
     }

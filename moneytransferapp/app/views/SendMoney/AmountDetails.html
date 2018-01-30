@@ -3,7 +3,7 @@
         <a class="navbar-brand" ui-sref='app.SendMoneyAmount'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
-       
+
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
             <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Log out</a></li>
 
@@ -29,7 +29,7 @@
                         <li class="col-md-3">TRANSACTION INFORMATION</li>
                         <li class="col-md-3">CASH PICKUP DETAILS</li>
                         <li class="col-md-3">BENEFICIARY DETAILS</li>
-                      
+
                         <li class="col-md-3">Payment</li>
                     </ul>
                 </div>
@@ -37,42 +37,72 @@
         </div>
     </div>
 
-    <div class="body-container-wrapper container" >
+    <div class="body-container-wrapper container">
         <div id="view"></div>
         <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
             <div class="container">
-               
+
                 <div class="row transaction-summary">
-                    <div class="col-sm-6 offset-3">
+                    <div class="col-sm-6">
+                        <h1 class="section-title mb-15">How would you like the money received?</h1>
+                        <form class="ml-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
+                                <label class="form-check-label" for="rdBankDeposit">Bank Deposit </label>
+                                <small>All major banks</small>
+                            </div>
+                            <div class="form-check pt-30">
+                                <input class="form-check-input" type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)">
+                                <label class="form-check-label" for="rdCashPickup">Cash Pickup</label>
+                                <small>Many locations</small>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="col-sm-6 ">
                         <h2>Transaction Summary</h2>
                         <hr class="m-0">
-
                         <dl class="section-bottom data-row">
-                            <dt class="data-label no-border"><img src="images/Flag/{{PaymentModel.iso |lowercase}}.png" alt=""> </dt>
-                            <dd class="data-value">{{PaymentModel.CountryName}}</dd>
+                            <dt class="data-label no-border">
+                                <img src="images/Flag/us.png" alt="">
+                            </dt>
+                            <dd class="data-value">U.S.A</dd>
+                        </dl>
+                        <dl class="section-bottom dashed-line data-row">
+                            <dd class="data-label">State</dd>
+                            <dt class="data-value"><span>{{PaymentModel.SelectedState}}</span></dt>
                         </dl>
                         <dl class="section-bottom dashed-line data-row bb-1px-ccc">
                             <dt class="data-label">You are sending</dt>
-                            <dd class="data-value"><span>{{PaymentModel.SendingAmount}}</span><span>{{PaymentModel.SendingCurrency}}</span></dd>
+                            <dd class="data-value"><span>{{PaymentModel.SendingAmount |  number: 2}}</span><span> {{PaymentModel.SendingCurrency}}</span></dd>
                         </dl>
+
+                        <dl class="section-bottom data-row">
+                            <dt class="data-label no-border">
+                                <img src="images/Flag/{{PaymentModel.iso |lowercase}}.png" alt="">
+                            </dt>
+                            <dd class="data-value">{{PaymentModel.CountryName}}</dd>
+                        </dl>
+
                         <dl class="section-bottom  data-row">
                             <dt class="data-label">Transaction fee</dt>
-                            <dd class="data-value"><span>2.0</span><span>USD</span></dd>
+                            <dd class="data-value"><span>2.00</span><span> USD</span></dd>
                         </dl>
                         <dl class="dashed-line data-row bb-1px-ccc">
                             <dt class="data-label">Your total</dt>
-                            <dd class="total-amt data-value"><span>{{(PaymentModel.SendingAmount-0) +2.0 }}</span><span> USD</span></dd>
+                            <dd class="total-amt data-value"><span>{{(PaymentModel.SendingAmount-0) +2.0 |  number: 2 }}</span><span> USD</span></dd>
                         </dl>
                         <dl class="data-row bb-1px-ccc">
                             <dt class="data-label">Recipient receives</dt>
-                            <dd class="data-value"><span>{{PaymentModel.ReceivingAmount}}</span><span> {{PaymentModel.ReceivingCurrency}}</span></dd>
+                            <dd class="data-value"><span>{{PaymentModel.ReceivingAmount |  number: 2}}</span><span> {{PaymentModel.ReceivingCurrency }}</span></dd>
                         </dl>
                         <dl class="data-row bb-1px-ccc">
                             <dt class="data-label">Exchange rate<span>*</span></dt>
                             <dd class="data-value"><span>1 USD =</span><span>{{PaymentModel.ExchangeRate}}</span><span> {{PaymentModel.ReceivingCurrency}}</span></dd>
                         </dl>
                         <div class="row mt-15">
-                            <div class="col-sm-6"> </div>
+                            <div class="col-sm-6"></div>
                             <div class="col-sm-6">
                                 <button class="btn btn-default" ng-click="SendBack()">Back</button>
                                 <button class="btn btn-info" ng-click="CashPickUp()">continue</button>
@@ -80,10 +110,10 @@
                         </div>
                     </div>
                 </div>
-                  
-                </div>
 
-           
+            </div>
+
+
         </section>
 
 
@@ -242,13 +272,13 @@
 
 
 
-    </div>
-    <footer class="footer-container-wrapper pt-4 pb-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>Copyright 2017 © Falconloop. All Rights Reserved.</p>
-                </div>
+</div>
+<footer class="footer-container-wrapper pt-4 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>Copyright 2017 © Falconloop. All Rights Reserved.</p>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>

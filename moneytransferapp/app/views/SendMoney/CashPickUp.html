@@ -35,7 +35,7 @@
                 <h1 class="section-title mb-15">How would you like the money received?</h1>
                 <form class="ml-4">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rdBankDeposit" id="rdBankDeposit" value="Bank Deposit" ng-model="PaymentModel.BankDeposit"  ng-change="checkStuff(PaymentModel.BankDeposit)" checked>
+                        <input class="form-check-input" type="radio" name="rdBankDeposit" id="rdBankDeposit" value="Bank Deposit" ng-model="PaymentModel.BankDeposit"  ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
                         <label class="form-check-label" for="rdBankDeposit"> Bank Deposit </label>
                         <small>All major banks</small>
                     </div>
@@ -44,9 +44,10 @@
                         <label class="form-check-label" for="rdCashPickup">Cash Pickup</label>
                         <small>Many locations</small>
                     </div>
+                    
                     <div class="pt-30">
                         <button class="btn btn-default" ng-click="SendBack()">Back</button>
-                        <button class="btn btn-info" ng-click="goToPaymentMethod()">Continue</button>
+                        <button class="btn btn-info" ng-click="goToPaymentMethod()">{{localStorage.FirstName ? 'Continue' : 'LogIn'}}</button>
                     </div>
 
                 </form>

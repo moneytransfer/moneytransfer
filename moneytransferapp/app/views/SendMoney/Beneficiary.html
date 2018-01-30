@@ -11,7 +11,7 @@
             <ul class="navbar-nav ">
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
             </ul>
-</div>
+        </div>
     </div>
 </header>
 
@@ -102,11 +102,17 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="col-sm-12 m-t-1">
+                                <label for="ZipCode">Account Number : <b class="text-danger">&nbsp;*</b></label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="number" class="form-control" id="AccountNumber" placeholder="Account Number" ng-model="Beneficiary.AccountNumber">
+                                </div>
+                            </div>
 
                         </div>
-                        <div class="col-sm-6 float-left">
 
+
+                        <div class="col-sm-6 float-left">
                             <div class="col-sm-12 float-left">
                                 <label for="Address1">Address1 :</label>
                                 <div class="col-sm-12 p-0 float-left">
@@ -150,6 +156,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-sm-12 m-t-1">
+                                <label for="Country">Routing Number : <b class="text-danger">&nbsp;*</b></label>
+                                <div class="col-sm-12 p-0">
+                                    <input type="number" class="form-control" id="RoutingNumber" placeholder="Routing Number" ng-model="Beneficiary.RoutingNumber">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-12 m-t">
@@ -160,8 +172,8 @@
                         </div>
                     </div>
                 </div>
-                </div>
-            </section>
+            </div>
+        </section>
         <section class="payment-section pt-5 pb-5">
             <div class="container">
                 <div class="row section-01">
@@ -327,8 +339,8 @@
                 </div>
             </div>
         </div>
-            </div>
     </div>
+</div>
 
 <footer class="footer-container-wrapper pt-4 pb-2">
     <div class="container">
@@ -339,5 +351,5 @@
         </div>
     </div>
 </footer>
-    
+
 
