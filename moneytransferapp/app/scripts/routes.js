@@ -1318,6 +1318,21 @@
                   },
                   title: 'customerPortal',
               })
+
+              .state('app.Security_Center', {
+                  url: '/Security_Center',
+                  templateUrl: 'views/customerPortal/LinkPage/Security-Center.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+              })
+
               .state('app.SendMoneylogin', {
                   url: '/sendmoneylogin',
                   templateUrl: 'views/SendMoney/login.html',
@@ -1329,7 +1344,7 @@
                       }]
                   },
                   title: 'customerPortal',
-                
+
               })
                .state('app.SendMoneyUserRegister', {
                    url: '/sendmoneyuserRegister',
@@ -1344,7 +1359,7 @@
                    title: 'customerPortal',
 
                })
-          
+
               .state('app.CashPickUp', {
                   url: '/CashPickUp',
                   templateUrl: 'views/SendMoney/CashPickUp.html',
@@ -1357,7 +1372,20 @@
                   },
                   title: 'customerPortal',
                   //controller: "authenticateSendMoneyController"
+              })
 
+              .state('app.cashPickUpLocation', {
+                  url: '/cashPickUpLocation',
+                  templateUrl: 'views/SendMoney/CashPickUpLocatiion.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+                  controller: "authenticateSendMoneyController"
               })
               .state('app.Payment', {
                   url: '/MakePayment',
@@ -1372,7 +1400,7 @@
                   title: 'customerPortal',
                   controller: "authenticateSendMoneyController"
 
-              }) 
+              })
               .state('app.SendMoneyAmount', {
                   url: '/SendMoney',
                   templateUrl: 'views/SendMoney/SendMoney.html',
@@ -1399,7 +1427,7 @@
                       }]
                   },
                   title: 'customerPortal',
-                  
+
               })
 
               .state('app.addEditBeneficiary', {
@@ -1416,19 +1444,7 @@
                   title: 'customerPortal',
                   controller: "authenticateSendMoneyController"
               })
-              .state('app.Security_Center', {
-                  url: '/Security_Center',
-                  templateUrl: 'views/customerPortal/LinkPage/Security-Center.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                              //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
-                          });
-                      }]
-                  },
-                  title: 'customerPortal',
-              })
+
            .state('app.SendMoneyThankyou', {
                url: '/SendMoneyThankyou',
                templateUrl: 'views/SendMoney/ThankyouPage.html',

@@ -1,6 +1,6 @@
 ﻿<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
-        <a class="navbar-brand" ui-sref='app.SendMoney'>
+        <a class="navbar-brand" ui-sref='app.SendMoneyAmount'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
@@ -22,11 +22,9 @@
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb cm-white-space">
-                        <li class="col-md-3 {{localStorage.PaymentModel.SendingAmount !=''?'active':''}}" ui-sref='app.SendMoney'>TRANSACTION INFORMATION</li>
-                        <!--<li class="col-md-3">TRANSACTION INFORMATION</li>-->
-                        <li class="col-md-3">BENEFICIARY DETAILS</li>
-                        <li class="col-md-3">CASH PICKUP DETAILS</li>
-                        <li class="col-md-3">Payment</li>
+                        <li class="col-md-4" ui-sref='app.SendMoney'>TRANSACTION INFORMATION</li>
+                        <li class="col-md-4 active">BENEFICIARY DETAILS</li>
+                        <li class="col-md-4">PAYMENT</li>
                     </ul>
                 </div>
             </div>
@@ -163,13 +161,21 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    <div class="col-sm-12 m-t">
-                        <div class="pull-right padding">
-                            <button type="submit" class="btn btn-primary" ng-disabled="!BeneficiaryModel.FirstName" ng-click="CashPickUp(PaymentModel.BeneficiaryId)">
-                                Next
-                            </button>
-                        </div>
+                    <div class="alert alert-danger text-left position-static" id="PaymentMethod" ng-if="ValidAcountRoute">
+                        <span>Please make sure all require fields should not empty.</span>
+                    </div>
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col-sm-4 text-right">
+                        <button class="btn btn-default" ng-click="SendBack()">Back</button>
+                    </div>
+                    <div class="col-sm-4 text-right">
+                        <button type="submit" class="btn btn-info" ng-disabled="!BeneficiaryModel.FirstName" ng-click="CashPickUp(PaymentModel.BeneficiaryId)">
+                            Continue
+                        </button>
                     </div>
                 </div>
             </div>

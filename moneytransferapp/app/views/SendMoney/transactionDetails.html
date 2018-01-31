@@ -1,6 +1,6 @@
-<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
+﻿<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
-        <a class="navbar-brand" ui-sref='app.SendMoneyAmount'>
+        <a class="navbar-brand" ui-sref='app.SendMoney'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
 
@@ -11,38 +11,56 @@
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
-                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Log In</a></li>
-                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Sign Up</a></li>
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
             </ul>
         </div>
     </div>
 </header>
 <!--end header-->
-<div class="body-container-wrapper m-t-3" ng-controller="manageSendMoneyController">
+<div class="body-container-wrapper m-t-3" ng-controller="makeSendMoneyPaymentController">
     <div class="master-banner inner-page-banner d-flex align-items-end">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb cm-white-space">
                         <!--<li class="col-md-4 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ng-click="goBack()">Destination Number</li>-->
-                        <li class="col-md-4 active">TRANSACTION INFORMATION</li>
-                        <li class="col-md-4">BENEFICIARY DETAILS</li>
-                        <li class="col-md-4">PAYMENT</li>
+                        <li class="col-md-3 {{localStorage.PaymentModel.SendingAmount !=''?'active':''}}" ui-sref='app.SendMoney'>TRANSACTION INFORMATION</li>
+                        <li class="col-md-3 {{localStorage.SelectedCountry !=''?'active':''}} " ui-sref='app.addEditBeneficiary'>BENEFICIARY DETAILS</li>
+                        <li class="col-md-3 {{localStorage.PaymentModel.TransferPurpose !=''?'active':''}}" ui-sref='app.CashPickUp'>CASH PICKUP DETAILS</li>
+                        <li class="col-md-3">Payment</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="body-container-wrapper container">
         <div id="view"></div>
         <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
-            <div class="container">
-                <div class="row transaction-summary">
+            <form role="form" class="ng-pristine ng-valid" id="payment" name="" ui-jq="validate">
+                <div class="form-group row">
 
-                    <div class="col-sm-8 offset-2">
-                        <h2 class="section-title mb-15">How would you like to receive the money?</h2>
+                    <div class="col-sm-6">
+                        <h5 class="font-weight-bold p-l-2">Choose your payment method</h5>
+                        <div class="col-sm-12 m-b-1">
+                            <label for="Status" class="col-sm-4 form-control-label">Payment Method: </label>
+                            <div class="col-sm-8 p-0">
+                                <div class="col-sm-4" ng-repeat="PaymentMethod in PaymentMethods">
+                                    <label class="form-control-label">
+                                        <input type="radio" name="methods" ng-model="PaymentModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaymentModel.PaymentMethodId)" required />
+                                        {{PaymentMethod.Title}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alertmsg alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
+                            <span>You are not able to make Payment, please contact with administrator.</span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-sm-6 ">
+                        <h2>Transaction Summary</h2>
                         <hr class="m-0">
                         <dl class="section-bottom data-row">
                             <dt class="data-label no-border">
@@ -70,14 +88,6 @@
                             <dt class="data-label">State</dt>
                             <dd class="data-value text-right">{{PaymentModel.SelectedCountryState}}</dd>
                         </dl>
-                        <!--<dl class="section-bottom  data-row">
-                            <dt class="data-label">Transaction fee</dt>
-                            <dd class="data-value text-right"><span>2.00</span><span> USD</span></dd>
-                        </dl>-->
-                        <!-- <dl class="dashed-line data-row bb-1px-ccc">
-                            <dt class="data-label">Your total</dt>
-                            <dd class="total-amt data-value"><span>{{(PaymentModel.SendingAmount-0) +2.0 |  number: 2 }}</span><span> USD</span></dd>
-                        </dl>-->
                         <dl class="data-row">
                             <dt class="data-label">Recipient receives</dt>
                             <dd class="data-value text-right"><span>{{PaymentModel.ReceivingAmount |  number: 2}}</span><span> {{PaymentModel.ReceivingCurrency }}</span></dd>
@@ -86,52 +96,10 @@
                             <dt class="data-label">Exchange rate<span>*</span></dt>
                             <dd class="data-value text-right"><span>1 USD =</span><span>{{PaymentModel.ExchangeRate}}</span><span> {{PaymentModel.ReceivingCurrency}}</span></dd>
                         </dl>
-
-                        <div class="row mt-4">
-
-                            <!--<div class="col-sm-6 form-check">
-                                <input class="form-check-input" type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
-                                <label class="form-check-label" for="rdBankDeposit">Bank Deposit </label>
-                                <small>All major banks</small>
-                            </div>
-                            <div class="col-sm-6 form-check pt-30">
-                                <input class="form-check-input" type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)">
-                                <label class="form-check-label" for="rdCashPickup">Cash Pickup</label>
-                                <small>Many locations</small>
-                            </div>-->
-
-                            <div class="col-sm-6">
-                                <label class="col-sm-12 form-control-label" for="rdBankDeposit">
-                                    <input type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
-                                    <span class="bold">BANK DEPOSIT </span>&nbsp; <small>All Major Banks</small></label>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="col-sm-12 form-control-label" for="rdCashPickup">
-                                    <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)">
-                                    <span class="bold">CASH PICKUP </span>&nbsp; <small>Featured Partners</small></label>
-                            </div>
-                        </div>
-                        <div class="alert alert-danger text-left position-static" id="PaymentMethod" ng-if="validWay">
-                            <span>Please select a valid way to receive the money.</span>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-sm-4 text-right">
-                                <button class="btn btn-default" ng-click="SendBack()">Back</button>
-                            </div>
-                           
-                            <div class="col-sm-4 text-right">
-                                <button class="btn btn-info" ng-click="CashPickUp()">{{localStorage.GustCustomer.CustomerId == 0 ? 'Log In/Sign Up' :'Continue'}}</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
-            </div>
-
-
+            </form>
         </section>
-
-
         <!--end master banner-->
         <section class="payment-section pt-5 pb-5">
             <div class="container">
@@ -284,9 +252,6 @@
         </section>
 
     </div>
-
-
-
 </div>
 <footer class="footer-container-wrapper pt-4 pb-2">
     <div class="container">
@@ -297,3 +262,5 @@
         </div>
     </div>
 </footer>
+
+
