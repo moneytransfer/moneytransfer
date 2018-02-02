@@ -32,32 +32,144 @@
             </div>
         </div>
     </div>
-   
+
     <div class="body-container-wrapper container">
         <div id="view"></div>
         <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
             <form role="form" class="ng-pristine ng-valid" id="payment" name="" ui-jq="validate">
-                <div class="form-group row">
-                    <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header text-success">
-                                    <h4 class="modal-title ">Confirmation ! </h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h6 class="modal-title">Please click yes to proceed </h6>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" ng-click="Create()">Yes</button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                <h1 class="text-center">Choose your payment method</h1>
+                <div class="form-group row  mt-4">
+                    <div class="col-sm-5">
+                        <dl class="section-bottom data-row">
+                            <dd class="data-label">Pay with your</dd>
+                        </dl>
+
+                        <div class="col-sm-12">
+                            <label class="col-sm-12 form-control-label" for="rdCashPickup">
+                                <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup">
+                                <span class="bold">Bank Account x-5871 </span>&nbsp;
+                                <br />
+                                <small class="pl-3">Transaction Fee: 4.99 USD</small>
+                            </label>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-12 mt-4 form-control-label" for="rdCashPickup">
+                                <input type="radio" name="rdBankDeposit" id="Radio1" value="CashPickup">
+                                <span class="bold">DDCbofa </span>&nbsp;
+                                <br />
+                                <small class="pl-3">Transaction Fee: 4.99 USD</small></label>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-12 mt-4 form-control-label" for="rdCashPickup">
+                                <input type="radio" name="rdBankDeposit" id="Radio2" value="CashPickup">
+                                <span class="bold">BofaFalcon </span>&nbsp;
+                                <br />
+                                <small class="pl-3">Transaction Fee: 4.99 USD</small></label>
+                        </div>
+                        <hr class="m-0">
+                        <h4 class="mt-4">Add new payment method</h4>
+                        <div class="col-sm-12 p-0 m-b-1">
+                            <label for="Status" class="col-sm-10 form-control-label">Lowest Fee: 4.99 USD </label>
+                            <div class="col-sm-11 p-0">
+                                <div class="col-sm-6" ng-repeat="PaymentMethod in PaymentMethods">
+                                    <label class="form-control-label">
+                                        <input type="radio" name="methods" ng-model="PaymentModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaymentModel.PaymentMethodId)" required />
+                                        {{PaymentMethod.Title}}
+                                    </label>
                                 </div>
                             </div>
                         </div>
+                        <div class="alertmsg alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
+                            <span>You are not able to make Payment, please contact with administrator.</span>
+                        </div>
+
+                        <div ng-show="PaymentModel.PaymentMethodId>0">
+                            <hr class="m-0">
+                            <div class="row">
+                                <dl class="section-bottom data-row">
+                                    <dt class="data-label no-border">
+                                        <img src="images/Payment/american-express.png" alt="">
+                                    </dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/discover.png" alt=""></dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/maestro.png" alt=""></dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/mastercard.png" alt=""></dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/visa.png" alt=""></dt>
+
+                                    <dt class="data-label">
+                                        <img src="images/Payment/union-pay.png" alt=""></dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/paypal.png" alt=""></dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/jcb.png" alt=""></dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/ebay.png" alt=""></dt>
+                                    <dt class="data-label">
+                                        <img src="images/Payment/authorize.png" alt=""></dt>
+                                </dl>
+                            </div>
+
+                            <div class="form-group row mt-3">
+                                <div class="col-sm-12" id="card-number-field">
+                                    <label for="CardNumber" class="col-sm-10 form-control-label">Card Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-10 form-group" id="Div1">
+                                        <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="PaymentModel.CardNumber" onkeypress="if(this.value.length==16) return false;" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 m-t-1">
+                                    <label for="ExpireDate" class="col-sm-10 form-control-label">Expire Date: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-5">
+                                        <input type="number" class="form-control cm-input float-left" id="Expiremonth" placeholder="mm" ng-model="ExpireModel.ExpireMonth" onkeypress="if(this.value.length==2) return false;" required>
+                                    </div>
+                                    <div class="col-sm-5 float-left">
+                                        <input type="number" class="form-control cm-input float-left" id="Year" placeholder="yy" ng-model="ExpireModel.ExpireYear" onkeypress="if(this.value.length==2) return false;" ng-change="CheckYear(ExpireModel.ExpireYear)" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-12 m-t-1">
+                                    <label for="CVV" class="col-sm-3 form-control-label">CVV: <b class="text-danger">&nbsp;*</b></label>
+                                    <div id="cvv-Field" class="col-sm-10">
+                                        <input type="number" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="PaymentModel.cvv" onkeypress="if(this.value.length == 4) return false;" required>
+                                    </div>
+                                </div>
+
+                                <div ng-if="alert" id="alertDiv" class="alert alert-danger text-left position-static">
+                                    <span id="PaymentAlertText"></span>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
-                    <div class="col-sm-8 offset-2">
-                        <h3>How would you like to Pay for your service?</h3>
+
+                    <div class="col-sm-7">
+                        <!--  <h3>How would you like to Pay for your service?</h3>-->
+                        <div class="col-sm-12">
+                            <dl class="section-bottom data-row">
+                                <dd class="data-label">Recipient:<br />
+                                    <small>{{AddressData.BeneficiaryModel.FirstName}}
+                                        <br />
+                                        {{AddressData.BeneficiaryModel.Address1}}<br />
+                                        {{AddressData.BeneficiaryModel.Address2}} {{AddressData.BeneficiaryModel.City}}
+                                        ,{{AddressData.BeneficiaryModel.State}},{{AddressData.BeneficiaryModel.ZipCode}}<br />
+                                        <span>Tel:&nbsp; {{AddressData.BeneficiaryModel.Phone}}</span><br />
+                                        <span>Email: &nbsp;{{AddressData.BeneficiaryModel.Email}}</span>
+                                    </small>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-12">
+                            <dl class="section-bottom data-row">
+                                <dd class="data-label">Selected Money Receiving Option:
+                                    <br />
+                                    <small>{{PaymentModel.PaymentType}}&nbsp; - {{AddressData.CashpickLocation}} {{AddressData.BankLocation}} </small>
+                                </dd>
+                            </dl>
+                        </div>
                         <hr class="m-0">
                         <dl class="section-bottom data-row">
                             <dt class="data-label no-border">
@@ -69,11 +181,14 @@
                             <dd class="data-label">State</dd>
                             <dt class="data-value text-right"><span>{{PaymentModel.SelectedState}}</span></dt>
                         </dl>
-                        <dl class="section-bottom data-row bb-1px-ccc">
+                        <dl class="section-bottom data-row">
                             <dt class="data-label">You are sending</dt>
                             <dd class="data-value text-right"><span>{{PaymentModel.Amount |  number: 2}}</span><span> {{PaymentModel.SendingCurrency}}</span></dd>
                         </dl>
-
+                        <dl class="section-bottom  data-row bb-1px-ccc">
+                            <dt class="data-label">Transaction fee</dt>
+                            <dd class="data-value text-right"><span>4.99</span><span> USD</span></dd>
+                        </dl>
                         <dl class="section-bottom data-row">
                             <dt class="data-label no-border">
                                 <img src="images/Flag/{{PaymentModel.iso |lowercase}}.png" alt="">
@@ -93,73 +208,53 @@
                             <dt class="data-label">Exchange rate<span>*</span></dt>
                             <dd class="data-value text-right"><span>1 USD =</span><span>{{PaymentModel.ExchangeRate}}</span><span> {{PaymentModel.ReceivingCurrencytId}}</span></dd>
                         </dl>
-
-
-                        <div class="row mt-4 pl-3">
-                            <h3>Choose your payment method</h3>
-                            <hr class="m-0">
-                            <div class="col-sm-12 p-0 m-b-1">
-                                <label for="Status" class="col-sm-10 form-control-label">Payment Method: </label>
-                                <div class="col-sm-11 p-0">
-                                    <div class="col-sm-6" ng-repeat="PaymentMethod in PaymentMethods">
-                                        <label class="form-control-label">
-                                            <input type="radio" name="methods" ng-model="PaymentModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaymentModel.PaymentMethodId)" required />
-                                            {{PaymentMethod.Title}}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="alertmsg alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
-                                <span>You are not able to make Payment, please contact with administrator.</span>
-                            </div>
-                            <div ng-show="PaymentModel.PaymentMethodId>0">
-                                <hr class="m-0">
-                                <div class="form-group row mt-3">
-                                    <div class="col-sm-12" id="card-number-field">
-                                        <label for="CardNumber" class="col-sm-10 form-control-label">Card Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-10 form-group" id="Div1">
-                                            <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="PaymentModel.CardNumber" onkeypress="if(this.value.length==16) return false;" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 m-t-1">
-                                        <label for="ExpireDate" class="col-sm-10 form-control-label">Expire Date: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-5">
-                                            <input type="number" class="form-control cm-input float-left" id="Expiremonth" placeholder="mm" ng-model="ExpireModel.ExpireMonth" onkeypress="if(this.value.length==2) return false;" required>
-                                        </div>
-                                        <div class="col-sm-5 float-left">
-                                            <input type="number" class="form-control cm-input float-left" id="Year" placeholder="yy" ng-model="ExpireModel.ExpireYear" onkeypress="if(this.value.length==2) return false;" ng-change="CheckYear(ExpireModel.ExpireYear)" required>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-sm-12 m-t-1">
-                                        <label for="CVV" class="col-sm-3 form-control-label">CVV: <b class="text-danger">&nbsp;*</b></label>
-                                        <div id="cvv-Field" class="col-sm-10">
-                                            <input type="number" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="PaymentModel.cvv" onkeypress="if(this.value.length == 4) return false;" required>
-                                        </div>
-                                    </div>
-
-                                    <div ng-if="alert" id="alertDiv" class="alert alert-danger text-left position-static">
-                                        <span id="PaymentAlertText"></span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12 text-center">
-                                        <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
-                                        <button type="submit" class="btn btn-info"
-                                            ng-disabled="!isCardValid || !ExpireModel.ExpireMonth || !ExpireModel.ExpireYear||!PaymentModel.cvv"
-                                            ng-click="PayNow();">
-                                            Pay Now
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <dl class="section-bottom data-row">
+                            <dt class="data-label">Your Total</dt>
+                            <dd class="data-value text-right"><span>{{(PaymentModel.Amount-0) +4.99 |  number: 2 }}</span><span> USD</span></dd>
+                        </dl>
+                         <div class="row">
+                          <dl class="data-row roption-btn text-white">
+                            <dd class="data-value text-white">Receiving Option</dd>
+                            <dd class="data-value text-right text-white"><span>{{PaymentModel.PaymentType}}</span></dd>
+                        </dl>
+                             <div class="col-sm-12">
+                                  <button type="submit" class="btn btn-default cro-btn" ui-sref="app.SendMoney">Change receiving option</button>
+                             </div>
+                    </div>
                     </div>
 
+                   
                 </div>
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <button type="submit" class="btn btn-default cancel-btn" ng-click="cancel()">Cancel</button>
+                        <button type="submit" class="btn btn-info submit-btn"
+                            ng-disabled="!isCardValid || !ExpireModel.ExpireMonth || !ExpireModel.ExpireYear||!PaymentModel.cvv"
+                            ng-click="PayNow();">
+                            Pay Now
+                        </button>
 
+                    </div>
+                </div>
             </form>
+            <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-success">
+                            <h4 class="modal-title ">Confirmation ! </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="modal-title">Please click yes to proceed </h6>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" ng-click="Create()">Yes</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
         <!--end master banner-->
         <section class="payment-section pt-5 pb-5">

@@ -43,6 +43,39 @@
 
                     <div class="col-sm-8 offset-2">
                         <h2 class="section-title mb-15">How would you like to receive the money?</h2>
+                        <div class="row mt-4">
+                            <div class="col-sm-6">
+                                <label class="col-sm-12 form-control-label" for="rdBankDeposit">
+                                    <input type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
+                                    <span class="bold">BANK DEPOSIT </span>&nbsp; <small>All Major Banks</small></label>
+                                <div class="col-sm-12 mt-2" ng-if="PaymentModel.PaymentType=='BankDeposit'">
+                                     <div class="col-sm-12" ng-repeat="BankDeposit in BankDeposits">
+                                        <label class="form-control-label">
+                                            <input type="radio" name="methods" ng-model="PaymentModel.BankId" ng-change="selecetdLocation(BankDeposit.BankName)" value="{{BankDeposit.BankId}}" required />
+                                            {{BankDeposit.BankName}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-sm-12 form-control-label" for="rdCashPickup">
+                                    <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)">
+                                    <span class="bold">CASH PICKUP </span>&nbsp; <small>Featured Partners</small></label>
+
+                                <div class="col-sm-12 mt-2" ng-if="PaymentModel.PaymentType=='CashPickup'">
+                                    <div class="col-sm-12 pl-2" ng-repeat="PickLocation in PickUpLocation">
+                                        <label class="form-control-label">
+                                            <input type="radio" name="methods" ng-model="PaymentModel.LocationId" ng-change="selecetdLocation(PickLocation.Location)" value="{{PickLocation.LocationId}}" required />
+                                            {{PickLocation.Location}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="alert alert-danger text-left position-static" id="PaymentMethod" ng-if="validWay">
+                            <span>Please select a valid way to receive the money.</span>
+                        </div>
                         <hr class="m-0">
                         <dl class="section-bottom data-row">
                             <dt class="data-label no-border">
@@ -54,9 +87,13 @@
                             <dd class="data-label">State</dd>
                             <dt class="data-value text-right"><span>{{PaymentModel.SelectedState}}</span></dt>
                         </dl>
-                        <dl class="section-bottom data-row bb-1px-ccc">
+                        <dl class="section-bottom data-row">
                             <dt class="data-label">You are sending</dt>
                             <dd class="data-value text-right"><span>{{PaymentModel.SendingAmount |  number: 2}}</span><span> {{PaymentModel.SendingCurrency}}</span></dd>
+                        </dl>
+                        <dl class="section-bottom  data-row bb-1px-ccc">
+                            <dt class="data-label">Service fee</dt>
+                            <dd class="data-value text-right"><span>4.99</span><span> USD</span></dd>
                         </dl>
 
                         <dl class="section-bottom data-row">
@@ -88,6 +125,14 @@
                         </dl>
 
                         <div class="row mt-4">
+                            <dl class="data-row">
+                                <dt class="data-label">Your Total</dt>
+                                <dd class="data-value text-right"><span>{{(PaymentModel.SendingAmount-0) +4.99 |  number: 2 }}</span><span> USD</span></dd>
+                            </dl>
+                            <dl class="data-row">
+                                <dt class="data-label">Receiving Option:</dt>
+                                <dd class="data-value text-right"><span id="SelectedBank_Location"></span></dd>
+                            </dl>
 
                             <!--<div class="col-sm-6 form-check">
                                 <input class="form-check-input" type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
@@ -99,26 +144,13 @@
                                 <label class="form-check-label" for="rdCashPickup">Cash Pickup</label>
                                 <small>Many locations</small>
                             </div>-->
+                        </div>
 
-                            <div class="col-sm-6">
-                                <label class="col-sm-12 form-control-label" for="rdBankDeposit">
-                                    <input type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
-                                    <span class="bold">BANK DEPOSIT </span>&nbsp; <small>All Major Banks</small></label>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="col-sm-12 form-control-label" for="rdCashPickup">
-                                    <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)">
-                                    <span class="bold">CASH PICKUP </span>&nbsp; <small>Featured Partners</small></label>
-                            </div>
-                        </div>
-                        <div class="alert alert-danger text-left position-static" id="PaymentMethod" ng-if="validWay">
-                            <span>Please select a valid way to receive the money.</span>
-                        </div>
                         <div class="row mt-4">
                             <div class="col-sm-4 text-right">
                                 <button class="btn btn-default" ng-click="SendBack()">Back</button>
                             </div>
-                           
+
                             <div class="col-sm-4 text-right">
                                 <button class="btn btn-info" ng-click="CashPickUp()">{{localStorage.GustCustomer.CustomerId == 0 ? 'Log In/Sign Up' :'Continue'}}</button>
                             </div>

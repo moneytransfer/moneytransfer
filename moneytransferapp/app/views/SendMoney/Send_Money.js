@@ -105,12 +105,34 @@
         }
 
 
+        vm.PickUpLocation = [{ LocationId: '1', Location: 'Tijuana' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
+           { LocationId: '5', Location: 'Mexicali' }
+        ];
+
+        vm.BankDeposits = [{ BankId: '1', BankName: 'KOTAK MAHINDRA BANK' }, { BankId: '2', BankName: 'DENA BANK' }, { BankId: '3', BankName: 'HDFC BANK' }, { BankId: '4', BankName: 'PNB BANK' },
+         { BankId: '5', BankName: 'SBI' }
+        ];
+
+        vm.selecetdLocation = function (Name) {
+            $localStorage.BankLocation = '';
+            if (Name != "") {
+                if (vm.PaymentModel.PaymentType == "BankDeposit") {
+                    $localStorage.CashpickLocation = '';
+                    $localStorage.BankLocation = Name;
+                }
+                else if (vm.PaymentModel.PaymentType == "CashPickup") {
+                    $localStorage.BankLocation = '';
+                    $localStorage.CashpickLocation = Name;
+                }
+                $("#SelectedBank_Location").text(Name);
+            }
 
 
 
+        }
 
 
-
+        // PickUpLocation
         //Get Country
         $http({
             method: 'GET',
@@ -148,12 +170,13 @@
             });
         }
 
+        //Get Dacimal
 
 
         var timeout;
         var delay = 500;
         vm.isValidData = false;
-        vm.EnteredNumber = function () {
+        vm.EnteredNumber = function (Amount) {
             vm.validnumber = false;
             if (timeout) {
                 clearTimeout(timeout);
@@ -164,13 +187,17 @@
         }
 
         function Searchdata() {
+
+            var Amount = vm.FlagModel.Amount;
             if (vm.FlagModel.Amount != "0" && vm.FlagModel.CurrencyCode != "") {
+       
                 vm.FlagModel.IsData = false;
                 if (vm.FlagModel.CurrencyCode == "USD") {
                     vm.FlagModel.ExchangeRate = 1.00;
-                    vm.FlagModel.RecipientAmmount = vm.FlagModel.ExchangeRate * vm.FlagModel.Amount;
+                    var ReciptAmt = Math.round(vm.FlagModel.ExchangeRate * vm.FlagModel.Amount);
+                    vm.FlagModel.RecipientAmmount = Math.round(ReciptAmt);
                     vm.FlagModel.IsValid = true;
-
+              
                     // SelectCountyState
                     var skillsSelect = document.getElementById("SelectCountyState");
                     var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
@@ -220,7 +247,8 @@
                         vm.FlagModel.IsData = true;
                         var value = parseFloat(idata.currency[0].value).toFixed(2)
                         //var newvalu = value
-                        vm.FlagModel.ExchangeRate = value
+                        vm.FlagModel.ExchangeRate = Math.round(value);
+
                         vm.FlagModel.RecipientAmmount = parseFloat(value * vm.FlagModel.Amount).toFixed(2);
                         vm.isValidData = true;
                         var skillsSelect = document.getElementById("SelectCountyState");
@@ -270,19 +298,24 @@
 
         vm.CashPickUp = function () {
             vm.validWay = false;
-            $localStorage.AmountDetails.PaymentType = vm.PaymentModel.PaymentType;
+
             if (vm.PaymentModel.PaymentType == "BankDeposit") {
-                $localStorage.Location = '';
-                if ($localStorage.GustCustomer) {
-                    $state.go('app.addEditBeneficiary');
-                } else {
-                    $state.go('app.SendMoneylogin');
-                }
+              
+                if (vm.PaymentModel.BankId != '0') {
+                    //$localStorage.BankLocation = '';
+                    $localStorage.AmountDetails.PaymentType = "Bank Deposit";
+                    if ($localStorage.GustCustomer) {
+                        $state.go('app.addEditBeneficiary');
+                    } else {
+                        $state.go('app.SendMoneylogin');
+                    }
+                } else { return false;}
             }
             else if (vm.PaymentModel.PaymentType == "CashPickup") {
-                $localStorage.AmountDetails.BeneficiaryId = '';
+                $localStorage.AmountDetails.PaymentType = "Cash Pick Up";
+                //$localStorage.AmountDetails.BeneficiaryId = '';
                 if ($localStorage.GustCustomer) {
-                    $state.go('app.cashPickUpLocation');
+                    $state.go('app.addEditBeneficiary');
                 } else {
                     $state.go('app.SendMoneylogin');
                 }
@@ -353,21 +386,24 @@
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
                     if ($localStorage.AmountDetails.Amount) {
-                        if ($localStorage.AmountDetails.PaymentType == "BankDeposit") {
-                            $state.go('app.addEditBeneficiary')
-                        }
-                        else if ($localStorage.AmountDetails.PaymentType == "CashPickup") {
-                            $state.go('app.cashPickUpLocation')
-                        }
-                        else {
-                            //$state.go('app.makepayment');
-                            $state.go('app.SendMoneyAmount')
-                        }
-                        //setTimeout(function () { window.location.reload(); }, 1000);
-                    } else {
+                        $state.go('app.addEditBeneficiary')
+                        //if ($localStorage.AmountDetails.PaymentType == "BankDeposit") {
+
+                        //}
+                        //else if ($localStorage.AmountDetails.PaymentType == "CashPickup") {
+                        //    //$state.go('app.cashPickUpLocation')
+                        //    $state.go('app.addEditBeneficiary')
+                        //}
+                    }
+                    else {
                         //$state.go('app.makepayment');
                         $state.go('app.SendMoneyAmount')
                     }
+                    //setTimeout(function () { window.location.reload(); }, 1000);
+                    //} else {
+                    //    //$state.go('app.makepayment');
+                    //    $state.go('app.SendMoneyAmount')
+                    //}
 
                 }
                 else {
@@ -529,6 +565,8 @@
 
         var vm = $scope;
         vm.SelectedCustomer = [];
+        //Testing
+        vm.BenData = $localStorage;
 
         vm.companyId = 0;
         vm.CustomerId = 0;
@@ -552,9 +590,9 @@
         });
         vm.PaymentMethods = [];
         vm.BeneficiaryModel = { CompanyId: vm.companyId, CustomerId: vm.CustomerId, CountryId: "0", BeneficiaryTypeId: '0' };
-        vm.Beneficiary = { AccountNumber: 0, RoutingNumber: 0 }
+        vm.Beneficiary = { AccountNumber: 568541285, RoutingNumber: 8854, Location: '0' }
         //Get Method Details
-
+        //BeneficiaryModel
         $http({
             method: 'GET',
             url: baseUrl + 'getcountrydetails',
@@ -565,6 +603,14 @@
        vm.Countries = idata;
 
    });
+
+        //Check Preffrerd Location
+        if (vm.BenData.BankLocation != '') {
+            document.getElementById("BankDepositCheck").checked = true;
+        }
+        else if (vm.BenData.CashpickLocation != '') {
+            document.getElementById("CashPickUpCheck").checked = true;
+        }
 
 
         $http({
@@ -587,32 +633,59 @@
 
         vm.selectedBeneficiary = function (Id) {
             var iBeneficiaryId = parseInt(Id);
-            var formData = JSON.parse(JSON.stringify({ "BeneficiaryId": iBeneficiaryId }));
-            $http({
-                method: 'POST',
-                url: baseUrl + 'getbeneficiarydetailsbyId',
-                data: formData,
-                headers: { 'Content-Type': 'application/json' },
-                dataType: "json",
-            })
-             .success(function (data) {
-                 var idata = data;
-                 if (idata) {
-                     idata.ZipCode = parseInt(idata.ZipCode);
-                     idata.Phone = parseInt(idata.Phone);
-                     idata.CountryId = JSON.stringify(idata.CountryId);
-                     idata.BeneficiaryTypeId = JSON.stringify(idata.BeneficiaryTypeId);
+            if (iBeneficiaryId > 0) {
+                var formData = JSON.parse(JSON.stringify({ "BeneficiaryId": iBeneficiaryId }));
+                $http({
+                    method: 'POST',
+                    url: baseUrl + 'getbeneficiarydetailsbyId',
+                    data: formData,
+                    headers: { 'Content-Type': 'application/json' },
+                    dataType: "json",
+                })
+                 .success(function (data) {
 
-                     vm.BeneficiaryModel = idata;
-                 }
-             });
+                     var idata = data;
+                     if (idata) {
+                         idata.ZipCode = parseInt(idata.ZipCode);
+                         idata.Phone = parseInt(idata.Phone);
+                         idata.CountryId = JSON.stringify(idata.CountryId);
+                         idata.BeneficiaryTypeId = JSON.stringify(idata.BeneficiaryTypeId);
+
+                         vm.BeneficiaryModel = idata;
+                         $localStorage.BeneficiaryModel = vm.BeneficiaryModel;
+                     }
+                 });
+            }
         }
+
         vm.CreateBeneficiary = function () {
             if (!vm.BeneficiaryModel.Address2) {
                 vm.BeneficiaryModel.Address2 = "";
             }
             var idata = vm.BeneficiaryModel;
             //idata.ZipCode = JSON.stringify(idata.ZipCode);
+            if (idata.BeneficiaryId) {
+                var formData = JSON.stringify(idata);
+                $http({
+                    method: 'POST',
+                    data: formData,
+                    url: baseUrl + 'addbeneficiary',
+                    headers: { 'Content-Type': 'application/json' },
+                    dataType: "json",
+                })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata && idata.Result == "Sucess") {
+                        $('#addBeneficiaryconfirm').modal('toggle');
+                        Alert(1, "! Beneficiary created successfully");
+                        vm.BeneficiaryModel = angular.copy(vm.BeneficiaryModel);
+                        $window.location.reload();
+                    }
+                    else {
+                        Alert(2, idata.Error);
+                    }
+                });
+            }
             var formData = JSON.stringify(idata);
             $http({
                 method: 'POST',
@@ -636,7 +709,7 @@
         }
 
 
-
+        //Next Page
         vm.CashPickUp = function (Id) {
             vm.ValidAcountRoute = false;
             var route = vm.Beneficiary.RoutingNumber;
@@ -655,9 +728,30 @@
 
         }
 
-        vm.SendBack = function() {
+        //Back
+        vm.SendBack = function () {
+            vm.BenData = '';
             $state.go('app.SendMoney')
         }
+
+
+        //Changes Preffrence
+        vm.ChangeLocation = function (id) {
+            var skillsSelect = document.getElementById("Locationpickup");
+            var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
+            if (selectedText != '') {
+                document.getElementById("BankDepositCheck").checked = false;
+                document.getElementById("CashPickUpCheck").checked = true;
+                $localStorage.BankLocation = '';
+                $localStorage.CashpickLocation = selectedText;
+
+                vm.BenData = $localStorage;
+            }
+        }
+
+        vm.PickUpLocation = [{ LocationId: '1', Location: 'Tijuana' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
+            { LocationId: '5', Location: 'Mexicali' }
+        ];
     }
 
     addCashPickUpController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
@@ -690,15 +784,11 @@
             }
         }
 
-        vm.PickUpLocation = [{ LocationId: '1', Location: 'Tijuana' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
-            { LocationId: '5', Location: 'Mexicali' }
-        ];
+        //vm.PickUpLocation = [{ LocationId: '1', Location: 'Tijuana' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
+        //    { LocationId: '5', Location: 'Mexicali' }
+        //];
 
-        
-        
-        
-        
-       
+
         vm.goToPaymentMethod = function () {
             vm.validlocation = false;
             if (vm.PaymentModel.LocationId != "0") {
@@ -740,7 +830,7 @@
         } if ($localStorage.AmountDetails.PaymentMethodId) {
             $localStorage.AmountDetails.PaymentMethodId = '';
         }
-       
+        vm.AddressData = $localStorage;
         vm.PaymentModel = $localStorage.AmountDetails;
         vm.companyId = 0;
         vm.CustomerId = 0;
@@ -948,6 +1038,9 @@
             $localStorage.Location = '';
             vm.localStorage.GustData = '';
             $localStorage.AmountDetails = '';
+            $localStorage.BeneficiaryModel = '';
+            $localStorage.CashpickLocation = '';
+            $localStorage.BankLocation = '';
             vm.localStorage.SelectedCountry = '';
             $state.go('app.SendMoneyAmount');
         }
@@ -978,11 +1071,23 @@
                 vm.CustomerId = vm.SelectedCustomer.CustomerId;
             }
         }
+
+        vm.ThankyouDetails = $localStorage;
+       
+        
         vm.viewTransactions = function () {
+            vm.ThankyouDetails = '';
+            $localStorage.Location = '';
+            $localStorage.AmountDetails = '';
+            $localStorage.BeneficiaryModel = '';
+            $localStorage.CashpickLocation = '';
+            $localStorage.BankLocation = '';
+            //vm.localStorage.SelectedCountry = '';
             if ($localStorage.GustCustomer) {
-                $state.go('app.SendMoneyTransaction');
+                //$state.go('app.SendMoneyTransaction');
+                $state.go('app.SendMoneyAmount');
             } else {
-                $state.go('app.SendMoney');
+                $state.go('app.SendMoneyAmount');
             }
 
         }

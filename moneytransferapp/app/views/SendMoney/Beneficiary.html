@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-sm-6 float-left m-t-30">
                                     <div class="col-sm-12 ">
-                                        <button type="submit" class="btn btn-primary pull-right" ng-click="addNewBeneficiary()"><i class="glyphicon glyphicon-plus"></i>Add Beneficiary </button>
+                                        <button type="submit" class="btn btn-primary pull-right" ng-click="addNewBeneficiary()"><i class="glyphicon glyphicon-plus"></i>{{PaymentModel.BeneficiaryId=='0'? 'Add Beneficiary':'Update Beneficiary'}} </button>
                                     </div>
                                 </div>
                             </div>
@@ -100,13 +100,30 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12 m-t-1">
-                                <label for="ZipCode">Account Number : <b class="text-danger">&nbsp;*</b></label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="number" class="form-control" id="AccountNumber" placeholder="Account Number" ng-model="Beneficiary.AccountNumber">
+                            <div class="row">
+
+                                <label class="col-sm-10 mt-4" for="BankDetails">
+                                    <input class="col-sm-2" type="Checkbox" name="rdBankDeposit" id="BankDepositCheck">
+                                    Bank Account Information :
+                                </label>
+                                <div class="col-sm-12 mt-3">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" id="AccountNumber" placeholder="BANK NAME" ng-model="BenData.BankLocation" disabled="disabled">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 mt-2">
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" id="Number1" placeholder="Account Number" value="568541285" ng-model="Beneficiary.AccountNumber" disabled="disabled">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 mt-2">
+                                    <div class="col-sm-12">
+                                        <input type="number" class="form-control" id="Number2" placeholder="Account Number" value="8854" ng-model="Beneficiary.RoutingNumber" disabled="disabled">
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
 
@@ -154,10 +171,26 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-12 m-t-1">
-                                <label for="Country">Routing Number : <b class="text-danger">&nbsp;*</b></label>
-                                <div class="col-sm-12 p-0">
-                                    <input type="number" class="form-control" id="RoutingNumber" placeholder="Routing Number" ng-model="Beneficiary.RoutingNumber">
+                            <div class="row">
+
+                                <label class="col-sm-10 mt-3" for="BankDetails">
+                                    <input class="col-sm-2" type="Checkbox" name="rdBankDeposit" id="CashPickUpCheck">
+                                    Preferred Cash Agent Provider :
+                                </label>
+                                <div class="col-sm-12 mt-4">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" id="Number3" placeholder="WALMART" ng-model="BenData.CashpickLocation" disabled="disabled">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 mt-2">
+                                    <label class="col-sm-12" for="Country">Change Preferred Pickup Location :</label>
+                                    <div class="col-sm-12 mt-2">
+                                        <select name="FamRole" id="Locationpickup" ng-model="Beneficiary.Location" ng-init="Beneficiary.Location=='0'" class="form-control" ng-change="ChangeLocation(Beneficiary.Location)">
+                                            <option value="0">SELECT NEW CASH AGENT CENTER</option>
+                                            <option ng-repeat="PickLocation in PickUpLocation" value="{{PickLocation.LocationId}}">{{PickLocation.Location}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -337,10 +370,143 @@
                     </div>
 
                     <div class="modal-body">
-                        <div ng-include="'views/SendMoney/addEditBeneficiary.html'"></div>
+                        <!-- <div ng-include="'views/SendMoney/addEditBeneficiary.html'"></div>-->
+
+                        <form role="form" class="ng-pristine ng-valid" name="tblBeneficiary" ui-jq="validate">
+                            <div class="form-group row">
+                                <div class="col-sm-6 float-left">
+                                    <label for="Name" class="col-sm-3 form-control-label">First Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Text1" placeholder="First Name" ng-model="BeneficiaryModel.FirstName" required maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 float-left">
+                                    <label for="LastName" class="col-sm-3 form-control-label">Last Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Text3" placeholder="Last Name" ng-model="BeneficiaryModel.LastName" required aria-required="true" aria-invalid="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="Email" class="col-sm-3 form-control-label">Email: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                        <input type="Email" name="Email" class="form-control" id="Email1" placeholder="Email" ng-model="BeneficiaryModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required aria-required="true">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="Phone" class="col-sm-3 form-control-label">Phone: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                        <input type="number" min="10" class="form-control" id="Number4" placeholder="Phone" ng-model="BeneficiaryModel.Phone" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="ZipCode" class="col-sm-3 form-control-label">Date Of Birth : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control datetimepicker" id="DOB" placeholder="yyyy-mm-dd" ng-model="BeneficiaryModel.DOB " required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="Country" class="col-sm-3 form-control-label">Beneficiary type : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <select name="FamRole" id="Select1" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control" required>
+                                            <option value="0">-- Select Beneficiary type --</option>
+                                            <option ng-repeat="Beneficiary in BeneficiaryType" value="{{Beneficiary.BeneficiaryTypeId}}">{{Beneficiary.BeneficiaryDescription}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="Address1" class="col-sm-3 form-control-label">Address1 : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Text4" placeholder="Address1" ng-model="BeneficiaryModel.Address1 " required maxlength="30">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="Address2" class="col-sm-3 form-control-label">Address2 : </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Text5" placeholder="Address2" ng-model="BeneficiaryModel.Address2 " maxlength="30">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="City" class="col-sm-3 form-control-label">City : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Text6" placeholder="City Name" ng-model="BeneficiaryModel.City " required maxlength="30">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="State" class="col-sm-3 form-control-label">State : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="Text7" placeholder="State Name" ng-model="BeneficiaryModel.State " required maxlength="30">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="ZipCode" class="col-sm-3 form-control-label">ZipCode : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="Number5" placeholder="ZipCode" ng-model="BeneficiaryModel.ZipCode " required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="Country" class="col-sm-3 form-control-label">Country : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <select name="FamRole" id="Select2" ng-model="BeneficiaryModel.CountryId" class="form-control" required>
+                                            <option value="0">-- Select Country --</option>
+                                            <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="ZipCode" class="col-sm-3 form-control-label">Account Number : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="Number6" placeholder="Account Number" ng-model="Beneficiary.AccountNumber">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="Country" class="col-sm-3 form-control-label">Routing Number : <b class="text-danger">&nbsp;*</b></label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="RoutingNumber" placeholder="Routing Number" ng-model="Beneficiary.RoutingNumber">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
+                                    <div class="col-sm-8 checkbox checkbox-primary form-control-label">
+                                        <input id="IsActive" type="checkbox" ng-model="BeneficiaryModel.IsActive" ng-init="BeneficiaryModel.IsActive=false ">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row m-t-md">
+                                <div class="col-sm-6 pull-right">
+                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                </div>
+                                <div class="col-sm-6 pull-right">
+                                    <button type="submit" class="btn btn-primary " ng-click="tblBeneficiary.$valid && CreateBeneficiary()">
+                                        {{BeneficiaryModel.BeneficiaryId>0?'Update':'Create' }}
+                                    </button>
+                                    <!--<button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>-->
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cencel</button>
+                       
                     </div>
                 </div>
             </div>
