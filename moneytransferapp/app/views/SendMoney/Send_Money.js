@@ -41,7 +41,8 @@
             $state.go('app.SendMoneyAmount')
         }
         vm.SelectedState = "0";
-
+        //function Begin() { debugger; $("#Processbar").fadeIn(500); }
+        //function Complete() { $("#Processbar").fadeOut(1000); }
         vm.States = {
             'Alabama': 'AL',
             'Alaska': 'AK',
@@ -114,6 +115,7 @@
         ];
 
         vm.selecetdLocation = function (Name) {
+
             $localStorage.BankLocation = '';
             if (Name != "") {
                 if (vm.PaymentModel.PaymentType == "BankDeposit") {
@@ -146,6 +148,7 @@
         });
 
         vm.getcountrydata = function (id) {
+            // Begin();
             var iCountryId = parseInt(id);
             var skillsSelect = document.getElementById("CountrySelected");
             var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
@@ -168,6 +171,7 @@
 
 
             });
+            // Complete();
         }
 
         //Get Dacimal
@@ -187,17 +191,17 @@
         }
 
         function Searchdata() {
-
+            //Begin();
             var Amount = vm.FlagModel.Amount;
             if (vm.FlagModel.Amount != "0" && vm.FlagModel.CurrencyCode != "") {
-       
+
                 vm.FlagModel.IsData = false;
                 if (vm.FlagModel.CurrencyCode == "USD") {
                     vm.FlagModel.ExchangeRate = 1.00;
                     var ReciptAmt = Math.round(vm.FlagModel.ExchangeRate * vm.FlagModel.Amount);
                     vm.FlagModel.RecipientAmmount = Math.round(ReciptAmt);
                     vm.FlagModel.IsValid = true;
-              
+
                     // SelectCountyState
                     var skillsSelect = document.getElementById("SelectCountyState");
                     var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
@@ -226,7 +230,7 @@
                 }, 100);
             }
 
-
+            // Complete();
 
 
         }
@@ -300,7 +304,7 @@
             vm.validWay = false;
 
             if (vm.PaymentModel.PaymentType == "BankDeposit") {
-              
+
                 if (vm.PaymentModel.BankId != '0') {
                     //$localStorage.BankLocation = '';
                     $localStorage.AmountDetails.PaymentType = "Bank Deposit";
@@ -309,7 +313,7 @@
                     } else {
                         $state.go('app.SendMoneylogin');
                     }
-                } else { return false;}
+                } else { return false; }
             }
             else if (vm.PaymentModel.PaymentType == "CashPickup") {
                 $localStorage.AmountDetails.PaymentType = "Cash Pick Up";
@@ -522,6 +526,9 @@
                 }
             })
         }
+
+
+
 
         vm.logoutGustCustomer = function () {
 
@@ -841,8 +848,15 @@
                 vm.CustomerId = vm.SelectedCustomer.CustomerId;
             }
         }
-        //vm.PaymentModel = { PaymentMethodId: '0', CompanyId: vm.companyId, CustomerId: vm.CustomerId, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '' }
+        vm.ModelData = { PaymentMethodId: '0', CompanyId: vm.companyId, CustomerId: vm.CustomerId, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '3', BeneficiaryId: '0', ExchangeRate: '0.00', setExpirationDate: '', ReceivingAmount: '' }
 
+        if ($localStorage.AmountDetails) {
+            vm.ModelData.BeneficiaryId = $localStorage.AmountDetails.BeneficiaryId;
+            vm.ModelData.ExchangeRate = $localStorage.AmountDetails.ExchangeRate;
+            vm.ModelData.ReceivingAmount = $localStorage.AmountDetails.RecipientAmmount;
+            vm.ModelData.SendingAmount = (($localStorage.AmountDetails.Amount-0) + 4.99).toFixed(2);
+        }
+        
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.companyId }));
         $http({
             method: 'POST',
@@ -935,103 +949,107 @@
 
 
         vm.Create = function () {
+
             $('#Payconfirm').modal('toggle');
-            var idata = vm.PaymentModel;
-            if (idata.PaymentType == "CashPickup") {
-                idata.TransferPurpose = idata.PaymentType;
-                idata.TransactionDetail = idata.PaymentType;
-                idata.DeliveryType = idata.PaymentType;
-                vm.alert = false;
-                var isCardValid = $.payform.validateCardNumber(cardNumber.val());
-                var isCvvValid = $.payform.validateCardCVC(CVV.val());
-                var IsValid = false;
-                var cvvlength = CVV.val().length;
-                if ($.payform.parseCardType(cardNumber.val()) == 'amex') {
-                    if (cvvlength < 4) {
-                        CvvNumberField.removeClass('has-success');
-                        CvvNumberField.addClass('has-error');
-                        vm.alert = true;
-                        setTimeout(function () {
-                            $("#PaymentAlertText").text('Invaild CVV number');
-                        }, 100);
-                        return
-                    }
-                    else {
-                        IsValid = true; vm.alert = false;
-                    }
+            var idata = vm.ModelData;
+            //if ($localStorage.AmountDetails.PaymentType == "CashPickup") {
+            idata.TransferPurpose = $localStorage.AmountDetails.PaymentType;
+            idata.TransactionDetail = $localStorage.AmountDetails.PaymentType;
+            idata.DeliveryType = $localStorage.AmountDetails.PaymentType;
+            vm.alert = false;
+            var isCardValid = $.payform.validateCardNumber(cardNumber.val());
+            var isCvvValid = $.payform.validateCardCVC(CVV.val());
+            var IsValid = false;
+            var cvvlength = CVV.val().length;
+
+            if ($.payform.parseCardType(cardNumber.val()) == 'amex') {
+                if (cvvlength < 4) {
+                    CvvNumberField.removeClass('has-success');
+                    CvvNumberField.addClass('has-error');
+                    vm.alert = true;
+                    setTimeout(function () {
+                        $("#PaymentAlertText").text('Invaild CVV number');
+                    }, 100);
+                    return
                 }
                 else {
-                    if (cvvlength != 3) {
-                        CvvNumberField.removeClass('has-success');
-                        CvvNumberField.addClass('has-error');
-                        vm.alert = true;
-                        setTimeout(function () {
-                            $("#PaymentAlertText").text('Invaild CVV number');
-                        }, 100);
-                        return
-                    }
-                    else { IsValid = true; vm.alert = false; }
+                    IsValid = true; vm.alert = false;
                 }
-                if (isCardValid && IsValid) {
-                    if (isCvvValid) {
+            }
+            else {
+                if (cvvlength != 3) {
+                    CvvNumberField.removeClass('has-success');
+                    CvvNumberField.addClass('has-error');
+                    vm.alert = true;
+                    setTimeout(function () {
+                        $("#PaymentAlertText").text('Invaild CVV number');
+                    }, 100);
+                    return
+                }
+                else { IsValid = true; vm.alert = false; }
+            }
+            if (isCardValid && IsValid) {
+                if (isCvvValid) {
 
-                        var sMonth = vm.ExpireModel.ExpireMonth;
-                        if (sMonth < 10) {
-                            sMonth = '0' + sMonth
-                        }
-                        var sYear = vm.ExpireModel.ExpireYear;
-                        var expiremonth = sMonth + '' + sYear;
-                        idata.setExpirationDate = expiremonth;
-                        var Method = '';
-                        if (idata.PaymentMethodId == "1") {
-                            Method = 'makePayment';
-                        }
-                        else if (idata.PaymentMethodId == "12") {
-                            Method = 'magicPay';
-                            idata.SenderName = vm.SelectedCustomer.FirstName;
-                        }
-                        idata.CompanyId = vm.companyId;
-                        idata.CustomerId = vm.CustomerId;
-                        var formData = JSON.stringify(idata);
-                        $http({
-                            method: 'POST',
-                            data: formData,
-                            url: baseUrl + Method,
-                            headers: { 'Content-Type': 'application/json' },
-                            dataType: "json",
-                        })
-                        .success(function (data) {
-                            var idata = data;
-                            if (idata && idata.TransactionId > 0) {
-                                Alert(1, "! Payment processed successfully");
-                                vm.PaymentModel = angular.copy(vm.PaymentModel);
-                                $localStorage.AmountDetails = '';
+                    var sMonth = vm.ExpireModel.ExpireMonth;
+                    if (sMonth < 10) {
+                        sMonth = '0' + sMonth
+                    }
+                    var sYear = vm.ExpireModel.ExpireYear;
+                    var expiremonth = sMonth + '' + sYear;
+                    idata.setExpirationDate = expiremonth;
+                    var Method = '';
 
-                                setTimeout(function () {
-                                    $state.go('app.SendMoneyThankyou');
-                                }, 500);
-                            }
-                            else {
-                                idata = [];
-                                Alert(2, idata.Error);
-                            }
-                        });
+                    if (idata.PaymentMethodId == "1") {
+                        Method = 'makePayment';
                     }
-                    else {
-                        vm.alert = true;
-                        setTimeout(function () {
-                            $("#PaymentAlertText").text('Invaild Card');
-                        }, 100);
+                    else if (idata.PaymentMethodId == "12") {
+                        Method = 'magicPay';
+                        idata.SenderName = vm.SelectedCustomer.FirstName;
                     }
+                    idata.CompanyId = vm.companyId;
+                    idata.CustomerId = vm.CustomerId;
+                    var formData = JSON.stringify(idata);
+                    $http({
+                        method: 'POST',
+                        data: formData,
+                        url: baseUrl + Method,
+                        headers: { 'Content-Type': 'application/json' },
+                        dataType: "json",
+                    })
+                    .success(function (data) {
+                        var idata = data;
+                        if (idata && idata.TransactionId > 0) {
+                            Alert(1, "! Payment processed successfully");
+                            vm.PaymentModel = angular.copy(vm.PaymentModel);
+                            $localStorage.PaymentGatewayTransactionId = idata.PaymentGatewayTransactionId;
+                            //$localStorage.AmountDetails = '';
+
+                            setTimeout(function () {
+                                $state.go('app.SendMoneyThankyou');
+                            }, 500);
+                        }
+                        else {
+                            idata = [];
+                            Alert(2, idata.Error);
+                        }
+                    });
                 }
                 else {
                     vm.alert = true;
                     setTimeout(function () {
-                        $("#PaymentAlertText").text('Invaild CVV number ');
+                        $("#PaymentAlertText").text('Invaild Card');
                     }, 100);
                 }
             }
-            else { $state.go('app.SendMoneyThankyou'); }
+            else {
+                vm.alert = true;
+                setTimeout(function () {
+                    $("#PaymentAlertText").text('Invaild CVV number ');
+                }, 100);
+            }
+            //}
+            //else { $state.go('app.SendMoneyThankyou'); }
         }
 
         vm.cancel = function () {
@@ -1073,11 +1091,12 @@
         }
 
         vm.ThankyouDetails = $localStorage;
-       
-        
+        debugger;
+
         vm.viewTransactions = function () {
             vm.ThankyouDetails = '';
             $localStorage.Location = '';
+            $localStorage.PaymentGatewayTransactionId = '';
             $localStorage.AmountDetails = '';
             $localStorage.BeneficiaryModel = '';
             $localStorage.CashpickLocation = '';
@@ -1122,9 +1141,10 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-
             var idata = data;
-
+            idata.sort(function (a, b) {
+               (a.TransactionId) - (b.TransactionId);
+            });
             // $timeout(function () {
             vm.totalItems = idata.length;
             vm.currentPage = 1;
@@ -1139,6 +1159,8 @@
                   (page - 1) * vm.itemsPerPage,
                   page * vm.itemsPerPage
                 );
+
+
                 vm.ManageTransaction = pagedData;
             }
             //}, 100);

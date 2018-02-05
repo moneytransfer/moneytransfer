@@ -105,3 +105,24 @@
 .choose-amount a > span > span {
     color: #20AED5;
 }
+.httpprocess {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.04);
+    z-index: 9999999;
+    top: 0px;
+}
+
+    .httpprocess img {
+        width: 54px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }

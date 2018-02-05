@@ -12771,16 +12771,20 @@ td.align-middle {
 .cm-text-center {
     text-align: center;
 }
+
 .page-link:focus, .page-link:hover {
     border-color: rgba(0, 0, 0, 0.1);
 }
+
 .nav-tabs > li.active > a {
-    background-color:#0275d8;
+    background-color: #0275d8;
 }
-@media (min-width: 992px){
+
+@media (min-width: 992px) {
     .col-md-offset-2 {
         margin-left: 16.66666667%;
     }
+
     .col-md-offset-3 {
         margin-left: 25%;
     }
@@ -12792,19 +12796,44 @@ td.align-middle {
 .fade.show {
     opacity: 1;
 }
-.modal.fade.show  .modal-dialog {
+
+.modal.fade.show .modal-dialog {
     -webkit-transform: translate(0,0);
     -ms-transform: translate(0,0);
     -o-transform: translate(0,0);
     transform: translate(0,0);
 }
+
 .modal-backdrop.fade.show {
     opacity: 0.5;
 }
+
 .alertmsg {
-    position:absolute;
+    position: absolute;
     padding: .75rem 1.25rem;
     margin-bottom: 1rem;
     border: 1px solid transparent;
     border-radius: .25rem;
 }
+
+.httpprocess {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.04);
+    z-index: 9999999;
+    top: 0px;
+}
+
+    .httpprocess img {
+        width: 54px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }

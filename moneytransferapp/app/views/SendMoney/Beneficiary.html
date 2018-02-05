@@ -31,6 +31,9 @@
         </div>
     </div>
     <div class="body-container-wrapper container " ng-cotroller="addEditBeneficiaryController">
+        <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
         <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
             <div class="container">
                 <div class="form-group row">
@@ -206,7 +209,7 @@
                         <button class="btn btn-default" ng-click="SendBack()">Back</button>
                     </div>
                     <div class="col-sm-4 text-right">
-                        <button type="submit" class="btn btn-info" ng-disabled="!BeneficiaryModel.FirstName" ng-click="CashPickUp(PaymentModel.BeneficiaryId)">
+                        <button type="submit" class="btn btn-info btn-bg" ng-disabled="!BeneficiaryModel.FirstName" ng-click="CashPickUp(PaymentModel.BeneficiaryId)">
                             Continue
                         </button>
                     </div>

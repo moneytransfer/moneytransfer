@@ -20,6 +20,9 @@
 </header>
 <!--end header-->
 <div class="body-container-wrapper m-t-3" ng-controller="manageSendMoneyController">
+     <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
     <div class="master-banner inner-page-banner d-flex align-items-end">
         <div class="container">
             <div class="row">
@@ -152,7 +155,7 @@
                             </div>
 
                             <div class="col-sm-4 text-right">
-                                <button class="btn btn-info" ng-click="CashPickUp()">{{localStorage.GustCustomer.CustomerId == 0 ? 'Log In/Sign Up' :'Continue'}}</button>
+                                <button class="btn btn-info btn-bg" ng-click="CashPickUp()">{{localStorage.GustCustomer.CustomerId == 0 ? 'Log In/Sign Up' :'Continue'}}</button>
                             </div>
                         </div>
                     </div>

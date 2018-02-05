@@ -1,6 +1,6 @@
 ﻿<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
-        <a class="navbar-brand" ui-sref='app.SendMoney'>
+        <a class="navbar-brand" ui-sref='app.SendMoneyAmount'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
 
@@ -24,7 +24,7 @@
                     <div class="card-header text-xs-center no-bg b-a-0">
                         <i class="fa fa-check text-success fa-5x m-b-1 cm-alignment" aria-hidden="true"></i>
                         <h2 class="font-weight-bold m-b-2 cm-align-heading">Congratulations, your payment has been successfully processed!</h2>
-                        <h3 class="font-weight-bold m-b-2 cm-align-heading">Tracking Information: FL19180389382o3947</h3>
+                        <h3 class="font-weight-bold m-b-2 cm-align-heading">Tracking Information: {{ThankyouDetails.PaymentGatewayTransactionId}}</h3>
                     </div>
                     <div class="card-block text-xs-center">
                         <div class="row">
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-sm-6 m-t-1">
                         <div class="pull-right padding">
-                            <button type="submit" class="btn btn-lg btn-success" ng-click="viewTransactions()">Close</button>
+                            <button type="submit" class="btn btn-lg btn-success btn-bg" ng-click="viewTransactions()">Close</button>
                         </div>
                     </div>
                 </div>

@@ -48,8 +48,18 @@
     <!-- /customerProtal page includes --> 
 
 </head>
+    
 <body ng-controller="AppCtrl" class="{{ main.app.theme }}">
+
+     
+
     <div class="app {{ $state.current.classes }}" ng-class="{'offcanvas': main.app.offcanvas, 'expanding': main.app.expanding, 'fixed-header': main.app.fixedHeader, 'boxed': main.app.boxed, 'static': main.app.static, 'message-open': main.app.isMessageOpen, 'contact-open': main.app.isContactOpen}" ui-view>
+    
+   <!-- <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>-->
+    
+    
     </div>
 
   <!--  <script src="https://maps.googleapis.com/maps/api/js" async defer></script>

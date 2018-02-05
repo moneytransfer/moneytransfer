@@ -2,10 +2,10 @@ function Alert(type, msg) {
     var div = "";
     switch (type) {
         case 1:
-            div = "<div id='alert' class='alert alert-success pull-right col-sm-4 '><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
+            div = "<div id='alert' class='alert alert-success pull-right col-sm-4 '><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
             break;
         case 2:
-            div = "<div id='alert' class='alert alert-danger pull-right col-sm-4 '><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
+            div = "<div id='alert' class='alert alert-danger pull-right col-sm-4 '><a class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
             break;
     }
     jQuery('#view').append(div);

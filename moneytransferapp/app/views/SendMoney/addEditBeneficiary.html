@@ -1,4 +1,7 @@
 ﻿<div class="padding" ng-controller="addEditBeneficiaryController">
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card-block">
@@ -107,7 +110,7 @@
                         <div class="col-sm-6">
                             <label for="Country" class="col-sm-3 form-control-label">Routing Number : <b class="text-danger">&nbsp;*</b></label>
                             <div class="col-sm-8">
-                                 <input type="number" class="form-control" id="RoutingNumber" placeholder="Routing Number" ng-model="Beneficiary.RoutingNumber">
+                                <input type="number" class="form-control" id="RoutingNumber" placeholder="Routing Number" ng-model="Beneficiary.RoutingNumber">
                             </div>
                         </div>
                     </div>
