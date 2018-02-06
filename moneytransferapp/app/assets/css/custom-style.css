@@ -526,7 +526,7 @@ label {
     min-height: 570px;
     background: url('../image/master-banner.jpg') no-repeat center top;
     background-size: cover;
-    padding-top: 85px;
+    padding-top: 50px;
 }
 
     .master-banner.inner-page-banner {
@@ -535,7 +535,7 @@ label {
     }
 
 .display-4 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #fff;
     margin-top: -20px;
     margin-bottom: 10px;
@@ -569,7 +569,7 @@ label {
     max-width: 500px;
     margin: 0 auto;
     position: relative;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
     .banner-form-wrapper .input-number-wrap {
@@ -625,7 +625,7 @@ label {
 
         .banner-form-wrapper .form-control.banner-input {
             font-family: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             line-height: 36px;
             color: #000;
             background: rgba(255, 255, 255, 0.7);
@@ -974,10 +974,11 @@ ul.cm-white-space li {
 }
 
 .additional-info {
-    font-size: 20px;
+    font-size: 18px;
     color: #000;
     margin-right: 48px;
     margin-left: 53px;
+    margin-bottom:0;
 }
 
 .info-cell {
@@ -1033,7 +1034,7 @@ ul.cm-white-space li {
 
 
 .data-row .data-label, .data-row .data-value {
-    padding: 12px 7% 11px;
+    padding: 5px 0;
     color: #000;
 }
 
@@ -1072,7 +1073,7 @@ ul.cm-white-space li {
 
     .section-title {
         font-size: 30px;
-        font-size: 1.875rem;
+        font-size: 1.6rem;
     }
 }
 
@@ -1166,25 +1167,38 @@ ul.cm-white-space li {
 }
 
 .pay-ui:before {
-        content: "";
+    content: "";
     background: #ccc;
     position: absolute;
     left: -40px;
     width: 70px;
-    height: 200px;
-
+    height: 260px;
+    top: -10px;
 }
 
 .pay-ui:after {
-     	    content: "";
+     content: "";
     background: #ccc;
     position: absolute;
-    top: -50px;
+    top: -65px;
     width: 60%;
     height: 60px;
-    left: -40px; 
+    left: -40px;
 }
 
 .pl-25 {
     padding-left:25px;
+}
+
+.mt-6rem {
+    margin-top:6rem;
+}
+
+.visibility-hidden {
+    visibility: hidden;
+}
+
+.c-black label {
+    color: black;
+    font-weight:500;
 }

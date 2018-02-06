@@ -597,7 +597,7 @@
         });
         vm.PaymentMethods = [];
         vm.BeneficiaryModel = { CompanyId: vm.companyId, CustomerId: vm.CustomerId, CountryId: "0", BeneficiaryTypeId: '0' };
-        vm.Beneficiary = { AccountNumber: 568541285, RoutingNumber: 8854, Location: '0' }
+        vm.Beneficiary = { AccountNumber: '', RoutingNumber: '', Location: '0', BICCode: '' }
         //Get Method Details
         //BeneficiaryModel
         $http({
@@ -610,7 +610,7 @@
        vm.Countries = idata;
 
    });
-
+        debugger;
         //Check Preffrerd Location
         if (vm.BenData.BankLocation != '') {
             document.getElementById("BankDepositCheck").checked = true;
@@ -650,15 +650,26 @@
                     dataType: "json",
                 })
                  .success(function (data) {
-
+                     
                      var idata = data;
                      if (idata) {
                          idata.ZipCode = parseInt(idata.ZipCode);
                          idata.Phone = parseInt(idata.Phone);
                          idata.CountryId = JSON.stringify(idata.CountryId);
                          idata.BeneficiaryTypeId = JSON.stringify(idata.BeneficiaryTypeId);
-
                          vm.BeneficiaryModel = idata;
+                         if (vm.BenData.BankLocation != '') {
+                             vm.Beneficiary.AccountNumber = vm.BeneficiaryModel.AccountNumber;
+                             vm.Beneficiary.RoutingNumber = vm.BeneficiaryModel.RoutingNumber;
+                             vm.Beneficiary.BICCode = vm.BeneficiaryModel.BICCode;
+                             //vm.BenData.BankLocation = vm.BeneficiaryModel.BankName;
+                             $localStorage.BankLocation = vm.BeneficiaryModel.BankName;
+                         }
+                         //else if (vm.BenData.CashpickLocation != '') {
+                         //    document.getElementById("CashPickUpCheck").checked = true;
+                         //}
+                        
+                        
                          $localStorage.BeneficiaryModel = vm.BeneficiaryModel;
                      }
                  });
@@ -670,6 +681,7 @@
                 vm.BeneficiaryModel.Address2 = "";
             }
             var idata = vm.BeneficiaryModel;
+
             //idata.ZipCode = JSON.stringify(idata.ZipCode);
             if (idata.BeneficiaryId) {
                 var formData = JSON.stringify(idata);
@@ -718,9 +730,10 @@
 
         //Next Page
         vm.CashPickUp = function (Id) {
+            debugger;
             vm.ValidAcountRoute = false;
-            var route = vm.Beneficiary.RoutingNumber;
-            var account = vm.Beneficiary.AccountNumber;
+            var route = vm.BeneficiaryModel.RoutingNumber;
+            var account = vm.BeneficiaryModel.AccountNumber;
 
             var BenificryId = parseInt(Id);
             if (BenificryId > 0 && account != '' && route != '') {
@@ -755,6 +768,22 @@
                 vm.BenData = $localStorage;
             }
         }
+
+        vm.ChangePrefered = function () {
+           
+            if (document.getElementById('BankDepositCheck').checked) {
+                $localStorage.CashpickLocation = '';
+                $localStorage.BankLocation = ' ';
+                vm.BenData = $localStorage;
+
+            }
+            else if (document.getElementById('CashPickUpCheck').checked) {
+                $localStorage.BankLocation = '';
+                $localStorage.CashpickLocation = 'Cash Pick Up Location:';
+                vm.BenData = $localStorage;
+            }
+        }
+
 
         vm.PickUpLocation = [{ LocationId: '1', Location: 'Tijuana' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
             { LocationId: '5', Location: 'Mexicali' }
@@ -854,9 +883,9 @@
             vm.ModelData.BeneficiaryId = $localStorage.AmountDetails.BeneficiaryId;
             vm.ModelData.ExchangeRate = $localStorage.AmountDetails.ExchangeRate;
             vm.ModelData.ReceivingAmount = $localStorage.AmountDetails.RecipientAmmount;
-            vm.ModelData.SendingAmount = (($localStorage.AmountDetails.Amount-0) + 4.99).toFixed(2);
+            vm.ModelData.SendingAmount = (($localStorage.AmountDetails.Amount - 0) + 4.99).toFixed(2);
         }
-        
+
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.companyId }));
         $http({
             method: 'POST',
@@ -1143,7 +1172,7 @@
         .success(function (data) {
             var idata = data;
             idata.sort(function (a, b) {
-               (a.TransactionId) - (b.TransactionId);
+                (a.TransactionId) - (b.TransactionId);
             });
             // $timeout(function () {
             vm.totalItems = idata.length;
