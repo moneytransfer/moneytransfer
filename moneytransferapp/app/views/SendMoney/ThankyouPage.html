@@ -11,6 +11,7 @@
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.SendMoneyAmount'>Home</a></li>
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
             </ul>
         </div>
@@ -23,15 +24,15 @@
                 <div class="card">
                     <div class="card-header text-xs-center no-bg b-a-0">
                         <i class="fa fa-check text-success fa-5x m-b-1 cm-alignment" aria-hidden="true"></i>
-                        <h2 class="font-weight-bold m-b-2 cm-align-heading">Congratulations, your payment has been successfully processed!</h2>
-                        <h3 class="font-weight-bold m-b-2 cm-align-heading">Tracking Information: {{ThankyouDetails.PaymentGatewayTransactionId}}</h3>
+                        <h1 class="text-center">Congratulations, your payment has been successfully processed!</h1>
+                        <h3 class="text-center">Tracking Information: {{ThankyouDetails.PaymentGatewayTransactionId}}</h3>
                     </div>
                     <div class="card-block text-xs-center">
                         <div class="row">
                             <div class="col-sm-6">
                                 <dl class="section-bottom data-row">
                                     <dd class="data-label">Sender:<br />
-                                        <small class="font-weight-bold">{{ThankyouDetails.GustCustomer.FirstName}}
+                                        <small class="">{{ThankyouDetails.GustCustomer.FirstName}}
                                         <br />
                                             {{ThankyouDetails.GustCustomer.Address1}}<br />
                                             {{ThankyouDetails.GustCustomer.Address2}} &nbsp; {{ThankyouDetails.GustCustomer.City}}
@@ -42,15 +43,21 @@
                                     </dd>
                                 </dl>
                                 <dl>
-                                    <dd class="data-label pl-3">*Selected transfer and payment method: 
+                                    <dd class="data-label pl-3">*Selected Deposit Method: 
                                    
                                     <span class="font-weight-bold">{{ThankyouDetails.AmountDetails.PaymentType}}</span></dd>
                                 </dl>
+
+                                <dl>
+                                  <dd class="data-label pl-4">Paid with credit card</dd>
+                                </dl>
+
+
                             </div>
                             <div class="col-sm-6">
                                 <dl class="section-bottom data-row">
                                     <dd class="data-label">Recipient:<br />
-                                        <small class="font-weight-bold">{{ThankyouDetails.BeneficiaryModel.FirstName}}
+                                        <small class="">{{ThankyouDetails.BeneficiaryModel.FirstName}}
                                         <br />
                                             {{ThankyouDetails.BeneficiaryModel.Address1}}<br />
                                             {{ThankyouDetails.BeneficiaryModel.Address2}} &nbsp;{{ThankyouDetails.BeneficiaryModel.City}}
@@ -62,7 +69,7 @@
                                 </dl>
                                 <dl class="section-bottom data-row">
                                     <dd class="data-label">
-                                        <small class="font-weight-bold">{{ThankyouDetails.AmountDetails.PaymentType}} - {{ThankyouDetails.BankLocation}} {{ThankyouDetails.CashpickLocation}}
+                                        <small class="">{{ThankyouDetails.AmountDetails.PaymentType}} -<span ng-if="ThankyouDetails.AmountDetails.PaymentType=='BankDeposit'"> {{ThankyouDetails.BankLocation}}</span><span ng-if="ThankyouDetails.AmountDetails.PaymentType=='CashPickup'">{{ThankyouDetails.CashpickLocation}}</span> 
                                         <br />
                                             <span>Transferred :&nbsp;</span>{{ThankyouDetails.AmountDetails.Amount}} &nbsp; USD<br />
                                             <span>Total received :&nbsp;</span>{{ThankyouDetails.AmountDetails.RecipientAmmount}} &nbsp;{{ThankyouDetails.AmountDetails.CurrencyCode}}<br />

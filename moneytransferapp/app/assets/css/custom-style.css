@@ -523,14 +523,14 @@ label {
 
 .master-banner {
     position: relative;
-    min-height: 570px;
+    /*min-height: 570px;*/
     background: url('../image/master-banner.jpg') no-repeat center top;
     background-size: cover;
     padding-top: 50px;
 }
 
     .master-banner.inner-page-banner {
-        min-height: 350px;
+        min-height: 120px;
         background-position: center center;
     }
 
@@ -884,7 +884,7 @@ label {
 /*Send Money*/
 
 .m-t-3 {
-    margin-top: 9rem;
+    margin-top: 6rem;
 }
 
 ul.cm-white-space li {
@@ -1170,20 +1170,24 @@ ul.cm-white-space li {
     content: "";
     background: #ccc;
     position: absolute;
-    left: -40px;
+    left: 25px;
     width: 70px;
-    height: 260px;
-    top: -10px;
+    height: 690px;
+    top: 10px;
 }
 
 .pay-ui:after {
      content: "";
     background: #ccc;
     position: absolute;
-    top: -65px;
+    top: 9px;
     width: 60%;
     height: 60px;
-    left: -40px;
+    left: 25px;
+}
+
+.pay-ui > dl, .pay-ui > div, .pay-ui > h4 {
+    padding-left: 90px !important;
 }
 
 .pl-25 {
@@ -1201,4 +1205,15 @@ ul.cm-white-space li {
 .c-black label {
     color: black;
     font-weight:500;
+}
+.pl-30px {
+    padding-left: 33px;
+}
+.bank-icon:before {
+    content: url("../../assets/image/bank-icon.png");
+        padding-right: 5px;
+}
+.CaskPickup-icon:before {
+    content: url("../../assets/image/person-male.png");
+       padding-right: 5px;
 }

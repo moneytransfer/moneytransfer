@@ -13,6 +13,7 @@
             <ul class="navbar-nav ">
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Log In</a></li>
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Sign Up</a></li>
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.SendMoneyAmount'>Home</a></li>
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
             </ul>
         </div>
@@ -20,7 +21,7 @@
 </header>
 <!--end header-->
 <div class="body-container-wrapper m-t-3" ng-controller="manageSendMoneyController">
-     <div class="httpprocess" id="Processbar" ng-show="process">
+    <div class="httpprocess" id="Processbar" ng-show="process">
         <img src="./assets/image/spinner.gif" />
     </div>
     <div class="master-banner inner-page-banner d-flex align-items-end">
@@ -45,31 +46,37 @@
                 <div class="row transaction-summary">
 
                     <div class="col-sm-8 offset-2">
-                        <h2 class="section-title mb-15">How would you like to receive the money?</h2>
+                        <h2 class="section-title mb-15">However (How would you like the money received?)</h2>
                         <div class="row mt-4">
                             <div class="col-sm-6">
                                 <label class="col-sm-12 form-control-label" for="rdBankDeposit">
-                                    <input type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)" checked>
+                                    <input type="radio" name="rdBankDeposit" id="rdBankDeposit" value="BankDeposit" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.PaymentType)">
                                     <span class="bold">BANK DEPOSIT </span>&nbsp; <small>All Major Banks</small></label>
                                 <div class="col-sm-12 mt-2" ng-if="PaymentModel.PaymentType=='BankDeposit'">
-                                     <div class="col-sm-12" ng-repeat="BankDeposit in BankDeposits">
+                                    <div class="col-sm-12">
                                         <label class="form-control-label">
-                                            <input type="radio" name="methods" ng-model="PaymentModel.BankId" ng-change="selecetdLocation(BankDeposit.BankName)" value="{{BankDeposit.BankId}}" required />
-                                            {{BankDeposit.BankName}}
+                                            <!--<input type="radio" name="methods" ng-model="PaymentModel.BankId" ng-change="selecetdLocation(BankDeposit.BankName)" value="{{BankDeposit.BankId}}" required />
+                                            {{BankDeposit.BankName}}-->
+                                            <label id="bankdetalis" class="form-control-label">We supprting major banks:- Sate Bank of India, PNB, Kotack Mahindra Bank, Dena Bank.</label>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <label class="col-sm-12 form-control-label" for="rdCashPickup">
-                                    <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.CashPickUp)">
+                                    <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.PaymentType)">
                                     <span class="bold">CASH PICKUP </span>&nbsp; <small>Featured Partners</small></label>
 
-                                <div class="col-sm-12 mt-2" ng-if="PaymentModel.PaymentType=='CashPickup'">
-                                    <div class="col-sm-12 pl-2" ng-repeat="PickLocation in PickUpLocation">
+                                <div class="col-sm-12 mt-2" ng-if="PaymentModel.PaymentType=='CashPickup'" ng-change="checkStuff(PaymentModel.CashPickUp)">
+                                    <div class="col-sm-12 pl-2">
                                         <label class="form-control-label">
-                                            <input type="radio" name="methods" ng-model="PaymentModel.LocationId" ng-change="selecetdLocation(PickLocation.Location)" value="{{PickLocation.LocationId}}" required />
-                                            {{PickLocation.Location}}
+                                            <!--  <input type="radio" name="methods" ng-model="PaymentModel.LocationId" ng-change="selecetdLocation(PickLocation.Location)" value="{{PickLocation.LocationId}}" required />
+                                            {{PickLocation.Location}}-->
+                                            <select class="form-control banner-input" ng-model="PaymentModel.LocationId" id="PayOutLocation" ng-change="selecetdLocation(PaymentModel.LocationId)" ng-init="PaymentModel.LocationId='0'">
+                                              <option value="0">Select Payout location</option>
+                                                 <option ng-repeat="PickLocation in PickUpLocation"  value="{{PickLocation.LocationId}}" >{{PickLocation.Location}}</option>
+                                                                                                
+                                            </select>
                                         </label>
                                     </div>
                                 </div>
@@ -134,7 +141,7 @@
                             </dl>
                             <dl class="data-row">
                                 <dt class="data-label">Receiving Option:</dt>
-                                <dd class="data-value text-right"><span id="SelectedBank_Location"></span></dd>
+                                <dd class="data-value text-right"><span id="SelectedBank_Location">{{PaymentModel.PaymentType}}</span></dd>
                             </dl>
 
                             <!--<div class="col-sm-6 form-check">
