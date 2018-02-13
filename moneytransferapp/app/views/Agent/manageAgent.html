@@ -1,8 +1,11 @@
-﻿<div class="padding" ng-controller="manageCompanyController">
+﻿<div class="padding" ng-controller="manageAgentController">
     <div class="card">
         <div class="card-header m-t-1">
-            <div class="col-sm-4 pull-right" data-ng-if="authorisedUser.CompanyId==0">
-                <button type="submit" class="btn btn-primary pull-right" ng-click="addcompany()"><i class="glyphicon glyphicon-plus"></i>Add Company </button>
+            <div class="col-sm-4 pull-left">
+                <button type="submit" class="btn btn-primary custom-btn pull-left" ng-click="BackToCompany()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <button type="submit" class="btn btn-primary pull-right" ng-click="addagent()"><i class="glyphicon glyphicon-plus"></i>Add Agent </button>
             </div>
         </div>
 
@@ -11,7 +14,8 @@
             <table id="tblComapny" class="table table-condensed" ui-jp="footable" data-filter="#filter" data-page-size="10">
                 <thead>
                     <tr>
-                        <th>Company Name </th>
+                        <th>Agent Name </th>
+                        <th>Agent Code </th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>City</th>
@@ -22,23 +26,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="Active" ng-repeat="Company in ManageCompany  |  orderBy: 'CompanyName'">
-                        <td><small>{{Company.CompanyName}} </small></td>
-                        <td><small>{{Company.Email }} </small></td>
-                        <td><small>{{Company.Phone }}</small></td>
-                        <td><small>{{Company.City }}</small></td>
-                        <td><small>{{Company.IsActive }}</small></td>
+                    <tr class="Active" ng-repeat="Agent in ManageAgent  |  orderBy: 'AgentName'">
+                        <td><small>{{Agent.AgentName}} </small></td>
+                        <td><small>{{Agent.AgentCode}} </small></td>
+                        <td><small>{{Agent.Email }} </small></td>
+                        <td><small>{{Agent.Phone }}</small></td>
+                        <td><small>{{Agent.City }}</small></td>
+                        <td><small>{{Agent.IsActive }}</small></td>
+                       <!-- <td>
+                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditAgent(Agent.AgentId)">Edit</button>
+                        </td>-->
                         <td>
-                            <button type="submit" class="btn btn-sm btn-primary" ng-click="ManagePaymentMethod(Company.CompanyId)">Payment Methods </button>
-                        </td>
-                        <td>
-                            <button type="submit" class="btn btn-sm btn-primary" ng-click="ManageAgent(Company.CompanyId)">Agents </button>
-                        </td>
-                        <td>
-                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditCompany(Company.CompanyId)">Edit</button>
-                        </td>
-                        <td>
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteCompany(Company.CompanyId)">Delete </button>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteAgent(Agent.AgentId)">Delete </button>
                         </td>
                     </tr>
                 </tbody>
@@ -64,7 +63,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <h6 class="modal-title">Do you want to proceed to delete this 'Company'? </h6>
+                        <h6 class="modal-title">Do you want to proceed to delete this 'Agent'? </h6>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>

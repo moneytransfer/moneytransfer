@@ -352,6 +352,52 @@
                   classes: 'no-padding no-footer layout-static',
                   controller: "authenticateController"
               })
+              //Manage Agent
+              .state('app.Manage_Agent', {
+                  url: '/Manage_Agent',
+                  templateUrl: 'views/Agent/manageAgent.html',
+                  params: { CompanyId: 0 },
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/Agent.js');
+                          });
+                      }]
+                  },
+                  title: 'Manage Agent',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
+               .state('app.add_Agent', {
+                   url: '/add_Agent',
+                   templateUrl: 'views/Agent/addEditAgent.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/Agent.js');
+                           });
+                       }]
+                   },
+                   title: 'Add Agent',
+                   classes: 'no-padding no-footer layout-static',
+                   controller: "authenticateController"
+               })
+
+              .state('app.Edit_Agent', {
+                  url: '/Edit_Agent',
+                  templateUrl: 'views/Agent/addEditAgent.html',
+                  params: { AgentId: 0 },
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/Agent.js');
+                          });
+                      }]
+                  },
+                  title: 'Edit Agent',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
 
           //manage payment Method
               .state('app.Manage_Payment', {

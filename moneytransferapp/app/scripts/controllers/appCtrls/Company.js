@@ -52,6 +52,11 @@
         vm.ManagePaymentMethod = function (CompanyId) {
             $state.go('app.Manage_PaymentMethod', { CompanyId: CompanyId });
         }
+
+        vm.ManageAgent = function (CompanyId) {
+            $state.go('app.Manage_Agent', { CompanyId: CompanyId });
+        }
+
         //DeleteUser
         var DeleteCompanyID = 0;
         vm.deleteCompany = function (Id) {
