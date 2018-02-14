@@ -64,9 +64,9 @@
             $state.go('app.add_Agent');
         }
 
-        //vm.EditAgent = function (agentId) {
-        //    $state.go('app.Edit_Agent', { AgentId: agentId });
-        //}
+        vm.EditAgent = function (agentId) {
+            $state.go('app.Edit_Agent', { AgentId: agentId });
+        }
 
         vm.BackToCompany = function () {
             $state.go('app.Manage_Company');

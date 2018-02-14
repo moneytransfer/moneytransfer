@@ -72,9 +72,9 @@
                                         <label class="form-control-label">
                                             <!--  <input type="radio" name="methods" ng-model="PaymentModel.LocationId" ng-change="selecetdLocation(PickLocation.Location)" value="{{PickLocation.LocationId}}" required />
                                             {{PickLocation.Location}}-->
-                                            <select class="form-control banner-input" ng-model="PaymentModel.LocationId" id="PayOutLocation" ng-change="selecetdLocation(PaymentModel.LocationId)" ng-init="PaymentModel.LocationId='0'">
+                                            <select class="form-control banner-input" ng-model="PaymentModel.AgentId" id="PayOutLocation" ng-change="selecetdLocation(PaymentModel.AgentId)" ng-init="PaymentModel.AgentId='0'">
                                               <option value="0">Select Payout location</option>
-                                                 <option ng-repeat="PickLocation in PickUpLocation"  value="{{PickLocation.LocationId}}" >{{PickLocation.Location}}</option>
+                                                 <option ng-repeat="PickLocation in PickUpLocation"  value="{{PickLocation.AgentId}}" >{{PickLocation.AgentFirstName +'&nbsp;'+PickLocation.AgentLastName}}&nbsp;-{{PickLocation.AgentCode}}</option>
                                                                                                 
                                             </select>
                                         </label>

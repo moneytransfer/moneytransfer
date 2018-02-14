@@ -15,7 +15,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group col-sm-12">
                                             <label for="agent-name">Agent Name</label>
-                                            <input type="text" class="form-control" ng-model="AgentModel.AgentName" id="agent-name" required>
+                                            <input type="text" class="form-control" ng-model="AgentModel.AgentFirstName" id="agent-name" required>
+                                        </div>
+                                         <div class="form-group col-sm-12">
+                                            <label for="agent-name">Second Name</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.SecondName" id="SecondName">
                                         </div>
                                         <div class="form-group col-sm-12">
                                             <label for="super-agent">Super Agent</label>
@@ -91,6 +95,14 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
+                                        <div class="form-group col-sm-12">
+                                            <label for="agent-name">Agent Last Name</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.AgentLastName" id="AgentLastName" required>
+                                        </div>
+                                         <div class="form-group col-sm-12">
+                                            <label for="agent-name">Second Last Name</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.SecondLastName" id="SecondLastName">
+                                        </div>
                                         <div class="form-group col-sm-12">
                                             <label for="country">Country</label>
                                             <select name="Country" id="ddlCountry" ng-model="AgentModel.CountryId" class="form-control" ng-change="getcountrydata(AgentModel.CountryId)" required>

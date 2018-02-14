@@ -22,20 +22,20 @@
                         <th>Status</th>
                         <th></th>
                         <th></th>
-                        <th></th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="Active" ng-repeat="Agent in ManageAgent  |  orderBy: 'AgentName'">
-                        <td><small>{{Agent.AgentName}} </small></td>
+                        <td><small>{{Agent.AgentFirstName +'&nbsp;'+ Agent.AgentLastName}} </small></td>
                         <td><small>{{Agent.AgentCode}} </small></td>
                         <td><small>{{Agent.Email }} </small></td>
                         <td><small>{{Agent.Phone }}</small></td>
                         <td><small>{{Agent.City }}</small></td>
                         <td><small>{{Agent.IsActive }}</small></td>
-                       <!-- <td>
+                        <td>
                             <button type="submit" class="btn btn-sm btn-primary" ng-click="EditAgent(Agent.AgentId)">Edit</button>
-                        </td>-->
+                        </td>
                         <td>
                             <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteAgent(Agent.AgentId)">Delete </button>
                         </td>

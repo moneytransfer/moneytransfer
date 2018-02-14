@@ -105,31 +105,52 @@
             'Wyoming': 'WY'
         }
 
-        vm.PickUpLocation = "0";
-        vm.PickUpLocation = [{ LocationId: '1', Location: 'Wallmart' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
-           { LocationId: '5', Location: 'Mexicali' }
-        ];
+        //vm.PickUpLocation = "0";
+        //vm.PickUpLocation = [{ LocationId: '1', Location: 'Wallmart' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
+        //   { LocationId: '5', Location: 'Mexicali' }
+        //];
+        //Get Method Details
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": 17 }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getAgentdetailsByCompanyId ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+           
+            var idata = data;
+            vm.PickUpLocation = idata;
+            $localStorage.Agents = vm.PickUpLocation;
+        });
 
 
         vm.BankDeposits = [{ BankId: '1', BankName: 'KOTAK MAHINDRA BANK' }, { BankId: '2', BankName: 'DENA BANK' }, { BankId: '3', BankName: 'HDFC BANK' }, { BankId: '4', BankName: 'PNB BANK' },
          { BankId: '5', BankName: 'SBI' }
         ];
 
+        //GetFirstIndex
+        if ($localStorage.Agents) {
+            var dd = ($localStorage.Agents);
+            var LocationName = (dd[0].AgentFirstName + ' ' + dd[0].AgentLastName + '-' + dd[0].AgentCode);
+        }
+       
+
         vm.selecetdLocation = function (Name) {
-           
             vm.validWay = false;
             var skillsSelect = document.getElementById("PayOutLocation");
             var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
             if (selectedText != "") {
                 if (vm.PaymentModel.PaymentType == "BankDeposit") {
                     $localStorage.AmountDetails.PaymentType = 'BankDeposit';
-                    $localStorage.CashpickLocation = 'Wallmart';
+                    $localStorage.CashpickLocation = LocationName;
                     $localStorage.BankLocation = 'Bank Deposit';
                 }
                 else if (vm.PaymentModel.PaymentType == "CashPickup") {
                     $localStorage.AmountDetails.PaymentType = 'CashPickup';
                     $localStorage.BankLocation = 'Bank Deposit';
                     $localStorage.CashpickLocation = selectedText;
+                    $localStorage.CashpickLocationId = vm.PaymentModel.AgentId;
                 }
                 $("#SelectedBank_Location").text(selectedText);
             }
@@ -141,19 +162,18 @@
             if (value == "CashPickup") {
 
                 vm.MoneyReceived = value;
-                $localStorage.CashpickLocation = "Wallmart";
+                $localStorage.CashpickLocation = LocationName;
                 $localStorage.AmountDetails.PaymentType = 'CashPickup';
                 $("#SelectedBank_Location").text("Cash Pickup");
             } else {
                 vm.MoneyReceived = value;
                 $localStorage.AmountDetails.PaymentType = 'BankDeposit';
-                $localStorage.CashpickLocation = 'Wallmart';
+                $localStorage.CashpickLocation = LocationName;
                 $localStorage.BankLocation = "Bank Deposit";
                 $("#SelectedBank_Location").text("Bank Deposit");
             }
         }
-        //AmountDetails.PaymentType == ''.
-        // PickUpLocation
+      
         //Get Country
         $http({
             method: 'GET',
@@ -194,7 +214,6 @@
         }
 
         //Get Decimal
-
 
         var timeout;
         var delay = 500;
@@ -253,7 +272,6 @@
 
         //Convert Currency
         function ConvertMoney(code) {
-
             //$localStorage.SelectedCountry.ConvertAmount = 0;
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
@@ -300,6 +318,7 @@
                 });
         }
 
+        //app.SendMoney page-2
         vm.sendMoneyClick = function () {
             vm.stateSelect = false;
             if (vm.SelectedState != '0') {
@@ -311,10 +330,6 @@
                 return false
             }
         }
-
-
-
-
 
         //Proceed to next tab
         vm.CashPickUp = function () {
@@ -554,9 +569,6 @@
             })
         }
 
-
-
-
         vm.logoutGustCustomer = function () {
 
             $localStorage.GustCustomer = '';
@@ -622,9 +634,30 @@
             var idata = data;
             vm.Beneficiaries = idata;
         });
+
+        //GetFirstIndex
+        if ($localStorage.Agents) {
+            var dd = ($localStorage.Agents);
+            var LocationName = (dd[0].AgentFirstName + ' ' + dd[0].AgentLastName + '-' + dd[0].AgentCode);
+        }
+        
+
+        //Get Method Details
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.companyId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getAgentdetailsByCompanyId ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+            var idata = data;
+            vm.PickUpLocation = idata;
+        });
+
         vm.PaymentMethods = [];
         vm.BeneficiaryModel = { CompanyId: vm.companyId, CustomerId: vm.CustomerId, CountryId: "0", BeneficiaryTypeId: '0' };
-        vm.Beneficiary = { AccountNumber: '', RoutingNumber: '', Location: '0', BICCode: '' }
+        vm.Beneficiary = { AccountNumber: '', RoutingNumber: '', AgentId: '0', BICCode: '' }
         //Get Method Details
         //BeneficiaryModel
         $http({
@@ -693,7 +726,7 @@
                              vm.Beneficiary.BICCode = vm.BeneficiaryModel.BICCode;
                              //vm.BenData.BankLocation = vm.BeneficiaryModel.BankName;
                              $localStorage.BankLocation = vm.BeneficiaryModel.BankName;
-                             $localStorage.CashpickLocation = 'Wallmart';
+                             $localStorage.CashpickLocation = LocationName;
                              $localStorage.AmountDetails.PaymentType = "BankDeposit";
                          }
 
@@ -754,11 +787,9 @@
             });
         }
 
-
         //Changes Preffrence from dropdown
 
         vm.ChangeLocation = function (id) {
-         
             var skillsSelect = document.getElementById("Locationpickup");
             var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
             if (selectedText != '') {
@@ -800,22 +831,23 @@
             $state.go('app.SendMoney')
         }
 
-
-
         FillDropDown();
         //Set Drop-Dwon Value
         function FillDropDown() {
             if (vm.BenData.AmountDetails.PaymentType == 'CashPickup') {
                 setTimeout(function () {
+                    
                     var theText = $localStorage.CashpickLocation;
+                    var index = parseInt($localStorage.CashpickLocationId);
                     var dd = document.getElementById('Locationpickup');
+
                     for (var i = 0; i < dd.options.length; i++) {
-                        if (dd.options[i].text === theText) {
+                        if (dd.options[i].index === index) {
                             dd.selectedIndex = i;
                             break;
                         }
                     }
-                }, 200);
+                }, 1000);
             }
         }
        
@@ -825,7 +857,8 @@
         vm.ChangePrefered = function () {
           
             if (document.getElementById('BankDepositCheck').checked) {
-                $localStorage.CashpickLocation = 'Wallmart';
+                $localStorage.CashpickLocation = LocationName;
+                $localStorage.CashpickLocationId = '0';
                 $localStorage.BankLocation = 'Bank Deposit';
                 $localStorage.AmountDetails.PaymentType = 'BankDeposit';
                 vm.BenData = $localStorage;
@@ -839,16 +872,17 @@
             else if (document.getElementById('CashPickUpCheck').checked) {
                 //$localStorage.BankLocation = '';
                 $localStorage.AmountDetails.PaymentType = 'CashPickup';
-                $localStorage.CashpickLocation = 'Wallmart';
+                $localStorage.CashpickLocation = LocationName;
+                $localStorage.CashpickLocationId = '0';
                 vm.BenData = $localStorage;
                 FillDropDown();
             }
         }
 
 
-        vm.PickUpLocation = [{ LocationId: '1', Location: 'Wallmart' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
-            { LocationId: '5', Location: 'Mexicali' }
-        ];
+        //vm.PickUpLocation = [{ LocationId: '1', Location: 'Wallmart' }, { LocationId: '2', Location: 'Zapopan' }, { LocationId: '3', Location: 'Chihuahua' }, { LocationId: '4', Location: 'San Luis Potosí' },
+        //    { LocationId: '5', Location: 'Mexicali' }
+        //];
     }
 
     addCashPickUpController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
@@ -947,7 +981,10 @@
         vm.ModelData = { PaymentMethodId: '0', CompanyId: vm.companyId, CustomerId: vm.CustomerId, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '3', BeneficiaryId: '0', ExchangeRate: '0.00', setExpirationDate: '', ReceivingAmount: '' }
 
         //Checked Preffrerd Location
-
+        if ($localStorage.Agents) {
+            var dd = ($localStorage.Agents);
+            var LocationName = (dd[0].AgentFirstName + ' ' + dd[0].AgentLastName + '-' + dd[0].AgentCode);
+        }
 
         //str.replace(/.(?=.{4})/g, 'x');
         if (vm.AddressData.AmountDetails.PaymentType == 'BankDeposit') {
@@ -1132,6 +1169,7 @@
                     })
                     .success(function (data) {
                         var idata = data;
+                       
                         if (idata && idata.TransactionId > 0) {
                             Alert(1, "! Payment processed successfully");
                             vm.PaymentModel = angular.copy(vm.PaymentModel);
@@ -1143,6 +1181,7 @@
                             }, 500);
                         }
                         else {
+                           // $localStorage.Agents = '';
                             idata = [];
                             Alert(2, idata.Error);
                         }
@@ -1178,23 +1217,24 @@
 
         //Change payment method
         vm.ChangePrefered = function () {
-           
+
             if (document.getElementById('rdBankDeposit').checked) {
                 $localStorage.BankLocation = 'Bank Deposit';
-                $localStorage.CashpickLocation = 'Wallmart';
+                $localStorage.CashpickLocation = LocationName;
                 $localStorage.AmountDetails.PaymentType = 'BankDeposit';
 
 
             }
             else if (document.getElementById('redioCashPickup').checked) {
                 $localStorage.AmountDetails.PaymentType = 'CashPickup';
-                $localStorage.CashpickLocation = 'Wallmart';
+                $localStorage.CashpickLocation = LocationName;
             }
         }
 
 
         vm.MoveBack = function () {
             var data = $localStorage;
+            
             if (data.Location != '') {
                 $state.go('app.cashPickUpLocation');
             }
