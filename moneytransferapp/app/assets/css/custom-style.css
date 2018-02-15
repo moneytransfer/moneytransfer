@@ -1217,3 +1217,6 @@ ul.cm-white-space li {
     content: url("../../assets/image/person-male.png");
        padding-right: 5px;
 }
+.mh-500 {
+    min-height: 500px;
+}

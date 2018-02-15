@@ -21,6 +21,7 @@
         vm.PaybillModel = { CountryId: 0, CountryName: '', iso: "", CurrencyName: "", CurrencySymbol: "", CurrencyCode: "", Amount: '0.00' }
         vm.AmountDetails = { CurrencyCode: "", Amount: "", ExchangeRate: "", RecipientAmmount: "", SendingCurrency: "", CountryName: "", CountryId: "", iso: "", SelectedCountryState: "", SelectedState: "", PaymentType: "" };
         vm.localStorage = [];
+        $localStorage.BeneficiaryModel = '';
         if ($localStorage.AmountDetails) {
             vm.PaymentModel.iso = $localStorage.AmountDetails.iso;
             vm.PaymentModel.CountryName = $localStorage.AmountDetails.CountryName;
@@ -118,7 +119,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-           
+
             var idata = data;
             vm.PickUpLocation = idata;
             $localStorage.Agents = vm.PickUpLocation;
@@ -134,7 +135,7 @@
             var dd = ($localStorage.Agents);
             var LocationName = (dd[0].AgentFirstName + ' ' + dd[0].AgentLastName + '-' + dd[0].AgentCode);
         }
-       
+
 
         vm.selecetdLocation = function (Name) {
             vm.validWay = false;
@@ -173,7 +174,7 @@
                 $("#SelectedBank_Location").text("Bank Deposit");
             }
         }
-      
+
         //Get Country
         $http({
             method: 'GET',
@@ -640,7 +641,29 @@
             var dd = ($localStorage.Agents);
             var LocationName = (dd[0].AgentFirstName + ' ' + dd[0].AgentLastName + '-' + dd[0].AgentCode);
         }
-        
+        if ($localStorage.BeneficiaryModel) {
+            var iBenficiaryId = $localStorage.BeneficiaryModel.BeneficiaryId;
+            if (iBenficiaryId > 0) {
+                //ddlBeneficiary
+                //vm.PaymentModel.BeneficiaryId = iBenficiaryId;
+                Beneficiary(iBenficiaryId);
+                
+             
+                setTimeout(function () {
+                    var dd = document.getElementById('ddlBeneficiary');
+                    var textn = $localStorage.BeneficiaryModel.FirstName;
+                    //dd.options[dd.selectedIndex].value(iBenficiaryId);
+                    for (var i = 0; i < dd.options.length; i++) {
+                        if (dd.options[i].text === textn) {
+                            dd.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }, 1000);
+
+            }
+
+        }
 
         //Get Method Details
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.companyId }));
@@ -700,6 +723,16 @@
         }
 
         vm.selectedBeneficiary = function (Id) {
+
+            var iBeneficiaryId = parseInt(Id);
+            if (iBeneficiaryId > 0) {
+                Beneficiary(iBeneficiaryId);
+            }
+        }
+
+
+        function Beneficiary(Id) {
+
             var iBeneficiaryId = parseInt(Id);
             if (iBeneficiaryId > 0) {
                 var formData = JSON.parse(JSON.stringify({ "BeneficiaryId": iBeneficiaryId }));
@@ -804,12 +837,16 @@
 
         //Next Page
         vm.CashPickUp = function (Id) {
-           
+
             vm.ValidAcountRoute = false;
             var route = vm.BeneficiaryModel.RoutingNumber;
             var account = vm.BeneficiaryModel.AccountNumber;
 
-            var BenificryId = parseInt(Id);
+            var e = document.getElementById("ddlBeneficiary");
+            var ibenificiaryId = e.options[e.selectedIndex].value;
+
+
+            var BenificryId = parseInt(ibenificiaryId);
             if (BenificryId > 0 && account != '' && route != '') {
                 $localStorage.AmountDetails.BeneficiaryId = BenificryId;
                 $state.go('app.Payment')
@@ -836,7 +873,7 @@
         function FillDropDown() {
             if (vm.BenData.AmountDetails.PaymentType == 'CashPickup') {
                 setTimeout(function () {
-                    
+
                     var theText = $localStorage.CashpickLocation;
                     var index = parseInt($localStorage.CashpickLocationId);
                     var dd = document.getElementById('Locationpickup');
@@ -850,12 +887,12 @@
                 }, 1000);
             }
         }
-       
+
 
 
         //Change prefference by Radio button
         vm.ChangePrefered = function () {
-          
+
             if (document.getElementById('BankDepositCheck').checked) {
                 $localStorage.CashpickLocation = LocationName;
                 $localStorage.CashpickLocationId = '0';
@@ -968,7 +1005,7 @@
         }
         vm.AddressData = $localStorage;
         vm.PaymentModel = $localStorage.AmountDetails;
-       
+
         vm.companyId = 0;
         vm.CustomerId = 0;
         if ($localStorage.GustCustomer) {
@@ -1169,7 +1206,7 @@
                     })
                     .success(function (data) {
                         var idata = data;
-                       
+
                         if (idata && idata.TransactionId > 0) {
                             Alert(1, "! Payment processed successfully");
                             vm.PaymentModel = angular.copy(vm.PaymentModel);
@@ -1181,7 +1218,7 @@
                             }, 500);
                         }
                         else {
-                           // $localStorage.Agents = '';
+                            // $localStorage.Agents = '';
                             idata = [];
                             Alert(2, idata.Error);
                         }
@@ -1234,7 +1271,7 @@
 
         vm.MoveBack = function () {
             var data = $localStorage;
-            
+
             if (data.Location != '') {
                 $state.go('app.cashPickUpLocation');
             }
@@ -1261,7 +1298,7 @@
         }
 
         vm.ThankyouDetails = $localStorage;
-       
+
 
         vm.viewTransactions = function () {
             vm.ThankyouDetails = '';

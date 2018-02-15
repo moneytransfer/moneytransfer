@@ -23,10 +23,12 @@ com\etl\util\MYSQLHelper.class
 com\etl\base\UserDetail.class
 com\pininteract\www\CarrierResponse.class
 com\pininteract\www\SimPortInStatusResponse.class
+com\etl\base\CardDetails.class
 com\pininteract\OrderResponse.class
 com\etl\base\CurrencyConversion.class
 com\etl\base\CompanyDetail.class
 com\pininteract\www\ServiceManagerSoapProxy.class
+com\etl\base\MagicTest.class
 com\pininteract\AccountLookupResponse.class
 com\pininteract\www\Sku.class
 com\pininteract\PromotionsProduct.class
@@ -50,4 +52,5 @@ com\etl\base\CarrierInfoByMobileNumber.class
 com\etl\base\CustomerDetail.class
 com\pininteract\www\Carrier.class
 com\pininteract\www\ServiceManagerSoap.class
+com\etl\base\MagicTest$1.class
 com\pininteract\TopUp.class
