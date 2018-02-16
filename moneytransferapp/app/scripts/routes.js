@@ -1503,6 +1503,7 @@
                    }]
                },
                title: 'customerPortal',
+               controller: "authenticateSendMoneyController"
            })
            .state('app.SendMoneyTransaction', {
                url: '/SendMoneyTransaction',
@@ -1516,7 +1517,24 @@
                    }]
                },
                title: 'customerPortal',
+               controller: "authenticateSendMoneyController"
            })
+          .state('app.transaction_Details', {
+              url: '/transaction_Details',
+              templateUrl: 'views/SendMoney/transactionDetails.html',
+              params: { TransactionId: 0 },
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                          return $ocLazyLoad.load('views/SendMoney/Send_Money.js');
+                      });
+                  }]
+              },
+              title: 'customerPortal',
+              controller: "authenticateSendMoneyController"
+          })
+
       }
 
 

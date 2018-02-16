@@ -647,8 +647,8 @@
                 //ddlBeneficiary
                 //vm.PaymentModel.BeneficiaryId = iBenficiaryId;
                 Beneficiary(iBenficiaryId);
-                
-             
+
+
                 setTimeout(function () {
                     var dd = document.getElementById('ddlBeneficiary');
                     var textn = $localStorage.BeneficiaryModel.FirstName;
@@ -1379,39 +1379,65 @@
             return dateOut;
         };
 
-        //DeleteUser
-        var PaymentMethodID = 0;
-        vm.deleteTransaction = function (Id) {
-            PaymentMethodID = Id;
-            $('#deleteconfirm').modal('toggle');
+        vm.BeneficiaryDetails = [];
+        vm.TransactionDetails = [];
+
+        vm.GetDetails = function (id) {
+            var iTransactionId = id;
+            if (iTransactionId > 0) {
+                SelectedTransaction(iTransactionId);
+            }
         }
 
-        vm.deleteconfirm = function () {
-            $('#deleteconfirm').modal('toggle');
-            var iPaymentMethodID = "";
-            iPaymentMethodID = JSON.stringify(PaymentMethodID);
+        function SelectedTransaction(id) {
+            var iTransactionId = id;
+            if (iTransactionId > 0) {
+                //Get Method Details
+                var formData = JSON.parse(JSON.stringify({ "TransactionId": iTransactionId }));
+                $http({
+                    method: 'POST',
+                    data: formData,
+                    url: baseUrl + 'getTranscationdetailsById',
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                })
+                .success(function (data) {
+                    var idata = data[0];
+                    vm.transactionDetails = idata;
+                  
+                  
+                        BeneficiaryDetails(idata.BeneficiaryId);
+                    
+                });
 
-            var formData = JSON.parse(JSON.stringify({ "PaymentMethodId": iPaymentMethodID }));
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'deletepaymentmethod',
-                headers: { 'Content-Type': 'application/json' },
-                dataType: "json",
-            })
-            .success(function (data) {
-                var idata = data;
-                if (idata.PaymentMethodId > 0) {
-                    Alert(1, "! Payment Method deleted successfully");
-                    var iPaymentMethods = vm.PaymentMethods;
-                    vm.PaymentMethods = [];
-                    for (var i = 0; i < iPaymentMethods.length; i++) {
-                        if (iPaymentMethods[i].PaymentMethodId !== PaymentMethodID) vm.PaymentMethods.push(iPaymentMethods[i]);
-                    }
-                }
-            });
+            }
+
         }
 
+
+        function BeneficiaryDetails(Id) {
+           
+            var iBeneficiaryId = parseInt(Id);
+        
+                var formData = JSON.parse(JSON.stringify({ "BeneficiaryId": iBeneficiaryId }));
+                $http({
+                    method: 'POST',
+                    url: baseUrl + 'getbeneficiarydetailsbyId',
+                    data: formData,
+                    headers: { 'Content-Type': 'application/json' },
+                    dataType: "json",
+                })
+                 .success(function (data) {
+                 
+                     var idata = data;
+                     vm.BeneficiaryDetails = idata;
+                     setTimeout(function () {
+                         $('#transactionDetails').modal('toggle');
+                     }, 1000);
+                 });
+           
+        }
     }
+
+
 
 })();

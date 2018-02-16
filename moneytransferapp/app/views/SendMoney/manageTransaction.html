@@ -16,25 +16,28 @@
         </div>
     </div>
 </header>
-<div class="body-container-wrapper m-t-3" ng-controller="managesendMoneyTransactionController" > 
+<div class="body-container-wrapper m-t-3" ng-controller="managesendMoneyTransactionController">
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
     <div class="master-banner inner-page-banner d-flex align-items-end">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 desaturated-blue cm-card-container">
-                 <div class="text-center cm-title-colour">Transaction Details</div>
-           </div>
+                    <div class="text-center cm-title-colour">Transaction Details</div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div class="padding cm-tr-size" >
+    <div class="padding cm-tr-size">
 
-    
+
         <div class="card-block p-a-0">
 
             <table id="tblBeneficiary" class="table datatable m-b-none">
                 <thead>
                     <tr>
-                          <th>Transaction Id </th>
+                        <th>Transaction Id </th>
                         <th>Transaction Date </th>
                         <th>Transaction </th>
                         <th>Purpose</th>
@@ -45,13 +48,14 @@
                 </thead>
                 <tbody>
                     <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:'-CreatedDate'">
-                         <td><small>{{Transaction.PaymentGatewayTransactionId}} </small></td>
+                        <td><small>{{Transaction.PaymentGatewayTransactionId}} </small></td>
                         <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
                         <td><small>{{Transaction.TransactionDetail}} </small></td>
                         <td><small>{{Transaction.TransferPurpose }} </small></td>
                         <td><small>$&nbsp;{{Transaction.SendingAmount | number:2  }}</small></td>
                         <td><small><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{Transaction.ReceivingAmount | number:2  }}</small></td>
                         <td><small>{{Transaction.Status}}</small></td>
+                        <td><small ng-click="GetDetails(Transaction.TransactionId)"><a class="fa fa-check text-success fa-2x" aria-hidden="true" ng-click="GetDetails(Transaction.TransactionId)"></a></small></td>
 
 
                     </tr>
@@ -203,13 +207,14 @@
                         <h5>ABOUT US</h5>
                         <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
                     </div>
-                    <div class="col-md-3 ftr-txt">
+                    <div class="col-md-3 ftr-txt" ng-controller="manageSendMoneyLoginController">
                         <h5>HELP &amp; SUPPORT</h5>
                         <ul>
                             <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
                             <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
                             <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>
-                            <li><a target="_blank" ui-sref='app.Track_Transfers'>Track Transfers</a></li>
+                            <li><span ng-if="IsLogin"><a target="_blank" ui-sref='app.SendMoneyTransaction'>Track Transfers</a></span>
+                                <span ng-if="!IsLogin"><a target="_blank" ui-sref='app.SendMoneylogin'>Track Transfers</a></span></li>
                             <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>
                         </ul>
                     </div>
@@ -229,7 +234,100 @@
         </section>
 
     </div>
+
+
+    <!--Details model-->
+    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="transactionDetails">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div class="modal-body">
+                     <h3 class="text-lg text-center">Transaction Details</h3>
+                    <div class="row transaction-details-popup">
+                       
+                        <div class="col-sm-6">
+                            <dl class="section-bottom data-row">
+                                <dd class="data-label">TransactionId</dd>
+                                <dt class="data-value text-right"><span>{{transactionDetails.PaymentGatewayTransactionId}}</span></dt>
+                            </dl>
+                            <dl class="section-bottom data-row">
+                                <dd class="data-label no-border">Transaction</dd>
+                                <dt class="data-value text-right">{{transactionDetails.TransactionDetail}}</dt>
+                            </dl>
+                            <dl class="section-bottom  data-row">
+                                <dt class="data-label">Transfer Purpose</dt>
+                                <dd class="data-value text-right">{{transactionDetails.TransferPurpose}}</dd>
+                            </dl>
+                            <dl class="section-bottom data-row">
+                                <dt class="data-label">Transaction Date</dt>
+                                <dd class="data-value text-right">{{formatDate(transactionDetails.CreatedDate) | date:'yyyy-MM-dd'}}
+                                </dd>
+                            </dl>
+                            <dl class="section-bottom data-row">
+                                <dt class="data-label">Transferred Amount</dt>
+                                <dd class="data-value text-right"><span>{{transactionDetails.SendingAmount |  number: 2}}</span></dd>
+                            </dl>
+
+                            <dl class="section-bottom data-row">
+                                <dt class="data-label">Recipient receives</dt>
+                                <dd class="data-value text-right"><span>{{transactionDetails.ReceivingAmount |  number: 2}}</span></dd>
+                            </dl>
+                            <dl class="section-bottom data-row ">
+                                <dt class="data-label">Exchange rate<span>*</span></dt>
+                                <dd class="data-value text-right"><span>1 USD =</span><span>{{transactionDetails.ExchangeRate}}</span></dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6 ">
+                            <dl class="section-bottom data-row">
+                                <dd class="data-label">Name</dd>
+                                <dt class="data-value text-right"><span>{{BeneficiaryDetails.FirstName}}</span>&nbsp;{{BeneficiaryDetails.LastName}}</dt>
+                            </dl>
+                            <dl class="section-bottom data-row">
+                                <dt class="data-label">Bank Name</dt>
+                                <dd class="data-value text-right"><span>{{BeneficiaryDetails.BankName}}</span></dd>
+                            </dl>
+
+                            <dl class="section-bottom data-row">
+                                <dt class="data-label no-border">Route Number
+                                </dt>
+                                <dd class="data-value text-right">{{BeneficiaryDetails.RoutingNumber}}</dd>
+                            </dl>
+
+                            <dl class="section-bottom  data-row">
+                                <dt class="data-label">Account Number</dt>
+                                <dd class="data-value text-right">{{BeneficiaryDetails.AccountNumber}}</dd>
+                            </dl>
+                            <dl class="section-bottom data-row">
+                                <dt class="data-label">BIC Code</dt>
+                                <dd class="data-value text-right"><span>{{BeneficiaryDetails.BICCode}}</span></dd>
+                            </dl>
+                            <dl class="section-bottom data-row">
+                                <dt class="data-label">Phone </dt>
+                                <dd class="data-value text-right">{{BeneficiaryDetails.Phone}}</dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+
+
+
+
+
+
+
 <footer class="footer-container-wrapper pt-4 pb-2">
     <div class="container">
         <div class="row">

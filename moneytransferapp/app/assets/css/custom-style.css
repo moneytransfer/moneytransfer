@@ -1220,3 +1220,16 @@ ul.cm-white-space li {
 .mh-500 {
     min-height: 500px;
 }
+
+#tblBeneficiary a.fa.fa-check.text-success.fa-2x {
+    background: #f0f0f0;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.transaction-details-popup .data-label, .transaction-details-popup .data-value{
+    font-size:14px;
+    font-weight:500;
+    color:#333;
+}
+

@@ -300,13 +300,14 @@
                         <h5>ABOUT US</h5>
                         <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
                     </div>
-                    <div class="col-md-3 ftr-txt">
+                    <div class="col-md-3 ftr-txt" ng-controller="manageSendMoneyLoginController">
                         <h5>HELP &amp; SUPPORT</h5>
                         <ul>
                             <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
                             <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
                             <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>
-                            <li><a target="_blank" ui-sref='app.Track_Transfers'>Track Transfers</a></li>
+                            <li><span ng-if="IsLogin"><a target="_blank" ui-sref='app.SendMoneyTransaction'>Track Transfers</a></span>
+                                <span ng-if="!IsLogin"><a target="_blank" ui-sref='app.SendMoneylogin'>Track Transfers</a></span></li>
                             <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>
                         </ul>
                     </div>

@@ -379,13 +379,14 @@
                         <h5>ABOUT US</h5>
                         <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
                     </div>
-                    <div class="col-md-3 ftr-txt">
+                    <div class="col-md-3 ftr-txt" ng-controller="manageSendMoneyLoginController">
                         <h5>HELP &amp; SUPPORT</h5>
                         <ul>
                             <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
                             <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
                             <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>
-                            <li><a target="_blank" ui-sref='app.Track_Transfers'>Track Transfers</a></li>
+                            <li><span ng-if="IsLogin"><a target="_blank" ui-sref='app.SendMoneyTransaction'>Track Transfers</a></span>
+                                <span ng-if="!IsLogin"><a target="_blank" ui-sref='app.SendMoneylogin'>Track Transfers</a></span></li>
                             <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>
                         </ul>
                     </div>
@@ -415,48 +416,66 @@
 
                         <form role="form" class="ng-pristine ng-valid" name="tblBeneficiary" ui-jq="validate">
                             <div class="form-group row">
-                                <div class="col-sm-6 float-left">
-                                    <!--<label for="Name" class="col-sm-3 form-control-label">First Name: </label>-->
-                                      <div class="col-sm-8">
-                                          
-                                          <input type="text" class="form-control" id="Text1" placeholder="First Name" ng-model="BeneficiaryModel.FirstName" required maxlength="50">
-                                          <span class="text-danger"><strong>&nbsp;*</strong></span>
+                                <div class="col-sm-6 float-left">                                    
+                                      <div class="col-sm-12">
+                                          <div class="row">
+                                          <input type="text" class="form-control col-sm-10" id="Text1" placeholder="First Name" ng-model="BeneficiaryModel.FirstName" required maxlength="50">
+                                          <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                              </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 float-left">
                                    <!-- <label for="LastName" class="col-sm-3 form-control-label">Last Name: </label>-->
-                                       <div class="col-sm-8"> <input type="text" class="form-control" id="Text3" placeholder="Last Name" ng-model="BeneficiaryModel.LastName" required aria-required="true" aria-invalid="true"><b class="text-danger">&nbsp;*</b>
-                                    </div>
-                                </div>
+                                       <div class="col-sm-12">
+                                           <div class="row">
+                                            <input type="text" class="form-control col-sm-10" id="Text3" placeholder="Last Name" ng-model="BeneficiaryModel.LastName" required aria-required="true" aria-invalid="true">
+                                            <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                           </div>
+                                           </div>
+                                    </div>                                
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                    <!-- <label for="Email" class="col-sm-3 form-control-label">Email: </label>-->
-                                        <div class="col-sm-8"><input type="Email" name="Email" class="form-control" id="Email1" placeholder="Email" ng-model="BeneficiaryModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required aria-required="true"><b class="text-danger">&nbsp;*</b>
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                            <input type="Email" name="Email" class="form-control col-sm-10" id="Email1" placeholder="Email" ng-model="BeneficiaryModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required aria-required="true">
+                                             <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                                </div>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                    <!-- <label for="Phone" class="col-sm-3 form-control-label">Phone: </label>-->
-                                     <div class="col-sm-8">   <input type="number" min="10" class="form-control" id="Number4" placeholder="Phone" ng-model="BeneficiaryModel.Phone" required /><b class="text-danger">&nbsp;*</b>
+                                     <div class="col-sm-12">   
+                                         <div class="row">
+                                         <input type="number" min="10" class="form-control col-sm-10" id="Number4" placeholder="Phone" ng-model="BeneficiaryModel.Phone" required />
+                                         <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                             </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                  <!--  <label for="ZipCode" class="col-sm-3 form-control-label">Date Of Birth : </label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control datetimepicker" id="DOB" placeholder="yyyy-mm-dd" ng-model="BeneficiaryModel.DOB " required><b class="text-danger">&nbsp;*</b>
+                                  
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                        <input type="text" class="form-control datetimepicker col-sm-10" id="DOB" placeholder="yyyy-mm-dd" ng-model="BeneficiaryModel.DOB " required>
+                                        <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                   <!-- <label for="Country" class="col-sm-3 form-control-label">Beneficiary type :</label>-->
-                                    <div class="col-sm-8">
-                                        <select name="FamRole" id="Select1" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control" required> <b class="text-danger">&nbsp;*</b>
+                                   
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                        <select name="FamRole" id="Select1" ng-model="BeneficiaryModel.BeneficiaryTypeId" class="form-control col-sm-10" required>                                             
                                             <option value="0">-- Select Beneficiary type --</option>
                                             <option ng-repeat="Beneficiary in BeneficiaryType" value="{{Beneficiary.BeneficiaryTypeId}}">{{Beneficiary.BeneficiaryDescription}}</option>
                                         </select>
+                                            <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -464,82 +483,111 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <!--<label for="Address1" class="col-sm-3 form-control-label">Address1 : </label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="Text4" placeholder="Address1" ng-model="BeneficiaryModel.Address1 " required maxlength="30"><b class="text-danger">&nbsp;*</b>
+                                    
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                        <input type="text" class="form-control col-sm-10" id="Text4" placeholder="Address1" ng-model="BeneficiaryModel.Address1 " required maxlength="30">
+                                         <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                            </div>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
-                                   <!-- <label for="Address2" class="col-sm-3 form-control-label">Address2 : </label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="Text5" placeholder="Address2" ng-model="BeneficiaryModel.Address2 " maxlength="30">
-                                    </div>
+                                
+                                    <div class="col-sm-12">
+                                         <div class="row">
+                                        <input type="text" class="form-control col-sm-10" id="Text5" placeholder="Address2" ng-model="BeneficiaryModel.Address2 " maxlength="30">
+                                    </div> </div>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                  <!--  <label for="City" class="col-sm-3 form-control-label">City : </label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="Text6" placeholder="City Name" ng-model="BeneficiaryModel.City " required maxlength="30"><b class="text-danger">&nbsp;*</b>
+                             
+                                    <div class="col-sm-12">
+                                          <div class="row">
+                                        <input type="text" class="form-control col-sm-10" id="Text6" placeholder="City Name" ng-model="BeneficiaryModel.City " required maxlength="30">
+                                           <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
                                     </div>
+                                         </div>
                                 </div>
 
                                 <div class="col-sm-6">
-                                 <!--   <label for="State" class="col-sm-3 form-control-label">State : </label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="Text7" placeholder="State Name" ng-model="BeneficiaryModel.State " required maxlength="30"> <b class="text-danger">&nbsp;*</b>
+                           
+                                    <div class="col-sm-12">
+                                          <div class="row">
+                                        <input type="text" class="form-control col-sm-10" id="Text7" placeholder="State Name" ng-model="BeneficiaryModel.State " required maxlength="30" />
+                                          <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
                                     </div>
+                                         </div>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                   <!-- <label for="ZipCode" class="col-sm-3 form-control-label">ZipCode : <b class="text-danger">&nbsp;*</b></label>-->
-                                    <div class="col-sm-8">
-                                        <input type="number" class="form-control" id="Number5" placeholder="ZipCode" ng-model="BeneficiaryModel.ZipCode " required><b class="text-danger">&nbsp;*</b>
+                               
+                                    <div class="col-sm-12">
+                                         <div class="row">
+                                        <input type="number" class="form-control col-sm-10" id="Number5" placeholder="ZipCode" ng-model="BeneficiaryModel.ZipCode " required>
+                                          <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
                                     </div>
+                                          </div>
                                 </div>
                                 <div class="col-sm-6">
-                                  <!--  <label for="Country" class="col-sm-3 form-control-label">Country : <b class="text-danger">&nbsp;*</b></label>-->
-                                    <div class="col-sm-8">
-                                        <select name="FamRole" id="Select2" ng-model="BeneficiaryModel.CountryId" class="form-control" required>
+                                  
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                        <select name="FamRole" id="Select2" ng-model="BeneficiaryModel.CountryId" class="form-control col-sm-10" required>
                                             <option value="0">-- Select Country --</option>
                                             <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
                                         </select>
-                                    </div>   <b class="text-danger">&nbsp;*</b>
+                                          <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                            </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                   <!-- <label for="ZipCode" class="col-sm-3 form-control-label">Bank Name : <b class="text-danger">&nbsp;*</b></label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="bankname" placeholder="Bank Name" ng-model="BeneficiaryModel.BankName"><b class="text-danger">&nbsp;*</b>
+                                 
+                                    <div class="col-sm-12">
+                                         <div class="row">
+                                        <input type="text" class="form-control col-sm-10" id="bankname" placeholder="Bank Name" ng-model="BeneficiaryModel.BankName">
+                                        <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
                                     </div>
+                                         </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <!--<label for="Country" class="col-sm-3 form-control-label">Account Number  : <b class="text-danger">&nbsp;*</b></label>-->
-                                   <div class="col-sm-8">  <input type="text" class="form-control" id="accnumber" placeholder="Bank Account Number" ng-model="BeneficiaryModel.AccountNumber"><b class="text-danger">&nbsp;*</b>
-                                </div></div>
+                                   
+                                   <div class="col-sm-12"> 
+                                         <div class="row">
+                                              <input type="text" class="form-control col-sm-10" id="accnumber" placeholder="Bank Account Number" ng-model="BeneficiaryModel.AccountNumber">
+                                         <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                              </div>
+                                </div>
+                                       </div>
                             </div>
 
 
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                  <!--  <label for="RoutingNumber" class="col-sm-3 form-control-label">Routing Number : <b class="text-danger">&nbsp;*</b></label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="_routingNumber" placeholder="Bank Routing Number" ng-model="BeneficiaryModel.RoutingNumber"><b class="text-danger">&nbsp;*</b>
-                                    </div>
+                                 
+                                    <div class="col-sm-12">
+                                         <div class="row">
+                                        <input type="text" class="form-control col-sm-10" id="_routingNumber" placeholder="Bank Routing Number" ng-model="BeneficiaryModel.RoutingNumber">
+                                         <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                    </div></div>
                                 </div>
                                 <div class="col-sm-6">
-                          <!--          <label for="BICCode" class="col-sm-3 form-control-label">BIC Code : <b class="text-danger">&nbsp;*</b></label>-->
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="_bICCode" placeholder="Swift or BIC Code" ng-model="BeneficiaryModel.BICCode"><b class="text-danger">&nbsp;*</b>
-                                    </div>
+                          
+                                    <div class="col-sm-12">
+                                          <div class="row">
+                                        <input type="text" class="form-control col-sm-10" id="_bICCode" placeholder="Swift or BIC Code" ng-model="BeneficiaryModel.BICCode">
+                                         <span class="text-danger col-sm-2"><strong>&nbsp;*</strong></span>
+                                    </div>  </div>
+                                     </div>
                                 </div>
-                            </div>
+                        
 
 
 
@@ -549,20 +597,22 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-6">
+                                    <div class="row">
                                     <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
                                     <div class="col-sm-8 checkbox checkbox-primary form-control-label">
                                         <input id="IsActive" type="checkbox" ng-model="BeneficiaryModel.IsActive" ng-init="BeneficiaryModel.IsActive=false ">
                                     </div>
+                                        </div>
                                 </div>
                             </div>
 
 
                             <div class="form-group row m-t-md">
                                 <div class="col-sm-6 pull-right">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-default float-right" data-dismiss="modal">Cancel</button>
                                 </div>
                                 <div class="col-sm-6 pull-right">
-                                    <button type="submit" class="btn btn-primary " ng-click="tblBeneficiary.$valid && CreateBeneficiary()">
+                                    <button type="submit" class="btn btn-info btn-bg ng-binding " ng-click="tblBeneficiary.$valid && CreateBeneficiary()">
                                         {{BeneficiaryModel.BeneficiaryId>0?'Update':'Create' }}
                                     </button>
                                     <!--<button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>-->
