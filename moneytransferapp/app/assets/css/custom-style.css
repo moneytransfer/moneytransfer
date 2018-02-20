@@ -1233,3 +1233,104 @@ ul.cm-white-space li {
     color:#333;
 }
 
+/*<!--New Portal-->*/
+
+.logo-bg {
+    background-image: url("../image/logo.png");
+    background-position: top center;
+    background-repeat: no-repeat;    
+    height: 72px;
+    margin-top: 20px;
+}
+
+/*.send-money-bg1{
+    position: relative;
+    background-image: url("../images/office-620822_1920.jpg");
+    background-size: cover;
+    background-attachment: fixed;    
+    height: 100%; 
+    z-index: 0;
+}*/
+
+.svg1 {
+    background-image: url(../image/1.jpg);
+
+    background-size: contain;
+    padding-top: 220px;    
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+.svg2 {
+    background-image: url(../image/2.jpg);
+    background-size:contain;
+    padding-top:220px; 
+    background-position: top center;
+    background-repeat: no-repeat;   
+}
+
+.svg3 {
+    background-image: url(../image/3.jpg);
+  background-size:contain;
+    padding-top:220px; 
+    background-position: top center;
+    background-repeat: no-repeat;   
+}
+
+/*.send-money-bg:after{
+    content: "";
+    background: #000000c4;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: -1;
+}*/
+
+
+/*.height-100vh{
+    height: 100vh;
+}*/
+
+.heading-border-bottom {
+    height: 4px;    
+    width: 70px;
+    background: #17a2b8;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.fs-24{
+    font-size: 24px;
+}
+
+.fs-30{
+    font-size: 30px;
+}
+
+.text-light-gray{
+    color:#969696;
+}
+
+.lock-icon{
+    background-image: url(../image/lock.PNG);
+    width: 110px;
+    height: 110px;
+    display: block;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+}
+.security-icon{
+    background-image: url(../image/sec.PNG);
+    width: 110px;
+    height: 110px;
+    display: block;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    
+}
+
+/*
+.send-money-bg h2, .send-money-bg p, .send-money-bg a{
+    color: #fff;
+} */

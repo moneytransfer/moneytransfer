@@ -1,3 +1,4 @@
+/// <reference path="../views/index.html" />
 
 (function () {
     'use strict';
@@ -1535,6 +1536,21 @@
               controller: "authenticateSendMoneyController"
           })
 
+          .state('app.sending_loop', {
+              url: '/Sendingloop',
+              templateUrl: 'views/customerPortal/index.html',
+              params: { TransactionId: 0 },
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                          return $ocLazyLoad.load('views/customerPortal/index.js');
+                      });
+                  }]
+              },
+              title: 'customerPortal',
+             // controller: "authenticateSendMoneyController"
+          })
       }
 
 
