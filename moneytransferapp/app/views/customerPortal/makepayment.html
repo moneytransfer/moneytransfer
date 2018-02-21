@@ -17,15 +17,18 @@
     <link href="../../assets/css/demo.css" rel="stylesheet" />-->
 </header>
 <!--end header-->
+
+
 <div class="body-container-wrapper m-t-3">
     <div class="master-banner inner-page-banner d-flex align-items-end">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb">
-                        <li class="col-md-4 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>
-                        <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}" ui-sref='app.chooseAmount'>Choose Amount</li>
-                        <li class="col-md-4">Payment</li>
+                        <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>
+                        <li class="col-md-3 {{localStorage.Ammount !=''?'active':''}}">Choose Amount</li>
+                        <li class="col-md-3 {{localStorage.Ammount !=''?'active':''}}" ui-sref='app.reviewAmmount'>Review</li>
+                        <li class="col-md-3">Payment</li>
                     </ul>
                 </div>
             </div>
@@ -57,7 +60,7 @@
                             </div>
                             <div class="col-sm-4" ng-repeat="PaymentMethod in PaymentMethods">
                                 <label class="form-control-label">
-                                    <input type="radio" name="methods" ng-model="PaybillModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaymentModel.PaymentMethodId)" required />
+                                    <input type="radio" name="methods" ng-model="PaybillModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaymentModel.PaymentMethodId)" required ng-init="$index==0?(PaybillModel.PaymentMethodId=PaymentMethod.PaymentMethodId):''" />
                                     {{PaymentMethod.Title}}</label>
                             </div>
                         </div>
@@ -167,7 +170,7 @@
                 </div>
             </div>
             <!--Thankyou Page-->
-            <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="ThankyouPaybill">
+            <!--<div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="ThankyouPaybill">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header text-danger">
@@ -214,7 +217,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
         </section>
         <!--Footer col -->

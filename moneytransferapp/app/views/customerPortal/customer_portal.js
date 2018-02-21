@@ -6,6 +6,7 @@
         .controller('manageGuestCustomerTransactionController', manageGuestCustomerTransactionController)
         .controller('manageMakePaymentController', manageMakePaymentController)
          .controller('manageCustomerLoginController', manageCustomerLoginController)
+      .controller('customerPortalthankyouController', customerPortalthankyouController)
          .controller('authenticateGuestController', authenticateGuestController)
     manageGustCustomerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function manageGustCustomerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
@@ -16,11 +17,12 @@
         vm.CustomerName = '';
         vm.CurrencyData = [];
         // remove default
+        vm.isPayAmmount = false;
         $('.modal-backdrop').remove();
         vm.FlagModel = [{ countryCode: '', internationalCodes: '', carrierName: '', Result: '' }];
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
         // vm.PaybillModel = { CompanyId: 0, CustomerId: 0, SenderName: '', PaymentMethodId: '0', Amount: '0.00', MobileNumber: '' }
-
+        vm.fare_amount = "";
         if ($localStorage.GustData) {
             vm.localStorage = $localStorage.GustData;
             vm.localStorage = $localStorage;
@@ -212,24 +214,38 @@
             //    Alert(2, "! It is not possible to recharge on this phone number. Please check the number and try again.");
             //}
         }
+        vm.checkPayAmmount = function () {
+            
+            vm.isPayAmmount=false;
+        }
 
 
         vm.selectAmmount = function (ammount) {
+            vm.isPayAmmount=true;
             $('#amountfeild').val(ammount);
             $localStorage.Ammount = ammount;
             //vm.PaybillModel.Amount = ammount;
+          
             $('#proceedButton').prop('disabled', false);
         }
 
         vm.proceed = function () {
-            if ($localStorage.Ammount) {
-                var Amt = parseFloat($('#amountfeild').val());
-                var fareAmmount = Amt * $localStorage.SelectedCountry.ConvertAmount;
-                $localStorage.FareAmmount = fareAmmount;
-                setTimeout(function () {
-                    $('#Payconfirm').modal('toggle');
-                }, 100);
+      
+            if ($("#from_id").valid()) {
+               
+                if ($localStorage.Ammount) {
+                    var Amt = parseFloat($('#amountfeild').val());
+                    var fareAmmount = Amt * $localStorage.SelectedCountry.ConvertAmount;
+                    $localStorage.Ammount = Amt;
+                    $localStorage.FareAmmount = fareAmmount;
+                    setTimeout(function () {
+                        $state.go('app.reviewAmmount');
+                    }, 100);
+                }
+            } else {
+                return 0;
             }
+          
 
         }
 
@@ -260,6 +276,7 @@
             vm.localStorage.GustData = '';
             vm.localStorage.MobileNumber = '';
             vm.localStorage.SelectedCountry = '';
+            $localStorage.ThankyouPageData = '';
             $state.go('app.customerPortal');
         }
 
@@ -269,6 +286,7 @@
             vm.localStorage.GustData = '';
             vm.localStorage.MobileNumber = '';
             vm.localStorage.SelectedCountry = '';
+            $localStorage.ThankyouPageData = '';
             $state.go('app.customerPortal');
         }
 
@@ -283,6 +301,7 @@
                 vm.localStorage.GustCustomer = '';
                 $localStorage.GustData = '';
                 $localStorage.GustCustomer = '';
+                $localStorage.ThankyouPageData = '';
                 $localStorage = [];
                 setTimeout(function () {
                     //$state.go('app.customerPortal');
@@ -692,33 +711,31 @@
                         dataType: "json",
                     })
                     .success(function (data) {
+                        
                         var idata = data;
                         if (idata.PaymentMethodId == 12) {
                             idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
                             idata.InvoiceAmount = idata.Amount;
                             idata.FaceAmount = idata.Amount;
-                        }
-                        vm.PayDetails = idata;
-                        if (idata && idata.BillPayId > 0) {
-                            vm.localStorage.Ammount = '';
-                            vm.localStorage.FareAmmount = '';
-                            vm.localStorage.GustData = '';
-                            vm.localStorage.MobileNumber = '';
-                            vm.localStorage.SelectedCountry = '';
-
-                            $('#ThankyouPaybill').modal('toggle');
-
-                            setTimeout(function () {
-                                $('#ThankyouPaybill').modal('toggle');
-                                $('.modal-backdrop').remove();
-                                setTimeout(function () {
-                                    $state.go('app.transactionDetails');
-                                }, 200);
-                            }, 4000);
+                            $state.go('app.ThankuCus');
                         }
                         else {
                             Alert(2, idata.Error);
                         }
+                        vm.PayDetails = idata;
+                        $localStorage.ThankyouPageData = vm.PayDetails;
+                        //if (idata && idata.BillPayId > 0) {
+                        //    vm.localStorage.Ammount = '';
+                        //    vm.localStorage.FareAmmount = '';
+                        //    vm.localStorage.GustData = '';
+                        //    vm.localStorage.MobileNumber = '';
+                        //    vm.localStorage.SelectedCountry = '';
+
+                       
+                          
+                        //} 
+                   
+                        
                     });
                 }
                 else {
@@ -821,6 +838,26 @@
         }
 
 
+
+    }
+    customerPortalthankyouController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
+    function customerPortalthankyouController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+        var vm = $scope;
+        var CompanyId = 0;
+        vm.CustomerId = 0;
+        vm.localStorage = "";
+        if ($localStorage.GustCustomer) {
+            vm.localStorage = $localStorage.ThankyouPageData;
+        } else {
+            $state.go('app.Login');
+        }
+
+
+
+       
+
+
+      
 
     }
 

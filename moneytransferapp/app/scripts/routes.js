@@ -1186,6 +1186,34 @@
                 params: { numberDetails: 0 }
                 //controller: "authenticateGuestController"
             })
+              .state('app.reviewAmmount', {
+                  url: '/review',
+                  templateUrl: 'views/customerPortal/review.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                          });
+                      }]
+                  },
+                  title: 'customerPortal',
+                  params: { numberDetails: 0 }
+                  //controller: "authenticateGuestController"
+              })
+               .state('app.ThankuCus', {
+                   url: '/ThankyouPage',
+                   templateUrl: 'views/customerPortal/Thankyou_Cus.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                   title: 'customerPortal',
+                   params: { numberDetails: 0 }
+                   //controller: "authenticateGuestController"
+               })
             .state('app.Login', {
                 url: '/Login',
                 templateUrl: 'views/customerPortal/login.html',

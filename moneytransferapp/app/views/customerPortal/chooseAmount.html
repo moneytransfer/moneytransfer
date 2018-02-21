@@ -21,9 +21,10 @@
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb">
-                        <li class="col-md-4 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ng-click="goBack()">Destination Number</li>
-                        <li class="col-md-4">Choose Amount</li>
-                        <li class="col-md-4">Payment</li>
+                        <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}" ng-click="goBack()">Destination Number</li>
+                        <li class="col-md-3">Choose Amount</li>
+                        <li class="col-md-3">Review</li>
+                        <li class="col-md-3">Payment</li>
                     </ul>
                 </div>
             </div>
@@ -35,7 +36,7 @@
             <div class="row choose-amt">
                 <div class="col-sm">
                     <h3 class="text-center mb-4">Select the amount you want to send</h3>
-                    <form>
+                    <form id="from_id">
                         <div class="row">
                             <div class="col-md-6 form-group pr-md-0">
                                 <div class="number-wrapper cm-input">
@@ -48,8 +49,27 @@
                                 </div>
                             </div>
                             <div class="col-md-4 form-group pr-md-0">
-                                <input type="number" class="form-control cm-input" id="amountfeild" placeholder="Amount" onchange="amountInput()" required>
-                            </div>
+                                <input type="number" class="form-control cm-input" id="amountfeild" placeholder="Amount"  min="1" max="100" onchange="amountInput()"ng-change="checkPayAmmount()" ng-model="Amount"required>
+                              <div ng-if="isPayAmmount">
+                                  <div class="row">
+                                      <span class="col-md-8">
+                                          Reloading Amount	
+                                          
+                                      </span>
+                                      <span>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
+                                  </div>
+                                  <div class="row">
+                                      <span class="col-md-8">
+                                          Fare Amount
+
+                                      </span>
+                                      <span>{{localStorage.Ammount*localStorage.SelectedCountry.ConvertAmount | number:2}} USD</span>
+                                  </div>
+                                  
+                                 
+                              </div>
+
+                                <span class="validity"></span>                            </div>
                             <div class="col-md-2 form-group text-center text-md-left">
                                 <button type="submit" id="proceedButton" class="btn cm-btn-control" ng-click='proceed()'>Proceed</button>
                                 <!--<button type="button" id="proceedButton" class="btn cm-btn-control" ui-sref='app.Login'>Proceed</button>-->
@@ -62,9 +82,10 @@
                 <div class="col-sm">
                     <div class="choose-amount mt-5">
                         <div class="row">
+                            
                             <div class="col-sm-6 col-md-3" ng-repeat="Amount in PayAmount" ng-click>
                                 <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount.Amount)">
-                                    <center><span>{{Amount.Amount * localStorage.SelectedCountry.ConvertAmount | number:2}}</span> &nbsp;USD</center>
+                                    <center><span >{{Amount.Amount * localStorage.SelectedCountry.ConvertAmount | number:2}}</span> &nbsp;USD</center>
                                     <small class="d-inline-block"> <span>{{Amount.Amount}}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</small></a>
                             </div>
                         </div>
@@ -161,7 +182,7 @@
 
         </div>
     </section>
-    <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
+    <!--<div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header text-success">
@@ -190,7 +211,7 @@
                                        <img src="images/Flag/{{localStorage.SelectedCountry.countryCode}}.png" alt=""></span>
                                     <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">{{localStorage.SelectedCountry.currencyCode}}</span>
                                 </td>
-                                <td>{{localStorage.Ammount}} {{localStorage.SelectedCountry.currencyCode}}</td>
+                                <td>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</td>
                                 <td>{{localStorage.FareAmmount | number:2}} USD</td>
                             </tr>
                         </tbody>
@@ -203,7 +224,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 
 
@@ -220,6 +241,8 @@
 
 <script type="text/javascript">
     function amountInput() {
+      
+        isPayAmmount = false;
         var Ammount = $('#amountfeild').val();
         if (Ammount <= 0) {
             $('#proceedButton').prop('disabled', true);

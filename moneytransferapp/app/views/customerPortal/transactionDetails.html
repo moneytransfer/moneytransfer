@@ -8,6 +8,7 @@
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
+                <li ng-if="localStorage.GustCustomer !=''" class="nav-item" ><a class="nav-link"  ui-sref='app.customerPortal'>Home</a></li>
                 <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>
             </ul>
         </div>
