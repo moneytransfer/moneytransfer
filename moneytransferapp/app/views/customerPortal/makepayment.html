@@ -25,10 +25,10 @@
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb">
-                        <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>
-                        <li class="col-md-3 {{localStorage.Ammount !=''?'active':''}}">Choose Amount</li>
-                        <li class="col-md-3 {{localStorage.Ammount !=''?'active':''}}" ui-sref='app.reviewAmmount'>Review</li>
-                        <li class="col-md-3">Payment</li>
+                      <!--  <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>-->
+                        <li class="col-md-4 ">Choose Amount</li>
+                        <li class="col-md-4 " ui-sref='app.reviewAmmount'>Review</li>
+                        <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}">Payment</li>
                     </ul>
                 </div>
             </div>
@@ -37,6 +37,9 @@
     <!--end master banner-->
     <div class="container" ui-view>
         <section class="payment-amount-wrapper amount-wrap pt-5 pb-5" ng-controller="manageMakePaymentController">
+            <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
             <div class="row choose-amt">
                 <div class="col-sm">
                     <form class="">
@@ -137,11 +140,11 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col col-sm-6 text-right">
-                                <button type="submit" class="btn cm-btn-control danger" ng-click="cancel()">Cancel</button>
+                                <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
                             </div>
                             <div class="col col-sm-6 text-left">
                                 {{payFormvaild}}
-                                <button type="submit" class="btn cm-btn-control" ng-disabled="!isCardValid || !ExpireModel.ExpireMonth || !ExpireModel.ExpireYear"
+                                <button type="submit" class="btn btn-info btn-bg" ng-disabled="!isCardValid || !ExpireModel.ExpireMonth || !ExpireModel.ExpireYear"
                                     ng-click="Paynow()">
                                     Pay Now</button>
                             </div>
@@ -222,6 +225,35 @@
         </section>
         <!--Footer col -->
         <hr>
+         <div class="row section-02">
+                    <div class="phoneReload"></div>
+                    <div class="col-md d-flex mb-12 mb-md-0">
+                        <div class="flowimg">
+                            <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                    <div class="moneyReload"></div>
+                    <div class="col-md topnotch d-flex mb-6 mb-md-0">
+                        <div class="">
+                            <div class="mb-6">
+                                <img src="assets/image/money-bck.png" width="12%" alt="easy and fast">
+                            </div>
+                            <h4>Money-back guarantee</h4>
+                            <p>We stand behind the reliability of our service. If your reload doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+                        </div>
+                    </div>
+                    <div class="col-md topnotch d-flex mb-6 mb-md-0">
+                        <div class="">
+                            <div class="mb-6">
+                                <img src="assets/image/security.png" width="9%" alt="Low cost">
+                            </div>
+                            <h4>Top-notch security</h4>
+                            <p>We employ top-tier technology to keep your information safe at all times.</p>
+                        </div>
+                    </div>
+                </div>
         <div class="row footercol">
             <div class="col-md-3 ftr-bdr">
                 <div class="ftr-img">

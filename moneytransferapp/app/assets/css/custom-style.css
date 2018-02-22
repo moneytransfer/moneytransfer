@@ -4,7 +4,7 @@
 
 body {
     background-color: #fff;
-    color: #888;
+    color: #333;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -1330,6 +1330,22 @@ ul.cm-white-space li {
     
 }
 
+.fs-14 {
+    font-size: 14px;
+}
+
+.text-black {
+    color: #000; 
+}
+
+
+.pt-140 {
+    padding-top:140px;
+}
+
+.ox-hidden {
+    overflow-x:hidden;
+}
 /*
 .send-money-bg h2, .send-money-bg p, .send-money-bg a{
     color: #fff;

@@ -577,7 +577,7 @@
             $localStorage.AmountDetails = '';
             $localStorage.Location = '';
             $localStorage = [];
-            $state.go('app.SendMoney');
+            $state.go('app.sending_loop');
             setTimeout(function () {
                 $window.location.reload();
 

@@ -18,6 +18,8 @@
         vm.CurrencyData = [];
         // remove default
         vm.isPayAmmount = false;
+        vm.isAmmount = false;
+        vm.Amount ="";
         $('.modal-backdrop').remove();
         vm.FlagModel = [{ countryCode: '', internationalCodes: '', carrierName: '', Result: '' }];
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
@@ -214,15 +216,38 @@
             //    Alert(2, "! It is not possible to recharge on this phone number. Please check the number and try again.");
             //}
         }
-        vm.checkPayAmmount = function () {
-            
-            vm.isPayAmmount=false;
+        vm.checkPayAmmount = function (Ammount) {
+           
+            vm.isPayAmmount = false;
+            if (Ammount != null) {
+              
+                if (Ammount <= 100) {
+                    vm.isAmmount = true;
+                    $localStorage.Ammount = Ammount;
+                    $('#proceedButton').prop('disabled', false);
+                } else {
+                    vm.isAmmount = false;
+                    $localStorage.Ammount = "";
+                    $('#proceedButton').prop('disabled', false);
+                }
+            } else {
+                vm.isAmmount = false;
+                $('#proceedButton').prop('disabled', false);
+                return 0;
+            }
+          
+   
+           
+
         }
 
 
         vm.selectAmmount = function (ammount) {
-            vm.isPayAmmount=true;
-            $('#amountfeild').val(ammount);
+            debugger;
+            vm.isPayAmmount = true;
+            
+            vm.isAmmount = false;
+            $('#amountfeild').val(ammount * $localStorage.SelectedCountry.ConvertAmount);
             $localStorage.Ammount = ammount;
             //vm.PaybillModel.Amount = ammount;
           
@@ -230,13 +255,11 @@
         }
 
         vm.proceed = function () {
-      
+            debugger;
             if ($("#from_id").valid()) {
                
                 if ($localStorage.Ammount) {
-                    var Amt = parseFloat($('#amountfeild').val());
-                    var fareAmmount = Amt * $localStorage.SelectedCountry.ConvertAmount;
-                    $localStorage.Ammount = Amt;
+                   var fareAmmount = $localStorage.Ammount * $localStorage.SelectedCountry.ConvertAmount;
                     $localStorage.FareAmmount = fareAmmount;
                     setTimeout(function () {
                         $state.go('app.reviewAmmount');
@@ -876,7 +899,7 @@
             }
         }
         else {
-            $window.location.assign('#/app/customerPortal');
+            $window.location.assign('#/app/Sendingloop');
         }
     }
 

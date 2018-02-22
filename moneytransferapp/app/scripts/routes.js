@@ -1169,7 +1169,7 @@
                     }]
                 },
                 title: 'customerPortal',
-                controller: "authenticateGuestController"
+             
             })
 
             .state('app.chooseAmount', {

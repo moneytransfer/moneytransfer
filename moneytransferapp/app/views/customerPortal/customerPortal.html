@@ -3,9 +3,8 @@
         <a class="navbar-brand" ui-sref='app.customerPortal'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
-        <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
-            <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Log out</a></li>
-
+       <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
+            <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true" ng-click="logoutGustCustomer()"></i>&nbsp;Log out</a></li>
             <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
@@ -13,6 +12,7 @@
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.Login'>Log In</a></li>
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.userRegister'>Sign Up</a></li>
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>
+              
             </ul>
         </div>
     </div>
@@ -20,10 +20,13 @@
 <!--end header-->
 <div class="body-container-wrapper" ng-controller="manageGustCustomerController">
     <div id="view"></div>
-    <div class="master-banner d-flex mh-500">
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
+    <div class="master-banner d-flex pt-140">
         <div class="container position-relative d-flex justify-content-center align-items-center">
             <div class="banner-form w-100 text-center">
-                <h5 class="display-4">Recharge Mobile Phones credits<br>
+                <h5 class="display-4">Reload mobile phone credit<br>
                     to your friends and family</h5>
                 <form class="banner-form-wrapper d-flex flex-column">
 
@@ -92,7 +95,7 @@
                             <img src="assets/image/sync.jpg" alt="120+ countries supported">
                         </div>
                         <h4>Do more than just reload</h4>
-                        <p>Whether you want to recharge a prepaid phone, send money or pay a bill, you can do it all with SendingLoop.</p>
+                        <p>Whether you want to recharge a prepaid phone, send money, you can do it all with SendingLoop.</p>
                     </div>
                 </div>
             </div>

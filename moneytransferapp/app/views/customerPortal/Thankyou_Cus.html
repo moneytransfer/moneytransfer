@@ -19,6 +19,9 @@
     </div>
 </header>
 <div class="container-fluid  " ng-controller="customerPortalthankyouController ">
+     <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
     <div class="login-form-groupper">
         <div class="row">
             <div class="col-lg-10 col-md-12 col-sm-12 col-md-offset-2 m-t-3 cm-m-t  ">
@@ -31,12 +34,12 @@
                     <div class="card-block text-xs-center">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-offset-2 col-sm-8">
+                                <div class="col-sm-8 offset-2">
                                     <table class="table">
-                                        <tbody>
-                                            <tr>
+                                        <tbody class="additional-info ng-binding">
+                                           <!-- <tr>
                                                 <td class="col-md-offset-2 modal-title ">Payment Details  </td>
-                                            </tr>
+                                            </tr>-->
                                             <tr class="active bold">
                                                 <td>Transaction Id:</td>
                                                 <td>{{localStorage.InvoiceNumber}}</td>
