@@ -32,7 +32,7 @@
             vm.PaymentModel.ReceivingCurrency = $localStorage.AmountDetails.CurrencyCode;
             vm.PaymentModel.ExchangeRate = $localStorage.AmountDetails.ExchangeRate;
 
-            vm.PaymentModel.SelectedCountryState = $localStorage.AmountDetails.SelectedCountryState;
+            //vm.PaymentModel.SelectedCountryState = $localStorage.AmountDetails.SelectedCountryState;
 
             vm.PaymentModel.SelectedState = $localStorage.AmountDetails.SelectedState;
             $localStorage.AmountDetails = $localStorage.AmountDetails;
@@ -232,6 +232,7 @@
 
         //Search data to convert currency
         function Searchdata() {
+            debugger;
             var Amount = vm.FlagModel.Amount;
             if (vm.FlagModel.Amount != "0" && vm.FlagModel.CurrencyCode != "") {
 
@@ -243,8 +244,8 @@
                     vm.FlagModel.IsValid = true;
 
                     // SelectCountyState
-                    var skillsSelect = document.getElementById("SelectCountyState");
-                    var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
+                    //var skillsSelect = document.getElementById("SelectCountyState");
+                    //var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
 
                     $localStorage.AmountDetails.iso = vm.FlagModel.iso;
                     $localStorage.AmountDetails.CountryName = vm.FlagModel.CountryName;
@@ -254,7 +255,7 @@
                     $localStorage.AmountDetails.CurrencyCode = vm.FlagModel.CurrencyCode;
                     $localStorage.AmountDetails.ExchangeRate = vm.FlagModel.ExchangeRate;
                     $localStorage.AmountDetails.SendingCurrency = "USD";
-                    $localStorage.AmountDetails.SelectedCountryState = SelectedCountryState;
+                    //$localStorage.AmountDetails.SelectedCountryState = SelectedCountryState;
                     $localStorage.AmountDetails.SelectedState = vm.SelectedState;
                     $localStorage.AmountDetails.Result = vm.FlagModel.Result;
                 } else {
@@ -291,8 +292,8 @@
 
                         vm.FlagModel.RecipientAmmount = parseFloat(value * vm.FlagModel.Amount).toFixed(2);
                         vm.isValidData = true;
-                        var skillsSelect = document.getElementById("SelectCountyState");
-                        var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
+                        //var skillsSelect = document.getElementById("SelectCountyState");
+                        //var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
 
                         $localStorage.AmountDetails.iso = vm.FlagModel.iso;
                         $localStorage.AmountDetails.CountryName = vm.FlagModel.CountryName;
@@ -302,7 +303,7 @@
                         $localStorage.AmountDetails.CurrencyCode = vm.FlagModel.CurrencyCode;
                         $localStorage.AmountDetails.ExchangeRate = vm.FlagModel.ExchangeRate;
                         $localStorage.AmountDetails.SendingCurrency = "USD";
-                        $localStorage.AmountDetails.SelectedCountryState = SelectedCountryState;
+                        //$localStorage.AmountDetails.SelectedCountryState = SelectedCountryState;
                         $localStorage.AmountDetails.SelectedState = vm.SelectedState;
                         $localStorage.AmountDetails.Result = vm.FlagModel.Result;
                     }
@@ -577,10 +578,10 @@
             $localStorage.AmountDetails = '';
             $localStorage.Location = '';
             $localStorage = [];
-            $state.go('app.sending_loop');
+            
             setTimeout(function () {
-                $window.location.reload();
-
+                //$window.location.reload();
+                $state.go('app.sending_loop');
             }, 1000);
 
         }

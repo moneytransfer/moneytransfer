@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
-        <a class="navbar-brand" ui-sref='app.SendMoneyAmount'>
+        <a class="navbar-brand" ui-sref='app.sending_loop'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
@@ -13,7 +13,7 @@
             <ul class="navbar-nav ">
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Log In</a></li>
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Sign Up</a></li>
-                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.SendMoneyAmount'>Home</a></li>
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.sending_loop'>Home</a></li>
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
             </ul>
         </div>
@@ -61,10 +61,8 @@
 
                     <div ng-if="CountryDetails.phonecode=='52'">
 
-                        <!--<div class="form-group">
-                            <label class="additional-info text-white" id="SelectReceiver">Select Receiver State/Province</label>
-                        </div>-->
-                        <div class="form-group form-group-country fl-w-100">
+                      
+                      <!--  <div class="form-group form-group-country fl-w-100">
                             <span class="flag-icon">
                                 <i class="fa fa-globe" aria-hidden="true"></i>
                             </span>
@@ -103,7 +101,7 @@
                                 <option value="YUC">Yucat&aacute;n</option>
                                 <option value="ZAC">Zacatecas</option>
                             </select>
-                        </div>
+                        </div>-->
 
                         <!-- onkeypress='return event.charCode >= 48 && event.charCode <= 57 && event.charCode > 31 && event.charCode != 46'-->
                         <div class="form-group text-left " ng-if="FlagModel.Result =='Success'">
@@ -197,8 +195,22 @@
                         <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
                     </div>
                 </div>
+            </div><div class="container my-4">
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <span class="lock-icon"></span>
+                <h4 class="mt-1">We’ve got your back</h4>
+                <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
             </div>
-            <div class="row">
+            <div class="col-sm-6 text-center">
+                <span class="security-icon"></span>
+                <h4 class="mt-1">Money-back guarantee</h4>
+
+                <p>We stand behind the Sendingloop. If your money doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+            </div>
+        </div>
+    </div>
+            <!--<div class="row">
                 <div class="moneyReload"></div>
                 <div class="col-md topnotch d-flex mb-6 mb-md-0">
                     <div class="">
@@ -218,7 +230,7 @@
                         <p>We employ top-tier technology to keep your information safe at all times.</p>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="row footercol">
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">

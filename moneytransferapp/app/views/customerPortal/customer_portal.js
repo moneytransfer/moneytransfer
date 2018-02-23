@@ -19,7 +19,7 @@
         // remove default
         vm.isPayAmmount = false;
         vm.isAmmount = false;
-        vm.Amount ="";
+        vm.Amount = "";
         $('.modal-backdrop').remove();
         vm.FlagModel = [{ countryCode: '', internationalCodes: '', carrierName: '', Result: '' }];
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
@@ -217,11 +217,11 @@
             //}
         }
         vm.checkPayAmmount = function (Ammount) {
-           
+
             vm.isPayAmmount = false;
             if (Ammount != null) {
-              
-                if (Ammount <= 100) {
+
+                if (Ammount) {
                     vm.isAmmount = true;
                     $localStorage.Ammount = Ammount;
                     $('#proceedButton').prop('disabled', false);
@@ -235,40 +235,48 @@
                 $('#proceedButton').prop('disabled', false);
                 return 0;
             }
-          
-   
-           
+
+
+
 
         }
 
 
         vm.selectAmmount = function (ammount) {
-            debugger;
+
             vm.isPayAmmount = true;
-            
+
             vm.isAmmount = false;
-            $('#amountfeild').val(ammount * $localStorage.SelectedCountry.ConvertAmount);
+            //amountfeild
+            $('#amountfeild').val(ammount);
             $localStorage.Ammount = ammount;
-            //vm.PaybillModel.Amount = ammount;
-          
+            //vm.PaybillModel.Amount = ammount; * $localStorage.SelectedCountry.ConvertAmount
+
             $('#proceedButton').prop('disabled', false);
         }
 
         vm.proceed = function () {
-            debugger;
+           
+            vm.accessAmount = false;
             if ($("#from_id").valid()) {
-               
+
                 if ($localStorage.Ammount) {
-                   var fareAmmount = $localStorage.Ammount * $localStorage.SelectedCountry.ConvertAmount;
-                    $localStorage.FareAmmount = fareAmmount;
-                    setTimeout(function () {
-                        $state.go('app.reviewAmmount');
-                    }, 100);
+                    var fareAmmount = $localStorage.Ammount * $localStorage.SelectedCountry.ConvertAmount;
+                    if (fareAmmount <= 100) {
+                        $localStorage.FareAmmount = fareAmmount;
+                        setTimeout(function () {
+                            $state.go('app.reviewAmmount');
+                        }, 100);
+                    }
+                    else {
+                        vm.accessAmount = true;
+                    }
+                    
                 }
             } else {
                 return 0;
             }
-          
+
 
         }
 
@@ -548,8 +556,8 @@
 
             $localStorage = [];
             setTimeout(function () {
-                $window.location.reload();
-                //$state.go('app.customerPortal');
+                //$window.location.reload();
+                $state.go('app.sending_loop');
             }, 1000);
 
         }
@@ -708,7 +716,7 @@
                 if (isCvvValid) {
                     var data = vm.localStorage.GustCustomer;
                     var idata = vm.PaybillModel;
-                    idata.Amount = vm.localStorage.FareAmmount;
+                    idata.Amount = vm.localStorage.FareAmmount + 4.99;
                     idata.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
                     idata.CompanyId = vm.localStorage.GustCustomer.CompanyId;
                     idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
@@ -734,7 +742,7 @@
                         dataType: "json",
                     })
                     .success(function (data) {
-                        
+
                         var idata = data;
                         if (idata.PaymentMethodId == 12) {
                             idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
@@ -754,11 +762,11 @@
                         //    vm.localStorage.MobileNumber = '';
                         //    vm.localStorage.SelectedCountry = '';
 
-                       
-                          
+
+
                         //} 
-                   
-                        
+
+
                     });
                 }
                 else {
@@ -870,6 +878,7 @@
         vm.CustomerId = 0;
         vm.localStorage = "";
         if ($localStorage.GustCustomer) {
+
             vm.localStorage = $localStorage.ThankyouPageData;
         } else {
             $state.go('app.Login');
@@ -877,10 +886,10 @@
 
 
 
-       
 
 
-      
+
+
 
     }
 

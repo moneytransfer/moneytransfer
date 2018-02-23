@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageCustomerLoginController">
-        <a class="navbar-brand" ui-sref='app.customerPortal'>
+        <a class="navbar-brand" ui-sref='app.sending_loop'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
        <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
@@ -26,7 +26,7 @@
     <div class="master-banner d-flex pt-140">
         <div class="container position-relative d-flex justify-content-center align-items-center">
             <div class="banner-form w-100 text-center">
-                <h5 class="display-4">Reload mobile phone credit<br>
+                <h5 class="display-4">Reload mobile phone air time credit<br>
                     to your friends and family</h5>
                 <form class="banner-form-wrapper d-flex flex-column">
 
@@ -40,8 +40,8 @@
 
                     <div class="form-group w-100 pull-left">
                         <div class="input-number-wrap position-relative pull-left">
-                            <span class="flag-code" ng-if="FlagModel.Result =='Success'">+{{FlagModel.internationalCodes}}</span>
-                            <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required>
+                            <span class="flag-code line-left" ng-if="FlagModel.Result =='Success'">+{{FlagModel.internationalCodes}}</span>
+                            <input type="text" class="form-control " pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required>
                         </div>
                         <button type="submit" id="shfirstbutton" ng-click="submitForm()" class="btn cm-btn pull-right">GO</button>
                     </div>
@@ -107,7 +107,23 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+
+             <div class="container my-4">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                            <span class="lock-icon"></span>
+                            <h4 class="mt-1">We’ve got your back</h4>
+                            <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <span class="security-icon"></span>
+                            <h4 class="mt-1">Money-back guarantee</h4>
+
+                            <p>We stand behind the Sendingloop. If your money doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+                        </div>
+                    </div>
+                </div>
+            <!--<div class="row">
                 <div class="moneyReload"></div>
                 <div class="col-md topnotch d-flex mb-6 mb-md-0">
                     <div class="">
@@ -127,7 +143,7 @@
                         <p>We employ top-tier technology to keep your information safe at all times.</p>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="row footercol">
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">

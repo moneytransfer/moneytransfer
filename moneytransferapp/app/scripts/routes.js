@@ -1566,18 +1566,46 @@
 
           .state('app.sending_loop', {
               url: '/Sendingloop',
-              templateUrl: 'views/customerPortal/index.html',
+              templateUrl: 'views/sendimgloop/index.html',
               params: { TransactionId: 0 },
               resolve: {
                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                           //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                          return $ocLazyLoad.load('views/customerPortal/index.js');
+                          return $ocLazyLoad.load('views/sendimgloop/index.js');
                       });
                   }]
               },
               title: 'customerPortal',
              // controller: "authenticateSendMoneyController"
+          })
+          .state('app.sending_loop_login', {
+              url: '/Sign_in',
+              templateUrl: 'views/sendimgloop/login.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                          return $ocLazyLoad.load('views/sendimgloop/index.js');
+                      });
+                  }]
+              },
+              title: 'customerPortal',
+              // controller: "authenticateSendMoneyController"
+          })
+          .state('app.sending_loop_ragister', {
+              url: '/Sign_up',
+              templateUrl: 'views/sendimgloop/userRegister.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                          return $ocLazyLoad.load('views/sendimgloop/index.js');
+                      });
+                  }]
+              },
+              title: 'customerPortal',
+              // controller: "authenticateSendMoneyController"
           })
       }
 

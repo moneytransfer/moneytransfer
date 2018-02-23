@@ -1,6 +1,6 @@
 ﻿<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageCustomerLoginController">
-        <a class="navbar-brand" ui-sref='app.customerPortal'>
+        <a class="navbar-brand" ui-sref='app.sending_loop'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
@@ -64,11 +64,14 @@
                             <td>Reloading Amount</td>
                             <td>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</td>
                         </tr>
-
+                        <tr>
+                            <td>Fees</td>
+                            <td>4.99 USD</td>
+                        </tr>
                        
                         <tr>
                             <td>Total Amount</td>
-                            <td>USD {{localStorage.FareAmmount | number:2}}</td>
+                            <td>{{localStorage.FareAmmount + 4.99 | number:2}} USD</td>
                         </tr>
                     </tbody>
 
@@ -91,7 +94,23 @@
                         </div>
                     </div>
                 </div>
-            <div class="row">
+
+            <div class="container my-4">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                            <span class="lock-icon"></span>
+                            <h4 class="mt-1">We’ve got your back</h4>
+                            <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <span class="security-icon"></span>
+                            <h4 class="mt-1">Money-back guarantee</h4>
+
+                            <p>We stand behind the Sendingloop. If your money doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+                        </div>
+                    </div>
+                </div>
+            <!--<div class="row">
                     <div class="moneyReload"></div>
                     <div class="col-md topnotch d-flex mb-6 mb-md-0">
                         <div class="">
@@ -111,7 +130,7 @@
                             <p>We employ top-tier technology to keep your information safe at all times.</p>
                         </div>
                     </div>
-                </div>
+                </div>-->
             <div class="row footercol">
                 <div class="col-md-3 ftr-bdr">
                     <div class="ftr-img">

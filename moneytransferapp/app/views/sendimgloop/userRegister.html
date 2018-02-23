@@ -8,22 +8,22 @@
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
-                <li class="nav-item"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Log In</a></li>
-                <li class="nav-item"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Signup</a></li>
+                <li class="nav-item"><a class="nav-link" href="" ui-sref='app.sending_loop_login'>Log In</a></li>
+                <li class="nav-item"><a class="nav-link" href="" ui-sref='app.sending_loop_ragister'>Sign Up</a></li>
                <!-- <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>-->
             </ul>
         </div>
     </div>
 </header>
 <!--end header-->
-<div class="body-container-wrapper" data-ng-controller="manageSendMoneyLoginController">
+<div class="body-container-wrapper" data-ng-controller="manageSendingloopLoginController">
     <div class="log-sign-wrapper pt-5 pb-5">
         <div class="container pt-5 pb-5">
             <div class="row d-flex justify-content-center align-items-center flex-column pl-3 pl-sm-0 pr-3 pr-sm-0">
                 <div class="col-lg-6 col-md-10 p-0">
                     <ul class="nav log-sign-tab">
-                        <li><a href="" ui-sref="app.SendMoneylogin"><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
-                        <li class="active"><a href="" ui-sref="app.SendMoneyUserRegister"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign up</a></li>
+                        <li><a href="" ui-sref="app.Login"><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
+                        <li class="active"><a href="" ui-sref="app.userRegister"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign up</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-6 col-md-10 desaturated-blue p-5">
@@ -58,7 +58,7 @@
                         <div class="form-group">
                             <button type="submit" value="" class="btn btn-success custom-form-btn" ng-click="tblCustomerregister.$valid && register()">Register</button>
                         </div>
-                        <div class="form-group text-center"><a href="" ui-sref="app.SendMoneylogin">Already a user? Click here to login</a> </div>
+                        <div class="form-group text-center"><a href="" ui-sref="app.Login">Already a user? Click here to login</a> </div>
                     </form>
                 </div>
             </div>

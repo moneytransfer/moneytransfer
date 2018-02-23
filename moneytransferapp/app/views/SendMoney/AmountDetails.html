@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
-        <a class="navbar-brand" ui-sref='app.SendMoneyAmount'>
+        <a class="navbar-brand" ui-sref='app.sending_loop'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a>
 
@@ -13,7 +13,7 @@
             <ul class="navbar-nav ">
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Log In</a></li>
                 <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Sign Up</a></li>
-                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.SendMoneyAmount'>Home</a></li>
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.sending_loop'>Home</a></li>
                 <li class="nav-item" ng-if="IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
             </ul>
         </div>
@@ -73,9 +73,9 @@
                                             <!--  <input type="radio" name="methods" ng-model="PaymentModel.LocationId" ng-change="selecetdLocation(PickLocation.Location)" value="{{PickLocation.LocationId}}" required />
                                             {{PickLocation.Location}}-->
                                             <select class="form-control banner-input" ng-model="PaymentModel.AgentId" id="PayOutLocation" ng-change="selecetdLocation(PaymentModel.AgentId)" ng-init="PaymentModel.AgentId='0'">
-                                              <option value="0">Select Payout location</option>
-                                                 <option ng-repeat="PickLocation in PickUpLocation"  value="{{PickLocation.AgentId}}" >{{PickLocation.AgentFirstName +'&nbsp;'+PickLocation.AgentLastName}}&nbsp;-{{PickLocation.AgentCode}}</option>
-                                                                                                
+                                                <option value="0">Select Payout location</option>
+                                                <option ng-repeat="PickLocation in PickUpLocation" value="{{PickLocation.AgentId}}">{{PickLocation.AgentFirstName +'&nbsp;'+PickLocation.AgentLastName}}&nbsp;-{{PickLocation.AgentCode}}</option>
+
                                             </select>
                                         </label>
                                     </div>
@@ -113,10 +113,10 @@
                             <dd class="data-value text-right">{{PaymentModel.CountryName}}</dd>
                         </dl>
 
-                        <dl class="section-bottom  data-row">
+                        <!--<dl class="section-bottom  data-row">
                             <dt class="data-label">State</dt>
                             <dd class="data-value text-right">{{PaymentModel.SelectedCountryState}}</dd>
-                        </dl>
+                        </dl>-->
                         <!--<dl class="section-bottom  data-row">
                             <dt class="data-label">Transaction fee</dt>
                             <dd class="data-value text-right"><span>2.00</span><span> USD</span></dd>
@@ -214,7 +214,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+
+                <div class="container my-4">
+                    <div class="row">
+                        <div class="col-sm-6 text-center">
+                            <span class="lock-icon"></span>
+                            <h4 class="mt-1">We’ve got your back</h4>
+                            <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <span class="security-icon"></span>
+                            <h4 class="mt-1">Money-back guarantee</h4>
+
+                            <p>We stand behind the Sendingloop. If your money doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="row">
                     <div class="moneyReload"></div>
                     <div class="col-md topnotch d-flex mb-6 mb-md-0">
                         <div class="">
@@ -234,7 +250,7 @@
                             <p>We employ top-tier technology to keep your information safe at all times.</p>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="row footercol">
                     <div class="col-md-3 ftr-bdr">
                         <div class="ftr-img">

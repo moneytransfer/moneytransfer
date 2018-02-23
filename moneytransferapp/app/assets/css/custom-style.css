@@ -1346,6 +1346,14 @@ ul.cm-white-space li {
 .ox-hidden {
     overflow-x:hidden;
 }
+.w-width{
+width:230px !important;
+}
+.line-left {
+    border-right: 2px solid !important;
+    border-bottom-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
 /*
 .send-money-bg h2, .send-money-bg p, .send-money-bg a{
     color: #fff;

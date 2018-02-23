@@ -3,7 +3,7 @@
     angular
         .module('app')
         .controller('manageIndexController', manageIndexController)
-    .controller('manageCustomerLoginController', manageCustomerLoginController)
+        .controller('manageSendingloopLoginController', manageSendingloopLoginController)
         
     manageIndexController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function manageIndexController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
@@ -18,14 +18,12 @@
         }      
 
         vm.MoveToSendMoney = function () {
-            debugger;
+           
             $state.go('app.SendMoneyAmount')
         }
-      
-
     }
-    manageCustomerLoginController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
-    function manageCustomerLoginController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+    manageSendingloopLoginController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
+    function manageSendingloopLoginController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
 
         var CompanyId = 0;
@@ -71,14 +69,8 @@
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-                    if ($localStorage.Ammount) {
-                        $state.go('app.makePayment')
-                        //setTimeout(function () { window.location.reload(); }, 1000);
-                    } else {
-                        //$state.go('app.makepayment');
                         $state.go('app.sending_loop')
-                    }
-
+                        //setTimeout(function () { window.location.reload(); }, 1000);
                 }
                 else {
                     Alert(2, "! Invalid Customer or password. ");

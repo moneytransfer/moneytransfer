@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageCustomerLoginController">
-        <a class="navbar-brand" ui-sref='app.customerPortal'>
+        <a class="navbar-brand" ui-sref='app.sending_loop'>
              <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones"></a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2">
             <li ng-if="IsLogin" class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Log out</a></li>
@@ -8,7 +8,7 @@
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
-                <li class="nav-item"><a class="nav-link" ui-sref='app.customerPortal'>Home</a></li>
+                <li class="nav-item"><a class="nav-link" ui-sref='app.sending_loop'>Home</a></li>
                 <li ng-if="IsLogin" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions </a></li>
             </ul>
         </div>
