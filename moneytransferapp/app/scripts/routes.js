@@ -275,7 +275,20 @@
                   classes: 'no-padding no-footer layout-static',
                   controller: "authenticateController"
               })
-
+              .state('app.Fees', {
+                  url: '/Fees',
+                  templateUrl: 'views/fees/fees.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/fees.js');
+                          });
+                      }]
+                  },
+                  title: 'Fees',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
               .state('app.add_User', {
                   url: '/add_User',
                   templateUrl: 'views/user/addEditUser.html',
