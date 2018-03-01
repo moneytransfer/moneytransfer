@@ -260,21 +260,7 @@
               })
 
 
-
-              .state('app.Manage_User', {
-                  url: '/Manage_User',
-                  templateUrl: 'views/user/manageUsers.html',
-                  resolve: {
-                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
-                              return $ocLazyLoad.load('scripts/controllers/appCtrls/user.js');
-                          });
-                      }]
-                  },
-                  title: 'Manage User',
-                  classes: 'no-padding no-footer layout-static',
-                  controller: "authenticateController"
-              })
+              //Manage Fees
               .state('app.Fees', {
                   url: '/Fees',
                   templateUrl: 'views/fees/fees.html',
@@ -289,6 +275,51 @@
                   classes: 'no-padding no-footer layout-static',
                   controller: "authenticateController"
               })
+          .state('app.Edit_Fees', {
+              url: '/Edit_Fees',
+              templateUrl: 'views/fees/addEditFees.html',
+              params: {PaymentFessId: 0 },
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          return $ocLazyLoad.load('scripts/controllers/appCtrls/fees.js');
+                      });
+                  }]
+              },
+              title: 'Edit Fees',
+              classes: 'no-padding no-footer layout-static',
+              controller: "authenticateController"
+          })
+          .state('app.add_Fees', {
+              url: '/add_Fees',
+              templateUrl: 'views/fees/addEditFees.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          return $ocLazyLoad.load('scripts/controllers/appCtrls/fees.js');
+                      });
+                  }]
+              },
+              title: 'Add Fees',
+              classes: 'no-padding no-footer layout-static',
+              controller: "authenticateController"
+          })
+
+              //Manage User
+               .state('app.Manage_User', {
+                   url: '/Manage_User',
+                   templateUrl: 'views/user/manageUsers.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/user.js');
+                           });
+                       }]
+                   },
+                   title: 'Manage User',
+                   classes: 'no-padding no-footer layout-static',
+                   controller: "authenticateController"
+               })
               .state('app.add_User', {
                   url: '/add_User',
                   templateUrl: 'views/user/addEditUser.html',
@@ -1182,7 +1213,7 @@
                     }]
                 },
                 title: 'customerPortal',
-             
+
             })
 
             .state('app.chooseAmount', {
@@ -1590,7 +1621,7 @@
                   }]
               },
               title: 'customerPortal',
-             // controller: "authenticateSendMoneyController"
+              // controller: "authenticateSendMoneyController"
           })
           .state('app.sending_loop_login', {
               url: '/Sign_in',

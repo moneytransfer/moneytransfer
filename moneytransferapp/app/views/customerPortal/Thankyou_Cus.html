@@ -58,11 +58,11 @@
                                             </tr>
                                             <tr>
                                                 <td>Fee:</td>
-                                                <td>$&nbsp;4.99</td>
+                                                <td>$&nbsp;{{localStorage.Fees | number:2}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Total:</td>
-                                                <td>$&nbsp;{{localStorage.InvoiceAmount + 4.99  | number:2}}</td>
+                                                <td>$&nbsp;{{localStorage.InvoiceAmount   | number:2}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

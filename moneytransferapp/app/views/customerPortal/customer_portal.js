@@ -8,14 +8,17 @@
          .controller('manageCustomerLoginController', manageCustomerLoginController)
       .controller('customerPortalthankyouController', customerPortalthankyouController)
          .controller('authenticateGuestController', authenticateGuestController)
-    manageGustCustomerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
-    function manageGustCustomerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+    manageGustCustomerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
+    function manageGustCustomerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
 
         vm.CompanyId = 0;
         vm.CustomerId = 0;
         vm.CustomerName = '';
         vm.CurrencyData = [];
+        vm.feeData = [];
+        vm.Fee = "";
+        vm.DestinationCountry = "";
         // remove default
         vm.isPayAmmount = false;
         vm.isAmmount = false;
@@ -28,6 +31,7 @@
         if ($localStorage.GustData) {
             vm.localStorage = $localStorage.GustData;
             vm.localStorage = $localStorage;
+          
             if (vm.localStorage.GustData != '') {
                 if (vm.localStorage.SelectedCountry) {
                     // vm.PaybillModel.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
@@ -61,7 +65,13 @@
         vm.FlagModel = [];
 
         vm.getcountrydata = function (id) {
+     
             var iCountryId = parseInt(id);
+            var data1 = $filter('filter')(vm.Countries, {
+                phonecode: iCountryId,
+            }, true);
+             vm.DestinationCountry = data1[0].CountryId;
+            
             var skillsSelect = document.getElementById("CountrySelected");
             var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
 
@@ -79,6 +89,7 @@
                     vm.FlagModel.countryCode = idata.iso.toLowerCase();
                     vm.FlagModel.internationalCodes = idata.phonecode;
                     vm.FlagModel.carrierName = idata.CountryName;
+                   
                     vm.FlagModel.Result = 'Success';
                 }
                 else {
@@ -178,10 +189,12 @@
                         }
                         if (idata.currencyCode == "USD") {
                             $localStorage.SelectedCountry.ConvertAmount = 1.00;
+                            $localStorage.SelectedCountry.DestinationCountry =""+vm.DestinationCountry;
                         }
                         else { ConvertMoney(idata.currencyCode); }
 
                         $localStorage.SelectedCountry = idata;
+                        $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
 
                     }
                     else {
@@ -205,7 +218,7 @@
         }
 
         vm.submitForm = function () {
-
+        
             if ($localStorage.GustData) {
                 if ($localStorage.GustCustomer == '') {
                     vm.localStorage.GustCustomer = $localStorage.GustCustomer = 0;
@@ -222,8 +235,11 @@
             if (Ammount != null) {
 
                 if (Ammount) {
+                    
                     vm.isAmmount = true;
+
                     $localStorage.Ammount = Ammount;
+                    vm.getFeeDetails();
                     $('#proceedButton').prop('disabled', false);
                 } else {
                     vm.isAmmount = false;
@@ -244,17 +260,46 @@
 
         vm.selectAmmount = function (ammount) {
 
-            vm.isPayAmmount = true;
-
-            vm.isAmmount = false;
+           
             //amountfeild
             $('#amountfeild').val(ammount);
             $localStorage.Ammount = ammount;
+            vm.getFeeDetails();
+            vm.isPayAmmount = true;
+
+            vm.isAmmount = false;
             //vm.PaybillModel.Amount = ammount; * $localStorage.SelectedCountry.ConvertAmount
 
             $('#proceedButton').prop('disabled', false);
         }
+        vm.getFeeDetails = function () {
+            var DestinationCountry = vm.localStorage.SelectedCountry.DestinationCountry;
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": 17, "DestinationCountry": DestinationCountry }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getPaymentFeesByCompanydestinationCountry',
+                data: formData,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+    
 
+                var idata = data;
+                vm.feeData = idata;
+                var FareAmount = vm.localStorage.Ammount * vm.localStorage.SelectedCountry.ConvertAmount;
+                for (var i = 0; i < vm.feeData.length; i++) {
+                    if (FareAmount <= vm.feeData[i].EndAmount) {
+                        vm.Fee = vm.feeData[i].Fees;
+                    } else {
+                        vm.Fee = 0
+                    }
+                }
+
+
+
+
+            });
+        }
         vm.proceed = function () {
            
             vm.accessAmount = false;
@@ -263,7 +308,8 @@
                 if ($localStorage.Ammount) {
                     var fareAmmount = $localStorage.Ammount * $localStorage.SelectedCountry.ConvertAmount;
                     if (fareAmmount <= 100) {
-                        $localStorage.FareAmmount = fareAmmount;
+                        $localStorage.FareAmmount = fareAmmount + vm.Fee;
+                        $localStorage.Fees = vm.Fee;
                         setTimeout(function () {
                             $state.go('app.reviewAmmount');
                         }, 100);
@@ -679,6 +725,7 @@
 
 
         vm.Create = function (e) {
+         
             $('#Payconfirm').modal('toggle');
             vm.alert = false;
             var isCardValid = $.payform.validateCardNumber(cardNumber.val());
@@ -716,7 +763,7 @@
                 if (isCvvValid) {
                     var data = vm.localStorage.GustCustomer;
                     var idata = vm.PaybillModel;
-                    idata.Amount = vm.localStorage.FareAmmount + 4.99;
+                    idata.Amount = vm.localStorage.FareAmmount;
                     idata.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
                     idata.CompanyId = vm.localStorage.GustCustomer.CompanyId;
                     idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
@@ -742,7 +789,7 @@
                         dataType: "json",
                     })
                     .success(function (data) {
-
+                     
                         var idata = data;
                         if (idata.PaymentMethodId == 12) {
                             idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
@@ -822,7 +869,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-
+   
             var idata = data;
 
             // $timeout(function () {
@@ -878,8 +925,10 @@
         vm.CustomerId = 0;
         vm.localStorage = "";
         if ($localStorage.GustCustomer) {
+           
 
             vm.localStorage = $localStorage.ThankyouPageData;
+            vm.localStorage.Fees = $localStorage.Fees;
         } else {
             $state.go('app.Login');
         }

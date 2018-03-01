@@ -58,7 +58,7 @@
                                       <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">{{localStorage.SelectedCountry.currencyCode}}</span>
                                     <input type="number" class="form-control w-width" id="amountfeild" placeholder="Amount" onchange="amountInput()" ng-change="checkPayAmmount(Amount)" ng-model="Amount">
                                 </div>
-
+                               
                                 <div ng-if="isPayAmmount" class="mt-3 fs-14 text-black">
                                     <div class="row">
                                         <span class="col-md-8">Fare Amount
@@ -71,6 +71,13 @@
                                           
                                         </span>
                                         <span>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-md-8">
+                                            Fee
+                                            </span>
+                                        <span>{{Fee | number:2}} USD</span>
                                     </div>
                                 </div>
 
@@ -86,6 +93,12 @@
 
                                         </span>
                                         <span>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="col-md-8">
+                                            Fee
+                                        </span>
+                                        <span>{{Fee | number:2}} USD</span>
                                     </div>
                                 </div>
 
