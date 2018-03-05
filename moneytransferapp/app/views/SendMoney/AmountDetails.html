@@ -103,7 +103,7 @@
                         </dl>
                         <dl class="section-bottom  data-row bb-1px-ccc">
                             <dt class="data-label">Service fee</dt>
-                            <dd class="data-value text-right"><span>4.99</span><span> USD</span></dd>
+                            <dd class="data-value text-right">{{PaymentModel.Fee}}<span></span><span> USD</span></dd>
                         </dl>
 
                         <dl class="section-bottom data-row">
@@ -137,7 +137,7 @@
                         <div class="mt-2">
                             <dl class="data-row">
                                 <dt class="data-label">Your Total</dt>
-                                <dd class="data-value text-right"><span>{{(PaymentModel.SendingAmount-0) +4.99 |  number: 2 }}</span><span> USD</span></dd>
+                                <dd class="data-value text-right"><span>{{(PaymentModel.SendingAmount-0) + (PaymentModel.Fee-0) |  number: 2 }}</span><span> USD</span></dd>
                             </dl>
                             <dl class="data-row">
                                 <dt class="data-label">Receiving Option:</dt>

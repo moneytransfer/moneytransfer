@@ -71,7 +71,7 @@
                                         <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup">
                                         <span class="bold">Bank Account x-5871 </span>&nbsp;
                                 <br />
-                                        <small class="pl-3">Transaction Fee: 4.99 USD</small>
+                                        <small class="pl-3">Transaction Fee: {{PaymentModel.Fee}} USD</small>
                                     </label>
 
                                 </div>
@@ -80,7 +80,7 @@
                                         <input type="radio" name="rdBankDeposit" id="Radio1" value="CashPickup">
                                         <span class="bold">DDCbofa </span>&nbsp;
                                 <br />
-                                        <small class="pl-3">Transaction Fee: 4.99 USD</small></label>
+                                        <small class="pl-3">Transaction Fee: {{PaymentModel.Fee}} USD</small></label>
 
                                 </div>
                                 <div class="col-sm-12">
@@ -88,12 +88,12 @@
                                         <input type="radio" name="rdBankDeposit" id="Radio2" value="CashPickup">
                                         <span class="bold">BofaFalcon </span>&nbsp;
                                 <br />
-                                        <small class="pl-3">Transaction Fee: 4.99 USD</small></label>
+                                        <small class="pl-3">Transaction Fee: {{PaymentModel.Fee}} USD</small></label>
                                 </div>
                                 <hr class="m-0">
                                 <h4 class="mt-4">Add new payment method</h4>
                                 <div class="col-sm-12 p-0 m-b-1">
-                                    <label for="Status" class="col-sm-10 form-control-label">Lowest Fee: 4.99 USD </label>
+                                    <label for="Status" class="col-sm-10 form-control-label">Lowest Fee: {{PaymentModel.Fee}} USD </label>
                                     <div class="col-sm-11 p-0">
                                         <div class="col-sm-8" ng-repeat="PaymentMethod in PaymentMethods">
                                             <label class="form-control-label">
@@ -195,7 +195,7 @@
                             </dl>
                             <dl class="section-bottom  data-row bb-1px-ccc">
                                 <dt class="data-label">Transaction fee</dt>
-                                <dd class="data-value text-right"><span>4.99</span><span> USD</span></dd>
+                                <dd class="data-value text-right"><span>{{PaymentModel.Fee}}</span><span> USD</span></dd>
                             </dl>
                             <dl class="section-bottom data-row">
                                 <dt class="data-label no-border">
@@ -218,7 +218,7 @@
                             </dl>
                             <dl class="section-bottom data-row">
                                 <dt class="data-label">Your Total</dt>
-                                <dd class="data-value text-right"><span>{{(PaymentModel.Amount-0) +4.99 |  number: 2 }}</span><span> USD</span></dd>
+                                <dd class="data-value text-right"><span>{{(PaymentModel.Amount-0) + (PaymentModel.Fee-0) |  number: 2 }}</span><span> USD</span></dd>
                             </dl>
                             <div class="row">
                                 <!--<dl class="data-row roption-btn text-white">

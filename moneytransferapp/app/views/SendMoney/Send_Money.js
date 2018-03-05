@@ -23,6 +23,7 @@
         vm.localStorage = [];
         $localStorage.BeneficiaryModel = '';
         if ($localStorage.AmountDetails) {
+         
             vm.PaymentModel.iso = $localStorage.AmountDetails.iso;
             vm.PaymentModel.CountryName = $localStorage.AmountDetails.CountryName;
             vm.PaymentModel.CountryId = $localStorage.AmountDetails.CountryId;
@@ -31,7 +32,7 @@
             vm.PaymentModel.SendingCurrency = $localStorage.AmountDetails.SendingCurrency;
             vm.PaymentModel.ReceivingCurrency = $localStorage.AmountDetails.CurrencyCode;
             vm.PaymentModel.ExchangeRate = $localStorage.AmountDetails.ExchangeRate;
-
+            vm.PaymentModel.Fee = $localStorage.AmountDetails.Fee;
             //vm.PaymentModel.SelectedCountryState = $localStorage.AmountDetails.SelectedCountryState;
 
             vm.PaymentModel.SelectedState = $localStorage.AmountDetails.SelectedState;
@@ -232,7 +233,7 @@
 
         //Search data to convert currency
         function Searchdata() {
-            debugger;
+            
             var Amount = vm.FlagModel.Amount;
             if (vm.FlagModel.Amount != "0" && vm.FlagModel.CurrencyCode != "") {
 
@@ -258,6 +259,7 @@
                     //$localStorage.AmountDetails.SelectedCountryState = SelectedCountryState;
                     $localStorage.AmountDetails.SelectedState = vm.SelectedState;
                     $localStorage.AmountDetails.Result = vm.FlagModel.Result;
+                    vm.getFeeDetails(vm.FlagModel.CountryId);
                 } else {
                     vm.FlagModel.IsValid = false;
 
@@ -294,7 +296,7 @@
                         vm.isValidData = true;
                         //var skillsSelect = document.getElementById("SelectCountyState");
                         //var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
-
+             
                         $localStorage.AmountDetails.iso = vm.FlagModel.iso;
                         $localStorage.AmountDetails.CountryName = vm.FlagModel.CountryName;
                         $localStorage.AmountDetails.CountryId = vm.FlagModel.CountryId;
@@ -306,6 +308,7 @@
                         //$localStorage.AmountDetails.SelectedCountryState = SelectedCountryState;
                         $localStorage.AmountDetails.SelectedState = vm.SelectedState;
                         $localStorage.AmountDetails.Result = vm.FlagModel.Result;
+                        vm.getFeeDetails(vm.FlagModel.CountryId);
                     }
                     else {
                         vm.isValidData = false;
@@ -318,6 +321,35 @@
 
                     //return 
                 });
+        }
+        vm.getFeeDetails = function (DestinationCountry) {
+           
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": 17, "DestinationCountry": DestinationCountry }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getPaymentFeesByCompanydestinationCountry',
+                data: formData,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+
+                var idata = data;
+                //vm.feeData = idata;
+                var FareAmount =+vm.FlagModel.Amount;
+                for (var i = 0; i < idata.length; i++) {
+                    if (FareAmount <= idata[i].EndAmount) {
+                        $localStorage.AmountDetails.Fee = idata[i].Fees;
+                        vm.FlagModel.Fee = idata[i].Fees;
+                    } else {
+                        $localStorage.AmountDetails.Fee = "0.00";
+                        vm.FlagModel.Fee = "0.00";
+                    }
+                }
+
+
+
+
+            });
         }
 
         //app.SendMoney page-2
@@ -997,6 +1029,7 @@
         vm.SelectedCustomer = [];
 
         vm.PaymentModel = '';
+        
         if (($localStorage.AmountDetails.CardNumber)) {
             $localStorage.AmountDetails.CardNumber = '';
         } if ($localStorage.AmountDetails.cvv) {
@@ -1297,6 +1330,7 @@
                 vm.CustomerId = vm.SelectedCustomer.CustomerId;
             }
         }
+       
 
         vm.ThankyouDetails = $localStorage;
 

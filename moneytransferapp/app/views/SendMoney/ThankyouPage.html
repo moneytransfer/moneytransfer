@@ -73,8 +73,8 @@
                                             <br />
                                             <span>Transferred :&nbsp;</span>{{ThankyouDetails.AmountDetails.Amount}} &nbsp; USD<br />
                                             <span>Total received :&nbsp;</span>{{ThankyouDetails.AmountDetails.RecipientAmmount}} &nbsp;{{ThankyouDetails.AmountDetails.CurrencyCode}}<br />
-                                            <span>Service fee :&nbsp;</span>4.99 &nbsp; USD<br />
-                                            <span>Total transaction :&nbsp;</span>{{(ThankyouDetails.AmountDetails.Amount-0)+ 4.99|  number: 2 }}&nbsp; USD
+                                            <span>Service fee :&nbsp;</span>{{ThankyouDetails.AmountDetails.Fee}} &nbsp; USD<br />
+                                            <span>Total transaction :&nbsp;</span>{{(ThankyouDetails.AmountDetails.Amount-0) + (ThankyouDetails.AmountDetails.Fee-0) |  number: 2 }}&nbsp; USD
                                         </small>
                                     </dd>
 

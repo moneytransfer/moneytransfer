@@ -31,7 +31,7 @@
         if ($localStorage.GustData) {
             vm.localStorage = $localStorage.GustData;
             vm.localStorage = $localStorage;
-          
+        
             if (vm.localStorage.GustData != '') {
                 if (vm.localStorage.SelectedCountry) {
                     // vm.PaybillModel.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
@@ -65,7 +65,7 @@
         vm.FlagModel = [];
 
         vm.getcountrydata = function (id) {
-     
+         
             var iCountryId = parseInt(id);
             var data1 = $filter('filter')(vm.Countries, {
                 phonecode: iCountryId,
@@ -138,6 +138,7 @@
                     headers: { 'Content-Type': 'application/json; charset=utf-8' }
                 })
                 .success(function (data) {
+                  
                     var idata = data;
                     if (idata.countryCode != null) {
                         var SelectedCountry = [];
@@ -163,6 +164,8 @@
                         idata.countryCode = idata.countryCode.toLowerCase();
                         vm.FlagModel = idata;
                         var sData = vm.CountryDetails;
+                        if(!vm.DestinationCountry)
+                        var PhoneCode = res[0];
                         if (vm.CountryDetails.phonecode != '0') {
                             if (idata.internationalCodes != vm.CountryDetails.phonecode) {
                                 vm.CountryDetails.phonecode = '0';
@@ -170,6 +173,7 @@
                             if (idata.currencyCode == "MXN") {
                                 var res = idata.internationalCodes.split(" ");
                                 vm.CountryDetails.phonecode = res[0];
+                                
                                 idata.internationalCodes = res[0];
                             }
                             else {
@@ -194,7 +198,16 @@
                         else { ConvertMoney(idata.currencyCode); }
 
                         $localStorage.SelectedCountry = idata;
+                        if (!vm.DestinationCountry) {
+                            var iCountryId = parseInt(PhoneCode);
+                            var data1 = $filter('filter')(vm.Countries, {
+                                phonecode: iCountryId,
+                            }, true);
+                            vm.DestinationCountry = data1[0].CountryId;
+                          
+                        }
                         $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
+                        
 
                     }
                     else {
