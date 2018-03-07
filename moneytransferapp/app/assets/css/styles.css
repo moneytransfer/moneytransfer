@@ -82,6 +82,7 @@
     opacity: 0.2;
 }
 
+
 @media(max-width: 650px) {
     .creditCardForm .owner,
     .creditCardForm .CVV,

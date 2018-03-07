@@ -32,39 +32,40 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-         
+            ;
             var idata = data;
             vm.PaymentMethodType = idata;
-           
+            
+                var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+                $http({
+                    method: 'POST',
+                    url: baseUrl + 'getPaymentFeesDetails',
+                    data: formData,
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                })
+            .success(function (data) {
+
+                var idata = data;
+                vm.ManageFees = idata;
+                for (var i = 0; i < idata.length; i++) {
+                    var data1 = $filter('filter')(vm.PaymentMethodType, {
+                        PaymentMethodId: idata[i].PaymentMethodId,
+                    }, true);
+                    if (data1.length>0)
+                    vm.ManageFees[i].PaymentMethod = data1[0].Title;
+                }
 
 
 
-        });
 
-        $timeout(function () {
-            var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
-            $http({
-                method: 'POST',
-                url: baseUrl + 'getPaymentFeesDetails',
-                data: formData,
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            })
-        .success(function (data) {
+            });
          
-            var idata = data;
-            vm.ManageFees = idata;
-            for (var i = 0; i < idata.length; i++) {
-                var data1 = $filter('filter')(vm.PaymentMethodType, {
-                    PaymentMethodId: idata[i].PaymentMethodId,
-                }, true);
-                vm.ManageFees[i].PaymentMethod = data1[0].Title;
-            }
-
 
 
 
         });
-        }, 1000);
+
+       
 
         
         //Get users
@@ -124,9 +125,10 @@
         vm.parseInt = parseInt;
         vm.ToCurrency = "";
         vm.BaseCurrency = "";
-        vm.FeesModel = { PaymentFessId:"0", CompanyId: "0", SourceCountry: "0", DestinationCountry: "0", FeesType: "0", FeesCategoryId: "0", AgentId: "0", PaymentMethodId: "0" };
+        vm.FeesModel = { PaymentFessId: "0", CompanyId: "0", SourceCountry: "0", DestinationCountry: "0", FeesType: "0", FeesCategoryId: "0", PayInAgentId: "0",PayOutAgentId:"0", PaymentMethodId: "0" };
         vm.Companies = [];
         vm.DeliveryMethod = [];
+        vm.code = "";
         vm.header = 'Add New';
         //Get Company
         $http({
@@ -222,7 +224,10 @@
                  //vm.FeesModel = idata;
                  if (idata) {
                      vm.FeesModel.PaymentFessId = ""+idata.PaymentFessId;
-                     vm.FeesModel.AgentId = "" + idata.AgentId;
+                     vm.FeesModel.PayInAgentId = "" + idata.PayInAgentId;
+                     vm.FeesModel.PayOutAgentId = "" + idata.PayOutAgentId;
+                     vm.FeesModel.IsPayInAgent = idata.IsPayInAgent;
+                     vm.FeesModel.IsPayOutAgent = idata.IsPayOutAgent;
                      vm.FeesModel.CompanyId = "" + idata.CompanyId;
                      vm.selectedCompany(vm.FeesModel.CompanyId);
                      vm.FeesModel.DestinationCountry = "" + idata.DestinationCountry;
@@ -291,7 +296,7 @@
                   
                     var idata = data;
                     if (idata && idata.PaymentFessId > 0 && idata.Result=="Sucess" ) {
-                        Alert(1, "! User updated successfully");
+                        Alert(1, "! Fees updated successfully");
                         vm.FeesModel = angular.copy(vm.FeesModel);
                         setTimeout(function () {
                             $state.go('app.Fees');
@@ -331,11 +336,10 @@
 
                     var idata = data;
                     if (idata && idata.Result == "Sucess") {
-                        Alert(1, "! User created successfully");
-                        vm.FeesModel = angular.copy(vm.FeesModel);
-                        setTimeout(function () {
-                            $state.go('app.Fees');
-                        }, 1000);
+                        Alert(1, "! Fees created successfully");
+                        vm.FeesModel = [];
+                        vm.FeesModel.PaymentFessId = '0';
+                        vm.code = idata.Code;
                     }
                     else {
                         Alert(2, idata.Error);

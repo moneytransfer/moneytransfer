@@ -907,6 +907,15 @@ ul.cm-white-space li {
 .cm-clearfix {
     clear: both;
 }
+/*.cm-code{
+    display: inline-block;
+    background: #b99b2a;
+    border-radius: 4px;
+    text-align: center;
+    color: #fff;
+    padding: 5px 15px;
+}*/
+
 
 .cm-alignment {
     width: 100%;

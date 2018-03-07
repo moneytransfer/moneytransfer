@@ -1072,9 +1072,9 @@
             vm.ModelData.BeneficiaryId = $localStorage.AmountDetails.BeneficiaryId;
             vm.ModelData.ExchangeRate = $localStorage.AmountDetails.ExchangeRate;
             vm.ModelData.ReceivingAmount = $localStorage.AmountDetails.RecipientAmmount;
-            vm.ModelData.SendingAmount = (($localStorage.AmountDetails.Amount - 0) + 4.99).toFixed(2);
-
-            var accountN = $localStorage.BeneficiaryModel.AccountNumber;
+            vm.ModelData.SendingAmount = (($localStorage.AmountDetails.Amount - 0) + ($localStorage.AmountDetails.Fee - 0)).toFixed(2);
+            vm.ModelData.Fees = $localStorage.AmountDetails.Fee;
+             var accountN = $localStorage.BeneficiaryModel.AccountNumber;
             vm.AddressData.BeneficiaryModel.AccountNumber = accountN.replace(/.(?=.{4})/g, 'x');
         }
 

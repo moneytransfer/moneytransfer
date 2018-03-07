@@ -15,7 +15,10 @@
                                <uib-tab heading="Choose Amount"  id="Bill" title="AmountDetails" index="1" disabled="true" deselect="select($event)">
                               <div ng-include="'views/Customer/PayBill/BillDetails.html'"></div>  
                                                                        </uib-tab>
-                        <uib-tab heading="Payment" id="Pay" title="Payment" index="2" disabled="true" deselect="selectTwo($event)">
+                            <uib-tab heading="Review" id="review" title="Review" index="2" disabled="true" deselect="select($event)">
+                                <div ng-include="'views/Customer/PayBill/Review.html'"></div>
+                            </uib-tab>
+                        <uib-tab heading="Payment" id="Pay" title="Payment" index="3" disabled="true" deselect="selectTwo($event)">
                               <div ng-include="'views/Customer/PayBill/CardDetails.html'"></div>  
                                                                        </uib-tab>
                  </uib-tabset>
@@ -60,7 +63,7 @@
 
                                         <tr>
                                             <td>Fee:</td>
-                                            <td>$&nbsp;{{PayDetails.InvoiceAmount - PayDetails.FaceAmount | number:2}}</td>
+                                            <td>$&nbsp;{{FlagModel.Fee | number:2}}</td>
                                         </tr>
 
                                         <tr>

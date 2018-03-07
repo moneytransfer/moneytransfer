@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 05, 2017 at 02:18 PM
+-- Generation Time: Mar 07, 2018 at 03:42 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -28,9 +28,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `agent` (
   `AgentId` int(11) NOT NULL,
-  `AgentName` varchar(100) NOT NULL,
-  `customer_Id` int(11) NOT NULL,
+  `AgentFirstName` varchar(100) NOT NULL,
+  `SecondName` varchar(50) DEFAULT NULL,
+  `AgentLastName` varchar(50) DEFAULT NULL,
+  `SecondLastName` varchar(50) DEFAULT NULL,
+  `Company_Id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
+  `SuperAgent` varchar(50) NOT NULL,
   `Phone` varchar(15) NOT NULL,
   `AgentCode` varchar(100) NOT NULL,
   `Email` varchar(50) NOT NULL,
@@ -56,9 +60,10 @@ CREATE TABLE `agent` (
 -- Dumping data for table `agent`
 --
 
-INSERT INTO `agent` (`AgentId`, `AgentName`, `customer_Id`, `country_id`, `Phone`, `AgentCode`, `Email`, `SerialNumberPrefix`, `Address1`, `Address2`, `SerialNumberLength`, `City`, `PostalCode`, `BureauDeChange`, `IsAllowedCreateAgent`, `AllowedCasiherTellerApproval`, `ApproveeachTransByCashierTeller`, `CreateComplianceGroup`, `AssignAdminToAgent`, `CreatedDate`, `IsActive`, `IsDeleted`, `DeletedDate`) VALUES
-(0, 'mario', 8, 226, '4234', '34', 'sdfsdf@gmail.com', '4', 'ewrwer', 'rwer', '4', 'rewr', '42434', 0, 0, 0, 0, 0, 0, '2017-11-15 00:00:00', 1, 0, NULL),
-(1, 'Test Agent', 8, 226, '4569871230', '1023', 'test@gmail.com', '45', 'test', 'test', '5', 'test', '10236', 0, 0, 0, 0, 0, 0, '2017-11-16 00:00:00', 1, 0, NULL);
+INSERT INTO `agent` (`AgentId`, `AgentFirstName`, `SecondName`, `AgentLastName`, `SecondLastName`, `Company_Id`, `country_id`, `SuperAgent`, `Phone`, `AgentCode`, `Email`, `SerialNumberPrefix`, `Address1`, `Address2`, `SerialNumberLength`, `City`, `PostalCode`, `BureauDeChange`, `IsAllowedCreateAgent`, `AllowedCasiherTellerApproval`, `ApproveeachTransByCashierTeller`, `CreateComplianceGroup`, `AssignAdminToAgent`, `CreatedDate`, `IsActive`, `IsDeleted`, `DeletedDate`) VALUES
+(1, 'Wallmart', 'Gerry', 'Terry', 'Zurry', 17, 150, 'Marshal', '5879566255', '7008', 'marshal@gmail.com', 'dom', 'delhi', 'Rajouri', '25', 'uuy', '222222', 1, 1, 1, 1, 1, 1, '2018-02-14 07:22:19', 0, 0, NULL),
+(2, 'Tinkle', 'Jorg', 'Herry', 'mart', 17, 150, 'Tinkle', '5879566255', '7880', 'tinkle@gmail.com', 'dom', 'delhi', 'Rajouri', '25', 'uuy', '222222', 1, 1, 1, 1, 1, 1, '2018-02-14 07:23:16', 1, 0, NULL),
+(3, 'Tijuna', 'mart', 'shop', '36', 17, 230, 'Sendingloop', '8010276833', '0952', 'tijuna@gmail.com', 'mr.', 'usa', 'usa 3', '20', 'Greek test', '25874', 0, 0, 0, 0, 0, 0, '2018-02-14 08:48:36', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -73,6 +78,8 @@ CREATE TABLE `authorizepaymentsettings` (
   `PaymentUrl` varchar(200) NOT NULL,
   `MerchantLoginId` varchar(100) NOT NULL,
   `MerchantTransactionKey` varchar(100) NOT NULL,
+  `Server` varchar(100) DEFAULT NULL,
+  `Port` varchar(100) DEFAULT NULL,
   `IsActive` tinyint(1) NOT NULL DEFAULT '1',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `CreatedDate` date NOT NULL,
@@ -83,11 +90,9 @@ CREATE TABLE `authorizepaymentsettings` (
 -- Dumping data for table `authorizepaymentsettings`
 --
 
-INSERT INTO `authorizepaymentsettings` (`AuthorizePaymentSettingsId`, `PaymentMethodId`, `Mode`, `PaymentUrl`, `MerchantLoginId`, `MerchantTransactionKey`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 'TEST', 'ww.testcase.com', '6cUR4e9b', '8Q6338wTVa647Rfe', 1, 0, '2017-10-27', NULL),
-(2, 5, 'Test', 'test', 'Testing', 'Test', 1, 0, '2017-10-27', NULL),
-(3, 1, 'Mode', 'Url', 'Login', 'Key', 1, 0, '2017-10-27', NULL),
-(4, 10, 'Test payment', 'www.testpay.com', 'test123', 'tggjhgjh78', 1, 0, '2017-10-28', NULL);
+INSERT INTO `authorizepaymentsettings` (`AuthorizePaymentSettingsId`, `PaymentMethodId`, `Mode`, `PaymentUrl`, `MerchantLoginId`, `MerchantTransactionKey`, `Server`, `Port`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
+(1, 1, 'TEST', 'https://test.authorize.net/gateway/transact.dll', '6cUR4e9b', '8Q6338wTVa647Rfe', NULL, NULL, 0, 0, '2018-02-05', NULL),
+(5, 12, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-01-18', NULL);
 
 -- --------------------------------------------------------
 
@@ -112,6 +117,10 @@ CREATE TABLE `beneficiary` (
   `CountryId` int(11) NOT NULL,
   `DOB` datetime NOT NULL,
   `IsActive` tinyint(1) NOT NULL DEFAULT '1',
+  `BankName` varchar(100) DEFAULT NULL,
+  `AccountNumber` varchar(100) DEFAULT NULL,
+  `RoutingNumber` varchar(100) DEFAULT NULL,
+  `BICCode` varchar(100) DEFAULT NULL,
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `CreatedDate` datetime NOT NULL,
   `DeletedDate` datetime DEFAULT NULL
@@ -121,14 +130,23 @@ CREATE TABLE `beneficiary` (
 -- Dumping data for table `beneficiary`
 --
 
-INSERT INTO `beneficiary` (`BeneficiaryId`, `CompanyId`, `BeneficiaryTypeId`, `CustomerId`, `FirstName`, `LastName`, `Phone`, `Email`, `Address1`, `Address2`, `City`, `State`, `ZipCode`, `CountryId`, `DOB`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(0, 17, 2, 8, 'Test ', 'User', '1234567890', 'testuser@gmail.com', 'test', 'test', 'test', 'test', '12345', 226, '2017-12-20 00:00:00', 1, 0, '2017-12-04 00:00:00', NULL),
-(1, 17, 1, 8, 'Ram', 'Rahim', '1234567890', 'ram@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-30 20:55:22', NULL),
-(2, 17, 1, 8, 'Suresh', 'Mohil', '8010276833', 'suresh@gmail.com', 'nahan', 'jamli', 'Kangra', 'HP', '110027', 226, '2017-01-01 00:00:00', 0, 0, '2017-10-31 11:18:19', NULL),
-(3, 17, 1, 8, 'abc', 'pindu', '7894561230', 'saa@gmail.com', 'galino 10', 'chd', 'ch', 'UT', '110014', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-31 11:41:45', NULL),
-(4, 17, 1, 8, 'uuu', 'yy', '1234567890', 'yy@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-31 12:53:37', NULL),
-(5, 17, 1, 8, 'abu', 'yadav', '1234567890', 'abu@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-10-31 16:10:29', NULL),
-(6, 17, 1, 8, 'Javed', 'Kumar', '1234567890', 'javed@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 0, '2017-11-03 11:05:39', NULL);
+INSERT INTO `beneficiary` (`BeneficiaryId`, `CompanyId`, `BeneficiaryTypeId`, `CustomerId`, `FirstName`, `LastName`, `Phone`, `Email`, `Address1`, `Address2`, `City`, `State`, `ZipCode`, `CountryId`, `DOB`, `IsActive`, `BankName`, `AccountNumber`, `RoutingNumber`, `BICCode`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
+(0, 17, 2, 8, 'Test ', 'User', '1234567890', 'testuser@gmail.com', 'test', 'test', 'test', 'test', '12345', 226, '2017-12-20 00:00:00', 1, NULL, NULL, NULL, NULL, 1, '2017-12-04 00:00:00', '2018-01-01 00:00:00'),
+(1, 17, 1, 8, 'Ram', 'Rahim', '1234567890', 'ram@gmail.com', 'Ashok Nagar', 'NCR', 'Delhi', 'Delhi NCR', '110027', 98, '2017-01-01 00:00:00', 1, 'Friends bank', '21324564564', '0101234567', '1231231230', 0, '2017-10-30 20:55:22', NULL),
+(2, 17, 1, 8, 'Suresh', 'Mohil', '8010276833', 'suresh@gmail.com', 'nahan', 'jamli', 'Kangra', 'HP', '110027', 226, '2017-01-01 00:00:00', 0, 'test bank', '4435435435345', '345435435', '5345435435', 0, '2017-10-31 11:18:19', NULL),
+(3, 17, 1, 8, 'abc', 'pindu', '7894561230', 'saa@gmail.com', 'galino 10', 'chd', 'ch', 'UT', '110014', 226, '2017-01-01 00:00:00', 1, NULL, NULL, NULL, NULL, 0, '2017-10-31 11:41:45', NULL),
+(4, 17, 1, 8, 'uuu', 'yy', '1234567890', 'yy@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, NULL, NULL, NULL, NULL, 0, '2017-10-31 12:53:37', NULL),
+(5, 17, 1, 8, 'abu', 'yadav', '1234567890', 'abu@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, NULL, NULL, NULL, NULL, 0, '2017-10-31 16:10:29', NULL),
+(6, 17, 1, 8, 'Javed', 'Kumar', '1234567890', 'javed@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 226, '2017-01-01 00:00:00', 1, 'Dena Bank', '1232232213223', '232312323223', '12312323232', 0, '2017-11-03 11:05:39', NULL),
+(7, 17, 1, 15, 'dsf', 'terte', '43545435435345', 'dsf@gmail.com', 'retret', 'tretret', 'ertert', 'retert', '435454354', 17, '2017-12-20 00:00:00', 1, 'SBI Bank', '9844578787865', '0125', '54564564564', 0, '2017-12-20 14:06:45', NULL),
+(8, 17, 1, 8, 'checktest12', 'User13', '7897824152', 'test12@gmail.com', 'sdfdnmnfgd', '', 'Almora', 'Uttarakhand', '263653', 99, '2017-12-31 00:00:00', 1, NULL, NULL, NULL, NULL, 0, '2018-01-24 14:31:29', NULL),
+(9, 17, 1, 26, 'ishu', 'dad', '344324234234', 'daa@gmail.com', 'sdfsdff', 'fsdfs', 'sdfsdf', 'fsfsdf', '3345345', 13, '2018-01-17 00:00:00', 1, NULL, NULL, NULL, NULL, 0, '2018-01-24 14:37:22', NULL),
+(10, 17, 1, 8, 'My text customer', 'Test12', '7895129743', 'Customer@gmail.com', 'My First Address', '', 'Almora', 'Uttarakhand', '263653', 99, '2018-01-31 00:00:00', 1, NULL, NULL, NULL, NULL, 0, '2018-01-24 14:44:02', NULL),
+(11, 17, 1, 8, 'Elektra', 'Elektra', '2036548753', 'pi@gmail.com', 'sadfs', '', 'sdfsdf', 'sdfas', '96542', 1, '2018-02-08 00:00:00', 0, NULL, NULL, NULL, NULL, 0, '2018-01-31 21:54:59', NULL),
+(12, 17, 1, 8, 'rajeev', 'Kumar', '1234567890', 'rk@gmail.com', 'delhi', 'ncr', 'delhi', 'delhi ncr', '110027', 50, '2017-01-01 00:00:00', 1, 'State Bank Of India', '5465456456456465456', '1023', '7798798789798798', 0, '2018-02-06 08:56:30', NULL),
+(13, 17, 1, 8, 'ishu', 'kumar', '4354545645645', 'ishu@gmail.com', 'jkhjh', 'jhkjkhjkh', 'jhjkhjkh', 'jhjkhkjh', '7678657', 98, '1988-05-11 00:00:00', 1, 'PNB', '564756454564564', '02252', '5456454564564', 0, '2018-02-06 10:23:42', NULL),
+(14, 17, 1, 8, 'manu', 'kumar', '9874563210', 'manu@gmail.com', 'Chandigarh', 'Punjab', 'Dhanas', 'UT', '110028', 98, '1990-02-10 00:00:00', 1, 'ICICI Bank', '98745632002252', '0269', '9871425454564', 0, '2018-02-06 13:59:33', NULL),
+(15, 17, 1, 8, 'marry', 'John', '545665456456', 'marry@gmail.com', 'USA', 'zailko', 'King', 'FL', '10028', 230, '1988-05-11 00:00:00', 1, 'Baroda Bank', '4654654564654', '0252', '1232114564564', 0, '2018-02-16 08:48:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -166,8 +184,8 @@ CREATE TABLE `billpaydetails` (
   `SkuId` varchar(250) NOT NULL,
   `InvoiceNumber` varchar(200) NOT NULL,
   `TransactionDate` datetime NOT NULL,
-  `InvoiceAmount` decimal(10,0) NOT NULL,
-  `FaceValueAmount` decimal(10,0) NOT NULL,
+  `InvoiceAmount` decimal(18,2) NOT NULL,
+  `FaceValueAmount` decimal(18,2) NOT NULL,
   `ResponseCode` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -176,10 +194,30 @@ CREATE TABLE `billpaydetails` (
 --
 
 INSERT INTO `billpaydetails` (`BillPayId`, `CompanyId`, `CustomerId`, `TransactionId`, `SenderName`, `MobileNumber`, `Version`, `SkuId`, `InvoiceNumber`, `TransactionDate`, `InvoiceAmount`, `FaceValueAmount`, `ResponseCode`) VALUES
-(1, 17, 8, 1, 'Rishi', '9599902870', '1.0', '1560', '17723424', '2017-12-05 04:41:25', '10', '9', '000'),
-(2, 17, 8, 2, 'Ishu', '9599902810', '1.0', '1560', '17723425', '2017-12-05 04:44:07', '21', '20', '000'),
-(3, 17, 8, 3, 'sandhu', '9599902310', '1.0', '1560', '17723426', '2017-12-05 04:46:02', '34', '33', '000'),
-(4, 17, 8, 4, 'ram ranjana kumari', '9599902190', '1.0', '1560', '17723427', '2017-12-05 05:18:55', '10', '9', '000');
+(1, 17, 8, 1, 'swag', '456465465456456', '1.0', '1560', '', '2018-02-23 10:08:26', '24.99', '0.00', '000'),
+(2, 17, 8, 2, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-23 10:10:12', '6.99', '0.00', '000'),
+(3, 17, 8, 4, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-23 14:45:30', '11.48', '0.00', '000'),
+(4, 17, 8, 5, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-26 18:04:52', '13.48', '0.00', '000'),
+(5, 17, 8, 6, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-27 07:08:33', '11.48', '0.00', '000'),
+(6, 17, 8, 8, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-28 10:27:58', '11.98', '0.00', '000'),
+(7, 17, 8, 9, 'zolly', '521234567890', '1.0', '1560', '', '2018-03-01 09:17:15', '11.48', '0.00', '000'),
+(8, 17, 8, 10, 'zolly', '52645655465464560', '1.0', '1560', '', '2018-03-01 12:25:06', '16.47', '0.00', '000'),
+(9, 17, 8, 11, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:32:11', '19.97', '0.00', '000'),
+(10, 17, 8, 12, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:33:32', '19.97', '0.00', '000'),
+(11, 17, 8, 13, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:35:52', '19.97', '0.00', '000'),
+(12, 17, 8, 14, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:36:51', '14.98', '0.00', '000'),
+(13, 17, 8, 15, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:55:10', '10.98', '0.00', '000'),
+(14, 17, 8, 16, 'zolly', '525929825696', '1.0', '1560', '', '2018-03-01 12:59:19', '11.98', '0.00', '000'),
+(15, 17, 8, 17, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 13:05:35', '14.98', '0.00', '000'),
+(16, 17, 8, 18, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 13:27:22', '11.48', '0.00', '000'),
+(17, 17, 8, 23, 'zolly', '52521298979789', '1.0', '1560', '', '2018-03-05 09:40:58', '104.99', '0.00', '000'),
+(18, 17, 8, 25, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-05 10:37:34', '12.48', '0.00', '000'),
+(19, 17, 8, 27, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-05 11:42:52', '8.48', '0.00', '000'),
+(20, 17, 8, 34, 'zolly', '521234567890', '1.0', '1560', '', '2018-03-07 08:14:22', '10.99', '0.00', '000'),
+(21, 17, 8, 35, 'ram ranjana kumari', '9599902190', '1.0', '1560', '18495095', '2018-03-07 03:17:54', '14.99', '9.00', '000'),
+(22, 17, 8, 36, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-07 09:36:55', '6.99', '0.00', '000'),
+(23, 17, 8, 37, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-07 10:35:35', '11.99', '0.00', '000'),
+(24, 17, 8, 38, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-07 10:37:56', '27.99', '0.00', '000');
 
 -- --------------------------------------------------------
 
@@ -237,6 +275,269 @@ INSERT INTO `company` (`Company_Id`, `name`, `address1`, `address2`, `city`, `st
 
 CREATE TABLE `country` (
   `country_id` int(11) NOT NULL,
+  `country_name` varchar(100) NOT NULL,
+  `iso` varchar(5) NOT NULL,
+  `phonecode` int(11) NOT NULL,
+  `currency_name` varchar(20) NOT NULL,
+  `currency_symbol` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `currency_code` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `country`
+--
+
+INSERT INTO `country` (`country_id`, `country_name`, `iso`, `phonecode`, `currency_name`, `currency_symbol`, `currency_code`) VALUES
+(1, 'Afghanistan', 'af', 93, 'Afghan afghani', '؋', 'AFN'),
+(2, 'Aland Islands', 'ax', 358, '', '', ''),
+(3, 'Albania', 'al', 355, 'Albanian lek', 'L', 'ALL'),
+(4, 'Algeria', 'dz', 213, 'Algerian dinar', 'د.ج', 'DZD'),
+(5, 'AmericanSamoa', 'as', 1684, '', '', ''),
+(6, 'Andorra', 'ad', 376, 'Euro', '€', 'EUR'),
+(7, 'Angola', 'ao', 244, 'Angolan kwanza', 'Kz', 'AOA'),
+(8, 'Anguilla', 'ai', 1264, 'East Caribbean dolla', '$', 'XCD'),
+(9, 'Antarctica', 'aq', 672, '', '', ''),
+(10, 'Antigua and Barbuda', 'ag', 1268, 'East Caribbean dolla', '$', 'XCD'),
+(11, 'Argentina', 'ar', 54, 'Argentine peso', '$', 'ARS'),
+(12, 'Armenia', 'am', 374, 'Armenian dram', '', 'AMD'),
+(13, 'Aruba', 'aw', 297, 'Aruban florin', 'ƒ', 'AWG'),
+(14, 'Australia', 'au', 61, 'Australian dollar', '$', 'AUD'),
+(15, 'Austria', 'at', 43, 'Euro', '€', 'EUR'),
+(16, 'Azerbaijan', 'az', 994, 'Azerbaijani manat', '', 'AZN'),
+(17, 'Bahamas', 'bs', 1242, '', '', ''),
+(18, 'Bahrain', 'bh', 973, 'Bahraini dinar', '.د.ب', 'BHD'),
+(19, 'Bangladesh', 'bd', 880, 'Bangladeshi taka', '৳', 'BDT'),
+(20, 'Barbados', 'bb', 1246, 'Barbadian dollar', '$', 'BBD'),
+(21, 'Belarus', 'by', 375, 'Belarusian ruble', 'Br', 'BYR'),
+(22, 'Belgium', 'be', 32, 'Euro', '€', 'EUR'),
+(23, 'Belize', 'bz', 501, 'Belize dollar', '$', 'BZD'),
+(24, 'Benin', 'bj', 229, 'West African CFA fra', 'Fr', 'XOF'),
+(25, 'Bermuda', 'bm', 1441, 'Bermudian dollar', '$', 'BMD'),
+(26, 'Bhutan', 'bt', 975, 'Bhutanese ngultrum', 'Nu.', 'BTN'),
+(27, 'Bolivia, Plurination', 'bo', 591, '', '', ''),
+(28, 'Bosnia and Herzegovi', 'ba', 387, '', '', ''),
+(29, 'Botswana', 'bw', 267, 'Botswana pula', 'P', 'BWP'),
+(30, 'Brazil', 'br', 55, 'Brazilian real', 'R$', 'BRL'),
+(31, 'British Indian Ocean', 'io', 246, '', '', ''),
+(32, 'Brunei Darussalam', 'bn', 673, '', '', ''),
+(33, 'Bulgaria', 'bg', 359, 'Bulgarian lev', 'лв', 'BGN'),
+(34, 'Burkina Faso', 'bf', 226, 'West African CFA fra', 'Fr', 'XOF'),
+(35, 'Burundi', 'bi', 257, 'Burundian franc', 'Fr', 'BIF'),
+(36, 'Cambodia', 'kh', 855, 'Cambodian riel', '៛', 'KHR'),
+(37, 'Cameroon', 'cm', 237, 'Central African CFA ', 'Fr', 'XAF'),
+(38, 'Canada', 'ca', 1, 'Canadian dollar', '$', 'CAD'),
+(39, 'Cape Verde', 'cv', 238, 'Cape Verdean escudo', 'Esc or $', 'CVE'),
+(40, 'Cayman Islands', 'ky', 345, 'Cayman Islands dolla', '$', 'KYD'),
+(41, 'Central African Repu', 'cf', 236, '', '', ''),
+(42, 'Chad', 'td', 235, 'Central African CFA ', 'Fr', 'XAF'),
+(43, 'Chile', 'cl', 56, 'Chilean peso', '$', 'CLP'),
+(44, 'China', 'cn', 86, 'Chinese yuan', '¥ or 元', 'CNY'),
+(45, 'Christmas Island', 'cx', 61, '', '', ''),
+(46, 'Cocos (Keeling) Isla', 'cc', 61, '', '', ''),
+(47, 'Colombia', 'co', 57, 'Colombian peso', '$', 'COP'),
+(48, 'Comoros', 'km', 269, 'Comorian franc', 'Fr', 'KMF'),
+(49, 'Congo', 'cg', 242, '', '', ''),
+(50, 'Congo, The Democrati', 'cd', 243, '', '', ''),
+(51, 'Cook Islands', 'ck', 682, 'New Zealand dollar', '$', 'NZD'),
+(52, 'Costa Rica', 'cr', 506, 'Costa Rican colón', '₡', 'CRC'),
+(53, 'Cote d\'Ivoire', 'ci', 225, 'West African CFA fra', 'Fr', 'XOF'),
+(54, 'Croatia', 'hr', 385, 'Croatian kuna', 'kn', 'HRK'),
+(55, 'Cuba', 'cu', 53, 'Cuban convertible pe', '$', 'CUC'),
+(56, 'Cyprus', 'cy', 357, 'Euro', '€', 'EUR'),
+(57, 'Czech Republic', 'cz', 420, 'Czech koruna', 'Kč', 'CZK'),
+(58, 'Denmark', 'dk', 45, 'Danish krone', 'kr', 'DKK'),
+(59, 'Djibouti', 'dj', 253, 'Djiboutian franc', 'Fr', 'DJF'),
+(60, 'Dominica', 'dm', 1767, 'East Caribbean dolla', '$', 'XCD'),
+(61, 'Dominican Republic', 'do', 1849, 'Dominican peso', '$', 'DOP'),
+(62, 'Ecuador', 'ec', 593, 'United States dollar', '$', 'USD'),
+(63, 'Egypt', 'eg', 20, 'Egyptian pound', '£ or ج.م', 'EGP'),
+(64, 'El Salvador', 'sv', 503, 'United States dollar', '$', 'USD'),
+(65, 'Equatorial Guinea', 'gq', 240, 'Central African CFA ', 'Fr', 'XAF'),
+(66, 'Eritrea', 'er', 291, 'Eritrean nakfa', 'Nfk', 'ERN'),
+(67, 'Estonia', 'ee', 372, 'Euro', '€', 'EUR'),
+(68, 'Ethiopia', 'et', 251, 'Ethiopian birr', 'Br', 'ETB'),
+(69, 'Falkland Islands (Ma', 'fk', 500, '', '', ''),
+(70, 'Faroe Islands', 'fo', 298, 'Danish krone', 'kr', 'DKK'),
+(71, 'Fiji', 'fj', 679, 'Fijian dollar', '$', 'FJD'),
+(72, 'Finland', 'fi', 358, 'Euro', '€', 'EUR'),
+(73, 'France', 'fr', 33, 'Euro', '€', 'EUR'),
+(74, 'French Guiana', 'gf', 594, '', '', ''),
+(75, 'French Polynesia', 'pf', 689, 'CFP franc', 'Fr', 'XPF'),
+(76, 'Gabon', 'ga', 241, 'Central African CFA ', 'Fr', 'XAF'),
+(77, 'Gambia', 'gm', 220, '', '', ''),
+(78, 'Georgia', 'ge', 995, 'Georgian lari', 'ლ', 'GEL'),
+(79, 'Germany', 'de', 49, 'Euro', '€', 'EUR'),
+(80, 'Ghana', 'gh', 233, 'Ghana cedi', '₵', 'GHS'),
+(81, 'Gibraltar', 'gi', 350, 'Gibraltar pound', '£', 'GIP'),
+(82, 'Greece', 'gr', 30, 'Euro', '€', 'EUR'),
+(83, 'Greenland', 'gl', 299, '', '', ''),
+(84, 'Grenada', 'gd', 1473, 'East Caribbean dolla', '$', 'XCD'),
+(85, 'Guadeloupe', 'gp', 590, '', '', ''),
+(86, 'Guam', 'gu', 1671, '', '', ''),
+(87, 'Guatemala', 'gt', 502, 'Guatemalan quetzal', 'Q', 'GTQ'),
+(88, 'Guernsey', 'gg', 44, 'British pound', '£', 'GBP'),
+(89, 'Guinea', 'gn', 224, 'Guinean franc', 'Fr', 'GNF'),
+(90, 'Guinea-Bissau', 'gw', 245, 'West African CFA fra', 'Fr', 'XOF'),
+(91, 'Guyana', 'gy', 595, 'Guyanese dollar', '$', 'GYD'),
+(92, 'Haiti', 'ht', 509, 'Haitian gourde', 'G', 'HTG'),
+(93, 'Holy See (Vatican Ci', 'va', 379, '', '', ''),
+(94, 'Honduras', 'hn', 504, 'Honduran lempira', 'L', 'HNL'),
+(95, 'Hong Kong', 'hk', 852, 'Hong Kong dollar', '$', 'HKD'),
+(96, 'Hungary', 'hu', 36, 'Hungarian forint', 'Ft', 'HUF'),
+(97, 'Iceland', 'is', 354, 'Icelandic króna', 'kr', 'ISK'),
+(98, 'India', 'in', 91, 'Indian rupee', '₹', 'INR'),
+(99, 'Indonesia', 'id', 62, 'Indonesian rupiah', 'Rp', 'IDR'),
+(100, 'Iran, Islamic Republ', 'ir', 98, '', '', ''),
+(101, 'Iraq', 'iq', 964, 'Iraqi dinar', 'ع.د', 'IQD'),
+(102, 'Ireland', 'ie', 353, 'Euro', '€', 'EUR'),
+(103, 'Isle of Man', 'im', 44, 'British pound', '£', 'GBP'),
+(104, 'Israel', 'il', 972, 'Israeli new shekel', '₪', 'ILS'),
+(105, 'Italy', 'it', 39, 'Euro', '€', 'EUR'),
+(106, 'Jamaica', 'jm', 1876, 'Jamaican dollar', '$', 'JMD'),
+(107, 'Japan', 'jp', 81, 'Japanese yen', '¥', 'JPY'),
+(108, 'Jersey', 'je', 44, 'British pound', '£', 'GBP'),
+(109, 'Jordan', 'jo', 962, 'Jordanian dinar', 'د.ا', 'JOD'),
+(110, 'Kazakhstan', 'kz', 7, 'Kazakhstani tenge', '', 'KZT'),
+(111, 'Kenya', 'ke', 254, 'Kenyan shilling', 'Sh', 'KES'),
+(112, 'Kiribati', 'ki', 686, 'Australian dollar', '$', 'AUD'),
+(113, 'Korea, Democratic Pe', 'kp', 850, '', '', ''),
+(114, 'Korea, Republic of S', 'kr', 82, '', '', ''),
+(115, 'Kuwait', 'kw', 965, 'Kuwaiti dinar', 'د.ك', 'KWD'),
+(116, 'Kyrgyzstan', 'kg', 996, 'Kyrgyzstani som', 'лв', 'KGS'),
+(117, 'Laos', 'la', 856, 'Lao kip', '₭', 'LAK'),
+(118, 'Latvia', 'lv', 371, 'Euro', '€', 'EUR'),
+(119, 'Lebanon', 'lb', 961, 'Lebanese pound', 'ل.ل', 'LBP'),
+(120, 'Lesotho', 'ls', 266, 'Lesotho loti', 'L', 'LSL'),
+(121, 'Liberia', 'lr', 231, 'Liberian dollar', '$', 'LRD'),
+(122, 'Libyan Arab Jamahiri', 'ly', 218, '', '', ''),
+(123, 'Liechtenstein', 'li', 423, 'Swiss franc', 'Fr', 'CHF'),
+(124, 'Lithuania', 'lt', 370, 'Euro', '€', 'EUR'),
+(125, 'Luxembourg', 'lu', 352, 'Euro', '€', 'EUR'),
+(126, 'Macao', 'mo', 853, '', '', ''),
+(127, 'Macedonia', 'mk', 389, '', '', ''),
+(128, 'Madagascar', 'mg', 261, 'Malagasy ariary', 'Ar', 'MGA'),
+(129, 'Malawi', 'mw', 265, 'Malawian kwacha', 'MK', 'MWK'),
+(130, 'Malaysia', 'my', 60, 'Malaysian ringgit', 'RM', 'MYR'),
+(131, 'Maldives', 'mv', 960, 'Maldivian rufiyaa', '.ރ', 'MVR'),
+(132, 'Mali', 'ml', 223, 'West African CFA fra', 'Fr', 'XOF'),
+(133, 'Malta', 'mt', 356, 'Euro', '€', 'EUR'),
+(134, 'Marshall Islands', 'mh', 692, 'United States dollar', '$', 'USD'),
+(135, 'Martinique', 'mq', 596, '', '', ''),
+(136, 'Mauritania', 'mr', 222, 'Mauritanian ouguiya', 'UM', 'MRO'),
+(137, 'Mauritius', 'mu', 230, 'Mauritian rupee', '₨', 'MUR'),
+(138, 'Mayotte', 'yt', 262, '', '', ''),
+(139, 'Mexico', 'mx', 52, 'Mexican peso', '$', 'MXN'),
+(140, 'Micronesia, Federate', 'fm', 691, '', '', ''),
+(141, 'Moldova', 'md', 373, 'Moldovan leu', 'L', 'MDL'),
+(142, 'Monaco', 'mc', 377, 'Euro', '€', 'EUR'),
+(143, 'Mongolia', 'mn', 976, 'Mongolian tögrög', '₮', 'MNT'),
+(144, 'Montenegro', 'me', 382, 'Euro', '€', 'EUR'),
+(145, 'Montserrat', 'ms', 1664, 'East Caribbean dolla', '$', 'XCD'),
+(146, 'Morocco', 'ma', 212, 'Moroccan dirham', 'د.م.', 'MAD'),
+(147, 'Mozambique', 'mz', 258, 'Mozambican metical', 'MT', 'MZN'),
+(148, 'Myanmar', 'mm', 95, 'Burmese kyat', 'Ks', 'MMK'),
+(149, 'Namibia', 'na', 264, 'Namibian dollar', '$', 'NAD'),
+(150, 'Nauru', 'nr', 674, 'Australian dollar', '$', 'AUD'),
+(151, 'Nepal', 'np', 977, 'Nepalese rupee', '₨', 'NPR'),
+(152, 'Netherlands', 'nl', 31, 'Euro', '€', 'EUR'),
+(153, 'Netherlands Antilles', 'an', 599, '', '', ''),
+(154, 'New Caledonia', 'nc', 687, 'CFP franc', 'Fr', 'XPF'),
+(155, 'New Zealand', 'nz', 64, 'New Zealand dollar', '$', 'NZD'),
+(156, 'Nicaragua', 'ni', 505, 'Nicaraguan córdoba', 'C$', 'NIO'),
+(157, 'Niger', 'ne', 227, 'West African CFA fra', 'Fr', 'XOF'),
+(158, 'Nigeria', 'ng', 234, 'Nigerian naira', '₦', 'NGN'),
+(159, 'Niue', 'nu', 683, 'New Zealand dollar', '$', 'NZD'),
+(160, 'Norfolk Island', 'nf', 672, '', '', ''),
+(161, 'Northern Mariana Isl', 'mp', 1670, '', '', ''),
+(162, 'Norway', 'no', 47, 'Norwegian krone', 'kr', 'NOK'),
+(163, 'Oman', 'om', 968, 'Omani rial', 'ر.ع.', 'OMR'),
+(164, 'Pakistan', 'pk', 92, 'Pakistani rupee', '₨', 'PKR'),
+(165, 'Palau', 'pw', 680, 'Palauan dollar', '$', ''),
+(166, 'Palestinian Territor', 'ps', 970, '', '', ''),
+(167, 'Panama', 'pa', 507, 'Panamanian balboa', 'B/.', 'PAB'),
+(168, 'Papua New Guinea', 'pg', 675, 'Papua New Guinean ki', 'K', 'PGK'),
+(169, 'Paraguay', 'py', 595, 'Paraguayan guaraní', '₲', 'PYG'),
+(170, 'Peru', 'pe', 51, 'Peruvian nuevo sol', 'S/.', 'PEN'),
+(171, 'Philippines', 'ph', 63, 'Philippine peso', '₱', 'PHP'),
+(172, 'Pitcairn', 'pn', 872, '', '', ''),
+(173, 'Poland', 'pl', 48, 'Polish z?oty', 'zł', 'PLN'),
+(174, 'Portugal', 'pt', 351, 'Euro', '€', 'EUR'),
+(175, 'Puerto Rico', 'pr', 1939, '', '', ''),
+(176, 'Qatar', 'qa', 974, 'Qatari riyal', 'ر.ق', 'QAR'),
+(177, 'Romania', 'ro', 40, 'Romanian leu', 'lei', 'RON'),
+(178, 'Russia', 'ru', 7, 'Russian ruble', '', 'RUB'),
+(179, 'Rwanda', 'rw', 250, 'Rwandan franc', 'Fr', 'RWF'),
+(180, 'Reunion', 're', 262, '', '', ''),
+(181, 'Saint Barthelemy', 'bl', 590, '', '', ''),
+(182, 'Saint Helena, Ascens', 'sh', 290, '', '', ''),
+(183, 'Saint Kitts and Nevi', 'kn', 1869, '', '', ''),
+(184, 'Saint Lucia', 'lc', 1758, 'East Caribbean dolla', '$', 'XCD'),
+(185, 'Saint Martin', 'mf', 590, '', '', ''),
+(186, 'Saint Pierre and Miq', 'pm', 508, '', '', ''),
+(187, 'Saint Vincent and th', 'vc', 1784, '', '', ''),
+(188, 'Samoa', 'ws', 685, 'Samoan t?l?', 'T', 'WST'),
+(189, 'San Marino', 'sm', 378, 'Euro', '€', 'EUR'),
+(190, 'Sao Tome and Princip', 'st', 239, '', '', ''),
+(191, 'Saudi Arabia', 'sa', 966, 'Saudi riyal', 'ر.س', 'SAR'),
+(192, 'Senegal', 'sn', 221, 'West African CFA fra', 'Fr', 'XOF'),
+(193, 'Serbia', 'rs', 381, 'Serbian dinar', 'дин. or din.', 'RSD'),
+(194, 'Seychelles', 'sc', 248, 'Seychellois rupee', '₨', 'SCR'),
+(195, 'Sierra Leone', 'sl', 232, 'Sierra Leonean leone', 'Le', 'SLL'),
+(196, 'Singapore', 'sg', 65, 'Brunei dollar', '$', 'BND'),
+(197, 'Slovakia', 'sk', 421, 'Euro', '€', 'EUR'),
+(198, 'Slovenia', 'si', 386, 'Euro', '€', 'EUR'),
+(199, 'Solomon Islands', 'sb', 677, 'Solomon Islands doll', '$', 'SBD'),
+(200, 'Somalia', 'so', 252, 'Somali shilling', 'Sh', 'SOS'),
+(201, 'South Africa', 'za', 27, 'South African rand', 'R', 'ZAR'),
+(202, 'South Georgia and th', 'gs', 500, '', '', ''),
+(203, 'Spain', 'es', 34, 'Euro', '€', 'EUR'),
+(204, 'Sri Lanka', 'lk', 94, 'Sri Lankan rupee', 'Rs or රු', 'LKR'),
+(205, 'Sudan', 'sd', 249, 'Sudanese pound', 'ج.س.', 'SDG'),
+(206, 'Suriname', 'sr', 597, 'Surinamese dollar', '$', 'SRD'),
+(207, 'Svalbard and Jan May', 'sj', 47, '', '', ''),
+(208, 'Swaziland', 'sz', 268, 'Swazi lilangeni', 'L', 'SZL'),
+(209, 'Sweden', 'se', 46, 'Swedish krona', 'kr', 'SEK'),
+(210, 'Switzerland', 'ch', 41, 'Swiss franc', 'Fr', 'CHF'),
+(211, 'Syrian Arab Republic', 'sy', 963, '', '', ''),
+(212, 'Taiwan', 'tw', 886, 'New Taiwan dollar', '$', 'TWD'),
+(213, 'Tajikistan', 'tj', 992, 'Tajikistani somoni', 'ЅМ', 'TJS'),
+(214, 'Tanzania, United Rep', 'tz', 255, '', '', ''),
+(215, 'Thailand', 'th', 66, 'Thai baht', '฿', 'THB'),
+(216, 'Timor-Leste', 'tl', 670, '', '', ''),
+(217, 'Togo', 'tg', 228, 'West African CFA fra', 'Fr', 'XOF'),
+(218, 'Tokelau', 'tk', 690, '', '', ''),
+(219, 'Tonga', 'to', 676, 'Tongan pa?anga', 'T$', 'TOP'),
+(220, 'Trinidad and Tobago', 'tt', 1868, 'Trinidad and Tobago ', '$', 'TTD'),
+(221, 'Tunisia', 'tn', 216, 'Tunisian dinar', 'د.ت', 'TND'),
+(222, 'Turkey', 'tr', 90, 'Turkish lira', '', 'TRY'),
+(223, 'Turkmenistan', 'tm', 993, 'Turkmenistan manat', 'm', 'TMT'),
+(224, 'Turks and Caicos Isl', 'tc', 1649, '', '', ''),
+(225, 'Tuvalu', 'tv', 688, 'Australian dollar', '$', 'AUD'),
+(226, 'Uganda', 'ug', 256, 'Ugandan shilling', 'Sh', 'UGX'),
+(227, 'Ukraine', 'ua', 380, 'Ukrainian hryvnia', '₴', 'UAH'),
+(228, 'United Arab Emirates', 'ae', 971, 'United Arab Emirates', 'د.إ', 'AED'),
+(229, 'United Kingdom', 'gb', 44, 'British pound', '£', 'GBP'),
+(230, 'United States', 'us', 1, 'United States dollar', '$', 'USD'),
+(231, 'Uruguay', 'uy', 598, 'Uruguayan peso', '$', 'UYU'),
+(232, 'Uzbekistan', 'uz', 998, 'Uzbekistani som', '', 'UZS'),
+(233, 'Vanuatu', 'vu', 678, 'Vanuatu vatu', 'Vt', 'VUV'),
+(234, 'Venezuela, Bolivaria', 've', 58, '', '', ''),
+(235, 'Vietnam', 'vn', 84, 'Vietnamese ??ng', '₫', 'VND'),
+(236, 'Virgin Islands, Brit', 'vg', 1284, '', '', ''),
+(237, 'Virgin Islands, U.S.', 'vi', 1340, '', '', ''),
+(238, 'Wallis and Futuna', 'wf', 681, 'CFP franc', 'Fr', 'XPF'),
+(239, 'Yemen', 'ye', 967, 'Yemeni rial', '﷼', 'YER'),
+(240, 'Zambia', 'zm', 260, 'Zambian kwacha', 'ZK', 'ZMW'),
+(241, 'Zimbabwe', 'zw', 263, 'Botswana pula', 'P', 'BWP');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countryTest`
+--
+
+CREATE TABLE `countryTest` (
+  `country_id` int(11) NOT NULL,
   `iso` varchar(5) NOT NULL,
   `country_name` varchar(100) NOT NULL,
   `country_nicename` varchar(80) NOT NULL,
@@ -246,10 +547,10 @@ CREATE TABLE `country` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `country`
+-- Dumping data for table `countryTest`
 --
 
-INSERT INTO `country` (`country_id`, `iso`, `country_name`, `country_nicename`, `iso3`, `country_code`, `phonecode`) VALUES
+INSERT INTO `countryTest` (`country_id`, `iso`, `country_name`, `country_nicename`, `iso3`, `country_code`, `phonecode`) VALUES
 (1, 'AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', '4', 93),
 (2, 'AL', 'ALBANIA', 'Albania', 'ALB', '8', 355),
 (3, 'DZ', 'ALGERIA', 'Algeria', 'DZA', '12', 213),
@@ -508,9 +809,9 @@ CREATE TABLE `currency` (
 --
 
 INSERT INTO `currency` (`CurrencyId`, `CurrencyTitle`, `country_id`, `CurrencySymbol`) VALUES
-(1, 'USD', 226, 'Dollar'),
-(2, 'INR', 99, 'Rupees'),
-(3, 'MX', 138, 'MX');
+(1, 'USD', 230, 'Dollar'),
+(2, 'INR', 98, 'Rupees'),
+(3, 'MX', 139, 'MX');
 
 -- --------------------------------------------------------
 
@@ -559,7 +860,20 @@ INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName
 (10, 17, '35434', 'test', 'test', 'test', 'test', 'test', 'trst', 'tres', 226, '2345324523', 'testre@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '34534', 1, 1, 0, '2017-10-27 11:25:23', NULL),
 (11, 17, '25432', 'Girish', 'test', 'Delhi', 'test', 'City', 'State', '110033', 226, '968545868', 'Girishtest@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '32432', 1, 1, 0, '2017-10-27 11:28:05', NULL),
 (12, 17, '985458', 'Ishu Test', 'test', 'address', 'Address2', 'City', 'State', '854854', 226, '8545859654', 'ishutest@gamil.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '95848', 1, 1, 0, '2017-10-30 06:27:55', NULL),
-(13, 17, '', 'Customer', 'test', '', '', '', '', '', 226, '123456789', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-10-30 09:27:09', NULL);
+(13, 17, '', 'Customer', 'test', '', '', '', '', '', 226, '123456789', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-10-30 09:27:09', NULL),
+(14, 17, NULL, 'Rajeev', 'Verma', '', '', '', '', '', 99, '384293232', 'rajeevdesizn@gmail.com', '7110EDA4D09E062AA5E4A390B0A572AC0D2C0220', '', '', '', 0, 0, 0, '2017-12-05 17:41:17', NULL),
+(15, 17, NULL, 'adam', 'smith', '', '', '', '', '', 99, '9876543210', 'asmith@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-12-08 08:35:48', NULL),
+(16, 17, NULL, 'rajeev', 'verma', '', '', '', '', '', 99, '9732321283', 'ronniedesizn@gmail.com', 'AAFDC23870ECBCD3D557B6423A8982134E17927E', '', '', '', 0, 0, 0, '2018-01-18 15:55:06', NULL),
+(17, 17, NULL, 'Lhuui', 'Castroe', '', '', '', '', '', 226, '2094704318', 'Rey0825@gmail.com', '171344B753E1D6AFAF7640AD8664E6BF9E2382CC', '', '', '', 0, 0, 0, '2018-01-22 15:23:36', NULL),
+(18, 17, NULL, 'gdfg', 'dgffg', '', '', '', '', '', 1, '12345667777', 'you@gmail.com', '7C4A8D09CA3762AF61E59520943DC26494F8941B', '', '', '', 0, 0, 0, '2018-01-22 15:33:36', NULL),
+(19, 17, NULL, 'Rishi', 'kumar', '', '', '', '', '', 99, '123456789', 'rishi@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 06:06:12', NULL),
+(20, 17, NULL, 'ishu', 'xyz', '', '', '', '', '', 2, '8889888784', 'i@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:39:36', NULL),
+(21, 17, NULL, 'sDFfa', 'dffg', '', '', '', '', '', 14, '565464564654', 's@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:41:02', NULL),
+(22, 17, NULL, 'wadfsd', 'dsfggf', '', '', '', '', '', 2, '86972522422', 'y@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:42:09', NULL),
+(23, 17, NULL, 'dfsfzsdg', 'gdfg', '', '', '', '', '', 16, '7887874444', 'deepak@acapteam.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:44:43', NULL),
+(24, 17, NULL, 'gjg', 'gjkg', '', '', '', '', '', 1, '65756756567567', 't@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-24 06:07:01', NULL),
+(25, 17, NULL, 'rrt', 'rtert', '', '', '', '', '', 1, '54564654654', 'r@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-24 06:38:25', NULL),
+(26, 17, NULL, 'dfsfs', 'fsfs', '', '', '', '', '', 1, '12365145225', 'h@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-24 14:36:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -589,20 +903,81 @@ INSERT INTO `feescategory` (`FeesCategoryId`, `FeesCategoryName`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `magicpaydetails`
+--
+
+CREATE TABLE `magicpaydetails` (
+  `MagicPayId` int(11) NOT NULL,
+  `CompanyId` int(11) NOT NULL,
+  `CustomerId` int(11) NOT NULL,
+  `TransactionId` int(11) NOT NULL,
+  `PaymentGatewayTransactionId` varchar(50) NOT NULL,
+  `SenderName` varchar(50) NOT NULL,
+  `Amount` decimal(18,2) NOT NULL,
+  `TransactionDetail` varchar(100) DEFAULT NULL,
+  `TransactionDate` datetime NOT NULL,
+  `ResponseCode` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `magicpaydetails`
+--
+
+INSERT INTO `magicpaydetails` (`MagicPayId`, `CompanyId`, `CustomerId`, `TransactionId`, `PaymentGatewayTransactionId`, `SenderName`, `Amount`, `TransactionDetail`, `TransactionDate`, `ResponseCode`) VALUES
+(1, 17, 8, 3, '4001055666', 'zolly', '104.99', 'BankDeposit', '2018-02-23 14:04:36', 'Success'),
+(2, 17, 8, 4, '4001129337', 'zolly', '6.49', NULL, '2018-02-23 14:45:30', 'Success'),
+(3, 17, 8, 5, '4004757144', 'zolly', '8.49', NULL, '2018-02-26 18:04:52', 'Success'),
+(4, 17, 8, 6, '4005491069', 'zolly', '6.49', NULL, '2018-02-27 07:08:33', 'Success'),
+(5, 17, 8, 7, '4006262347', 'zolly', '104.99', 'BankDeposit', '2018-02-27 19:31:26', 'Success'),
+(6, 17, 8, 8, '4007152385', 'zolly', '6.99', NULL, '2018-02-28 10:27:58', 'Success'),
+(7, 17, 8, 9, '4009059159', 'zolly', '6.49', NULL, '2018-03-01 09:17:15', 'Success'),
+(8, 17, 8, 10, '4009375424', 'zolly', '11.48', NULL, '2018-03-01 12:25:06', 'Success'),
+(9, 17, 8, 11, '4009391491', 'zolly', '14.98', NULL, '2018-03-01 12:32:11', 'Success'),
+(10, 17, 8, 12, '4009394933', 'zolly', '14.98', NULL, '2018-03-01 12:33:32', 'Success'),
+(11, 17, 8, 13, '4009401068', 'zolly', '14.98', NULL, '2018-03-01 12:35:52', 'Success'),
+(12, 17, 8, 14, '4009403392', 'zolly', '9.99', NULL, '2018-03-01 12:36:51', 'Success'),
+(13, 17, 8, 15, '4009445003', 'zolly', '5.99', NULL, '2018-03-01 12:55:10', 'Success'),
+(14, 17, 8, 16, '4009454842', 'zolly', '6.99', NULL, '2018-03-01 12:59:19', 'Success'),
+(15, 17, 8, 17, '4009470575', 'zolly', '9.99', NULL, '2018-03-01 13:05:35', 'Success'),
+(16, 17, 8, 18, '4009516289', 'zolly', '6.49', NULL, '2018-03-01 13:27:22', 'Success'),
+(17, 17, 8, 19, '4014954395', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:19:53', 'Success'),
+(18, 17, 8, 20, '4014960259', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:23:42', 'Success'),
+(19, 17, 8, 21, '4014966871', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:26:46', 'Success'),
+(20, 17, 8, 22, '4014980826', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:33:00', 'Success'),
+(21, 17, 8, 24, '4015027711', 'zolly', '44.99', 'BankDeposit', '2018-03-05 10:35:36', 'Success'),
+(22, 17, 8, 25, '4015029695', 'zolly', '7.49', NULL, '2018-03-05 10:37:34', 'Success'),
+(23, 17, 8, 26, '4015082696', 'zolly', '14.99', 'BankDeposit', '2018-03-05 11:41:16', 'Success'),
+(24, 17, 8, 27, '4015083679', 'zolly', '3.49', NULL, '2018-03-05 11:42:52', 'Success'),
+(25, 17, 8, 28, '4015575573', 'zolly', '104.99', 'BankDeposit', '2018-03-05 17:47:43', 'Success'),
+(26, 17, 8, 29, '4017774668', 'zolly', '24.99', 'CashPickup', '2018-03-07 06:29:01', 'Success'),
+(27, 17, 8, 31, '4017780390', 'zolly', '16.99', 'BankDeposit', '2018-03-07 06:43:47', 'Success'),
+(28, 17, 8, 33, '4017798379', 'zolly', '11.99', 'BankDeposit', '2018-03-07 07:02:34', 'Success'),
+(29, 17, 8, 36, '4017956457', 'zolly', '6.99', NULL, '2018-03-07 09:36:55', 'Success'),
+(30, 17, 8, 37, '4017992734', 'zolly', '11.99', NULL, '2018-03-07 10:35:36', 'Success'),
+(31, 17, 8, 38, '4017994874', 'zolly', '27.99', NULL, '2018-03-07 10:37:56', 'Success');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `paymentfees`
 --
 
 CREATE TABLE `paymentfees` (
   `PaymentFessId` int(11) NOT NULL,
   `PaymentMethodId` int(11) NOT NULL,
-  `country_id` int(11) NOT NULL,
+  `CompanyId` int(11) NOT NULL,
+  `SourceCountry` int(11) NOT NULL,
   `DestinationCountry` int(11) NOT NULL,
   `FeesCategoryId` int(11) NOT NULL,
-  `AgentId` int(11) NOT NULL,
-  `StartingAmount` decimal(10,0) NOT NULL,
-  `EndAmount` decimal(10,0) NOT NULL,
+  `PayInAgentId` int(11) NOT NULL,
+  `IsPayInAgent` tinyint(4) NOT NULL,
+  `PayOutAgentId` int(11) NOT NULL,
+  `IsPayOutAgent` tinyint(4) NOT NULL,
+  `StartingAmount` decimal(10,2) NOT NULL,
+  `EndAmount` decimal(10,2) NOT NULL,
   `FeesType` int(11) NOT NULL,
-  `Fees` decimal(10,0) NOT NULL,
+  `Fees` decimal(10,2) NOT NULL,
+  `Code` varchar(50) DEFAULT NULL,
   `ChargeSendingAmount` tinyint(1) NOT NULL DEFAULT '0',
   `CreatedDate` date NOT NULL,
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
@@ -613,13 +988,8 @@ CREATE TABLE `paymentfees` (
 -- Dumping data for table `paymentfees`
 --
 
-INSERT INTO `paymentfees` (`PaymentFessId`, `PaymentMethodId`, `country_id`, `DestinationCountry`, `FeesCategoryId`, `AgentId`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `ChargeSendingAmount`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 1, 226, 99, 0, 0, '1', '2', 2, '3', 0, '2017-11-14', 0, NULL),
-(2, 1, 226, 99, 0, 0, '1000', '2500', 1, '200', 0, '2017-11-13', 0, NULL),
-(3, 1, 226, 99, 0, 0, '1', '2', 1, '3', 0, '2017-11-15', 0, NULL),
-(4, 1, 226, 99, 0, 0, '1', '2500', 1, '300', 0, '2017-11-17', 0, NULL),
-(5, 1, 226, 99, 1, 1, '10', '200', 2, '30', 0, '2017-11-17', 0, NULL),
-(6, 1, 226, 99, 1, 1, '10', '250000', 2, '3000', 0, '2017-11-17', 0, NULL);
+INSERT INTO `paymentfees` (`PaymentFessId`, `PaymentMethodId`, `CompanyId`, `SourceCountry`, `DestinationCountry`, `FeesCategoryId`, `PayInAgentId`, `IsPayInAgent`, `PayOutAgentId`, `IsPayOutAgent`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `Code`, `ChargeSendingAmount`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
+(1, 12, 17, 230, 139, 5, 1, 1, 2, 1, '1.00', '200.00', 1, '3.99', 'FLPTPD1', 1, '2018-03-07', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -644,16 +1014,9 @@ CREATE TABLE `paymentmethod` (
 --
 
 INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `Title`, `Description`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 17, 'Authorize', 'my custom method', 1, 0, '2017-10-27', NULL),
-(2, 1, 17, 'payU', 'welcome to payu', 1, 0, '2017-10-23', NULL),
-(3, 1, 17, 'Custom test', 'welcome to custom method test', 1, 0, '2017-10-27', NULL),
-(4, 1, 0, 'Payment', 'Test Description', 1, 0, '2017-10-26', NULL),
-(5, 1, 0, 'Title', 'Descripton', 1, 0, '2017-10-27', NULL),
-(6, 1, 0, 'Test', 'Testing', 1, 0, '2017-10-26', NULL),
-(7, 2, 0, 'Test', 'Testing', 1, 0, '2017-10-26', NULL),
-(8, 2, 0, 'test title', 'testing description', 1, 0, '2017-10-26', NULL),
-(9, 2, 20, 'Testing', 'Test', 1, 0, '2017-10-26', NULL),
-(10, 1, 17, 'testing', 'testing', 1, 0, '2017-10-28', NULL);
+(1, 1, 17, 'Authorize', 'my custom method', 0, 1, '2018-02-05', '2018-02-28'),
+(11, 3, 17, 'test', 'test ishu', 0, 1, '2018-01-15', '2018-01-16'),
+(12, 3, 17, 'Credit/Debit Card', 'MagicPay Payment Gateway', 1, 0, '2018-01-18', NULL);
 
 -- --------------------------------------------------------
 
@@ -674,7 +1037,7 @@ CREATE TABLE `paymenttype` (
 
 INSERT INTO `paymenttype` (`PaymentTypeId`, `PaymentType`, `Description`, `PaymentTypeLogo`) VALUES
 (1, 'Authorize.net', 'Authorize .net payment gateway', ''),
-(2, 'test', 'ishu kumar', '');
+(3, 'Credit/Debit Card', 'Magic Pay Gateway', '');
 
 -- --------------------------------------------------------
 
@@ -687,16 +1050,16 @@ CREATE TABLE `transactiondetails` (
   `CompanyId` int(11) NOT NULL,
   `CustomerId` int(11) NOT NULL,
   `TransactionDetail` varchar(100) NOT NULL,
-  `SendingAmount` decimal(10,0) NOT NULL,
-  `Charges` decimal(10,0) NOT NULL,
-  `Fees` decimal(10,0) NOT NULL,
-  `Tax` decimal(10,0) NOT NULL,
+  `SendingAmount` decimal(18,2) NOT NULL,
+  `Charges` decimal(18,2) NOT NULL,
+  `Fees` decimal(18,2) NOT NULL,
+  `Tax` decimal(18,2) NOT NULL,
   `TransactionDate` datetime NOT NULL,
   `Status` varchar(50) NOT NULL,
   `PaymentGatewayResponse` varchar(500) NOT NULL,
   `PaymentGatewayTransactionId` varchar(50) NOT NULL,
   `SendingCurrencyId` int(11) NOT NULL,
-  `ReceivingAmount` decimal(10,0) NOT NULL,
+  `ReceivingAmount` decimal(18,2) NOT NULL,
   `ReceivingCurrencytId` int(11) NOT NULL,
   `BeneficiaryId` int(11) NOT NULL,
   `PaymentMethodId` int(11) NOT NULL,
@@ -714,10 +1077,44 @@ CREATE TABLE `transactiondetails` (
 --
 
 INSERT INTO `transactiondetails` (`TransactionId`, `CompanyId`, `CustomerId`, `TransactionDetail`, `SendingAmount`, `Charges`, `Fees`, `Tax`, `TransactionDate`, `Status`, `PaymentGatewayResponse`, `PaymentGatewayTransactionId`, `SendingCurrencyId`, `ReceivingAmount`, `ReceivingCurrencytId`, `BeneficiaryId`, `PaymentMethodId`, `DestinationCountryId`, `SourceCountryId`, `IsLive`, `TransferPurpose`, `ExchangeRate`, `DeliveryType`, `CreatedDate`) VALUES
-(1, 17, 8, 'Rishi', '10', '0', '0', '0', '2017-12-05 04:41:25', 'Success', '1', '40008804854', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 16:11:25'),
-(2, 17, 8, 'Ishu', '21', '0', '0', '0', '2017-12-05 04:44:07', 'Success', '1', '40008804889', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 16:14:07'),
-(3, 17, 8, 'sandhu', '34', '0', '0', '0', '2017-12-05 04:46:02', 'Success', '1', '40008804914', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 16:16:01'),
-(4, 17, 8, 'ram ranjana kumari', '10', '0', '0', '0', '2017-12-05 05:18:55', 'Success', '1', '40008805256', 3, '0', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2017-12-05 11:18:53');
+(1, 17, 8, 'swag', '24.99', '0.00', '5.00', '0.00', '2018-02-23 10:08:26', 'Success', '1', '4000853486', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-23 10:08:26'),
+(2, 17, 8, 'zolly', '6.99', '0.00', '5.00', '0.00', '2018-02-23 10:10:12', 'Success', '1', '4000854952', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-23 10:10:12'),
+(3, 17, 8, 'zolly', '104.99', '0.00', '0.00', '0.00', '2018-02-23 14:04:36', 'Success', '1', '4001055666', 1, '1855.00', 3, 1, 12, 138, 226, 0, 'BankDeposit', '19', 'BankDeposit', '2018-02-23 14:04:36'),
+(4, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-02-23 14:45:30', 'Success', '1', '4001129337', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-23 14:45:30'),
+(5, 17, 8, 'zolly', '13.48', '0.00', '5.00', '0.00', '2018-02-26 18:04:52', 'Success', '1', '4004757144', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-26 18:04:52'),
+(6, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-02-27 07:08:33', 'Success', '1', '4005491069', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-27 07:08:33'),
+(7, 17, 8, 'zolly', '104.99', '0.00', '0.00', '0.00', '2018-02-27 19:31:26', 'Success', '1', '4006262347', 1, '1879.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-02-27 19:31:26'),
+(8, 17, 8, 'zolly', '11.98', '0.00', '5.00', '0.00', '2018-02-28 10:27:58', 'Success', '1', '4007152385', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-02-28 10:27:58'),
+(9, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-03-01 09:17:15', 'Success', '1', '4009059159', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 09:17:15'),
+(10, 17, 8, 'zolly', '16.47', '0.00', '5.00', '0.00', '2018-03-01 12:25:06', 'Success', '1', '4009375424', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:25:06'),
+(11, 17, 8, 'zolly', '19.97', '0.00', '5.00', '0.00', '2018-03-01 12:32:11', 'Success', '1', '4009391491', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:32:11'),
+(12, 17, 8, 'zolly', '19.97', '0.00', '5.00', '0.00', '2018-03-01 12:33:32', 'Success', '1', '4009394933', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:33:32'),
+(13, 17, 8, 'zolly', '19.97', '0.00', '5.00', '0.00', '2018-03-01 12:35:52', 'Success', '1', '4009401068', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:35:52'),
+(14, 17, 8, 'zolly', '14.98', '0.00', '5.00', '0.00', '2018-03-01 12:36:51', 'Success', '1', '4009403392', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:36:51'),
+(15, 17, 8, 'zolly', '10.98', '0.00', '5.00', '0.00', '2018-03-01 12:55:10', 'Success', '1', '4009445003', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:55:10'),
+(16, 17, 8, 'zolly', '11.98', '0.00', '5.00', '0.00', '2018-03-01 12:59:19', 'Success', '1', '4009454842', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:59:19'),
+(17, 17, 8, 'zolly', '14.98', '0.00', '5.00', '0.00', '2018-03-01 13:05:35', 'Success', '1', '4009470575', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 13:05:35'),
+(18, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-03-01 13:27:22', 'Success', '1', '4009516289', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 13:27:22'),
+(19, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:19:53', 'Success', '1', '4014954395', 1, '189.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:19:53'),
+(20, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:23:42', 'Success', '1', '4014960259', 1, '189.00', 3, 2, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:23:42'),
+(21, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:26:46', 'Success', '1', '4014966871', 1, '189.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:26:46'),
+(22, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:33:00', 'Success', '1', '4014980826', 1, '189.00', 3, 2, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:33:00'),
+(23, 17, 8, 'zolly', '100.00', '0.00', '5.00', '0.00', '2018-03-05 09:40:58', 'Success', '1', '4014994890', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-05 09:40:58'),
+(24, 17, 8, 'zolly', '44.99', '0.00', '0.00', '0.00', '2018-03-05 10:35:36', 'Success', '1', '4015027711', 1, '754.40', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 10:35:36'),
+(25, 17, 8, 'zolly', '7.49', '0.00', '5.00', '0.00', '2018-03-05 10:37:34', 'Success', '1', '4015029695', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-05 10:37:34'),
+(26, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 11:41:16', 'Success', '1', '4015082696', 1, '188.80', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 11:41:16'),
+(27, 17, 8, 'zolly', '3.49', '0.00', '5.00', '0.00', '2018-03-05 11:42:52', 'Success', '1', '4015083679', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-05 11:42:52'),
+(28, 17, 8, 'zolly', '104.99', '0.00', '0.00', '0.00', '2018-03-05 17:47:43', 'Success', '1', '4015575573', 1, '1888.00', 3, 2, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 17:47:43'),
+(29, 17, 8, 'zolly', '24.99', '0.00', '0.00', '0.00', '2018-03-07 06:29:01', 'Success', '1', '4017774668', 1, '377.00', 3, 1, 12, 139, 230, 0, 'CashPickup', '19', 'CashPickup', '2018-03-07 06:29:01'),
+(30, 17, 8, 'guru', '200.00', '0.00', '2.00', '0.00', '2018-03-07 06:36:37', 'Success', '1', '4017777786', 1, '0.00', 2, 1, 12, 98, 230, 0, 'peronal', '0', '0', '2018-03-07 06:36:37'),
+(31, 17, 8, 'zolly', '16.99', '0.00', '0.00', '0.00', '2018-03-07 06:43:47', 'Success', '1', '4017780390', 1, '226.32', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-07 06:43:47'),
+(32, 17, 8, 'zolly', '10.00', '0.00', '2.00', '0.00', '2018-03-07 06:56:49', 'Success', '1', '4017791467', 1, '188.60', 3, 13, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-07 06:56:49'),
+(33, 17, 8, 'zolly', '11.99', '0.00', '1.99', '0.00', '2018-03-07 07:02:34', 'Success', '1', '4017798379', 1, '188.30', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-07 07:02:34'),
+(34, 17, 8, 'zolly', '6.00', '0.00', '4.99', '0.00', '2018-03-07 08:14:22', 'Success', '1', '4017880311', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 08:14:22'),
+(35, 17, 8, 'ram ranjana kumari', '10.00', '0.00', '1.00', '0.00', '2018-03-07 03:17:54', 'Success', '1', '40010920240', 3, '3.00', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2018-03-07 09:17:52'),
+(36, 17, 8, 'zolly', '6.99', '0.00', '4.99', '0.00', '2018-03-07 09:36:55', 'Success', '1', '4017956457', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 09:36:55'),
+(37, 17, 8, 'zolly', '11.99', '0.00', '4.99', '0.00', '2018-03-07 10:35:36', 'Success', '1', '4017992734', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 10:35:36'),
+(38, 17, 8, 'zolly', '27.99', '0.00', '4.99', '0.00', '2018-03-07 10:37:56', 'Success', '1', '4017994874', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 10:37:56');
 
 -- --------------------------------------------------------
 
@@ -747,7 +1144,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `Company_Id`, `first_name`, `last_name`, `email`, `phone`, `password`, `country_id`, `profile_image`, `is_active`, `create_date`, `is_deleted`, `deleted_date`) VALUES
 (2, 0, 'admin', 'user', 'admin@gmail.com', '1234567890', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 226, '', 1, '2017-10-10', 0, NULL),
-(3, 17, 'test@gmail.com', 'kumar', 'test@gmail.com', '9638527410', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 226, '', 1, '2017-10-25', 0, NULL);
+(3, 17, 'test@gmail.com', 'kumar', 'test@gmail.com', '9638527410', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', 226, '', 1, '2017-10-25', 1, '2018-02-28');
 
 --
 -- Indexes for dumped tables
@@ -758,8 +1155,7 @@ INSERT INTO `users` (`user_id`, `Company_Id`, `first_name`, `last_name`, `email`
 --
 ALTER TABLE `agent`
   ADD PRIMARY KEY (`AgentId`),
-  ADD KEY `country_id` (`country_id`),
-  ADD KEY `customer_Id` (`customer_Id`);
+  ADD KEY `country_id` (`country_id`);
 
 --
 -- Indexes for table `authorizepaymentsettings`
@@ -806,6 +1202,12 @@ ALTER TABLE `country`
   ADD PRIMARY KEY (`country_id`);
 
 --
+-- Indexes for table `countryTest`
+--
+ALTER TABLE `countryTest`
+  ADD PRIMARY KEY (`country_id`);
+
+--
 -- Indexes for table `currency`
 --
 ALTER TABLE `currency`
@@ -827,15 +1229,23 @@ ALTER TABLE `feescategory`
   ADD PRIMARY KEY (`FeesCategoryId`);
 
 --
+-- Indexes for table `magicpaydetails`
+--
+ALTER TABLE `magicpaydetails`
+  ADD PRIMARY KEY (`MagicPayId`),
+  ADD KEY `CustomerId` (`CustomerId`),
+  ADD KEY `CompanyId` (`CompanyId`),
+  ADD KEY `TransactionId` (`TransactionId`);
+
+--
 -- Indexes for table `paymentfees`
 --
 ALTER TABLE `paymentfees`
   ADD PRIMARY KEY (`PaymentFessId`),
   ADD KEY `PaymentMethodId` (`PaymentMethodId`),
-  ADD KEY `country_id` (`country_id`),
   ADD KEY `DestinationCountry` (`DestinationCountry`),
   ADD KEY `FeesCategoryId` (`FeesCategoryId`),
-  ADD KEY `AgentId` (`AgentId`);
+  ADD KEY `AgentId` (`PayOutAgentId`);
 
 --
 -- Indexes for table `paymentmethod`
@@ -880,17 +1290,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `agent`
 --
 ALTER TABLE `agent`
-  MODIFY `AgentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `AgentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `authorizepaymentsettings`
 --
 ALTER TABLE `authorizepaymentsettings`
-  MODIFY `AuthorizePaymentSettingsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `AuthorizePaymentSettingsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `beneficiary`
 --
 ALTER TABLE `beneficiary`
-  MODIFY `BeneficiaryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `BeneficiaryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `beneficiarytype`
 --
@@ -900,7 +1310,7 @@ ALTER TABLE `beneficiarytype`
 -- AUTO_INCREMENT for table `billpaydetails`
 --
 ALTER TABLE `billpaydetails`
-  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `company`
 --
@@ -910,6 +1320,11 @@ ALTER TABLE `company`
 -- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
+  MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=242;
+--
+-- AUTO_INCREMENT for table `countryTest`
+--
+ALTER TABLE `countryTest`
   MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 --
 -- AUTO_INCREMENT for table `currency`
@@ -920,32 +1335,37 @@ ALTER TABLE `currency`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `feescategory`
 --
 ALTER TABLE `feescategory`
   MODIFY `FeesCategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
+-- AUTO_INCREMENT for table `magicpaydetails`
+--
+ALTER TABLE `magicpaydetails`
+  MODIFY `MagicPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+--
 -- AUTO_INCREMENT for table `paymentfees`
 --
 ALTER TABLE `paymentfees`
-  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `paymentmethod`
 --
 ALTER TABLE `paymentmethod`
-  MODIFY `PaymentMethodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `PaymentMethodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `paymenttype`
 --
 ALTER TABLE `paymenttype`
-  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `transactiondetails`
 --
 ALTER TABLE `transactiondetails`
-  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -960,6 +1380,14 @@ ALTER TABLE `users`
 --
 ALTER TABLE `authorizepaymentsettings`
   ADD CONSTRAINT `authorizepaymentsettings_ibfk_1` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`);
+
+--
+-- Constraints for table `magicpaydetails`
+--
+ALTER TABLE `magicpaydetails`
+  ADD CONSTRAINT `magicpaydetails_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `customer` (`customer_Id`),
+  ADD CONSTRAINT `magicpaydetails_ibfk_2` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`),
+  ADD CONSTRAINT `magicpaydetails_ibfk_3` FOREIGN KEY (`TransactionId`) REFERENCES `transactiondetails` (`TransactionId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

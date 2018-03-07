@@ -301,7 +301,7 @@
                   }]
               },
               title: 'Add Fees',
-              classes: 'no-padding no-footer layout-static',
+              classes: 'no-padding no-footer',
               controller: "authenticateController"
           })
 

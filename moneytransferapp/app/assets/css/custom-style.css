@@ -941,6 +941,15 @@ ul.cm-white-space li {
     border: none;
     border-radius: 0;
 }
+.cm-code{
+display: inline-block;
+    background: #b99b2a;
+    border-radius: 4px;
+    text-align: center;
+    color: #fff;
+    padding: 5px 15px;
+}
+ 
 
 .cm-select-USD {
     border: none;

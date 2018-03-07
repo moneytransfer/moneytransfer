@@ -65,14 +65,15 @@
 
     }
 
-    addPayBillController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
-    function addPayBillController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+    addPayBillController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
+    function addPayBillController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
 
         var vm = $scope;
 
         vm.CompanyId = 0;
         vm.CustomerId = 0;
         vm.CustomerName = '';
+        vm.CountryId = '';
         if ($window.sessionStorage.authorisedCustomer) {
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             if (authorisedCustomer.CustomerId) {
@@ -84,6 +85,17 @@
 
 
         vm.PaymentMethods = [];
+        vm.Countries = [];
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getcountrydetails',
+            headers: { 'Content-Type': 'application/json' }
+        })
+       .success(function (data) {
+           var idata = data;
+           vm.Countries = idata;
+
+       });
         //Get Method Details
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
         $http({
@@ -99,6 +111,7 @@
 
 
         vm.FlagModel = [];
+        vm.Fee = "";
        
         vm.PayDetails = { SenderName: '', FaceAmount: '', InvoiceAmount: '', MobileNumber: '', InvoiceNumber: '' };
         vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId, SenderName: vm.CustomerName, PaymentMethodId: '0',Amount:'0.00' }
@@ -120,7 +133,16 @@
                     var idata = data;
                     if (idata.countryCode != null) {
                         idata.countryCode = idata.countryCode.toLowerCase();
+                        debugger;
                         vm.FlagModel = idata;
+                        var res = idata.internationalCodes.split(" ");
+                        var PhoneCode =parseInt(res[0]);
+                        var data1= data1 = $filter('filter')(vm.Countries, {
+                            phonecode: PhoneCode,
+                        }, true);
+                        vm.CountryId = data1[0].CountryId;
+                        vm.FlagModel.CountryId = vm.CountryId;
+                        vm.FlagModel.PhoneCode = PhoneCode;
                         //$localStorage.numberDetails = idata;
                         //$('#shfirstbutton').prop('disabled', false);
                     }
@@ -154,12 +176,14 @@
             $('#PaymentConfirm').modal('toggle');
 
             var idata = vm.PaybillModel;
-            if($location.path() != "/app/PayBill"){
-               idata.Amount =  $localStorage.numberDetails.Ammount;
-               idata.PaymentMethodId = 1;
+            if ($location.path() != "/app/PayBill") {
+                debugger;
+                idata.Amount = $localStorage.numberDetails.Ammount;
+                idata.PaymentMethodId = 1;
                idata.MobileNumber = $localStorage.numberDetails.MobileNumber;
             }
-
+            idata.Amount = parseInt(idata.Amount) + vm.FlagModel.Fee;
+            idata.Fees =vm.FlagModel.Fee;
             var sMonth = vm.ExpireModel.ExpireMonth;
             if (sMonth < 10) {
                 sMonth = '0' + sMonth
@@ -222,7 +246,40 @@
         vm.Setamount = function (value) {
             if (value != null) {
                 vm.PaybillModel.Amount = value;
+                
+                vm.getFeeDetails(vm.PaybillModel.Amount);
             }
+        }
+
+        vm.getFeeDetails = function (amount) {
+            var DestinationCountry = vm.FlagModel.CountryId;
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": 17, "DestinationCountry": DestinationCountry }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getPaymentFeesByCompanydestinationCountry',
+                data: formData,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+
+
+                var idata = data;
+                vm.feeData = idata;
+             
+                for (var i = 0; i < vm.feeData.length; i++) {
+                    if (parseInt(amount) <= vm.feeData[i].EndAmount) {
+                        vm.Fee = vm.feeData[i].Fees;
+                        vm.FlagModel.Fee = vm.Fee;
+                    } else {
+                        vm.Fee = 0
+                        vm.FlagModel.Fee = "0.00";
+                    }
+                }
+
+
+
+
+            });
         }
 
         vm.PayAmount = [{ AmountId: '1', Amount: '02.00' }, { AmountId: '2', Amount: '04.00' },
