@@ -1,0 +1,122 @@
+﻿<!--<div class="" data-ng-controller="LoginCtrl">
+    <div class="session-content">
+        <div class="card card-block form-layout">
+            <form role="form" ui-jq="validate" name="tblCustomerregister">
+                <div class="text-xs-center m-b-3">
+                    <img src="images/logo-icon.png" alt="" class="m-b-1" />
+                    <h5>Register now!</h5>
+                    <p class="text-muted">
+                        Create an app id to continue.
+                    </p>
+                </div>
+
+                <fieldset class="form-group">
+                    <label for="firstname">
+                        First Name <b class="text-danger">&nbsp;*</b>
+
+                    </label>
+                    <input type="text" class="form-control form-control-lg" ng-model="CustomerRegister.FirstName" id="FirstName" placeholder="First Name" required />
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="lastname">
+                        Last Name <b class="text-danger">&nbsp;*</b>
+                    </label>
+                    <input type="text" class="form-control form-control-lg" ng-model="CustomerRegister.LastName" id="LastName" placeholder="First Name" required />
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="lastname">
+                        Email <b class="text-danger">&nbsp;*</b>
+                    </label>
+                    <input type="email" class="form-control form-control-lg" ng-model="CustomerRegister.Email" id="Email" placeholder="Email" required />
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="lastname">
+                        Phone <b class="text-danger">&nbsp;*</b>
+                    </label>
+                    <input type="number" class="form-control form-control-lg" ng-model="CustomerRegister.Phone" id="Phone" placeholder="Phone" required />
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="lastname">
+                        Password <b class="text-danger">&nbsp;*</b>
+                    </label>
+                    <input type="Password" class="form-control form-control-lg" ng-model="CustomerRegister.Password" id="Password" placeholder="******" required />
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="Country" class="form-control-label">Country  </label>
+                    <div>
+                        <select name="FamRole" id="ddlCountry" ng-model="CustomerRegister.CountryId" class="form-control" required>
+                            <option value="0">-- Select Country --</option>
+                            <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="tblCustomerregister.$valid && register()">Register</button>
+
+                <div class="divider">
+                    <span>OR </span>
+
+                </div>
+                <div class="text-xs-center">
+                    <p>
+                        <a ui-sref="app.login">Go back to login</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>-->
+
+
+<div class="login-form-groupper" data-ng-controller="LoginCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 col-md-offset-3">
+                <div class="form-container">
+                    <form ui-jq="validate" name="tblCustomerregister">
+                        <h4 class="login-form-title">Register now!</h4>
+                        <div class="form-group">
+                            <label for="firstname">First Name <b class="text-danger">&nbsp;*</b></label>
+                            <input type="text" placeholder="First Name" ng-model="CustomerRegister.FirstName" name="first-name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name <b class="text-danger">&nbsp;*</b></label>
+                            <input type="text" placeholder="Last Name" ng-model="CustomerRegister.LastName" name="last-name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email <b class="text-danger">&nbsp;*</b></label>
+                            <input type="text" placeholder="Email" ng-model="CustomerRegister.Email" name="email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone <b class="text-danger">&nbsp;*</b></label>
+                            <input type="tel" placeholder="Phone" ng-model="CustomerRegister.Phone" name="phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="sel1">Country:</label>
+                            <select name="CustomerRegister" id="Select1" ng-model="CustomerRegister.CountryId" class="form-control" required>
+                                <option value="0">-- Select Country --</option>
+                                <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstname">Password <b class="text-danger">&nbsp;*</b></label>
+                            <input type="password" placeholder="Password" name="password" ng-model="CustomerRegister.Password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" value="" class="btn btn-success custom-form-btn" ng-click="tblCustomerregister.$valid && register()">Register</button>
+                        </div>
+                        <div class="text-xs-center">
+                            <p>
+                                <a class="btn btn-info custom-form-signup" ui-sref="app.login">Go back to login</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

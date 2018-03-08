@@ -1,0 +1,157 @@
+﻿<div class="padding" ng-controller="addEditAgentController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h2>Register Agent/Branch</h2>
+                </div>
+                <div class="card-block">
+                    <form role="form" class="ng-pristine ng-valid" name="tblAgent" ui-jq="validate">
+                        <div class="container m-y-2">
+                            <div class="col-sm-12">
+                                <p><strong>Provide details of the Agent you wish to register</strong></p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group col-sm-12">
+                                            <label for="agent-name">Agent Name</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.AgentFirstName" id="agent-name" required>
+                                        </div>
+                                         <div class="form-group col-sm-12">
+                                            <label for="agent-name">Second Name</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.SecondName" id="SecondName">
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="super-agent">Super Agent</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.SuperAgent" id="super-agent">
+                                        </div>
+                                        <div class="form-group col-sm-12" ng-if="AgentModel.AgentId !='0'">
+                                            <label for="agent-code">Agent Code</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.AgentCode" id="agent-code" disabled="disabled">
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="serial-number-prefix">Serial Number Prefix</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.SerialNumberPrefix" id="serial-number-prefix" required>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="serial-number-length">Serial Number Length</label>
+                                            <input type="number" class="form-control" ng-model="AgentModel.SerialNumberLength" id="serial-number-length" required>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <p>Bureau De Change Enabled</p>
+                                            <div class="form-control">
+                                                <div class="form-check-inline">
+                                                    <input class="form-check-input" type="radio" ng-model="BureauDeChange.TrueStatus" value="true" name="true-false-radio" id="BureauDeChangetrue">
+                                                    <label class="" for="true">True</label>
+                                                </div>
+                                                <div class="form-check-inline">
+                                                    <input class="form-check-input" type="radio" ng-model="BureauDeChange.FalseStatus" value="false" name="true-false-radio" id="BureauDeChangefalse">
+                                                    <label class="" for="false">False</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 p-t-2">
+                                            <div class="form-control">
+                                                <div class="form-check-inline">
+                                                    <input class="form-check-input" ng-model="AgentModel.IsAllowedCreateAgent" type="checkbox" id="chkbox1">
+                                                    <label class="form-check-label" for="chkbox1">Is this Agent allowed to create a Sub Agent/Branches Network? </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 p-t-2">
+                                            <div class="form-control">
+                                                <div class="form-check-inline">
+                                                    <input class="form-check-input" ng-model="AgentModel.AllowedCasiherTellerApproval" type="checkbox" id="chkbox2">
+                                                    <label class="form-check-label" for="chkbox2">I want all Cashiers/Tellers to be forwarded to me for approval. </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 p-t-2">
+                                            <div class="form-control">
+                                                <div class="form-check-inline">
+                                                    <input class="form-check-input" ng-model="AgentModel.ApproveeachTransByCashierTeller" type="checkbox" id="chkbox3">
+                                                    <label class="form-check-label" for="chkbox3">Agent Admin must approve each transaction by  Cahier/Teller (Maker Checker) </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 p-t-2">
+                                            <div class="form-control">
+                                                <div class="form-check-inline">
+                                                    <input class="form-check-input" ng-model="AgentModel.CreateComplianceGroup" type="checkbox" id="chkbox4">
+                                                    <label class="form-check-label" for="chkbox4">Can create compliance group</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 p-t-2">
+                                            <div class="form-control">
+                                                <div class="form-check-inline">
+                                                    <input class="form-check-input" ng-model="AgentModel.AssignAdminToAgent" type="checkbox" id="Checkbox1">
+                                                    <label class="form-check-label" for="chkbox4">I want to assign an admin to this Agent</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group col-sm-12">
+                                            <label for="agent-name">Agent Last Name</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.AgentLastName" id="AgentLastName" required>
+                                        </div>
+                                         <div class="form-group col-sm-12">
+                                            <label for="agent-name">Second Last Name</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.SecondLastName" id="SecondLastName">
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="country">Country</label>
+                                            <select name="Country" id="ddlCountry" ng-model="AgentModel.CountryId" class="form-control" ng-change="getcountrydata(AgentModel.CountryId)" required>
+                                                <option value="0">-- Select Country --</option>
+                                                <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="dialing-code">Dialing Code</label>
+                                            <input type="text" class="form-control" value="{{CountryCode.iso|uppercase}} ({{CountryCode.phonecode}})" id="DialingCode" disabled="disabled">
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label for="phone">Phone</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.Phone" id="phone" required>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="email">Email</label>
+                                            <input type="email" class="form-control" ng-model="AgentModel.Email" id="email" required>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="address-line-1">Address line 1</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.Address1" id="address-line-1" required>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="address-line-2">Address line 2</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.Address2" id="address-line-2">
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.City" id="city" required>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="aria-post-code">Aria/Post Code</label>
+                                            <input type="text" class="form-control" ng-model="AgentModel.PostalCode" id="aria-post-code" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7 m-y-2 pull-right">
+                                    <button type="submit" class="btn btn-primary " ng-click="tblAgent.$valid && Create()">
+                                        {{AgentModel.AgentId>0?'Update':'REGISTER' }}</button>
+                                    <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

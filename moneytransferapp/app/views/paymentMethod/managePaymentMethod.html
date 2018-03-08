@@ -1,0 +1,74 @@
+﻿
+    <div class="padding" ng-controller="managePaymentMethodController">
+        <div class="card">
+            <div class="card-header m-t-1">
+                <div class="row">
+                 <div class="col-sm-4 pull-left">
+                    <button type="submit" class="btn btn-primary custom-btn pull-left" ng-click="BackToCompany()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                </div>
+               <div class="col-sm-4 pull-right">
+                    <button type="submit" class="btn btn-primary pull-right" ng-click="addmethod(CompanyId)"> Add Payment Method </button>
+                </div>
+                    </div>
+            </div>
+         
+            <div class="box-body p-a-0">
+               
+                <table id="tblPayment" class="table table-condensed" ui-jp="footable" data-filter="#filter" data-page-size="10">
+                    <thead>
+                        <tr>
+                            <th>Title </th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="Active" ng-repeat="PaymentMethod in PaymentMethods  |  orderBy: 'Title'">
+                            <td><small>{{PaymentMethod.Title}} </small></td>
+                            <td><small>{{PaymentMethod.Description }} </small></td>
+                            <td><small>{{PaymentMethod.IsActive }}</small></td>
+                            <td>
+                                <button type="submit" class="btn btn-sm btn-primary" ng-click="EditPaymentMethod(PaymentMethod.PaymentMethodId)">Edit</button>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deletePaymentMethod(PaymentMethod.PaymentMethodId)">Delete </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="hide-if-no-paging">
+                        <tr>
+                            <td colspan="7" class="text-center">
+                                <ul class="pagination"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+            <!-- Large modal -->
+            <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteconfirm">Large modal</button>-->
+            <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-danger">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title ">!Confirmation  </h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <h6 class="modal-title">Do you want to proceed to delete this 'Payment Method'? </h6>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal -->
+
+        </div>
+    </div>
