@@ -26,6 +26,7 @@ com\pininteract\www\SimPortInStatusResponse.class
 com\etl\base\CardDetails.class
 com\pininteract\OrderResponse.class
 com\etl\base\CurrencyConversion.class
+com\etl\base\TransactionFeeSharing.class
 com\etl\base\CompanyDetail.class
 com\pininteract\www\ServiceManagerSoapProxy.class
 com\etl\base\MagicTest.class
