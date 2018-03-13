@@ -335,6 +335,23 @@
                   classes: 'no-padding no-footer',
                   controller: "authenticateController"
               })
+
+          .state('app.Edit_Transaction_Fees_Sharing', {
+              url: '/Edit_TransactionFeesSharing',
+              templateUrl: 'views/TransactionFeeSharing/addEdittransactionFeeSharing.html',
+              params: { TransactionFeeSharingId: 0 },
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          return $ocLazyLoad.load('scripts/controllers/appCtrls/transactionFeeSharing.js');
+                      });
+                  }]
+              },
+              title: 'Edit Transaction Fee Sharing',
+              classes: 'no-padding no-footer',
+              controller: "authenticateController"
+          })
+
               //Manage User
                .state('app.Manage_User', {
                    url: '/Manage_User',

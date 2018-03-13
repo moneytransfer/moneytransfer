@@ -17,6 +17,7 @@
         vm.CompanyId = 0;
         vm.PaymentMethodType = [];
         vm.Countries = [];
+     
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -94,14 +95,14 @@
              var data12 = $filter('filter')(vm.ManageAgent, {
                  AgentId: fee.PayInAgentId,
              }, true);
-             if (data12) {
+             if (data12.length>0) {
                  vm.ManageFees[i].PayInAgentName = data12[0].AgentFirstName;
              }
              var data123 = $filter('filter')(vm.ManageAgent, {
                  AgentId: fee.PayOutAgentId,
              }, true);
 
-             if (data123) {
+             if (data123.length>0) {
                  vm.ManageFees[i].PayOutAgentName = data123[0].AgentFirstName;
              }
              var data1 = $filter('filter')(vm.PaymentMethodType, {
@@ -112,7 +113,7 @@
              var SourcecountryData = $filter('filter')(vm.Countries, {
                  CountryId: fee.SourceCountry,
              }, true);
-             if (SourcecountryData)
+             if (SourcecountryData.length>0)
                  vm.ManageFees[i].Sourcecountry = SourcecountryData[0].CountryName;
 
 
@@ -122,7 +123,7 @@
 
 
 
-             if (SourcecountryData)
+             if (SourcecountryData.length>0)
                  vm.ManageFees[i].Destinationcountry = DestinationcountryData[0].CountryName;
             
 
@@ -166,7 +167,7 @@
        
                 var idata = data;
                 if (idata.PaymentFessId > 0 && idata.Result == "Sucess") {
-                    Alert(1, "! User deleted successfully");
+                    Alert(1, "! Fees deleted successfully");
                     var iManageUsers = vm.ManageFees;
                     vm.ManageFees = [];
                     for (var i = 0; i < iManageUsers.length; i++) {

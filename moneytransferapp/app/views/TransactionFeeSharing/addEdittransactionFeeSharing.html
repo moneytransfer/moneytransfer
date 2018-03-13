@@ -4,7 +4,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header m-t-1">
-                    <h3>Add New Transaction Fee Sharing  </h3>
+                    <h3>{{header}} Transaction Fee Sharing  </h3>
                 </div>
                 
                 <div class="card-block">
@@ -16,42 +16,45 @@
                             </select>
                             <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && SelectedCompnay == 0">Please select Company.</span>
                         </div>
+                     
                         <div class="radio  m-t-1">
-                            <label><input type="radio" name="radioResult"  ng-value="{{TransactionFeeSharingDetails.UniversalFee}}" ng-model="TransactionFeeSharingDetails.UniversalFee" ng-init="$index==0?(TransactionFeeSharingDetails.UniversalFee=1):''" > Universal Transaction Fee Sharing</label>
+                            <label><input type="radio" name="radioResult"  value="Universal" ng-model="TransactionFeeSharingDetails.TransactionFeeType" ng-init="TransactionFeeSharingDetails.TransactionFeeType='Universal'" > Universal Transaction Fee Sharing</label>
                         </div>
-                    <div ng-if="TransactionFeeSharingDetails.UniversalFee==1">
+                       
+                    <div ng-if="TransactionFeeSharingDetails.TransactionFeeType=='Universal'">
                             <div class="form-group">
                                 <input type="number" class="form-control" id="yourShare" placeholder="Your Share (%): 100%" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" ng-model="TransactionFeeSharingDetails.YourShare">
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" id="payInAgent" placeholder="Pay-In Agent (%): 0%" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" ng-model="TransactionFeeSharingDetails.PayInAgentShare">
+                                <input type="number" class="form-control" id="payInAgent" placeholder="Pay-In Agent (%): 0%" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" ng-model="TransactionFeeSharingDetails.PayInAgentPer">
                             </div>
 
                             <div class="form-group">
-                                <input type="number" class="form-control" id="payOutAgent" placeholder="Pay-Out Agent (%): 0%" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" ng-model="TransactionFeeSharingDetails.PayOutAgentShare">
+                                <input type="number" class="form-control" id="payOutAgent" placeholder="Pay-Out Agent (%): 0%" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" ng-model="TransactionFeeSharingDetails.PayOutAgentPer">
                             </div>
-                            <button type="submit" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'">Save</button>
+                 
+                            <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'" ng-click="SaveUnivarsalFee()">{{TransactionFeeSharingDetails.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
                             <div class="code-label m-y-1">
                                 <label for="">UNIVERSAL TRANS. SHARING FEE REF. CODE {{code}}</label>
                             </div>
                         </div>
 
                         <div class="radio">
-                            <label><input type="radio" name="radioResult" value="Customize" ng-model="TransactionFeeSharingDetails.UniversalFee">Customize Transaction Fee Sharing  for individual Payment Delivery Method</label>
+                            <label><input type="radio" name="radioResult" id="cust_radio" value="Specific" ng-model="TransactionFeeSharingDetails.TransactionFeeType">Customize Transaction Fee Sharing  for individual Payment Delivery Method</label>
                         </div>
                         
-                        <div  ng-if="TransactionFeeSharingDetails.UniversalFee=='Customize'">
+                        <div  ng-if="TransactionFeeSharingDetails.TransactionFeeType=='Specific'">
                             
 
                             <div class="form-group">
                                 <label for="sel1">Delivery Method</label>
                                 
-                                    <select name="methodType" id="DeliveryMethodType" ng-model="CustomizeTransactionFeeData.PaymentMethodId" class="form-control" required ng-init="CustomizeTransactionFeeData.PaymentMethodId='0'">
-                                        <option value="0" disabled>--Delivery Method--</option>
+                                    <select name="methodType" id="DeliveryMethodType" ng-model="CustomizeTransactionFeeData.PaymentMethodId" class="form-control" required>
+                                        <option value="-1" disabled>--Delivery Method--</option>
                                         <option ng-repeat="Country in DeliveryMethod" value="{{Country.PaymentMethodId}}">{{Country.Title}}</option>
                                     </select>
-                                    <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PaymentMethodId=='0'">Please select Delivery Method.</span>
+                                    <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PaymentMethodId=='-1'">Please select Delivery Method.</span>
                                 
                             </div>
                             <div class="form-group">
@@ -62,40 +65,40 @@
 
                             <div class="form-group">
                                 <label for="sel1">Pay-In Agent</label>
-                                <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayInAgentId" class="form-control" required ng-init="CustomizeTransactionFeeData.PayInAgentId='0'">
-                                    <option value="0" disabled>-- Select Aggent --</option>
+                                <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayInAgent" class="form-control" required >
+                                    <option value="-1" disabled>-- Select Aggent --</option>
                                     <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}">{{Agent.AgentFirstName}}</option>
                                 </select>
-                                <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayInAgentId=='0'">Please select Pay-In Agent.</span>
+                                <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayInAgentId=='-1'">Please select Pay-In Agent.</span>
                             </div>
 
                             <div class="form-group">
                                 <label for="your-share">pay in agent(%)</label>
-                                <input type="number" id="payAgentShare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayInAgentShare">
+                                <input type="number" id="payAgentShare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayInAgentPer">
                             </div>
 
 
                             <div class="form-group">
                                 <label for="sel1">Pay-Out Agent</label>
-                                <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayOutAgentId" class="form-control" required ng-init="CustomizeTransactionFeeData.PayOutAgentId='0'">
-                                    <option value="0" disabled>-- Select Aggent --</option>
+                                <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayOutAgent" class="form-control" required >
+                                    <option value="-1" disabled>-- Select Aggent --</option>
                                     <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}">{{Agent.AgentFirstName}}</option>
                                 </select>
-                                <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayOutAgentId=='0'">Please select Pay-Out Agent.</span>
+                                <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayOutAgentId=='-1'">Please select Pay-Out Agent.</span>
                             </div>
                             <div class="form-group">
                                 <label for="your-share">pay out agent(%)</label>
-                                <input type="number" id="payOutAgentshare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayOutAgentShare">
+                                <input type="number" id="payOutAgentshare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayOutAgentPer">
                             </div>
 
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="checkbox"  class="form-check-input" value="" ng-model="CustomizeTransactionFeeData.IsPayOutAgent">
+                                    <input type="checkbox"  class="form-check-input" value="" ng-model="CustomizeTransactionFeeData.IsSpecific">
                                 </label>
                             </div>
-
-                            <button type="submit" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'">Save</button>
+                           
+                            <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'"  ng-click="SaveSpecificfee()">{{CustomizeTransactionFeeData.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
                             <div class="code-label m-y-1">
                                 <label for="">UNIVERSAL TRANS. SHARING FEE REF. CODE FLUTSF00001</label>
                             </div>
