@@ -40,15 +40,15 @@
                         <td><small>{{Fees.TransactionFeeType }}</small></td>
                         <td><small>{{Fees.Code }}</small></td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                            <button type="submit" class="btn btn-sm btn-primary"  ng-click="EditFee(Fees.TransactionFeeSharingId)">Edit</button>
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" >Delete </button>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal"   ng-click="deleteTransactionFeeSharing(Fees.TransactionFeeSharingId)">Delete </button>
                         </td>
                     </tr>
                 </tbody>
-                <!--ng-click="EditFee(Fees.TransactionFeeSharingId)"-->
-                <!--ng-click="deleteTransactionFeeSharing(Fees.TransactionFeeSharingId)"-->
+               
+              
                 <tfoot class="hide-if-no-paging">
                     <tr>
                         <td colspan="12" class="text-center">
