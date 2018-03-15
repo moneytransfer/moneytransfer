@@ -1,3 +1,4 @@
+com\etl\base\GlobalExchangeRate.class
 com\pininteract\Carrier.class
 com\etl\base\BeneficiaryDetails.class
 com\etl\base\MagicPay.class
