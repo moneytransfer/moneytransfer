@@ -12860,3 +12860,9 @@ td.align-middle {
     top: 50%;
     transform: translateY(-50%);
  }
+ .cm-setWidth{
+     width: 17%;
+ }
+ .cm-align-top{
+     clear:both;
+ }

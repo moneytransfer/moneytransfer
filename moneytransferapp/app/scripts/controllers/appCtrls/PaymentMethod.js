@@ -296,6 +296,9 @@
         .success(function (data) {
             var idata = data;
             vm.PaymentMethods = idata;
+            if (vm.PaymentMethods[0].PaymentMethodId == 0)
+                vm.PaymentMethods.splice(0, 1);
+            vm.PaymentModel.PaymentMethodId = vm.PaymentMethods[0].PaymentMethodId;
         });
 
         var formData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId }));

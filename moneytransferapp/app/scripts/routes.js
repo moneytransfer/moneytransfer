@@ -351,6 +351,56 @@
               classes: 'no-padding no-footer',
               controller: "authenticateController"
           })
+              //Manage Global Exchange Rates 
+          
+
+               .state('app.GlobalExchangeRates', {
+                   url: '/globalExchangeRates',
+                   templateUrl: 'views/globalexchangerates/globalExchangeRates.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/globalExchangeRates.js');
+                           });
+                       }]
+                   },
+                   title: 'Global Exchange Rates',
+                   classes: 'no-padding no-footer',
+                   controller: "authenticateController"
+               })
+              .state('app.add_Global_Exchange_Rates', {
+                  url: '/add_GlobalExchangeRates',
+                  templateUrl: 'views/globalexchangerates/addEditGlobalExchangeRates.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/globalExchangeRates.js');
+                          });
+                      }]
+                  },
+                  title: 'Add Global Exchange Rates',
+                  classes: 'no-padding no-footer',
+                  controller: "authenticateController"
+              })
+              .state('app.edit_Global_Exchange_Rates', {
+                  url: '/edit_GlobalExchangeRates',
+                  templateUrl: 'views/globalexchangerates/addEditGlobalExchangeRates.html',
+                  params: { GlobalExchangeId: 0 },
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/globalExchangeRates.js');
+                          });
+                      }]
+                  },
+                  title: 'Edit Global Exchange Rates',
+                  classes: 'no-padding no-footer',
+                  controller: "authenticateController"
+              })
+
+
+
+
 
               //Manage User
                .state('app.Manage_User', {

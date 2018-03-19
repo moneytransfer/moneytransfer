@@ -120,7 +120,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-
+          
             var idata = data;
             vm.PickUpLocation = idata;
             $localStorage.Agents = vm.PickUpLocation;
@@ -133,8 +133,9 @@
 
         //GetFirstIndex
         if ($localStorage.Agents) {
+            debugger;
             var dd = ($localStorage.Agents);
-            var LocationName = (dd[0].AgentFirstName + ' ' + dd[0].AgentLastName + '-' + dd[0].AgentCode);
+            var LocationName = (dd[1].AgentFirstName + ' ' + dd[1].AgentLastName + '-' + dd[1].AgentCode);
         }
 
 
@@ -160,6 +161,7 @@
 
         //Redio Button Changes Event
         vm.checkStuff = function (value) {
+            debugger;
             vm.validWay = false;
             if (value == "CashPickup") {
 
@@ -367,6 +369,7 @@
 
         //Proceed to next tab
         vm.CashPickUp = function () {
+            debugger;
             vm.validWay = false;
             if (vm.PaymentModel.PaymentType == "BankDeposit") {
 
@@ -672,7 +675,7 @@
         //GetFirstIndex
         if ($localStorage.Agents) {
             var dd = ($localStorage.Agents);
-            var LocationName = (dd[0].AgentFirstName + ' ' + dd[0].AgentLastName + '-' + dd[0].AgentCode);
+            var LocationName = (dd[1].AgentFirstName + ' ' + dd[1].AgentLastName + '-' + dd[1].AgentCode);
         }
         if ($localStorage.BeneficiaryModel) {
             var iBenficiaryId = $localStorage.BeneficiaryModel.BeneficiaryId;
@@ -707,6 +710,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
+            debugger;
             var idata = data;
             vm.PickUpLocation = idata;
         });
@@ -870,7 +874,7 @@
 
         //Next Page
         vm.CashPickUp = function (Id) {
-
+            debugger;
             vm.ValidAcountRoute = false;
             var route = vm.BeneficiaryModel.RoutingNumber;
             var account = vm.BeneficiaryModel.AccountNumber;

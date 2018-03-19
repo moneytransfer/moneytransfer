@@ -67,14 +67,14 @@
                                     <input type="radio" name="rdBankDeposit" id="rdCashPickup" value="CashPickup" ng-model="PaymentModel.PaymentType" ng-change="checkStuff(PaymentModel.PaymentType)">
                                     <span class="bold">CASH PICKUP </span>&nbsp; <small>Featured Partners</small></label>
 
-                                <div class="col-sm-12 mt-2" ng-if="PaymentModel.PaymentType=='CashPickup'" ng-change="checkStuff(PaymentModel.CashPickUp)">
+                                <div class="col-sm-12 mt-2" ng-if="PaymentModel.PaymentType=='CashPickup'" ng-change="checkStuff(PaymentModel.CashPickUp)" ng-model="changeSomething">
                                     <div class="col-sm-12 pl-2">
                                         <label class="form-control-label">
                                             <!--  <input type="radio" name="methods" ng-model="PaymentModel.LocationId" ng-change="selecetdLocation(PickLocation.Location)" value="{{PickLocation.LocationId}}" required />
                                             {{PickLocation.Location}}-->
                                             <select class="form-control banner-input" ng-model="PaymentModel.AgentId" id="PayOutLocation" ng-change="selecetdLocation(PaymentModel.AgentId)" ng-init="PaymentModel.AgentId='0'">
                                                 <option value="0">Select Payout location</option>
-                                                <option ng-repeat="PickLocation in PickUpLocation" value="{{PickLocation.AgentId}}">{{PickLocation.AgentFirstName +'&nbsp;'+PickLocation.AgentLastName}}&nbsp;-{{PickLocation.AgentCode}}</option>
+                                                <option ng-repeat="PickLocation in PickUpLocation" value="{{PickLocation.AgentId}}" ng-hide="PickLocation.AgentId==0">{{PickLocation.AgentFirstName +'&nbsp;'+PickLocation.AgentLastName}}&nbsp;-{{PickLocation.AgentCode}}</option>
 
                                             </select>
                                         </label>

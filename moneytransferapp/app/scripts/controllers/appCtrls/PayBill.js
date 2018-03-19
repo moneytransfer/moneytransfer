@@ -69,7 +69,7 @@
     function addPayBillController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
 
         var vm = $scope;
-
+        vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId, SenderName: vm.CustomerName, PaymentMethodId: '0', Amount: '0.00' }
         vm.CompanyId = 0;
         vm.CustomerId = 0;
         vm.CustomerName = '';
@@ -107,6 +107,9 @@
         .success(function (data) {
             var idata = data;
             vm.PaymentMethods = idata;
+            if (vm.PaymentMethods[0].PaymentMethodId == 0)
+                vm.PaymentMethods.splice(0, 1);
+            vm.PaybillModel.PaymentMethodId = vm.PaymentMethods[0].PaymentMethodId;
         });
 
 
@@ -114,7 +117,7 @@
         vm.Fee = "";
        
         vm.PayDetails = { SenderName: '', FaceAmount: '', InvoiceAmount: '', MobileNumber: '', InvoiceNumber: '' };
-        vm.PaybillModel = { CompanyId: vm.CompanyId, CustomerId: vm.CustomerId, SenderName: vm.CustomerName, PaymentMethodId: '0',Amount:'0.00' }
+     
         
         vm.ExpireModel = {}
         //Get Method Details
@@ -191,7 +194,12 @@
             var sYear = vm.ExpireModel.ExpireYear;
             var expiremonth = sMonth + '' + sYear;
             idata.setExpirationDate = expiremonth;
+            idata.CompanyId = vm.CompanyId;
+            idata.CustomerId = vm.CustomerId;
+            idata.SenderName = vm.CustomerName;
             var formData = JSON.stringify(idata);
+
+            debugger;
             $http({
                 method: 'POST',
                 url: baseUrl + 'billPay',

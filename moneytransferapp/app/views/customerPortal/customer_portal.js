@@ -659,6 +659,9 @@
         .success(function (data) {
             var idata = data;
             vm.PaymentMethods = idata;
+            if (vm.PaymentMethods[0].PaymentMethodId==0)
+                vm.PaymentMethods.splice(0, 1);
+            
         });
 
 

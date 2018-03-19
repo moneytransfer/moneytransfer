@@ -97,8 +97,8 @@
                                     <div class="col-sm-11 p-0">
                                         <div class="col-sm-8" ng-repeat="PaymentMethod in PaymentMethods">
                                             <label class="form-control-label">
-                                                <input type="radio" name="methods" ng-model="ModelData.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}"  required ng-init="$index==0?(ModelData.PaymentMethodId=PaymentMethod.PaymentMethodId):''" />
-                                                {{PaymentMethod.Title}}
+                                                <input type="radio" name="methods" ng-model="ModelData.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}"  required ng-init="$index==1?(ModelData.PaymentMethodId=PaymentMethod.PaymentMethodId):''"  ng-hide="PaymentMethod.PaymentMethodId=='0'"/>
+                                                {{PaymentMethod.PaymentMethodId!=0?PaymentMethod.Title:''}}
                                             </label>
                                         </div>
                                     </div>
