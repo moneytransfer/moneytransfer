@@ -45,10 +45,10 @@
                         <td><small>{{Fees.GlobalExchangeRate}}</small></td>
                         <td><input type="checkbox" name="check" value='{{Fees.IsActive}}' ng-model="Fees.IsActive" disabled="true" /></td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-primary" >Edit</button>
+                            <button type="submit" class="btn btn-sm btn-primary"  ng-click="EditGlobalExchange(Fees.GlobalExchangeId)">Edit</button>
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" >Delete </button>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteGlobalExchangeRateById(Fees.GlobalExchangeId)" >Delete </button>
                         </td>
                     </tr>
                 </tbody>

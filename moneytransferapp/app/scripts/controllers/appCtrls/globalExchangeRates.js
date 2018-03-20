@@ -100,7 +100,7 @@
             }, true);
             if (SourcecountryData.length > 0)
                 vm.globalExchangeRateDataList[i].SourceCountryName = SourcecountryData[0].CountryName;
-            debugger
+
             var DestinationCountry = $filter('filter')(vm.Countries, {
                 CountryId: data.DestinationCountryId,
             }, true);
@@ -116,7 +116,7 @@
 
 
         vm.addfees = function () {
-            debugger
+           
             $state.go('app.add_Global_Exchange_Rates');
 
         }
@@ -147,7 +147,7 @@
                 dataType: "json",
             })
             .success(function (data) {
-                debugger;
+
                 var idata = data;
                 if (idata.GlobalExchangeId > 0 && idata.Result == "Sucess") {
                     Alert(1, "! Global Exchange Rate Deleted Successfully");
@@ -243,7 +243,7 @@
                 dataType: "json",
             })
            .success(function (data) {
-               debugger
+             
                var idata = data;
                if (idata && idata.Result == "Sucess") {
                    vm.globalExchangeRateData = idata;
@@ -321,7 +321,9 @@
 
 
                             setTimeout(function () {
-                                Alert(2, "!sorry we can't proceed. ");
+                                //Alert(2, "!sorry we can't proceed. ");
+                                vm.Error = "!sorry we can't proceed. ";
+                                $('#deleteconfirm').modal('show');
                             }, 100);
                             vm.globalExchangeRateData.SellSpotPrice = "0.00";
                             $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + ' ' + vm.globalExchangeRateData.ToCurrency);
@@ -330,7 +332,8 @@
             } else {
 
                 setTimeout(function () {
-                    Alert(2, "!sorry we can't proceed. ");
+                    vm.Error = "!sorry we can't proceed. ";
+                    $('#deleteconfirm').modal('show');
                 }, 100);
                 vm.globalExchangeRateData.SellSpotPrice = "0.00";
                 $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + ' ' + vm.globalExchangeRateData.ToCurrency);
@@ -371,7 +374,7 @@
         }
 
         vm.getFeesDetails = function () {
-            debugger;
+            
             if (vm.globalExchangeRateData.CompanyId != "0" && vm.globalExchangeRateData.SourceCountry != "0" && vm.globalExchangeRateData.DestinationCountry != "0" && vm.globalExchangeRateData.PaymentMethodId != "-1") {
                 var formData = JSON.parse(JSON.stringify({ "CompanyId": parseInt(vm.globalExchangeRateData.CompanyId), "PaymentMethodId": parseInt(vm.globalExchangeRateData.PaymentMethodId), "SourceCountry": parseInt(vm.globalExchangeRateData.SourceCountry), "DestinationCountry": parseInt(vm.globalExchangeRateData.DestinationCountry) }));
                 $http({
@@ -386,7 +389,9 @@
              vm.globalExchangeRateData.AutoFees = "" + data.Fees;
          } else {
              vm.globalExchangeRateData.AutoFees = "";
-             Alert(2, "No fee record found for this destination country !");
+             //Alert(2, "No fee record found for this destination country !");
+             vm.Error = "No fee record found for this destination country !";
+             $('#deleteconfirm').modal('show');
          }
         
        
@@ -419,7 +424,8 @@
                          }, 1000);
                      }
                      else {
-                         Alert(2, idata.Error);
+                         vm.Error = idata.Error;
+                         $('#deleteconfirm').modal('show');
                      }
                  });
             }else{
