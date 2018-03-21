@@ -10,12 +10,13 @@ import com.etl.util.MYSQLHelper;
 
 public class CountryDeatils {
 	public int CountryId;
-	public String iso;
 	public String CountryName;
-	public String CountryNiceName;
-	public String iso3;
-	public String CountryCode;	
+	public String iso;
 	public int phonecode;
+	public String CurrencyName;
+	public String CurrencySymbol;	
+	public String CurrencyCode;		
+	
 	public String Result;
 	public String Error;
 	
@@ -34,12 +35,6 @@ public class CountryDeatils {
 		return iso;
 	}
 	
-	private void setcountry_code(String CountryCode){
-		this.CountryCode = CountryCode;
-	}	
-	private String getcountry_code(){
-		return CountryCode;
-	}
 	
 	private void setcountry_name(String CountryName){
 		this.CountryName = CountryName;
@@ -48,18 +43,7 @@ public class CountryDeatils {
 		return CountryName;
 	}
 	
-	private void setCountryNiceName(String CountryNiceName){
-		this.CountryNiceName = CountryNiceName;
-	}	
-	private String getCountryNiceName(){
-		return CountryNiceName;
-	}
-	private void setiso3(String iso3){
-		this.iso3 = iso3;
-	}	
-	private String getiso3(){
-		return iso3;
-	}
+	
 	
 	private void setphonecode(int phonecode){
 		this.phonecode = phonecode;
@@ -81,8 +65,28 @@ public class CountryDeatils {
 	private String getError(){
 		return Error;
 	}
+
+	private void setCurrencyCode(String CurrencyCode){
+		this.CurrencyCode = CurrencyCode;
+	}	
+	private String getCurrencyCoder(){
+		return CurrencyCode;
+	}
+	
+	private void setCurrencySymbol(String CurrencySymbol){
+		this.CurrencySymbol = CurrencySymbol;
+	}	
+	private String getCurrencySymbol(){
+		return CurrencySymbol;
+	}
 	
 	
+	private void setCurrencyName(String CurrencyName){
+		this.CurrencyName = CurrencyName;
+	}	
+	private String getCurrencyName(){
+		return CurrencyName;
+	}
 	public CountryDeatils getCountry(CountryDeatils _CountryDeatils) {
 		Connection _Connection = MYSQLConnection.GetConnection();	
 		try
@@ -94,11 +98,13 @@ public class CountryDeatils {
 			if (_ResultSet.next())
 			{
 				_CountryDeatils.setcountry_id(_ResultSet.getInt("country_id"));
-				_CountryDeatils.setcountry_code(_ResultSet.getString("country_code"));
+				
 				_CountryDeatils.setcountry_name(_ResultSet.getString("country_name"));				
 				_CountryDeatils.setiso(_ResultSet.getString("iso"));
-				_CountryDeatils.setCountryNiceName(_ResultSet.getString("country_nicename"));
-				_CountryDeatils.setiso3(_ResultSet.getString("iso3"));
+				
+				_CountryDeatils.setCurrencyName(_ResultSet.getString("currency_name"));
+				_CountryDeatils.setCurrencyCode(_ResultSet.getString("currency_code"));
+				_CountryDeatils.setCurrencySymbol(_ResultSet.getString("currency_symbol"));
 				_CountryDeatils.setphonecode(_ResultSet.getInt("phonecode"));
 				_CountryDeatils.setResult("Sucess");
 			}
@@ -138,12 +144,13 @@ public class CountryDeatils {
 					
 				 CountryDeatils _CountryDeatils=new CountryDeatils();
 				 _CountryDeatils.setcountry_id(_ResultSet.getInt("country_id"));
-				 _CountryDeatils.setcountry_code(_ResultSet.getString("country_code"));
+				 _CountryDeatils.setCurrencyName(_ResultSet.getString("currency_name"));
 				 _CountryDeatils.setcountry_name(_ResultSet.getString("country_name"));				
 				 _CountryDeatils.setiso(_ResultSet.getString("iso"));
-					_CountryDeatils.setCountryNiceName(_ResultSet.getString("country_nicename"));
-					_CountryDeatils.setiso3(_ResultSet.getString("iso3"));
+					
 					_CountryDeatils.setphonecode(_ResultSet.getInt("phonecode"));
+					_CountryDeatils.setCurrencyCode(_ResultSet.getString("currency_code"));
+					_CountryDeatils.setCurrencySymbol(_ResultSet.getString("currency_symbol"));
 					_CountryDeatils.setResult("Success");
 				 _CountryDetaillist.add(_CountryDeatils);
 					
@@ -167,7 +174,7 @@ public class CountryDeatils {
 	
 	
 	
-	public CountryDeatils getCountryDetailsIso(int phoneCode) {
+	public CountryDeatils getCountryDetailsIso(int phoneCode, String countryName) {
 		CountryDeatils _CountryDeatils=new CountryDeatils();
 		Connection _Connection = MYSQLConnection.GetConnection();	
 		try
@@ -177,16 +184,17 @@ public class CountryDeatils {
 			{
 				
 			MYSQLHelper _MYSQLHelper = new MYSQLHelper();
-			ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM country where phonecode='"+phoneCode+"'",_Connection);
+			ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM country where phonecode='"+phoneCode+"' and country_name='"+countryName+"'",_Connection);
 			if (_ResultSet.next())
 			{
 				_CountryDeatils.setcountry_id(_ResultSet.getInt("country_id"));
-				_CountryDeatils.setcountry_code(_ResultSet.getString("country_code"));
+				_CountryDeatils.setCurrencyName(_ResultSet.getString("currency_name"));
 				_CountryDeatils.setcountry_name(_ResultSet.getString("country_name"));				
 				_CountryDeatils.setiso(_ResultSet.getString("iso"));
-				_CountryDeatils.setCountryNiceName(_ResultSet.getString("country_nicename"));
-				_CountryDeatils.setiso3(_ResultSet.getString("iso3"));
+				
 				_CountryDeatils.setphonecode(_ResultSet.getInt("phonecode"));
+				_CountryDeatils.setCurrencyCode(_ResultSet.getString("currency_code"));
+				_CountryDeatils.setCurrencySymbol(_ResultSet.getString("currency_symbol"));
 				_CountryDeatils.setResult("Sucess");
 			}
 			else{

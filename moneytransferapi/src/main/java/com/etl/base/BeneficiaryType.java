@@ -12,6 +12,7 @@ public class BeneficiaryType {
 
 	public int BeneficiaryTypeId;
 	public String BeneficiaryDescription;
+	
 	public String Result;
 	public String Error;
 	
@@ -41,6 +42,8 @@ public class BeneficiaryType {
 	private String getError(){
 		return Error;
 	}
+	
+	
 	public static ArrayList<BeneficiaryType> getBeneficiaryTypeDetails() {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		

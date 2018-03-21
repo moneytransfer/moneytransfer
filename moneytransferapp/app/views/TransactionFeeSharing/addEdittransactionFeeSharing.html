@@ -46,15 +46,20 @@
                         
                         <div  ng-if="TransactionFeeSharingDetails.TransactionFeeType=='Specific'">
                             
-
+                            
                             <div class="form-group">
-                                <label for="sel1">Delivery Method</label>
-                                
-                                    <select name="methodType" id="DeliveryMethodType" ng-model="CustomizeTransactionFeeData.PaymentMethodId" class="form-control" required>
-                                        <option value="-1" disabled>--Delivery Method--</option>
-                                        <option ng-repeat="Country in DeliveryMethod" value="{{Country.PaymentMethodId}}">{{Country.Title}}</option>
+                                <label for="sel1" class="form-control-label">Payment Method</label>
+                                <div>
+                                    <select  class="form-control"  name="methodType" id="PaymentMethod" ng-model="CustomizeTransactionFeeData.PaymentMethod"  required>
+                                        <option value="-1" disabled>--Payment Method--</option>
+                                        <option value="Bank Transfer">Bank Transfer</option>
+                                        <option value="Cash PickUp">Cash PickUp</option>
+
+
                                     </select>
-                                    <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PaymentMethodId=='-1'">Please select Delivery Method.</span>
+                                    <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PaymentMethod=='-1' ">Please select Payment Method.</span>
+                                </div>
+                              
                                 
                             </div>
                             <div class="form-group">
@@ -63,49 +68,71 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1' && CustomizeTransactionFeeData.PaymentMethod!='Bank Transfer'">
                                 <label for="sel1">Pay-In Agent</label>
                                 <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayInAgent" class="form-control" required >
-                                    <option value="-1" disabled>-- Select Aggent --</option>
-                                    <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}">{{Agent.AgentFirstName}}</option>
+                                    <option value="-1" disabled>-- Select Agent --</option>
+                                    <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}" ng-hide="Agent.AgentId==-1">{{Agent.AgentFirstName}}</option>
                                 </select>
                                 <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayInAgentId=='-1'">Please select Pay-In Agent.</span>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1'  && CustomizeTransactionFeeData.PaymentMethod!='Bank Transfer'">
                                 <label for="your-share">pay in agent(%)</label>
                                 <input type="number" id="payAgentShare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayInAgentPer">
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1'">
                                 <label for="sel1">Pay-Out Agent</label>
                                 <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayOutAgent" class="form-control" required >
-                                    <option value="-1" disabled>-- Select Aggent --</option>
-                                    <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}">{{Agent.AgentFirstName}}</option>
+                                    <option value="-1" disabled>-- Select Agent --</option>
+                                    <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}" ng-hide="Agent.AgentId==-1">{{Agent.AgentFirstName}}</option>
                                 </select>
                                 <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayOutAgentId=='-1'">Please select Pay-Out Agent.</span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1'">
                                 <label for="your-share">pay out agent(%)</label>
                                 <input type="number" id="payOutAgentshare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayOutAgentPer">
                             </div>
 
                             <div class="form-check">
-                                <label class="form-check-label">
-                                    <input type="checkbox"  class="form-check-input" value="" ng-model="CustomizeTransactionFeeData.IsSpecific">
+                                <label class="col-sm-3 form-control-label">
+                                    Is Active :
                                 </label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" class="form-check-input" value="" ng-model="CustomizeTransactionFeeData.IsSpecific">
+                                </div>
+
                             </div>
+                          <div class="cm-align-btn">
+                              <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                              <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'" ng-click="SaveSpecificfee()">{{CustomizeTransactionFeeData.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
+                          </div>
                            
-                            <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
-                            <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'"  ng-click="SaveSpecificfee()">{{CustomizeTransactionFeeData.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
-                            <div class="code-label m-y-1">
-                                <label for="">UNIVERSAL TRANS. SHARING FEE REF. CODE FLUTSF00001</label>
-                            </div>
+                            
                         </div>
                        
 
                     </form>
+                    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-danger">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title ">!Warning  </h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <h6 class="modal-title">{{Error}} </h6>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Ok</button>
+                                    <!--<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             </div>

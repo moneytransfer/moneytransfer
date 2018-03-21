@@ -203,10 +203,12 @@ public class CarrierInfoByMobileNumber {
 	}
 	public CarrierInfoByMobileNumber getCarrierInfoByMobileNumber(CarrierInfoByMobileNumber _CarrierInfoByMobileNumber) {
 		
+		//String strURL = "https://valuetopup.com/posaservice/servicemanager.asmx";
 		String strURL = "https://qa.valuetopup.com/posaservice/servicemanager.asmx";
 		 String strSoapAction = "http://www.pininteract.com/GetCarrierInfoByMobileNumber";
 
 		 PostMethod post = new PostMethod(strURL);
+		// String sRequest = GetRequest("Falconclk", "Ah2yinI37Dfi80cx7", _CarrierInfoByMobileNumber.MobileNumber);
 		 String sRequest = GetRequest("Falcontest", "Hello@123", _CarrierInfoByMobileNumber.MobileNumber);
 		 RequestEntity entity = new StringRequestEntity(sRequest);
 		 post.setRequestEntity(entity);
@@ -220,13 +222,15 @@ public class CarrierInfoByMobileNumber {
 					resultpay = httpclient.executeMethod(post);
 				} catch (HttpException e) {
 					_CarrierInfoByMobileNumber.setResult("Failed");
-					_CarrierInfoByMobileNumber.setError("Your transaction could not be completed due to some issue, please contact administrator.");
+					//_CarrierInfoByMobileNumber.setError("Your transaction could not be completed due to some issue, please contact administrator.");
+					_CarrierInfoByMobileNumber.setError(e.getMessage());
 		        	//clear(_BillPay);
 					// System.out.println("error code1: " + result);
 				} catch (IOException e) {
 					 //System.out.println("error code11: " + result);
 					_CarrierInfoByMobileNumber.setResult("Failed");
-					_CarrierInfoByMobileNumber.setError("Server was unable to process request, please contact administrator.");
+					//_CarrierInfoByMobileNumber.setError("Server was unable to process request, please contact administrator.");
+					_CarrierInfoByMobileNumber.setError(e.getMessage());
 		        	//clear(_BillPay);
 				}
 				try {
@@ -239,7 +243,8 @@ public class CarrierInfoByMobileNumber {
 					else
 					{
 						_CarrierInfoByMobileNumber.setResult("Failed");
-						_CarrierInfoByMobileNumber.setError("Server was unable to process request, please contact administrator.");
+						_CarrierInfoByMobileNumber.setError("error due to "+' '+resultpay);
+						
 			        	//clear(_BillPay);
 					}
 					
@@ -248,7 +253,8 @@ public class CarrierInfoByMobileNumber {
 					
 					//clear(_CarrierInfoByMobileNumber);
 					_CarrierInfoByMobileNumber.setResult("Failed");
-					_CarrierInfoByMobileNumber.setError("Server was unable to process request, please contact administrator.");
+					//_CarrierInfoByMobileNumber.setError("Server was unable to process request, please contact administrator.");
+					_CarrierInfoByMobileNumber.setError(e.getMessage());
 		        	//clear(_CarrierInfoByMobileNumber);
 				}
 	        } finally {
@@ -364,7 +370,7 @@ public class CarrierInfoByMobileNumber {
 				}
 	        }
 	        catch (Exception e) {
-				// TODO: handle exception
+	        	
 			}
 		 
 		 return _CarrierInfoByMobileNumber;

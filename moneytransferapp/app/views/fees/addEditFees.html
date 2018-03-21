@@ -33,20 +33,19 @@
 
                         <div class="form-group row">
                             <div class="col-sm-6">
-                                <label for="Country" class="col-sm-3 form-control-label">PAY-IN AGENT : </label>
-                                <div class="col-sm-8">
-                                    <select name="Agent" id="ddlAgent" ng-model="FeesModel.PayInAgentId" class="form-control"  required>
-                                        <option value="0">-- Select Aggent --</option>
-                                        <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}">{{Agent.AgentFirstName}}</option>
-                                    </select>
-                                    <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PayInAgentId == 0">Please select Agent.</span>
-                                
-                                    <div class="col-sm-4 checkbox checkbox-primary form-control-label cm-feeCheckbox">
-                                        <input id="IsActive" type="checkbox" ng-model="FeesModel.IsPayInAgent" ng-init="FeesModel.IsPayInAgent=true ">
-                                    </div>
-                                </div>
-                               
+
+                                 <label for="sel1" class="col-sm-3 form-control-label">Payment Method</label>
+                            <div class="col-sm-8">
+                                <select name="methodType" id="DeliveryMethodType" ng-model="FeesModel.PaymentMethod" class="form-control" required ng-init="FeesModel.PaymentMethod='-1'">
+                                    <option value="-1" disabled>--Payment Method--</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Cash PickUp">Cash PickUp</option>
+                                    
+
+                                </select>
+                                <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PaymentMethod=='-1' ">Please select Payment Method.</span>
                             </div>
+                               </div>
                             <div class="col-sm-6">
                                 <label for="inputName" class="col-sm-3 form-control-label">End Amount: <b class="text-danger">&nbsp;*</b> </label>
                                 <div class="col-sm-8">
@@ -56,14 +55,47 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-sm-6" ng-if="FeesModel.PaymentMethod!='-1' &&  FeesModel.PaymentMethod!='Bank Transfer' ">
+                                <label for="Country" class="col-sm-3 form-control-label">PAY-IN AGENT : </label>
+                                <div class="col-sm-8">
+                                    <select name="Agent" id="ddlAgent" ng-model="FeesModel.PayInAgentId" class="form-control" required>
+                                        <option value="0">-- Select Aggent --</option>
+                                        <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}" ng-hide="Agent.AgentId==-1">{{Agent.AgentFirstName}}</option>
+                                    </select>
+                                    <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PayInAgentId == 0">Please select Agent.</span>
+
+                                    <div class="col-sm-4 checkbox checkbox-primary form-control-label cm-feeCheckbox">
+                                        <input id="IsActive" type="checkbox" ng-model="FeesModel.IsPayInAgent" ng-init="FeesModel.IsPayInAgent=true ">
+                                    </div>
+                                </div>
+                                </div>
+
+
+
+                             
+                                <div class="col-sm-6">
+                                    <label for="Country" class="col-sm-3 form-control-label">Fee Type : </label>
+                                    <div class="col-sm-8">
+                                        <select name="FamRole" id="Select6" ng-model="FeesModel.FeesType" class="form-control" required>
+                                            <option value="0">-- Fee type --</option>
+                                            <option ng-repeat="Fee in FeeType" value="{{Fee.Feetype}}">{{Fee.FeeTypeName}}</option>
+                                        </select>
+                                        <span class="text-danger" ng-show="tblFees.$valid && FeesModel.FeesType == 0">Please select Fee type .</span>
+                                    </div>
+                                </div>
+                            </div>
 
                         <div class="form-group row">
-                            <div class="col-sm-6">
+
+
+                            <div class="col-sm-6" ng-if="FeesModel.PaymentMethod!='-1' && FeesModel.PaymentMethod!='Bank Transfer' ">
                                 <label for="Country" class="col-sm-3 form-control-label">PAY-OUT AGENT : </label>
                                 <div class="col-sm-8">
                                     <select name="Agent" id="ddlAgent" ng-model="FeesModel.PayOutAgentId" class="form-control" required>
                                         <option value="0">-- Select Aggent --</option>
-                                        <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}">{{Agent.AgentFirstName}}</option>
+                                        <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}" ng-hide="Agent.AgentId==-1">{{Agent.AgentFirstName}}</option>
                                     </select>
                                     <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PayOutAgentId == 0">Please select Agent.</span>
 
@@ -71,17 +103,15 @@
                                         <input id="IsActive" type="checkbox" ng-model="FeesModel.IsPayOutAgent" ng-init="FeesModel.IsPayOutAgent=true ">
                                     </div>
                                 </div>
-                              
+
                             </div>
-                            <div class="col-sm-6">
-                                <label for="Country" class="col-sm-3 form-control-label">Fee Type : </label>
+                             <div class="col-sm-6">
+                                <label for="inputName" class="col-sm-3 form-control-label">Fees: <b class="text-danger">&nbsp;*</b> </label>
                                 <div class="col-sm-8">
-                                    <select name="FamRole" id="Select6" ng-model="FeesModel.FeesType" class="form-control" required>
-                                        <option value="0">-- Fee type --</option>
-                                        <option ng-repeat="Fee in FeeType" value="{{Fee.Feetype}}">{{Fee.FeeTypeName}}</option>
-                                    </select>
-                                    <span class="text-danger" ng-show="tblFees.$valid && FeesModel.FeesType == 0">Please select Fee type .</span>
+                                    <input type="number" class="form-control" id="Fees" placeholder="Fees" ng-model="FeesModel.Fees" required min="0" max="100"  onkeyup="fun_AllowOnlyAmountAndDot(this)">
+                                
                                 </div>
+                              
                             </div>
                         </div>
 
@@ -96,17 +126,16 @@
                                     <span class="text-danger" ng-show="tblFees.$valid && FeesModel.FeesCategoryId == 0">Please select Fees Category.</span>
                                 </div>
                             </div>
-                            
+                           
+                           
                             <div class="col-sm-6">
-                                <label for="inputName" class="col-sm-3 form-control-label">Fees: <b class="text-danger">&nbsp;*</b> </label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="Fees" placeholder="Fees" ng-model="FeesModel.Fees" required min="0" max="100"  onkeyup="fun_AllowOnlyAmountAndDot(this)">
-                                
+                                <label for="IsActive" class="col-sm-3 form-control-label">Charge Sending Amount:</label>
+                                <div class="col-sm-8 checkbox checkbox-primary form-control-label">
+                                    <input id="IsActive" type="checkbox" ng-model="FeesModel.ChargeSendingAmount" ng-init="FeesModel.ChargeSendingAmount=false ">
                                 </div>
-                              
                             </div>
+                            
                         </div>
-
                         <div class="form-group row">
                             <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">Source Country : </label>
@@ -119,14 +148,23 @@
 
                                 </div>
                             </div>
-                           
                             <div class="col-sm-6">
-                                <label for="IsActive" class="col-sm-3 form-control-label">Charge Sending Amount:</label>
-                                <div class="col-sm-8 checkbox checkbox-primary form-control-label">
-                                    <input id="IsActive" type="checkbox" ng-model="FeesModel.ChargeSendingAmount" ng-init="FeesModel.ChargeSendingAmount=false ">
+                                <label for="Country" class="col-sm-3 form-control-label">Base Currency : </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="baseCurrency" placeholder="Base Currency" ng-model="BaseCurrency" disabled>
                                 </div>
                             </div>
-                            
+                           
+                            <!--<div class="col-sm-6">
+                                <label for="IsActive" class="col-sm-3 form-control-label">Delivery Method</label>
+                                <div class="col-sm-8">
+                                    <select name="methodType" id="DeliveryMethodType" ng-model="FeesModel.PaymentMethodId" class="form-control" required>
+                                        <option value="0">--Delivery Method--</option>
+                                        <option ng-repeat="Country in DeliveryMethod" value="{{Country.PaymentMethodId}}">{{Country.Title}}</option>
+                                    </select>
+                                    <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PaymentMethodId == 0">Please select Delivery Method.</span>
+                                </div>
+                            </div>-->
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6">
@@ -140,25 +178,7 @@
                                     <span class="text-danger" ng-show="tblFees.$valid && FeesModel.DestinationCountry == 0">Please select Destination Country.</span>
                                 </div>
                             </div>
-                           
-                            <div class="col-sm-6">
-                                <label for="IsActive" class="col-sm-3 form-control-label">Delivery Method</label>
-                                <div class="col-sm-8">
-                                    <select name="methodType" id="DeliveryMethodType" ng-model="FeesModel.PaymentMethodId" class="form-control" required>
-                                        <option value="0">--Delivery Method--</option>
-                                        <option ng-repeat="Country in DeliveryMethod" value="{{Country.PaymentMethodId}}">{{Country.Title}}</option>
-                                    </select>
-                                    <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PaymentMethodId == 0">Please select Delivery Method.</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6">
-                                <label for="Country" class="col-sm-3 form-control-label">Base Currency : </label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="baseCurrency" placeholder="Base Currency" ng-model="BaseCurrency" disabled>
-                                </div>
-                            </div>
+                            
                             <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">To Currency : </label>
                                 <div class="col-sm-8">
@@ -167,7 +187,10 @@
                             </div>
                            
                         </div>
-
+                        <!--<div class="form-group row">
+                            
+                        </div>-->
+                        
                      
                         <div class="form-group row m-t-md">
                             <div class="col-sm-9 pull-right">
@@ -179,6 +202,24 @@
                         </div>
                         <div class="col-sm-4" ng-if="code"><label class="cm-code" >FEE SETUP REF.CODE:  {{code}}</label></div>
                     </form>
+                    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-danger">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title ">!Warning  </h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <h6 class="modal-title">{{Error}} </h6>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Ok</button>
+                                    <!--<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

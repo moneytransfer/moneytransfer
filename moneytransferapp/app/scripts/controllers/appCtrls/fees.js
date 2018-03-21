@@ -15,7 +15,7 @@
         vm.ManageFees = [{ PaymentMethod: "", Fees: "", CreatedDate: "", ChargeSendingAmount: "", FeesType: "", DestinationCountry: "", SourceCountry:""}];
         vm.UserId = 0;
         vm.CompanyId = 0;
-        vm.PaymentMethodType = [];
+       
         vm.Countries = [];
      
         if ($window.sessionStorage.authorisedUser) {
@@ -36,26 +36,14 @@
           var idata = data;
           vm.Countries = idata;
           var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
-          $http({
-              method: 'POST',
-              url: baseUrl + 'getpaymentmethodbycompanyid',
-              data: formData,
-              headers: { 'Content-Type': 'application/json; charset=utf-8' }
-          })
-          .success(function (data) {
-           
-              var idata = data;
-              vm.PaymentMethodType = idata;
-
-              var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
-              $http({
+           $http({
                   method: 'POST',
                   url: baseUrl + 'getPaymentFeesDetails',
                   data: formData,
                   headers: { 'Content-Type': 'application/json; charset=utf-8' }
               })
           .success(function (data) {
-
+              
               var idata = data;
               vm.ManageFees = idata;
               angular.forEach(vm.ManageFees, function (fee, index) {
@@ -66,7 +54,6 @@
 
 
 
-          });
 
 
 
@@ -105,11 +92,7 @@
              if (data123.length>0) {
                  vm.ManageFees[i].PayOutAgentName = data123[0].AgentFirstName;
              }
-             var data1 = $filter('filter')(vm.PaymentMethodType, {
-                 PaymentMethodId: fee.PaymentMethodId,
-             }, true);
-             if (data1.length > 0)
-                 vm.ManageFees[i].PaymentMethod = data1[0].Title;
+           
              var SourcecountryData = $filter('filter')(vm.Countries, {
                  CountryId: fee.SourceCountry,
              }, true);
@@ -187,11 +170,12 @@
         vm.parseInt = parseInt;
         vm.ToCurrency = "";
         vm.BaseCurrency = "";
-        vm.FeesModel = { PaymentFessId: "0", CompanyId: "0", SourceCountry: "0", DestinationCountry: "0", FeesType: "0", FeesCategoryId: "0", PayInAgentId: "0",PayOutAgentId:"0", PaymentMethodId: "0" };
+        vm.FeesModel = { PaymentFessId: "0", CompanyId: "0", SourceCountry: "0", DestinationCountry: "0", FeesType: "0", FeesCategoryId: "0", PayInAgentId: "0",PayOutAgentId:"0", PaymentMethod: "" };
         vm.Companies = [];
         vm.DeliveryMethod = [];
         vm.code = "";
         vm.header = 'Add New';
+        vm.Error = "";
         //Get Company
         $http({
             method: 'GET',
@@ -233,32 +217,12 @@
                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
             })
             .success(function (data) {
+
                 var idata = data;
                 vm.ManageAgent = idata;
             });
 
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'getpaymentmethodbycompany ',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            })
-       .success(function (data) {
-           var idata = data;
-           vm.PaymentMethods = idata;
-       });
-
-
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'getpaymentmethodbycompanyid ',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            })
-  .success(function (data) {
-      var idata = data;
-      vm.DeliveryMethod = idata;
-  });
+            
 
 
 
@@ -281,7 +245,7 @@
                 dataType: "json",
             })
              .success(function (data) {
-
+             
                  var idata = data;
                  //vm.FeesModel = idata;
                  if (idata) {
@@ -298,7 +262,7 @@
                      vm.FeesModel.FeesType = "" + idata.FeesType;
                      vm.FeesModel.SourceCountry = "" + idata.SourceCountry;
                      vm.getBaseCurrency(vm.FeesModel.SourceCountry);
-                     vm.FeesModel.PaymentMethodId = "" + idata.PaymentMethodId;
+                     vm.FeesModel.PaymentMethod = "" + idata.PaymentMethod;
                      vm.FeesModel.ChargeSendingAmount = idata.ChargeSendingAmount
                      vm.FeesModel.EndAmount = idata.EndAmount;
                      vm.FeesModel.StartingAmount = idata.StartingAmount;
@@ -343,6 +307,9 @@
                 vm.FeesModel.StartingAmount = $('#StartingAmount').val();
                 vm.FeesModel.EndAmount = $('#EndAmount').val();
                 vm.FeesModel.Fees = +$('#Fees').val();
+                if (vm.FeesModel.PaymentMethod == 'Bank Transfer') {
+                    vm.FeesModel.PayInAgentId = '-1'
+                }
                 var iData = vm.FeesModel;
                 var formData = JSON.stringify(vm.FeesModel);
                 $http({
@@ -366,17 +333,21 @@
 
                     }
                     else {
-                        Alert(2, idata.User.Message);
+                        vm.Error = idata.Error;
+                        $('#deleteconfirm').modal('show');
                     }
                 });
             }
             else {
-                
+          
                 vm.FeesModel.StartingAmount = $('#StartingAmount').val();
                 vm.FeesModel.EndAmount = $('#EndAmount').val();
                 vm.FeesModel.Fees =+$('#Fees').val();
                 var iData = vm.FeesModel;
-
+                if (vm.FeesModel.PaymentMethod == 'Bank Transfer') {
+                    vm.FeesModel.PayInAgentId = '-1';
+                    vm.FeesModel.PayOutAgentId = '-1';
+                  }
                 //if (vm.UserModel.IsActive == true) {
                 //    iData.IsActive = "true"
                 //}
@@ -408,7 +379,8 @@
 
                     }
                     else {
-                        Alert(2, idata.Error);
+                        vm.Error = idata.Error;
+                        $('#deleteconfirm').modal('show');
                     }
                 });
             }

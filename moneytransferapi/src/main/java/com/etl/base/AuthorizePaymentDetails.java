@@ -18,6 +18,8 @@ public class AuthorizePaymentDetails {
 	public String PaymentUrl;
 	public String MerchantLoginId;
 	public String MerchantTransactionKey;
+	public String Server;
+	public String Port;
 	public boolean IsActive;
 	public boolean IsDeleted;
 	public String CreatedDate;
@@ -105,6 +107,20 @@ public class AuthorizePaymentDetails {
 		return Error;
 	}
 	
+	private void setServer(String Server){
+		this.Server = Server;
+	}	
+	private String getServer(){
+		return Server;
+	}
+	private void setPort(String Port){
+		this.Port = Port;
+	}	
+	private String getPort(){
+		return Port;
+	}
+	
+	
 	private void setPaymentTypeId(int PaymentTypeId){
 		this.PaymentTypeId = PaymentTypeId;
 	}	
@@ -126,19 +142,23 @@ public AuthorizePaymentDetails addAuthorizePayment(AuthorizePaymentDetails _Auth
 					_AuthorizePaymentDetails.setCreatedDate(date);
 					if(_AuthorizePaymentDetails.AuthorizePaymentSettingsId <=0)
 					{
+						String ss=("SELECT PaymentMethodId FROM paymentmethod where PaymentMethodId='"+_AuthorizePaymentDetails.PaymentMethodId+"'");
 						ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT PaymentMethodId FROM paymentmethod where PaymentMethodId='"+_AuthorizePaymentDetails.PaymentMethodId+"'",_Connection);
 						if (_ResultSet.next())
 						{
-							String sInsertStatement = "INSERT INTO authorizepaymentsettings( PaymentMethodId, Mode, PaymentUrl,MerchantLoginId,MerchantTransactionKey,IsActive,CreatedDate)";
-							 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?)";
+							String sInsertStatement = "INSERT INTO authorizepaymentsettings( PaymentMethodId, Mode, PaymentUrl,MerchantLoginId,MerchantTransactionKey,Server,Port,IsActive,CreatedDate)";
+							 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?,?,?)";
 							  _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 								_PreparedStatement.setInt(1, _AuthorizePaymentDetails.PaymentMethodId);							
 								_PreparedStatement.setString(2, _AuthorizePaymentDetails.Mode); 
 								_PreparedStatement.setString(3, _AuthorizePaymentDetails.PaymentUrl); 
 								_PreparedStatement.setString(4, _AuthorizePaymentDetails.MerchantLoginId); 
 								_PreparedStatement.setString(5, _AuthorizePaymentDetails.MerchantTransactionKey); 
-								_PreparedStatement.setBoolean(6, _AuthorizePaymentDetails.IsActive); 
-								_PreparedStatement.setString(7, _AuthorizePaymentDetails.CreatedDate); 
+								_PreparedStatement.setString(6, _AuthorizePaymentDetails.Server); 
+								_PreparedStatement.setString(7, _AuthorizePaymentDetails.Port); 
+								
+								_PreparedStatement.setBoolean(8, _AuthorizePaymentDetails.IsActive); 
+								_PreparedStatement.setString(9, _AuthorizePaymentDetails.CreatedDate); 
 								_PreparedStatement.executeUpdate();
 								_AuthorizePaymentDetails.setResult("Sucess");
 								ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(AuthorizePaymentSettingsId) AS AuthorizePaymentSettingsId FROM authorizepaymentsettings",_Connection);
@@ -162,16 +182,19 @@ public AuthorizePaymentDetails addAuthorizePayment(AuthorizePaymentDetails _Auth
 							ResultSet _ResultSetPaymentMethod = _MYSQLHelper.GetResultSet("SELECT PaymentMethodId FROM paymentmethod where PaymentMethodId='"+_AuthorizePaymentDetails.PaymentMethodId+"'",_Connection);
 							if (_ResultSetPaymentMethod.next())
 							{
-								String sInsertStatement ="UPDATE authorizepaymentsettings SET 	PaymentMethodId = ?,Mode = ? ,PaymentUrl =?,MerchantLoginId = ? ,MerchantTransactionKey =?,IsActive = ?,CreatedDate = ? "+ " WHERE AuthorizePaymentSettingsId = ?";
+								String sInsertStatement ="UPDATE authorizepaymentsettings SET 	PaymentMethodId = ?,Mode = ? ,PaymentUrl =?,MerchantLoginId = ? ,MerchantTransactionKey =?,Server =?,Port =?,IsActive = ?,CreatedDate = ? "+ " WHERE AuthorizePaymentSettingsId = ?";
 								_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 								_PreparedStatement.setInt(1, _AuthorizePaymentDetails.PaymentMethodId);							
 								_PreparedStatement.setString(2, _AuthorizePaymentDetails.Mode);
 								_PreparedStatement.setString(3, _AuthorizePaymentDetails.PaymentUrl);
 								_PreparedStatement.setString(4, _AuthorizePaymentDetails.MerchantLoginId);
 								_PreparedStatement.setString(5, _AuthorizePaymentDetails.MerchantTransactionKey);
-								_PreparedStatement.setBoolean(6, _AuthorizePaymentDetails.IsActive);
-								_PreparedStatement.setString(7, _AuthorizePaymentDetails.CreatedDate);
-								_PreparedStatement.setInt(8, _AuthorizePaymentDetails.AuthorizePaymentSettingsId);
+								
+								_PreparedStatement.setString(6, _AuthorizePaymentDetails.Server);
+								_PreparedStatement.setString(7, _AuthorizePaymentDetails.Port);
+								_PreparedStatement.setBoolean(8, _AuthorizePaymentDetails.IsActive);
+								_PreparedStatement.setString(9, _AuthorizePaymentDetails.CreatedDate);
+								_PreparedStatement.setInt(10, _AuthorizePaymentDetails.AuthorizePaymentSettingsId);
 								_PreparedStatement.executeUpdate();
 								_AuthorizePaymentDetails.setResult("Sucess");
 						         clear(_AuthorizePaymentDetails);
@@ -234,6 +257,8 @@ public AuthorizePaymentDetails getAuthorizePaymentById(AuthorizePaymentDetails _
 					_AuthorizePaymentDetails.setPaymentUrl(_ResultSet.getString("PaymentUrl"));
 					_AuthorizePaymentDetails.setMerchantLoginId(_ResultSet.getString("MerchantLoginId"));
 					_AuthorizePaymentDetails.setMerchantTransactionKey(_ResultSet.getString("MerchantTransactionKey"));
+					_AuthorizePaymentDetails.setServer(_ResultSet.getString("Server"));
+					_AuthorizePaymentDetails.setPort(_ResultSet.getString("Port"));
 					_AuthorizePaymentDetails.setIsActive(_ResultSet.getBoolean("IsActive"));
 					_AuthorizePaymentDetails.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 					_AuthorizePaymentDetails.setCreatedDate(_ResultSet.getString("CreatedDate"));
@@ -346,6 +371,8 @@ public AuthorizePaymentDetails getAuthorizePaymentDetailsbyPaymentMethodId(Autho
 					_AuthorizePaymentDetails.setPaymentUrl(_ResultSetPaymentSettingDetails.getString("PaymentUrl"));
 					_AuthorizePaymentDetails.setMerchantLoginId(_ResultSetPaymentSettingDetails.getString("MerchantLoginId"));
 					_AuthorizePaymentDetails.setMerchantTransactionKey(_ResultSetPaymentSettingDetails.getString("MerchantTransactionKey"));
+					_AuthorizePaymentDetails.setServer(_ResultSetPaymentSettingDetails.getString("Server"));
+					_AuthorizePaymentDetails.setPort(_ResultSetPaymentSettingDetails.getString("Port"));
 					_AuthorizePaymentDetails.setIsActive(_ResultSetPaymentSettingDetails.getBoolean("IsActive"));
 					_AuthorizePaymentDetails.setIsDeleted(_ResultSetPaymentSettingDetails.getBoolean("IsDeleted"));
 					_AuthorizePaymentDetails.setCreatedDate(_ResultSetPaymentSettingDetails.getString("CreatedDate"));
@@ -397,6 +424,8 @@ public AuthorizePaymentDetails clear(AuthorizePaymentDetails _AuthorizePaymentDe
 	_AuthorizePaymentDetails.setPaymentMethodId(0);
 	_AuthorizePaymentDetails.setPaymentUrl("");	
 	_AuthorizePaymentDetails.setMerchantTransactionKey("");	
+	//_AuthorizePaymentDetails.setServer("");
+	//_AuthorizePaymentDetails.setPort("");
 	return _AuthorizePaymentDetails;
 	
 }

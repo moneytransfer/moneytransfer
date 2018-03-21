@@ -30,6 +30,10 @@ public class BeneficiaryDetails {
 	public int CountryId;
 	public String DOB;
 	public boolean IsActive;
+	public String BankName;
+	public String AccountNumber;
+	public String RoutingNumber;
+	public String BICCode;
 	public boolean IsDeleted;
 	public String CreatedDate;
 	public String DeletedDate;
@@ -169,7 +173,33 @@ public class BeneficiaryDetails {
 	private String getError(){
 		return Error;
 	}
+	private void setBankName(String BankName){
+		this.BankName = BankName;
+	}	
+	private String getBankName(){
+		return BankName;
+	}
 	
+	private void setAccountNumber(String AccountNumber){
+		this.AccountNumber = AccountNumber;
+	}	
+	private String getAccountNumber(){
+		return AccountNumber;
+	}
+	
+	private void setRoutingNumber(String RoutingNumber){
+		this.RoutingNumber = RoutingNumber;
+	}	
+	private String getRoutingNumber(){
+		return RoutingNumber;
+	}
+	
+	private void setBICCode(String BICCode){
+		this.BICCode = BICCode;
+	}	
+	private String getBICCode(){
+		return BICCode;
+	}
 	
 	public BeneficiaryDetails addBeneficiaryDetails(BeneficiaryDetails _BeneficiaryDetails) {	
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -200,8 +230,8 @@ public class BeneficiaryDetails {
 									
 									if(_BeneficiaryDetails.BeneficiaryId<=0)
 									{
-										String sInsertStatement = "INSERT INTO beneficiary( CompanyId, BeneficiaryTypeId, CustomerId,FirstName,LastName,Phone,Email,Address1,Address2,City,State,ZipCode,CountryId,DOB,IsActive,CreatedDate)";
-										 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?)";
+										String sInsertStatement = "INSERT INTO beneficiary( CompanyId, BeneficiaryTypeId, CustomerId,FirstName,LastName,Phone,Email,Address1,Address2,City,State,ZipCode,CountryId,DOB,IsActive,BankName,AccountNumber,RoutingNumber,BICCode,CreatedDate)";
+										 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?,?,?,?,?)";
 										   _PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 											_PreparedStatement.setInt(1, _BeneficiaryDetails.CompanyId);							
 											_PreparedStatement.setInt(2, _BeneficiaryDetails.BeneficiaryTypeId); 
@@ -219,7 +249,12 @@ public class BeneficiaryDetails {
 											_PreparedStatement.setInt(13, _BeneficiaryDetails.CountryId); 
 											_PreparedStatement.setString(14, _BeneficiaryDetails.DOB); 
 											_PreparedStatement.setBoolean(15, _BeneficiaryDetails.IsActive); 
-											_PreparedStatement.setString(16, _BeneficiaryDetails.CreatedDate); 
+											_PreparedStatement.setString(16, _BeneficiaryDetails.BankName);
+											_PreparedStatement.setString(17, _BeneficiaryDetails.AccountNumber);
+											_PreparedStatement.setString(18, _BeneficiaryDetails.RoutingNumber);
+											_PreparedStatement.setString(19, _BeneficiaryDetails.BICCode);
+											
+											_PreparedStatement.setString(20, _BeneficiaryDetails.CreatedDate); 
 											_PreparedStatement.executeUpdate();
 											_BeneficiaryDetails.setResult("Sucess");
 											ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(BeneficiaryId) AS BeneficiaryId FROM beneficiary",_Connection);
@@ -235,7 +270,7 @@ public class BeneficiaryDetails {
 										ResultSet _ResultSetBeneficiary = _MYSQLHelper.GetResultSet("SELECT BeneficiaryId FROM beneficiary where BeneficiaryId='"+_BeneficiaryDetails.BeneficiaryId+"'",_Connection);
 										if (_ResultSetBeneficiary.next())
 										{
-											String sInsertStatement ="UPDATE beneficiary SET CompanyId = ?,BeneficiaryTypeId = ? ,CustomerId =?,FirstName = ? ,LastName =?,Phone = ?,Email = ?,Address1 = ?,Address2 = ?,City = ?,State = ?,ZipCode = ?,CountryId = ?,DOB = ?,IsActive = ? "+ " WHERE BeneficiaryId = ?";
+											String sInsertStatement ="UPDATE beneficiary SET CompanyId = ?,BeneficiaryTypeId = ? ,CustomerId =?,FirstName = ? ,LastName =?,Phone = ?,Email = ?,Address1 = ?,Address2 = ?,City = ?,State = ?,ZipCode = ?,CountryId = ?,DOB = ?,IsActive = ?,BankName = ?,AccountNumber = ?,RoutingNumber = ?,BICCode = ? "+ " WHERE BeneficiaryId = ?";
 											_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 											_PreparedStatement.setInt(1, _BeneficiaryDetails.CompanyId);							
 											_PreparedStatement.setInt(2, _BeneficiaryDetails.BeneficiaryTypeId);
@@ -252,7 +287,11 @@ public class BeneficiaryDetails {
 											_PreparedStatement.setInt(13, _BeneficiaryDetails.CountryId);
 											_PreparedStatement.setString(14, _BeneficiaryDetails.DOB);
 											_PreparedStatement.setBoolean(15, _BeneficiaryDetails.IsActive);
-											_PreparedStatement.setInt(16, _BeneficiaryDetails.BeneficiaryId);
+											_PreparedStatement.setString(16, _BeneficiaryDetails.BankName);
+											_PreparedStatement.setString(17, _BeneficiaryDetails.AccountNumber);
+											_PreparedStatement.setString(18, _BeneficiaryDetails.RoutingNumber);
+											_PreparedStatement.setString(19, _BeneficiaryDetails.BICCode);
+											_PreparedStatement.setInt(20, _BeneficiaryDetails.BeneficiaryId);
 										    _PreparedStatement.executeUpdate();
 											_BeneficiaryDetails.setResult("Sucess");
 											clear(_BeneficiaryDetails);
@@ -392,6 +431,10 @@ public class BeneficiaryDetails {
 						_BeneficiaryDetails.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_BeneficiaryDetails.setDeletedDate(_ResultSet.getString("DeletedDate"));	
 						
+						_BeneficiaryDetails.setBankName(_ResultSet.getString("BankName"));
+						_BeneficiaryDetails.setAccountNumber(_ResultSet.getString("AccountNumber"));
+						_BeneficiaryDetails.setRoutingNumber(_ResultSet.getString("RoutingNumber"));
+						_BeneficiaryDetails.setBICCode(_ResultSet.getString("BICCode"));
 						_BeneficiaryDetails.setResult("Sucess");						
 						_BeneficiaryDetailsDetaillist.add(_BeneficiaryDetails);
 						
@@ -447,7 +490,11 @@ public class BeneficiaryDetails {
 					_BeneficiaryDetails.setIsActive(_ResultSet.getBoolean("IsActive"));
 					_BeneficiaryDetails.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 					_BeneficiaryDetails.setCreatedDate(_ResultSet.getString("CreatedDate"));
-					_BeneficiaryDetails.setDeletedDate(_ResultSet.getString("DeletedDate"));						
+					_BeneficiaryDetails.setDeletedDate(_ResultSet.getString("DeletedDate"));
+					_BeneficiaryDetails.setBankName(_ResultSet.getString("BankName"));
+					_BeneficiaryDetails.setAccountNumber(_ResultSet.getString("AccountNumber"));
+					_BeneficiaryDetails.setRoutingNumber(_ResultSet.getString("RoutingNumber"));
+					_BeneficiaryDetails.setBICCode(_ResultSet.getString("BICCode"));
 					_BeneficiaryDetails.setResult("Sucess");					
 				}
 				else{
@@ -495,7 +542,10 @@ public class BeneficiaryDetails {
 		_BeneficiaryDetails.setZipCode("");
 		_BeneficiaryDetails.setCountryId(0);
 		_BeneficiaryDetails.setDOB("");
-		
+		_BeneficiaryDetails.setBankName("");
+		_BeneficiaryDetails.setAccountNumber("");
+		_BeneficiaryDetails.setRoutingNumber("");
+		_BeneficiaryDetails.setBICCode("");
 		return _BeneficiaryDetails;
 		
 	}

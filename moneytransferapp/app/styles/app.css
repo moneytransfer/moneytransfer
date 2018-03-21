@@ -12866,3 +12866,7 @@ td.align-middle {
  .cm-align-top{
      clear:both;
  }
+ .cm-align-btn{
+     float:left;
+     width:100%;
+ }

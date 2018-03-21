@@ -20,8 +20,8 @@
                         <th>FEE SETUP REF. CODE</th>
                         <th>Fees</th>
                         <th>Created Date</th>
-                        <th>Charge Sending Amount</th>
                         <th>Fees Type</th>
+                        <th>Charge Sending Amount</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -36,8 +36,8 @@
                         <td><small>{{Fees.Code}} </small></td>
                         <td><small>{{Fees.Fees | currency}} </small></td>
                         <td><small>{{Fees.CreatedDate }}</small></td>
-                        <td><small>{{Fees.ChargeSendingAmount }}</small></td>
-                        <td><small ng-if="Fees.FeesType==1">Flat</small><small ng-if="Fees.FeesType==2">Percentage</small></td>
+                       <td><small ng-if="Fees.FeesType==1">Flat</small><small ng-if="Fees.FeesType==2">Percentage</small></td>
+                        <td><input type="checkbox" name="check" value='{{Fees.IsActive}}' ng-model="Fees.ChargeSendingAmount" disabled="true" /></td>
                         <td>
                             <button type="submit" class="btn btn-sm btn-primary" ng-click="EditFee(Fees.PaymentFessId)">Edit</button>
                         </td>
