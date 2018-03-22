@@ -43,10 +43,10 @@
                         </div>
 
                         <div class="form-group p-y-1">
-                            <label for="sel1" class="col-sm-3 form-control-label">Payment Method</label>
+                            <label for="sel1" class="col-sm-3 form-control-label">Delivery Method</label>
                             <div class="col-sm-8">
                                 <select name="methodType" id="DeliveryMethodType" ng-model="globalExchangeRateData.PaymentMethod" class="form-control" required  ng-change="getFee()">
-                                    <option value="-1" disabled>--Payment Method--</option>
+                                    <option value="-1" disabled>--Delivery Method--</option>
                                     <option value="Bank Transfer">Bank Transfer</option>
                                     <option value="Cash PickUp">Cash PickUp</option>
                                     <!--<option value="AGS">Aguascalientes</option>-->
@@ -116,7 +116,7 @@
 
                       
 
-                        <div class="form-check  p-b-1 m-b-0">
+                        <!--<div class="form-check  p-b-1 m-b-0">
                             <label class="col-sm-3 form-control-label">
                              Is Active :
                             </label>
@@ -124,10 +124,17 @@
                                 <input type="checkbox" class="form-check-input m-a-0" value="" ng-model="globalExchangeRateData.IsActive">
                             </div>
                             
+                        </div>-->
+                        <div class="form-check p-b-1 m-b-0 offset-sm-3">
+                            <button type="button" class="btn btn-default btn-disabled" id="disabledBtn" ng-click="setDisabled()">Disabled</button>
+                            <button type="button" class="btn btn-default btn-enabled" ng-click="setEnabled()">Enabled</button>
                         </div>
+
+
+
                       <div class="cm-align-btn">
                           <button class="btn btn-default" ui-sref="app.GlobalExchangeRates">Cancel</button>
-                          <button type="submit" class="btn btn-primary" ng-disabled="!tblGlobalExchangeRates.$valid || globalExchangeRateData.CompanyId=='0' || globalExchangeRateData.SourceCountry=='0' || globalExchangeRateData.PaymentMethodId=='-1' || globalExchangeRateData.DestinationCountry=='0' || globalExchangeRateData.SellSpotPrice=='0.00' || globalExchangeRateData.AutoFees==''" ng-click="SaveGlobalExcahangeRate()">{{globalExchangeRateData.GlobalExchangeId !=0 ?'Update':'Save' }}</button>
+                          <button type="submit" class="btn btn-primary" ng-disabled="!tblGlobalExchangeRates.$valid || globalExchangeRateData.CompanyId=='0' || globalExchangeRateData.SourceCountry=='0' || globalExchangeRateData.PaymentMethodId=='-1' || globalExchangeRateData.DestinationCountry=='0' || globalExchangeRateData.SellSpotPrice=='0.00'" ng-click="SaveGlobalExcahangeRate()">{{globalExchangeRateData.GlobalExchangeId !=0 ?'Update':'Save' }}</button>
                       </div>
                         
                         <!--<div class="code-label m-y-1">

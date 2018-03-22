@@ -643,8 +643,8 @@
         }
     }
 
-    addEditBeneficiaryController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
-    function addEditBeneficiaryController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
+    addEditBeneficiaryController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$filter'];
+    function addEditBeneficiaryController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $filter) {
 
         var vm = $scope;
         vm.SelectedCustomer = [];
@@ -674,8 +674,14 @@
 
         //GetFirstIndex
         if ($localStorage.Agents) {
+            debugger;
             var dd = ($localStorage.Agents);
-            var LocationName = (dd[1].AgentFirstName + ' ' + dd[1].AgentLastName + '-' + dd[1].AgentCode);
+
+            var data123 = $filter('filter')(dd, {
+                AgentId: parseInt($localStorage.CashpickLocationId),
+            }, true);
+           if (data123.length>0)
+                var LocationName = (data123[0].AgentFirstName + ' ' + data123[0].AgentLastName + '-' + data123[0].AgentCode);
         }
         if ($localStorage.BeneficiaryModel) {
             var iBenficiaryId = $localStorage.BeneficiaryModel.BeneficiaryId;
@@ -731,6 +737,7 @@
 
    });
         vm.BenData = $localStorage;
+        vm.Beneficiary.AgentId = vm.BenData.CashpickLocationId;
         //Check Preffrerd Location
 
         if (vm.BenData.AmountDetails.PaymentType == 'BankDeposit') {

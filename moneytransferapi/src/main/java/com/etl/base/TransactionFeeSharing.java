@@ -523,6 +523,47 @@ public class TransactionFeeSharing {
 	}
 	
 	
+	public TransactionFeeSharing _updateTransactionFeeSharingEnableDisable(int TransactionFeeSharingId, boolean IsSpecific) {
+		TransactionFeeSharing _TransactionFeeSharing=new TransactionFeeSharing();
+		
+		Connection _Connection = MYSQLConnection.GetConnection();
+		PreparedStatement _PreparedStatement = null;
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		String date = format.format(cal.getTime());
+		_TransactionFeeSharing.setCreatedDate(date);
+		try{
+			ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
+					"SELECT * FROM transactionfeesharing where IsDeleted=0 and TransactionFeeSharingId='" + TransactionFeeSharingId + "'",
+					_Connection);
+			if (_ResultSet.next()) {
+				String sInsertStatement = "UPDATE transactionfeesharing SET CreatedDate=?,IsSpecific=?"
+						+ " WHERE TransactionFeeSharingId = ?";
+				_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+				_PreparedStatement.setString(1, date);
+				_PreparedStatement.setBoolean(2, IsSpecific);
+				_PreparedStatement.setInt(3, TransactionFeeSharingId);
+				_PreparedStatement.executeUpdate();
+				_TransactionFeeSharing.setResult("Success");
+				_TransactionFeeSharing.setTransactionFeeSharingId(TransactionFeeSharingId);
+				_TransactionFeeSharing.setIsSpecific(IsSpecific);
+				clear(_TransactionFeeSharing);
+			}
+			else{
+				_TransactionFeeSharing.setResult("Failed");
+				_TransactionFeeSharing.setError("Invalid Transaction Fee Sharing Id!");
+			}
+			
+		}
+		catch (Exception e) {
+			clear(_TransactionFeeSharing);
+		}
+		finally {
+			clear(_TransactionFeeSharing);
+		}
+		return _TransactionFeeSharing;
+	}
 	
 	
 	public TransactionFeeSharing deletetransactionFeeSharingById(TransactionFeeSharing _TransactionFeeSharing) {

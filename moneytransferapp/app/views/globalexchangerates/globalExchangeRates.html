@@ -12,7 +12,7 @@
             <table id="tblFees" class="table m-b-none table-responsive" ui-jp="footable" data-filter="#filter" data-page-size="10">
                 <thead>
                     <tr>
-                        <th>Payment Method </th>
+                        <th>Delivery Method</th>
                         <th>Company Name</th>
                         <th>Source Country </th>
                         <th>Destination Country </th>
@@ -23,15 +23,15 @@
                         <th>Sell Spot Price</th>
                         <th>Selling Exchange Rate</th>
                         <th>Global Exchange Rate</th>
-                        <th>Is Active</th>
+                        <th class="w-180">Action</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
-               
-                
+
+
                 <tbody ng-if="globalExchangeRateDataList[0].GlobalExchangeId!=0">
-                    <tr class="Active" ng-repeat="Fees in globalExchangeRateDataList ">
+                    <tr class="Active cm-td-spacing" ng-repeat="Fees in globalExchangeRateDataList ">
                         <td><small>{{Fees.PaymentMethod}} </small></td>
                         <td><small>{{Fees.Company}}</small></td>
                         <td><small>{{Fees.SourceCountryName}} </small></td>
@@ -41,14 +41,20 @@
                         <td><small>{{Fees.SpotPrice }}</small></td>
                         <td><small>{{Fees.AutoFees | currency}} </small></td>
                         <td><small>{{Fees.SellSpotPrice}}</small></td>
-                         <td><small>{{Fees.SellingExchangeRate}}</small></td>
+                        <td><small>{{Fees.SellingExchangeRate}}</small></td>
                         <td><small>{{Fees.GlobalExchangeRate}}</small></td>
-                        <td><input type="checkbox" name="check" value='{{Fees.IsActive}}' ng-model="Fees.IsActive" disabled="true" /></td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-primary"  ng-click="EditGlobalExchange(Fees.GlobalExchangeId)">Edit</button>
+                           
+                                <button type="button" class="btn btn-default btn-disabled-td"  ng-class="{'cm-stackingorder':!Fees.IsActive}" id="checkDisabled" ng-click="setDisabled(Fees.GlobalExchangeId,false)">Disabled</button>
+                                <button type="button" id="isEnabled" class="btn btn-default btn-enabled-td" ng-click="setDisabled(Fees.GlobalExchangeId,true)">Enabled</button>
+                            
+
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteGlobalExchangeRateById(Fees.GlobalExchangeId)" >Delete </button>
+                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditGlobalExchange(Fees.GlobalExchangeId)">Edit</button>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteGlobalExchangeRateById(Fees.GlobalExchangeId)">Delete </button>
                         </td>
                     </tr>
                 </tbody>
@@ -63,7 +69,6 @@
         </div>
         <!--ng-click="EditGlobalExchange(Fees.GlobalExchangeId)"-->
         <!--ng-click="deleteGlobalExchangeRateById(Fees.GlobalExchangeId)"-->
-
         <!-- Large modal -->
         <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteconfirm">Large modal</button>-->
         <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">

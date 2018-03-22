@@ -11,7 +11,7 @@
 
             <table id="tblFees" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
                 <thead>
-                    <tr>
+                    <tr >
                         <th>Payment Method </th>
                         <th>Company Name</th>
                         <th>Created Date</th>
@@ -22,13 +22,13 @@
                         <th>Pay-Out Agent Share %</th>
                          <th>Transaction Fee Type</th>
                         <th>Code</th>
-                       <th>Is Specific</th>
+                       <th  class="w-180">Action</th>
                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="Active" ng-repeat="Fees in TransactionFeeDetails ">
+                <tbody ng-if="TransactionFeeDetails[0].TransactionFeeSharingId!=0">
+                    <tr class="Active cm-td-spacing" ng-repeat="Fees in TransactionFeeDetails ">
                         <td><small>{{Fees.PaymentMethod}} </small></td>
                         <td><small>{{Fees.CompanyName}} </small></td>
                         <td><small>{{Fees.CreatedDate  }}</small></td>
@@ -39,7 +39,14 @@
                         <td><small>{{Fees.PayOutAgentPer | number:2}}</small></td>
                         <td><small>{{Fees.TransactionFeeType }}</small></td>
                         <td><small>{{Fees.Code }}</small></td>
-                        <td><input type="checkbox" name="check" value='{{Fees.IsSpecific}}' ng-model="Fees.IsSpecific" disabled="true" /></td>
+                        <td>
+
+                            <button type="button" class="btn btn-default btn-disabled-td" ng-class="{'cm-stackingorder':!Fees.IsSpecific}" id="checkDisabled" ng-click="setDisabled(Fees.TransactionFeeSharingId,false)">Disabled</button>
+                            <button type="button" id="isEnabled" class="btn btn-default btn-enabled-td" ng-click="setDisabled(Fees.TransactionFeeSharingId,true)">Enabled</button>
+
+
+                        </td>
+                        <!--<td><input type="checkbox" name="check" value='{{Fees.IsSpecific}}' ng-model="Fees.IsSpecific" disabled="true" /></td>-->
                         <td>
                             <button type="submit" class="btn btn-sm btn-primary"  ng-click="EditFee(Fees.TransactionFeeSharingId)">Edit</button>
                         </td>

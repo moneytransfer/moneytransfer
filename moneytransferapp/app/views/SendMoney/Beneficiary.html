@@ -227,9 +227,9 @@
                                     <label id="Number3" placeholder="WALMART" ng-model="BenData.CashpickLocation">{{BenData.CashpickLocation}}</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <select name="FamRole" id="Locationpickup" ng-model="Beneficiary.AgentId" ng-init="Beneficiary.AgentId=='0'" class="form-control" ng-change="ChangeLocation(Beneficiary.AgentId)">
+                                    <select name="FamRole" id="Locationpickup" ng-model="Beneficiary.AgentId"  class="form-control" ng-change="ChangeLocation(Beneficiary.AgentId)">
                                         <option value="0">SELECT NEW CASH AGENT CENTER</option>
-                                       <option ng-repeat="PickLocation in PickUpLocation"  value="{{PickLocation.AgentId}}" ng-hide="PickLocation.AgentId==0" >{{PickLocation.AgentFirstName +'&nbsp;'+PickLocation.AgentLastName}}&nbsp;-{{PickLocation.AgentCode}}</option>
+                                       <option ng-repeat="PickLocation in PickUpLocation"  value="{{PickLocation.AgentId}}" ng-hide="PickLocation.AgentId==0 || PickLocation.AgentId==-1 " >{{PickLocation.AgentFirstName +'&nbsp;'+PickLocation.AgentLastName}}&nbsp;-{{PickLocation.AgentCode}}</option>
                                     </select>
                                 </div>
                             </div>

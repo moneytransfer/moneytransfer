@@ -93,10 +93,8 @@
             }, true);
             if (DestinationCountry.length > 0)
                 vm.globalExchangeRateDataList[i].DestinationCountryName = DestinationCountry[0].CountryName;
-
-
-
-        }
+        
+         }
 
 
 
@@ -147,6 +145,31 @@
             });
         }
 
+        vm.setDisabled = function (id, IsActive) {
+           
+          
+            var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": id, "IsActive": IsActive }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'enableDisableglobalExchangerate',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            }).success(function (data) {
+                var idata = data;
+                if (idata.Result == "Success" ) {
+                    angular.forEach(vm.globalExchangeRateDataList, function (item) {
+                        if (item.GlobalExchangeId == idata.GlobalExchangeId) {
+                            item.IsActive = idata.IsActive
+                        }
+                    });
+                } else {
+                    alert(2, idata.Result);
+                }
+
+            });
+        }
+       
 
 
 
@@ -162,7 +185,7 @@
         vm.Companies = [];
         vm.Countries = [];
         vm.Error = "";
-        vm.globalExchangeRateData = { GlobalExchangeId:0, CompanyId: "", SourceCountry: "", DestinationCountry: "", PaymentMethod: "-1" }
+        vm.globalExchangeRateData = { GlobalExchangeId: 0, CompanyId: "", SourceCountry: "", DestinationCountry: "", PaymentMethod: "-1", IsActive:true }
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -220,6 +243,13 @@
                var idata = data;
                if (idata && idata.Result == "Sucess") {
                    vm.globalExchangeRateData = idata;
+                   if (vm.globalExchangeRateData.IsActive) {
+                       $('#disabledBtn').css("z-index", '');
+                   } else {
+                       $('#disabledBtn').css("z-index", 4);
+                   }
+                      
+
                    vm.globalExchangeRateData.GlobalExchangeId = idata.GlobalExchangeId;
                    vm.globalExchangeRateData.CompanyId = "" + idata.CompanyId;
                   vm.globalExchangeRateData.PaymentMethod = idata.PaymentMethod;
@@ -287,32 +317,37 @@
                         if (idata.currency[0].value > 0) {
                             var value = parseFloat(idata.currency[0].value).toFixed(2);
                             vm.globalExchangeRateData.SellSpotPrice = Math.round(value);
-                            $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + ' ' + vm.globalExchangeRateData.ToCurrency);
+                            $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice+'.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
                            
                             if (vm.globalExchangeRateData.SellingExchangeRate) {
                                 var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
                                 vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
                                 $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                            } else {
+                                vm.globalExchangeRateData.SellingExchangeRate = "0.00";
+                             
+                                vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice));
+                                $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate+'.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
                             }
                         }
                         else {
 
 
-                            setTimeout(function () {
-                                //Alert(2, "!sorry we can't proceed. ");
+                          
+                              
                                 vm.Error = "!sorry we can't proceed. ";
                                 $('#deleteconfirm').modal('show');
-                            }, 100);
+                           
                             vm.globalExchangeRateData.SellSpotPrice = "0.00";
                             $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + ' ' + vm.globalExchangeRateData.ToCurrency);
                         }
                     });
             } else {
-
-                setTimeout(function () {
+                vm.Error = "";
+               
                     vm.Error = "!sorry we can't proceed. ";
                     $('#deleteconfirm').modal('show');
-                }, 100);
+              
                 vm.globalExchangeRateData.SellSpotPrice = "0.00";
                 $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + ' ' + vm.globalExchangeRateData.ToCurrency);
                 return 0;
@@ -320,14 +355,23 @@
             
         }
         vm.AddSellingExchangeRate = function (value) {
-          
+     
             if (value) {
                 var data = .01 + parseFloat(vm.globalExchangeRateData.SellingExchangeRate);
                 vm.globalExchangeRateData.SellingExchangeRate = "" + data.toFixed(2);
                 if (vm.globalExchangeRateData.SellSpotPrice && vm.globalExchangeRateData.SellSpotPrice != '0.00') {
-                    var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
-                    vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
-                    $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    if (data == 0) {
+                        vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice));
+                        $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + '.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    } else {
+                        var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
+                        vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
+                        $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    }
+
+
+
+                    
 
                 }
                 
@@ -346,7 +390,7 @@
            
         }
         vm.LessSellingExchangeRate = function (value) {
-
+     
             if (value) {
                 var data = parseFloat(vm.globalExchangeRateData.SellingExchangeRate) - .01;
                 vm.globalExchangeRateData.SellingExchangeRate = "" + data.toFixed(2);
@@ -390,17 +434,16 @@
              var idata = data;
              vm.globalExchangeRateData.AutoFees = "" + data.Fees;
          } else {
-             vm.globalExchangeRateData.AutoFees = "";
-             //Alert(2, "No fee record found for this destination country !");
-             vm.Error = "No fee record found for this destination country !";
-             $('#deleteconfirm').modal('show');
+             vm.globalExchangeRateData.AutoFees = "0";
+          
+            
          }
         
        
      });
                
             } else {
-                vm.globalExchangeRateData.AutoFees = "";
+                vm.globalExchangeRateData.AutoFees = "0";
                 return 0;
             }
         }
@@ -425,6 +468,7 @@
                          }, 1000);
                      }
                      else {
+                      
                          vm.Error = idata.Error;
                          $('#deleteconfirm').modal('show');
                      }
@@ -449,6 +493,7 @@
                                }, 1000);
                            }
                            else {
+                        
                                vm.Error = idata.Error;
                                $('#deleteconfirm').modal('show');
                               
@@ -457,6 +502,16 @@
                        });
             }
 
+        }
+
+        vm.setDisabled = function () {
+            vm.globalExchangeRateData.IsActive = false;
+            $('#disabledBtn').css("z-index", 4);
+        }
+
+        vm.setEnabled = function () {
+            vm.globalExchangeRateData.IsActive = true;
+            $('#disabledBtn').css("z-index", '');
         }
 
 

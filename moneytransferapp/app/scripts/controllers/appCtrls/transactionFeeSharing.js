@@ -12,7 +12,7 @@
         vm.CompanyId = 0;
         vm.Companies = [];
         vm.PaymentMethodType = [];
-        vm.TransactionFeeDetails = [{ PaymentMethod: "", CreatedDate: "", Code: "", YourShare: "", PayInAgentPer: "", PayOutAgentPer: "", TransactionFeeType: "", PayInAgentName: "", PayOutAgentName: "", CompanyName:"" }];
+        vm.TransactionFeeDetails = [{ TransactionFeeSharingId:0,PaymentMethod: "", CreatedDate: "", Code: "", YourShare: "", PayInAgentPer: "", PayOutAgentPer: "", TransactionFeeType: "", PayInAgentName: "", PayOutAgentName: "", CompanyName: "" }];
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -149,7 +149,30 @@
                 }
             });
         }
+        vm.setDisabled = function (id, IsActive) {
 
+
+            var formData = JSON.parse(JSON.stringify({ "TransactionFeeSharingId": id, "IsSpecific": IsActive }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'enableDisableTransactionFeeSharing',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            }).success(function (data) {
+                var idata = data;
+                if (idata.Result == "Success") {
+                    angular.forEach(vm.TransactionFeeDetails, function (item) {
+                        if (item.TransactionFeeSharingId == idata.TransactionFeeSharingId) {
+                            item.IsSpecific = idata.IsSpecific
+                        }
+                    });
+                } else {
+                    alert(2, idata.Result);
+                }
+
+            });
+        }
 
     }
     addEditTransactionFeesController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$filter'];
@@ -164,7 +187,7 @@
         vm.DeliveryMethod = [];
         vm.Companies = [];
         vm.header = 'Add New';
-        vm.CustomizeTransactionFeeData = { TransactionFeeSharingId: 0, PaymentMethod: "-1", PayInAgent :"-1",PayOutAgent:"-1"};
+        vm.CustomizeTransactionFeeData = { TransactionFeeSharingId: 0, PaymentMethod: "-1", PayInAgent :"-1",PayOutAgent:"-1",IsSpecific:true};
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -200,9 +223,7 @@
                 dataType: "json",
             })
             .success(function (data) {
-            
-               
-                var idata = data;
+            var idata = data;
                 if (idata && idata.Result == "Sucess") {
                     if (idata.TransactionFeeType == 'Universal') {
                         vm.TransactionFeeSharingDetails.TransactionFeeSharingId = idata.TransactionFeeSharingId;
@@ -219,12 +240,16 @@
                         vm.CustomizeTransactionFeeData.TransactionFeeSharingId = idata.TransactionFeeSharingId;;
                         var id = document.getElementById("cust_radio");
                         vm.CustomizeTransactionFeeData = idata;
+                        vm.CustomizeTransactionFeeData.IsSpecific = idata.IsSpecific;
                         vm.CustomizeTransactionFeeData.PaymentMethod = idata.PaymentMethod;
                         vm.CustomizeTransactionFeeData.PayInAgentPer = parseFloat(idata.PayInAgentPer);
                         vm.CustomizeTransactionFeeData.PayOutAgentPer = parseFloat(idata.PayOutAgentPer);
                         vm.CustomizeTransactionFeeData.YourShare = parseFloat(idata.YourShare);
                         vm.SelectedCompnay = "" + idata.CompanyId;
                         vm.SetCustomizeData(idata.CompanyId, idata);
+                        
+                       
+                        
                       
 
                     }
@@ -457,6 +482,18 @@
        
         vm.cancel = function () {
             $state.go('app.TransactionFeeSharing');
+        }
+
+        vm.setDisabled = function () {
+           
+            vm.CustomizeTransactionFeeData.IsSpecific = false;
+            $('#disabledBtn').addClass('cm-stackingorder');
+        }
+        vm.setEnabled = function () {
+        
+            vm.CustomizeTransactionFeeData.IsSpecific = true;
+            $('#disabledBtn').removeClass('cm-stackingorder');
+            
         }
       
     }

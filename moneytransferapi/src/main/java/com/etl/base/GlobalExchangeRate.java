@@ -513,7 +513,113 @@ public class GlobalExchangeRate {
 
 	
 	
+	public GlobalExchangeRate updateDataGlobalExchangeRateEnableDisable(int GlobalExchangeId, boolean IsActive) {
+		GlobalExchangeRate _GlobalExchangeRate=new GlobalExchangeRate();
+		Connection _Connection = MYSQLConnection.GetConnection();
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		PreparedStatement _PreparedStatement = null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		String date = format.format(cal.getTime());
+		_GlobalExchangeRate.setCreatedDate(date);
+		try {
+
+			ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
+					"SELECT * FROM globalexchangerate where IsDeleted=0 and GlobalExchangeId='"
+							+ GlobalExchangeId + "'",
+					_Connection);
+			if (_ResultSet.next()) {
+				String sUpdatetStatement = "UPDATE globalexchangerate SET IsActive=?,CreatedDate=?"
+						+ " WHERE GlobalExchangeId = ?";
+
+				_PreparedStatement = _Connection.prepareStatement(sUpdatetStatement);			
+				_PreparedStatement.setBoolean(1, IsActive);
+				_PreparedStatement.setString(2, _GlobalExchangeRate.CreatedDate);
+				_PreparedStatement.setInt(3, GlobalExchangeId);
+				_PreparedStatement.executeUpdate();
+				_GlobalExchangeRate.setResult("Success");
+				_GlobalExchangeRate.setGlobalExchangeId(GlobalExchangeId);
+				_GlobalExchangeRate.setIsActive(IsActive);
+				clear(_GlobalExchangeRate);
+			}
+			else{
+				_GlobalExchangeRate.setResult("Failed");
+				_GlobalExchangeRate.setError("Invalid _Global Exchange Rate Id!");
+				clear(_GlobalExchangeRate);
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (_Connection != null) {
+				try {
+					_Connection.close();
+				} catch (SQLException e) {
+					
+				}
+			}
+		}
+		return _GlobalExchangeRate;
+	}
+
 	
+	public GlobalExchangeRate updateRealdataFeedGlobalExchangeRate(int DestinationCountryId, String SellSpotPrice) {
+		GlobalExchangeRate _GlobalExchangeRate =new GlobalExchangeRate();
+		Connection _Connection = MYSQLConnection.GetConnection();
+		PreparedStatement _PreparedStatement = null;
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		try {
+			
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			String date = format.format(cal.getTime());
+			_GlobalExchangeRate.setCreatedDate(date);
+			ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
+					"SELECT * FROM globalexchangerate where DestinationCountryId='" + DestinationCountryId + "'",
+						_Connection);
+				while (_ResultSet.next()) {
+					String dd=_ResultSet.getString("SellingExchangeRate");
+					 float _SellSpotPrice = Float.parseFloat(SellSpotPrice);
+					float _SellingExchangeRate=_ResultSet.getFloat("SellingExchangeRate");				
+					float CalculatedExchangeRate=0;
+					float FinalCalculatedExchangeRate=0;
+					CalculatedExchangeRate= (_SellSpotPrice *_SellingExchangeRate)/100;
+					if(dd.startsWith("-"))
+					{
+						FinalCalculatedExchangeRate=_SellSpotPrice+(CalculatedExchangeRate);
+					}
+					else{
+						FinalCalculatedExchangeRate=_SellSpotPrice+(CalculatedExchangeRate);
+					}
+				
+					String sUpdatetStatement = "UPDATE globalexchangerate SET SellSpotPrice = ?,GlobalExchangeRate=?,CreatedDate=?"
+							+ " WHERE GlobalExchangeId = ?";
+					_PreparedStatement = _Connection.prepareStatement(sUpdatetStatement);
+					_PreparedStatement.setString(1, SellSpotPrice);					
+					_PreparedStatement.setFloat(2, FinalCalculatedExchangeRate);					
+					_PreparedStatement.setString(3, _GlobalExchangeRate.CreatedDate);
+					_PreparedStatement.setInt(4, _ResultSet.getInt("GlobalExchangeId"));				
+					_PreparedStatement.executeUpdate();
+					_GlobalExchangeRate.setDestinationCountryId(DestinationCountryId);
+					_GlobalExchangeRate.setResult("Success");
+				}
+				_ResultSet.close();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (_Connection != null) {
+				try {
+					_Connection.close();
+				} catch (SQLException e) {
+					
+				}
+			}
+		}
+		return _GlobalExchangeRate;
+	}
+
 	
 	
 	public GlobalExchangeRate deleteGlobalExchangeRate(int GlobalExchangeId) {

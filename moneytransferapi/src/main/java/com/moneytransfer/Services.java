@@ -516,4 +516,27 @@ public class Services {
 	public PaymentFees globalExchangerateFees(PaymentFees _PaymentFees) {
 		return new PaymentFees().getPaymentFeesnewdetails(_PaymentFees);
 	}
+	
+	
+	@POST
+	@Path("enableDisableTransactionFeeSharing")
+	@Produces("application/json")
+	public TransactionFeeSharing enableDisableTransactionFeeSharing(TransactionFeeSharing _TransactionFeeSharing) {
+		return new TransactionFeeSharing()._updateTransactionFeeSharingEnableDisable(_TransactionFeeSharing.TransactionFeeSharingId, _TransactionFeeSharing.IsSpecific);
+	}
+	
+	
+	@POST
+	@Path("enableDisableglobalExchangerate")
+	@Produces("application/json")
+	public GlobalExchangeRate enableDisableglobalExchangerate(GlobalExchangeRate _GlobalExchangeRate) {
+		return new GlobalExchangeRate().updateDataGlobalExchangeRateEnableDisable(_GlobalExchangeRate.GlobalExchangeId, _GlobalExchangeRate.IsActive);
+	}
+	
+	@POST
+	@Path("updateRealfeesglobalExchangerate")
+	@Produces("application/json")
+	public GlobalExchangeRate updateRealfeesglobalExchangerate(GlobalExchangeRate _GlobalExchangeRate) {
+		return new GlobalExchangeRate().updateRealdataFeedGlobalExchangeRate(_GlobalExchangeRate.DestinationCountryId, _GlobalExchangeRate.SellSpotPrice);
+	}
 }
