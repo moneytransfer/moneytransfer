@@ -20,19 +20,19 @@
                             </div>
                         </div>
 
-                       
+
                         <div class="form-group p-y-1">
                             <label for="Country" class="col-sm-3 form-control-label">Source Country : </label>
                             <div class="col-sm-8">
                                 <select name="sourcCountry" id="SourceCountry" ng-model="globalExchangeRateData.SourceCountry" class="form-control" ng-change="getBaseCurrency(globalExchangeRateData.SourceCountry)" required ng-init="globalExchangeRateData.SourceCountry='0'">
                                     <option value="0" disabled>-- Source Country --</option>
-                                    <option ng-repeat="Country in Countries" value="{{Country.CountryId}}"  ng-disabled="Country.CountryId!=230" >{{Country.CountryName}}</option>
+                                    <option ng-repeat="Country in Countries" value="{{Country.CountryId}}" ng-disabled="Country.CountryId!=230">{{Country.CountryName}}</option>
                                 </select>
                                 <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.SourceCountry=='0'">Please select Source Country.</span>
 
                             </div>
                         </div>
-                    
+
 
 
                         <div class="form-group p-y-1">
@@ -45,17 +45,17 @@
                         <div class="form-group p-y-1">
                             <label for="sel1" class="col-sm-3 form-control-label">Delivery Method</label>
                             <div class="col-sm-8">
-                                <select name="methodType" id="DeliveryMethodType" ng-model="globalExchangeRateData.PaymentMethod" class="form-control" required  ng-change="getFee()">
+                                <select name="methodType" id="DeliveryMethodType" ng-model="globalExchangeRateData.PaymentMethod" class="form-control" required ng-change="getFee()">
                                     <option value="-1" disabled>--Delivery Method--</option>
                                     <option value="Bank Transfer">Bank Transfer</option>
                                     <option value="Cash PickUp">Cash PickUp</option>
                                     <!--<option value="AGS">Aguascalientes</option>-->
-
+                                   
                                 </select>
-                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.PaymentMethodId=='-1' ">Please select Delivery Method.</span>
+                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.PaymentMethod=='-1' ">Please select Delivery Method.</span>
                             </div>
                         </div>
-
+                        
 
                         <div class="form-group p-y-1">
                             <label for="Country" class="col-sm-3 form-control-label">Destination Country : </label>
@@ -77,16 +77,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group row p-y-1 m-b-0 cm-align-top">
-                            <div class="col-sm-4 offset-sm-3">
-                            <div>
-                                    <input type="text" class="form-control" id="baseCurrency" placeholder="SPOT PRICE" ng-model="globalExchangeRateData.BaseCurrency" disabled>
-                                </div>
+                        <div class="form-group row p-y-1 cm-align-top m-b-0">
+                            <div class="col-sm-3">
+                                <label for="spotPrice" class="form-control-label col-sm-12">Auto Update Exchange Rate : </label>
                             </div>
-                            <div class="col-sm-4">
-                                
-                                <div>
-                                    <input type="text" class="form-control" id="exchnageRate" placeholder="SELL SPOT PRICE"  disabled required>
+                            <div class="col-sm-8">
+                                <div class="col-sm-6 p-l-5px">
+                                    <div>
+                                        <input type="text" class="form-control" id="spotPrice" placeholder="SPOT PRICE" ng-model="TemporaryGlobalExchangeRate.SpotPrice" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+
+                                    <div>
+                                        <input type="text" class="form-control" id="exchnageRate" placeholder="SELL SPOT PRICE" disabled required>
+                                    </div>
                                 </div>
                             </div>
 
@@ -94,53 +99,84 @@
 
 
                         <div class="form-group row p-b-1 m-b-0">
-                            <div class="col-sm-4 offset-sm-3">
-                               <div>
-                                    <input type="text" class="form-control" id="globalExchangeRate" placeholder="Global Exchange Rate"  disabled>
-                                   
+                            <div class="col-sm-3">
+                                <label for="spotPrice" class="form-control-label col-sm-12">Adjustment Type % : </label>
+
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="col-sm-4 p-l-5px">
+
+                                    <div>
+                                        <button type="button" class="btn btn-default" ng-click="AddSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)"><i class="fa fa-plus"></i></button>
+                                        <button type="button" class="btn btn-default " ng-click="LessSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+
+                                    <div">
+                                        <input type="text" class="form-control" id="toCurrency" placeholder="0.00%" ng-model="globalExchangeRateData.SellingExchangeRate" disabled required>
                                 </div>
                             </div>
-                            <div class="col-sm-3 cm-setWidth">
-                               
-                                <div>
-                                    <button type="button"  class="btn btn-default" ng-click="AddSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)" ><i class="fa fa-plus"></i></button>
-                                    <button type="button" class="btn btn-default " ng-click="LessSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)"><i class="fa fa-minus"></i></button>
-                                </div>
+                        </div>
+
+                        <div class="form-group row p-b-1 m-b-0">
+                            <div class="col-sm-3">
+                                <label for="globalExchangeRate" class="form-control-label col-sm-12">SPOT PRICE SELL : </label>
+
                             </div>
-                            <div class="col-sm-2">
-                              
-                                 <div">
-                                    <input type="text" class="form-control" id="toCurrency" placeholder="0.00%" ng-model="globalExchangeRateData.SellingExchangeRate" disabled required>
+                            <div class="col-sm-8">
+                                <div class="col-sm-6  p-l-5px">
+                                    <div>
+                                        <input type="text" class="form-control" id="globalExchangeRate" placeholder="Global Exchange Rate" disabled>
+
+                                    </div>
                                 </div>
                             </div>
 
-                      
+                        </div>
 
-                        <!--<div class="form-check  p-b-1 m-b-0">
-                            <label class="col-sm-3 form-control-label">
-                             Is Active :
-                            </label>
-                            <div class="col-sm-9">
-                                <input type="checkbox" class="form-check-input m-a-0" value="" ng-model="globalExchangeRateData.IsActive">
+                        <div class="form-group row p-b-1 m-b-0">
+                            <div class="col-sm-3">
+                                <label for="sellProfitMargin" class="form-control-label col-sm-12">SPOT PRICE SELL PROFIT MARGIN : </label>
                             </div>
-                            
-                        </div>-->
-                        <div class="form-check p-b-1 m-b-0 offset-sm-3">
+                            <div class="col-sm-8">
+
+                                <div class="col-sm-8 p-l-5px">
+                                    <div>
+                                        <input type="text" class="form-control" id="sellProfitMargin" placeholder="SPOT PRICE SELL PROFIT MARGIN"  ng-model="TemporaryGlobalExchangeRate.SellProfitMargin" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div>
+                                        <input type="text" id="marginPercant" class="form-control" placeholder="0.00" disabled ng-model="TemporaryGlobalExchangeRate.RatePercant">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                        <div class="form-check p-b-1 m-b-0 offset-sm-3 col-sm-8">
                             <button type="button" class="btn btn-default btn-disabled" id="disabledBtn" ng-click="setDisabled()">Disabled</button>
                             <button type="button" class="btn btn-default btn-enabled" ng-click="setEnabled()">Enabled</button>
                         </div>
 
 
 
-                      <div class="cm-align-btn">
-                          <button class="btn btn-default" ui-sref="app.GlobalExchangeRates">Cancel</button>
-                          <button type="submit" class="btn btn-primary" ng-disabled="!tblGlobalExchangeRates.$valid || globalExchangeRateData.CompanyId=='0' || globalExchangeRateData.SourceCountry=='0' || globalExchangeRateData.PaymentMethodId=='-1' || globalExchangeRateData.DestinationCountry=='0' || globalExchangeRateData.SellSpotPrice=='0.00'" ng-click="SaveGlobalExcahangeRate()">{{globalExchangeRateData.GlobalExchangeId !=0 ?'Update':'Save' }}</button>
-                      </div>
-                        
+                        <div class="cm-align-btn">
+                            <button class="btn btn-default" ui-sref="app.GlobalExchangeRates">Cancel</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!tblGlobalExchangeRates.$valid || globalExchangeRateData.CompanyId=='0' || globalExchangeRateData.SourceCountry=='0' || globalExchangeRateData.PaymentMethod=='-1' || globalExchangeRateData.DestinationCountry=='0' || globalExchangeRateData.SellSpotPrice=='0.00'" ng-click="SaveGlobalExcahangeRate()">{{globalExchangeRateData.GlobalExchangeId !=0 ?'Update':'Save' }}</button>
+                        </div>
+
                         <!--<div class="code-label m-y-1">
                             <label for="">Exchange rate SETUP REF. CODE FLUSDMXN00001</label>
                         </div>-->
-            
+
                     </form>
                     <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
                         <div class="modal-dialog modal-lg" role="document">

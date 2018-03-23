@@ -19,6 +19,8 @@
                         <th>Pay-Out Agent</th>
                         <th>FEE SETUP REF. CODE</th>
                         <th>Fees</th>
+                        <th>Starting Amount</th>
+                        <th>End Amount</th>
                         <th>Created Date</th>
                         <th>Fees Type</th>
                         <th>Charge Sending Amount</th>
@@ -35,6 +37,8 @@
                         <td><small>{{Fees.PayOutAgentName}} </small></td>
                         <td><small>{{Fees.Code}} </small></td>
                         <td><small>{{Fees.Fees | currency}} </small></td>
+                        <td><small>{{Fees.StartingAmount | currency}} </small></td>
+                        <td><small>{{Fees.EndAmount | currency}} </small></td>
                         <td><small>{{Fees.CreatedDate }}</small></td>
                        <td><small ng-if="Fees.FeesType==1">Flat</small><small ng-if="Fees.FeesType==2">Percentage</small></td>
                         <td><input type="checkbox" name="check" value='{{Fees.IsActive}}' ng-model="Fees.ChargeSendingAmount" disabled="true" /></td>

@@ -409,6 +409,7 @@
 
         function ConvertMoney(code) {
             //$localStorage.SelectedCountry.ConvertAmount = 0;
+            debugger
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
                 url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: code, to: "USD", amount: "1" }),
@@ -417,11 +418,38 @@
                 dataType: "json",
             })
                 .success(function (data) {
+              ]
                     var idata = data;
                     if (idata.currency[0].value > 0) {
                         var value = parseFloat(idata.currency[0].value).toFixed(2)
                         //var newvalu = value
                         $localStorage.SelectedCountry.ConvertAmount = value;
+                        var DestinationCountryId = "";
+                        var SellSpotPrice=""+value;
+                        var data1 = $filter('filter')(vm.Countries, {
+                            CurrencyCode: code,
+                        }, true);
+                        if (data1.length > 0) {
+                            DestinationCountryId = data1[0].CountryId;
+                        }
+
+                        var formData = JSON.parse(JSON.stringify({"DestinationCountryId": DestinationCountryId, "SellSpotPrice":SellSpotPrice}));
+                        $http({
+                            method: 'POST',
+                            url: baseUrl + 'updateRealfeesglobalExchangerate',
+                            data: formData,
+                            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                        })
+                        .success(function (data) {
+                            if (data.Result == "Success") {
+
+                            }
+                        });
+
+
+
+
+
                     }
                     else {
                         $localStorage.SelectedCountry.ConvertAmount = 0.00;

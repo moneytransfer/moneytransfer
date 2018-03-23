@@ -46,6 +46,7 @@
               
               var idata = data;
               vm.ManageFees = idata;
+       
               angular.forEach(vm.ManageFees, function (fee, index) {
                   vm.getOtherData(fee, index);
               });

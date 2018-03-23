@@ -13,7 +13,8 @@
         vm.Companies = [];
         vm.PaymentMethodType = [];
         vm.Countries = [];
-        vm.globalExchangeRateDataList = [{ GlobalExchangeId:0,Company: "", PaymentMethod: "", SourceCountryName: "", DestinationCountryName: "", SpotPrice: "", AutoFees: "", SellSpotPrice: "", SellingExchangeRate: "", GlobalExchangeRate: "", CreatedDate: "", Code: "" }]
+
+        vm.globalExchangeRateDataList = [{ GlobalExchangeId: 0, Company: "", PaymentMethod: "", SourceCountryName: "", DestinationCountryName: "", SpotPrice: "", AutoFees: "", SellSpotPrice: "", SellingExchangeRate: "", GlobalExchangeRate: "", CreatedDate: "", Code: "" }]
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -42,23 +43,23 @@
         var idata = data;
         vm.Companies = idata;
         var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
-       
 
 
-             $http({
-                 method: 'POST',
-                 url: baseUrl + 'getglobalExchangerateByComapny',
-                 data: formData,
-                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
-             }).success(function (data2) {
-                 var idata2 = data2;
-                 vm.globalExchangeRateDataList = idata2;
-                 angular.forEach(vm.globalExchangeRateDataList, function (data, index) {
-                     vm.getOtherData(data, index);
-                 });
 
-             });
-         });
+        $http({
+            method: 'POST',
+            url: baseUrl + 'getglobalExchangerateByComapny',
+            data: formData,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        }).success(function (data2) {
+            var idata2 = data2;
+            vm.globalExchangeRateDataList = idata2;
+            angular.forEach(vm.globalExchangeRateDataList, function (data, index) {
+                vm.getOtherData(data, index);
+            });
+
+        });
+    });
 
 
 
@@ -68,11 +69,11 @@
    });
 
 
-       
+
 
         vm.getOtherData = function (data, i) {
-          
-            
+
+
 
             var Company = $filter('filter')(vm.Companies, {
                 CompanyId: data.CompanyId,
@@ -93,15 +94,16 @@
             }, true);
             if (DestinationCountry.length > 0)
                 vm.globalExchangeRateDataList[i].DestinationCountryName = DestinationCountry[0].CountryName;
-        
-         }
+            vm.globalExchangeRateDataList[i].GlobalExchangeRate= toFixed(vm.globalExchangeRateDataList[i].GlobalExchangeRate + "");
+
+        }
 
 
 
 
 
         vm.addfees = function () {
-           
+
             $state.go('app.add_Global_Exchange_Rates');
 
         }
@@ -146,8 +148,8 @@
         }
 
         vm.setDisabled = function (id, IsActive) {
-           
-          
+
+
             var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": id, "IsActive": IsActive }));
             $http({
                 method: 'POST',
@@ -157,7 +159,7 @@
                 dataType: "json",
             }).success(function (data) {
                 var idata = data;
-                if (idata.Result == "Success" ) {
+                if (idata.Result == "Success") {
                     angular.forEach(vm.globalExchangeRateDataList, function (item) {
                         if (item.GlobalExchangeId == idata.GlobalExchangeId) {
                             item.IsActive = idata.IsActive
@@ -169,11 +171,14 @@
 
             });
         }
-       
 
 
 
 
+        function toFixed(num) {
+           
+            return num.slice(0, (num.indexOf(".")) + 3);
+        }
 
 
     }
@@ -185,7 +190,8 @@
         vm.Companies = [];
         vm.Countries = [];
         vm.Error = "";
-        vm.globalExchangeRateData = { GlobalExchangeId: 0, CompanyId: "", SourceCountry: "", DestinationCountry: "", PaymentMethod: "-1", IsActive:true }
+        vm.TemporaryGlobalExchangeRate = {};
+        vm.globalExchangeRateData = { GlobalExchangeId: 0, CompanyId: "", SourceCountry: "", DestinationCountry: "", PaymentMethod: "-1", IsActive: true }
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -220,8 +226,8 @@
 
         //getDelivery Method
         vm.selectedCompany = function (companyId) {
-        vm.getFeesDetails();
-}
+            vm.getFeesDetails();
+        }
 
 
 
@@ -239,7 +245,7 @@
                 dataType: "json",
             })
            .success(function (data) {
-             
+              
                var idata = data;
                if (idata && idata.Result == "Sucess") {
                    vm.globalExchangeRateData = idata;
@@ -248,16 +254,17 @@
                    } else {
                        $('#disabledBtn').css("z-index", 4);
                    }
-                      
+
 
                    vm.globalExchangeRateData.GlobalExchangeId = idata.GlobalExchangeId;
                    vm.globalExchangeRateData.CompanyId = "" + idata.CompanyId;
-                  vm.globalExchangeRateData.PaymentMethod = idata.PaymentMethod;
+                   vm.globalExchangeRateData.PaymentMethod = idata.PaymentMethod;
                    vm.globalExchangeRateData.SourceCountry = "" + idata.SourceCountryId;
                    vm.globalExchangeRateData.DestinationCountry = "" + idata.DestinationCountryId;
                    vm.globalExchangeRateData.BaseCurrency = idata.SpotPrice;
+                   vm.TemporaryGlobalExchangeRate.SpotPrice = idata.SpotPrice;
                    vm.getToCurrency(vm.globalExchangeRateData.DestinationCountry);
-                  
+
 
                }
            });
@@ -279,6 +286,8 @@
       .success(function (data) {
           var idata = data;
           vm.globalExchangeRateData.BaseCurrency = idata.CurrencyCode;
+
+          vm.TemporaryGlobalExchangeRate.SpotPrice = 1 + " " + vm.globalExchangeRateData.BaseCurrency;
           vm.getFeesDetails();
       });
         }
@@ -317,43 +326,47 @@
                         if (idata.currency[0].value > 0) {
                             var value = parseFloat(idata.currency[0].value).toFixed(2);
                             vm.globalExchangeRateData.SellSpotPrice = Math.round(value);
-                            $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice+'.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
-                           
+                            $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + '.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
                             if (vm.globalExchangeRateData.SellingExchangeRate) {
-                                var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
-                                vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
-                                $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                                var RatePercant = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) * parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
+                                vm.globalExchangeRateData.GlobalExchangeRate = parseFloat(vm.globalExchangeRateData.SellSpotPrice) + RatePercant;
+                                var TempValue = toFixed(vm.globalExchangeRateData.GlobalExchangeRate+"");
+                                $('#globalExchangeRate').val(TempValue + ' ' + vm.globalExchangeRateData.ToCurrency);
+                                vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.SellSpotPrice + ".00" +" "+ vm.globalExchangeRateData.ToCurrency;
+                                vm.TemporaryGlobalExchangeRate.RatePercant = ""+parseFloat(RatePercant).toFixed(4);
+
                             } else {
                                 vm.globalExchangeRateData.SellingExchangeRate = "0.00";
-                             
-                                vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice));
-                                $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate+'.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
+                                vm.globalExchangeRateData.GlobalExchangeRate = vm.globalExchangeRateData.SellSpotPrice;
+                                $('#globalExchangeRate').val(vm.globalExchangeRateData.SellSpotPrice + '.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
+                                vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.GlobalExchangeRate + ".00" +" "+ vm.globalExchangeRateData.ToCurrency;
+                                vm.TemporaryGlobalExchangeRate.RatePercant = "0.00";
                             }
                         }
                         else {
-
-
-                          
-                              
-                                vm.Error = "!sorry we can't proceed. ";
-                                $('#deleteconfirm').modal('show');
-                           
-                            vm.globalExchangeRateData.SellSpotPrice = "0.00";
-                            $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + ' ' + vm.globalExchangeRateData.ToCurrency);
+                            vm.globalExchangeRateData.SellingExchangeRate = "0.00";
+                            vm.globalExchangeRateData.GlobalExchangeRate = "";
+                            vm.globalExchangeRateData.SellSpotPrice = "";
+                            vm.Error = "!sorry we can't proceed. ";
+                            $('#deleteconfirm').modal('show');
                         }
                     });
             } else {
                 vm.Error = "";
-               
-                    vm.Error = "!sorry we can't proceed. ";
-                    $('#deleteconfirm').modal('show');
-              
+
+                vm.Error = "!sorry we can't proceed. ";
+                $('#deleteconfirm').modal('show');
+
                 vm.globalExchangeRateData.SellSpotPrice = "0.00";
                 $('#exchnageRate').val(vm.globalExchangeRateData.SellSpotPrice + ' ' + vm.globalExchangeRateData.ToCurrency);
                 return 0;
             }
-            
+
         }
+
+
+
+
         vm.AddSellingExchangeRate = function (value) {
      
             if (value) {
@@ -363,64 +376,96 @@
                     if (data == 0) {
                         vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice));
                         $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + '.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
+                        vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.GlobalExchangeRate + ".00" +" "+ vm.globalExchangeRateData.ToCurrency;
+                        vm.TemporaryGlobalExchangeRate.RatePercant = "0.00";
                     } else {
-                        var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
-                        vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
-                        $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                        var RatePercant = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) * parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
+                        vm.globalExchangeRateData.GlobalExchangeRate = parseFloat(vm.globalExchangeRateData.SellSpotPrice) + RatePercant;
+                        var TempValue = toFixed(vm.globalExchangeRateData.GlobalExchangeRate + "");
+                        $('#globalExchangeRate').val(TempValue + ' ' + vm.globalExchangeRateData.ToCurrency);
+                        vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.SellSpotPrice + ".00" +" "+ vm.globalExchangeRateData.ToCurrency;
+                        vm.TemporaryGlobalExchangeRate.RatePercant = "" + parseFloat(RatePercant).toFixed(4);
                     }
 
 
 
-                    
+
 
                 }
-                
+
             } else {
                 vm.globalExchangeRateData.SellingExchangeRate = "0";
                 var data = .01 + parseFloat(vm.globalExchangeRateData.SellingExchangeRate);
                 vm.globalExchangeRateData.SellingExchangeRate = "" + data.toFixed(2);
                 if (vm.globalExchangeRateData.SellSpotPrice && vm.globalExchangeRateData.SellSpotPrice != '0.00') {
-                    var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
-                    vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
-                    $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    var RatePercant = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) * parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
+                    vm.globalExchangeRateData.GlobalExchangeRate = parseFloat(vm.globalExchangeRateData.SellSpotPrice) + RatePercant;
+                    var TempValue = toFixed(vm.globalExchangeRateData.GlobalExchangeRate + "");
+                    $('#globalExchangeRate').val(TempValue + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.SellSpotPrice + ".00" + vm.globalExchangeRateData.ToCurrency;
+                    vm.TemporaryGlobalExchangeRate.RatePercant = "" + parseFloat(RatePercant).toFixed(4);
                 }
 
             }
 
-           
+
         }
+
+
+
+
         vm.LessSellingExchangeRate = function (value) {
-     
+        
             if (value) {
                 var data = parseFloat(vm.globalExchangeRateData.SellingExchangeRate) - .01;
                 vm.globalExchangeRateData.SellingExchangeRate = "" + data.toFixed(2);
                 if (vm.globalExchangeRateData.SellSpotPrice && vm.globalExchangeRateData.SellSpotPrice != '0.00') {
-                    var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
-                    vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
-                    $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    if (data == 0) {
+                        vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice));
+                        $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + '.00' + ' ' + vm.globalExchangeRateData.ToCurrency);
+                        vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.GlobalExchangeRate + ".00" + " " + vm.globalExchangeRateData.ToCurrency;
+                        vm.TemporaryGlobalExchangeRate.RatePercant = "0.00";
+                    } else {
+                        var RatePercant = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) * parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
+                        vm.globalExchangeRateData.GlobalExchangeRate = parseFloat(vm.globalExchangeRateData.SellSpotPrice) + RatePercant;
+                        var TempValue = toFixed(vm.globalExchangeRateData.GlobalExchangeRate + "");
+                        $('#globalExchangeRate').val(TempValue + ' ' + vm.globalExchangeRateData.ToCurrency);
+                        vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.SellSpotPrice + ".00" + " " + vm.globalExchangeRateData.ToCurrency;
+                        vm.TemporaryGlobalExchangeRate.RatePercant = "" + parseFloat(RatePercant).toFixed(4);
+                    }
+
+
+
+
+
                 }
 
             } else {
                 vm.globalExchangeRateData.SellingExchangeRate = "0";
-                var data = parseFloat(vm.globalExchangeRateData.SellingExchangeRate) - .01;
+                var data =  parseFloat(vm.globalExchangeRateData.SellingExchangeRate) -.01 ;
                 vm.globalExchangeRateData.SellingExchangeRate = "" + data.toFixed(2);
                 if (vm.globalExchangeRateData.SellSpotPrice && vm.globalExchangeRateData.SellSpotPrice != '0.00') {
-                    var GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
-                    vm.globalExchangeRateData.GlobalExchangeRate = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) + GlobalExchangeRate).toFixed(2);
-                    $('#globalExchangeRate').val(vm.globalExchangeRateData.GlobalExchangeRate + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    var RatePercant = (parseFloat(vm.globalExchangeRateData.SellSpotPrice) * parseFloat(vm.globalExchangeRateData.SellingExchangeRate)) / 100;
+                    vm.globalExchangeRateData.GlobalExchangeRate = parseFloat(vm.globalExchangeRateData.SellSpotPrice) + RatePercant;
+                    var TempValue = toFixed(vm.globalExchangeRateData.GlobalExchangeRate + "");
+                    $('#globalExchangeRate').val(TempValue + ' ' + vm.globalExchangeRateData.ToCurrency);
+                    vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.SellSpotPrice + ".00" + vm.globalExchangeRateData.ToCurrency;
+                    vm.TemporaryGlobalExchangeRate.RatePercant = "" + parseFloat(RatePercant).toFixed(4);
                 }
 
             }
 
         }
 
+
+
         vm.getFee = function () {
-         
+
             vm.getFeesDetails();
         }
 
         vm.getFeesDetails = function () {
-          
+
             if (vm.globalExchangeRateData.CompanyId != "0" && vm.globalExchangeRateData.SourceCountry != "0" && vm.globalExchangeRateData.DestinationCountry != "0" && vm.globalExchangeRateData.PaymentMethod != "-1") {
                 var formData = JSON.parse(JSON.stringify({ "CompanyId": parseInt(vm.globalExchangeRateData.CompanyId), "PaymentMethod": vm.globalExchangeRateData.PaymentMethod, "SourceCountry": parseInt(vm.globalExchangeRateData.SourceCountry), "DestinationCountry": parseInt(vm.globalExchangeRateData.DestinationCountry) }));
                 $http({
@@ -435,13 +480,13 @@
              vm.globalExchangeRateData.AutoFees = "" + data.Fees;
          } else {
              vm.globalExchangeRateData.AutoFees = "0";
-          
-            
+
+
          }
-        
-       
+
+
      });
-               
+
             } else {
                 vm.globalExchangeRateData.AutoFees = "0";
                 return 0;
@@ -449,8 +494,8 @@
         }
         vm.SaveGlobalExcahangeRate = function () {
             if ($stateParams.GlobalExchangeId) {
-            
-                var formData = JSON.parse(JSON.stringify({"GlobalExchangeId":vm.globalExchangeRateData.GlobalExchangeId, "PaymentMethod": vm.globalExchangeRateData.PaymentMethod, "CompanyId": vm.globalExchangeRateData.CompanyId, "SourceCountryId": vm.globalExchangeRateData.SourceCountry, "DestinationCountryId": vm.globalExchangeRateData.DestinationCountry, "SpotPrice": vm.globalExchangeRateData.BaseCurrency, "AutoFees": vm.globalExchangeRateData.AutoFees, "SellSpotPrice": vm.globalExchangeRateData.SellSpotPrice, "SellingExchangeRate": vm.globalExchangeRateData.SellingExchangeRate, "GlobalExchangeRate": vm.globalExchangeRateData.GlobalExchangeRate, "IsActive": vm.globalExchangeRateData.IsActive }));
+
+                var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": vm.globalExchangeRateData.GlobalExchangeId, "PaymentMethod": vm.globalExchangeRateData.PaymentMethod, "CompanyId": vm.globalExchangeRateData.CompanyId, "SourceCountryId": vm.globalExchangeRateData.SourceCountry, "DestinationCountryId": vm.globalExchangeRateData.DestinationCountry, "SpotPrice": vm.globalExchangeRateData.BaseCurrency, "AutoFees": vm.globalExchangeRateData.AutoFees, "SellSpotPrice": vm.globalExchangeRateData.SellSpotPrice, "SellingExchangeRate": vm.globalExchangeRateData.SellingExchangeRate, "GlobalExchangeRate": vm.globalExchangeRateData.GlobalExchangeRate, "IsActive": vm.globalExchangeRateData.IsActive }));
                 $http({
                     method: 'POST',
                     data: formData,
@@ -468,13 +513,13 @@
                          }, 1000);
                      }
                      else {
-                      
+
                          vm.Error = idata.Error;
                          $('#deleteconfirm').modal('show');
                      }
                  });
             } else {
-          
+
                 var formData = JSON.parse(JSON.stringify({ "PaymentMethod": vm.globalExchangeRateData.PaymentMethod, "CompanyId": vm.globalExchangeRateData.CompanyId, "SourceCountryId": vm.globalExchangeRateData.SourceCountry, "DestinationCountryId": vm.globalExchangeRateData.DestinationCountry, "SpotPrice": vm.globalExchangeRateData.BaseCurrency, "AutoFees": vm.globalExchangeRateData.AutoFees, "SellSpotPrice": vm.globalExchangeRateData.SellSpotPrice, "SellingExchangeRate": vm.globalExchangeRateData.SellingExchangeRate, "GlobalExchangeRate": vm.globalExchangeRateData.GlobalExchangeRate, "IsActive": vm.globalExchangeRateData.IsActive }));
                 $http({
                     method: 'POST',
@@ -493,10 +538,10 @@
                                }, 1000);
                            }
                            else {
-                        
+
                                vm.Error = idata.Error;
                                $('#deleteconfirm').modal('show');
-                              
+
                                //Alert(2, idata.Error);
                            }
                        });
@@ -512,6 +557,11 @@
         vm.setEnabled = function () {
             vm.globalExchangeRateData.IsActive = true;
             $('#disabledBtn').css("z-index", '');
+        }
+
+
+        function toFixed(num) {
+            return num.slice(0, (num.indexOf(".")) + 3);
         }
 
 
