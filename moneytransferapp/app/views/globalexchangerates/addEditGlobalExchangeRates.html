@@ -9,7 +9,7 @@
 
                 <div class="card-block">
                     <form role="form" class="ng-pristine ng-valid" name="tblGlobalExchangeRates" ui-jq="validate">
-                        <div class="form-group p-y-1 ">
+                      <!--  <div class="form-group p-y-1 ">
                             <label for="Company" class="col-sm-3 form-control-label">Company : </label>
                             <div class="col-sm-8">
                                 <select name="Company" id="ddlCompany" ng-model="globalExchangeRateData.CompanyId" class="form-control" ng-change="selectedCompany(globalExchangeRateData.CompanyId)" required ng-init="globalExchangeRateData.CompanyId='0'">
@@ -18,7 +18,7 @@
                                 </select>
                                 <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.CompanyId=='0'">Please select Company.</span>
                             </div>
-                        </div>
+                        </div>-->
 
 
                         <div class="form-group p-y-1">
@@ -79,18 +79,18 @@
 
                         <div class="form-group row p-y-1 cm-align-top m-b-0">
                             <div class="col-sm-3">
-                                <label for="spotPrice" class="form-control-label col-sm-12">Auto Update Exchange Rate : </label>
+                                <label for="spotPrice" class="form-control-label col-sm-12">SPOT RATE : </label>
                             </div>
                             <div class="col-sm-8">
                                 <div class="col-sm-6 p-l-5px">
                                     <div>
-                                        <input type="text" class="form-control" id="spotPrice" placeholder="SPOT PRICE" ng-model="TemporaryGlobalExchangeRate.SpotPrice" disabled>
+                                        <input type="text" class="form-control" id="spotPrice" placeholder="SPOT RATE" ng-model="TemporaryGlobalExchangeRate.SpotPrice" disabled>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
 
                                     <div>
-                                        <input type="text" class="form-control" id="exchnageRate" placeholder="SELL SPOT PRICE" disabled required>
+                                        <input type="text" class="form-control" id="exchnageRate" placeholder="SPOT RATE" disabled required>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
 
                                     <div>
                                         <button type="button" class="btn btn-default" ng-click="AddSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)"><i class="fa fa-plus"></i></button>
-                                        <button type="button" class="btn btn-default " ng-click="LessSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)"><i class="fa fa-minus"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="LessSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)"><i class="fa fa-minus"></i></button>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -127,7 +127,7 @@
                             <div class="col-sm-8">
                                 <div class="col-sm-6  p-l-5px">
                                     <div>
-                                        <input type="text" class="form-control" id="globalExchangeRate" placeholder="Global Exchange Rate" disabled>
+                                        <input type="text" class="form-control" id="globalExchangeRate" placeholder="SPOT PRICE SELL" disabled>
 
                                     </div>
                                 </div>
@@ -141,14 +141,20 @@
                             </div>
                             <div class="col-sm-8">
 
-                                <div class="col-sm-8 p-l-5px">
+                             <!--   <div class="col-sm-8 p-l-5px">
                                     <div>
                                         <input type="text" class="form-control" id="sellProfitMargin" placeholder="SPOT PRICE SELL PROFIT MARGIN"  ng-model="TemporaryGlobalExchangeRate.SellProfitMargin" disabled>
                                     </div>
-                                </div>
-                                <div class="col-sm-4">
+                                </div>-->
+                                <div class="col-sm-6">
                                     <div>
                                         <input type="text" id="marginPercant" class="form-control" placeholder="0.00" disabled ng-model="TemporaryGlobalExchangeRate.RatePercant">
+                                    </div>
+                                </div>
+
+                                 <div class="col-sm-6">
+                                    <div>
+                                        <input type="text" id="marginamount" class="form-control" placeholder="0.00" disabled ng-model="TemporaryGlobalExchangeRate.MarginAmount">
                                     </div>
                                 </div>
 

@@ -31,7 +31,7 @@
         if ($localStorage.GustData) {
             vm.localStorage = $localStorage.GustData;
             vm.localStorage = $localStorage;
-        
+
             if (vm.localStorage.GustData != '') {
                 if (vm.localStorage.SelectedCountry) {
                     // vm.PaybillModel.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
@@ -65,13 +65,13 @@
         vm.FlagModel = [];
 
         vm.getcountrydata = function (id) {
-         
+
             var iCountryId = parseInt(id);
             var data1 = $filter('filter')(vm.Countries, {
                 phonecode: iCountryId,
             }, true);
-             vm.DestinationCountry = data1[0].CountryId;
-            
+            vm.DestinationCountry = data1[0].CountryId;
+
             var skillsSelect = document.getElementById("CountrySelected");
             var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
 
@@ -89,7 +89,7 @@
                     vm.FlagModel.countryCode = idata.iso.toLowerCase();
                     vm.FlagModel.internationalCodes = idata.phonecode;
                     vm.FlagModel.carrierName = idata.CountryName;
-                   
+
                     vm.FlagModel.Result = 'Success';
                 }
                 else {
@@ -138,7 +138,7 @@
                     headers: { 'Content-Type': 'application/json; charset=utf-8' }
                 })
                 .success(function (data) {
-                  
+
                     var idata = data;
                     if (idata.countryCode != null) {
                         var SelectedCountry = [];
@@ -164,8 +164,8 @@
                         idata.countryCode = idata.countryCode.toLowerCase();
                         vm.FlagModel = idata;
                         var sData = vm.CountryDetails;
-                        if(!vm.DestinationCountry)
-                        var PhoneCode = res[0];
+                        if (!vm.DestinationCountry)
+                            var PhoneCode = res[0];
                         if (vm.CountryDetails.phonecode != '0') {
                             if (idata.internationalCodes != vm.CountryDetails.phonecode) {
                                 vm.CountryDetails.phonecode = '0';
@@ -173,7 +173,7 @@
                             if (idata.currencyCode == "MXN") {
                                 var res = idata.internationalCodes.split(" ");
                                 vm.CountryDetails.phonecode = res[0];
-                                
+
                                 idata.internationalCodes = res[0];
                             }
                             else {
@@ -193,7 +193,7 @@
                         }
                         if (idata.currencyCode == "USD") {
                             $localStorage.SelectedCountry.ConvertAmount = 1.00;
-                            $localStorage.SelectedCountry.DestinationCountry =""+vm.DestinationCountry;
+                            $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
                         }
                         else { ConvertMoney(idata.currencyCode); }
 
@@ -204,10 +204,10 @@
                                 phonecode: iCountryId,
                             }, true);
                             vm.DestinationCountry = data1[0].CountryId;
-                          
+
                         }
                         $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
-                        
+
 
                     }
                     else {
@@ -231,7 +231,7 @@
         }
 
         vm.submitForm = function () {
-        
+
             if ($localStorage.GustData) {
                 if ($localStorage.GustCustomer == '') {
                     vm.localStorage.GustCustomer = $localStorage.GustCustomer = 0;
@@ -248,7 +248,7 @@
             if (Ammount != null) {
 
                 if (Ammount) {
-                    
+
                     vm.isAmmount = true;
 
                     $localStorage.Ammount = Ammount;
@@ -272,11 +272,12 @@
 
 
         vm.selectAmmount = function (ammount) {
+            debugger;
 
-           
+            var dAmount = parseFloat(ammount).toFixed(2)
             //amountfeild
-            $('#amountfeild').val(ammount);
-            $localStorage.Ammount = ammount;
+            $('#amountfeild').val(dAmount);
+            $localStorage.Ammount = dAmount;
             vm.getFeeDetails();
             vm.isPayAmmount = true;
 
@@ -285,6 +286,7 @@
 
             $('#proceedButton').prop('disabled', false);
         }
+
         vm.getFeeDetails = function () {
             var DestinationCountry = vm.localStorage.SelectedCountry.DestinationCountry;
             var formData = JSON.parse(JSON.stringify({ "CompanyId": 17, "DestinationCountry": DestinationCountry }));
@@ -295,8 +297,6 @@
                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
             })
             .success(function (data) {
-    
-
                 var idata = data;
                 vm.feeData = idata;
                 var FareAmount = vm.localStorage.Ammount * vm.localStorage.SelectedCountry.ConvertAmount;
@@ -314,7 +314,7 @@
             });
         }
         vm.proceed = function () {
-           
+
             vm.accessAmount = false;
             if ($("#from_id").valid()) {
 
@@ -330,7 +330,7 @@
                     else {
                         vm.accessAmount = true;
                     }
-                    
+
                 }
             } else {
                 return 0;
@@ -350,7 +350,15 @@
             }
         }
 
+        //With Exchange rate
+        vm.PayAmountWithExchange = [{ AmountId: '1', Amount: '1.00' }, { AmountId: '2', Amount: '2.00' },
+                        { AmountId: '3', Amount: '3.00' }, { AmountId: '4', Amount: '4.00' },
+                        { AmountId: '5', Amount: '5.00' }, { AmountId: '6', Amount: '6.00' },
+                        { AmountId: '7', Amount: '7.00' }, { AmountId: '8', Amount: '8.00' },
+                        { AmountId: '9', Amount: '9.00' }, { AmountId: '10', Amount: '10.00' },
+                        { AmountId: '11', Amount: '11.00' }, { AmountId: '12', Amount: '12.00' }]
 
+        //Without exchange rate
         vm.PayAmount = [{ AmountId: '1', Amount: '10.00' }, { AmountId: '2', Amount: '20.00' },
                         { AmountId: '3', Amount: '30.00' }, { AmountId: '4', Amount: '40.00' },
                         { AmountId: '5', Amount: '50.00' }, { AmountId: '6', Amount: '60.00' },
@@ -409,7 +417,7 @@
 
         function ConvertMoney(code) {
             //$localStorage.SelectedCountry.ConvertAmount = 0;
-            debugger
+
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
                 url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: code, to: "USD", amount: "1" }),
@@ -418,14 +426,14 @@
                 dataType: "json",
             })
                 .success(function (data) {
-              ]
+
                     var idata = data;
                     if (idata.currency[0].value > 0) {
                         var value = parseFloat(idata.currency[0].value).toFixed(2)
                         //var newvalu = value
                         $localStorage.SelectedCountry.ConvertAmount = value;
                         var DestinationCountryId = "";
-                        var SellSpotPrice=""+value;
+                        var SellSpotPrice = value;
                         var data1 = $filter('filter')(vm.Countries, {
                             CurrencyCode: code,
                         }, true);
@@ -433,7 +441,42 @@
                             DestinationCountryId = data1[0].CountryId;
                         }
 
-                        var formData = JSON.parse(JSON.stringify({"DestinationCountryId": DestinationCountryId, "SellSpotPrice":SellSpotPrice}));
+                        UpdateglobalExchange(code);
+                    }
+                    else {
+                        $localStorage.SelectedCountry.ConvertAmount = 0.00;
+                    }
+                    vm.CurrencyData = idata;
+                    //return 
+                });
+        }
+
+
+        function UpdateglobalExchange(code) {
+            //$localStorage.SelectedCountry.ConvertAmount = 0;
+            var accesstoken = 'rxv51rk8b4y1kjhasvww';
+            $http({
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: code, amount: "1" }),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata.currency[0].value > 0) {
+                        var value = parseFloat(idata.currency[0].value).toFixed(2)
+                        //var newvalu = value
+
+                        var DestinationCountryId = "";
+                        var SellSpotPrice = value;
+                        var data1 = $filter('filter')(vm.Countries, {
+                            CurrencyCode: code,
+                        }, true);
+                        if (data1.length > 0) {
+                            DestinationCountryId = data1[0].CountryId;
+                        }
+
+                        var formData = JSON.parse(JSON.stringify({ "DestinationCountryId": DestinationCountryId, "SellSpotPrice": SellSpotPrice }));
                         $http({
                             method: 'POST',
                             url: baseUrl + 'updateRealfeesglobalExchangerate',
@@ -441,20 +484,19 @@
                             headers: { 'Content-Type': 'application/json; charset=utf-8' }
                         })
                         .success(function (data) {
+                            debugger;
+                            $localStorage.SelectedCountry.IsGlobalExchangeRate = false;
                             if (data.Result == "Success") {
-
+                                $localStorage.SelectedCountry.IsGlobalExchangeRate = true;
+                                $localStorage.SelectedCountry.GlobalExchangesRate = parseFloat(data.GlobalExchangeRate).toFixed(2);
+                            } else {
+                                $localStorage.SelectedCountry.IsGlobalExchangeRate = false;
+                                $localStorage.SelectedCountry.GlobalExchangesRate = parseFloat(data.SellSpotPrice).toFixed(2);
                             }
                         });
 
-
-
-
-
                     }
-                    else {
-                        $localStorage.SelectedCountry.ConvertAmount = 0.00;
-                    }
-                    vm.CurrencyData = idata;
+
                     //return 
                 });
         }
@@ -687,9 +729,9 @@
         .success(function (data) {
             var idata = data;
             vm.PaymentMethods = idata;
-            if (vm.PaymentMethods[0].PaymentMethodId==0)
+            if (vm.PaymentMethods[0].PaymentMethodId == 0)
                 vm.PaymentMethods.splice(0, 1);
-            
+
         });
 
 
@@ -769,7 +811,7 @@
 
 
         vm.Create = function (e) {
-         
+
             $('#Payconfirm').modal('toggle');
             vm.alert = false;
             var isCardValid = $.payform.validateCardNumber(cardNumber.val());
@@ -833,7 +875,7 @@
                         dataType: "json",
                     })
                     .success(function (data) {
-                     
+
                         var idata = data;
                         if (idata.PaymentMethodId == 12) {
                             idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
@@ -913,7 +955,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-   
+
             var idata = data;
 
             // $timeout(function () {
@@ -969,7 +1011,7 @@
         vm.CustomerId = 0;
         vm.localStorage = "";
         if ($localStorage.GustCustomer) {
-           
+
 
             vm.localStorage = $localStorage.ThankyouPageData;
             vm.localStorage.Fees = $localStorage.Fees;

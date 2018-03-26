@@ -12,8 +12,8 @@
     .controller('managesendMoneyTransactionController', managesendMoneyTransactionController)
 
 
-    manageSendMoneyController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
-    function manageSendMoneyController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+    manageSendMoneyController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
+    function manageSendMoneyController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
         vm.PaymentData = { PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', SendingAmount: '', };
         vm.PaymentModel = [{ PaymentMethodId: '0', CompanyId: 0, CustomerId: 0, Charges: "0", Fees: "0", Tax: "0", SendingCurrencyId: '1', ReceivingCurrencytId: '2', BeneficiaryId: '0', ExchangeRate: '64.60', setExpirationDate: '', ReceivingAmount: '', TransactionDetail: '', DeliveryType: '', TransferPurpose: '', SendingAmount: '', CountryId: "", CountryName: "", iso: "", SelectedCountryState: "", SelectedState: '', BankDeposit: "", CashPickUp: "", PaymentType: "" }];
@@ -23,7 +23,7 @@
         vm.localStorage = [];
         $localStorage.BeneficiaryModel = '';
         if ($localStorage.AmountDetails) {
-         
+
             vm.PaymentModel.iso = $localStorage.AmountDetails.iso;
             vm.PaymentModel.CountryName = $localStorage.AmountDetails.CountryName;
             vm.PaymentModel.CountryId = $localStorage.AmountDetails.CountryId;
@@ -120,7 +120,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-          
+
             var idata = data;
             vm.PickUpLocation = idata;
             $localStorage.Agents = vm.PickUpLocation;
@@ -133,7 +133,7 @@
 
         //GetFirstIndex
         if ($localStorage.Agents) {
-            debugger;
+
             var dd = ($localStorage.Agents);
             var LocationName = (dd[1].AgentFirstName + ' ' + dd[1].AgentLastName + '-' + dd[1].AgentCode);
         }
@@ -161,7 +161,7 @@
 
         //Redio Button Changes Event
         vm.checkStuff = function (value) {
-            debugger;
+
             vm.validWay = false;
             if (value == "CashPickup") {
 
@@ -211,6 +211,9 @@
                 vm.FlagModel.CountryId = idata.CountryId;
                 vm.FlagModel.CurrencyCode = idata.CurrencyCode;
                 vm.FlagModel.Result = 'Success';
+                if (idata.CurrencyCode != '') {
+                    UpdateglobalExchange(idata.CurrencyCode);
+                }
 
 
             });
@@ -235,7 +238,7 @@
 
         //Search data to convert currency
         function Searchdata() {
-            
+
             var Amount = vm.FlagModel.Amount;
             if (vm.FlagModel.Amount != "0" && vm.FlagModel.CurrencyCode != "") {
 
@@ -281,7 +284,7 @@
             //$localStorage.SelectedCountry.ConvertAmount = 0;
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
-                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: code, amount: "1" }),
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: code, to: "USD", amount: "1" }),
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 dataType: "json",
@@ -298,7 +301,7 @@
                         vm.isValidData = true;
                         //var skillsSelect = document.getElementById("SelectCountyState");
                         //var SelectedCountryState = skillsSelect.options[skillsSelect.selectedIndex].text;
-             
+
                         $localStorage.AmountDetails.iso = vm.FlagModel.iso;
                         $localStorage.AmountDetails.CountryName = vm.FlagModel.CountryName;
                         $localStorage.AmountDetails.CountryId = vm.FlagModel.CountryId;
@@ -324,8 +327,52 @@
                     //return 
                 });
         }
+
+
+        function UpdateglobalExchange(code) {
+            //$localStorage.SelectedCountry.ConvertAmount = 0;
+
+            var accesstoken = 'rxv51rk8b4y1kjhasvww';
+            $http({
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: code, amount: "1" }),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata.currency[0].value > 0) {
+                        var value = parseFloat(idata.currency[0].value).toFixed(2)
+                        //var newvalu = value
+                        // $localStorage.SelectedCountry.ConvertAmount = value;
+                        var DestinationCountryId = "";
+                        var SellSpotPrice = value;
+                        var data1 = $filter('filter')(vm.Countries, {
+                            CurrencyCode: code,
+                        }, true);
+                        if (data1.length > 0) {
+                            DestinationCountryId = data1[0].CountryId;
+                        }
+
+                        var formData = JSON.parse(JSON.stringify({ "DestinationCountryId": DestinationCountryId, "SellSpotPrice": SellSpotPrice }));
+                        $http({
+                            method: 'POST',
+                            url: baseUrl + 'updateRealfeesglobalExchangerate',
+                            data: formData,
+                            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                        })
+                        .success(function (data) {
+                            if (data.Result == "Success") {
+
+                            }
+                        });
+                    }
+
+                });
+        }
+
         vm.getFeeDetails = function (DestinationCountry) {
-           
+
             var formData = JSON.parse(JSON.stringify({ "CompanyId": 17, "DestinationCountry": DestinationCountry }));
             $http({
                 method: 'POST',
@@ -337,7 +384,7 @@
 
                 var idata = data;
                 //vm.feeData = idata;
-                var FareAmount =+vm.FlagModel.Amount;
+                var FareAmount = +vm.FlagModel.Amount;
                 for (var i = 0; i < idata.length; i++) {
                     if (FareAmount <= idata[i].EndAmount) {
                         $localStorage.AmountDetails.Fee = idata[i].Fees;
@@ -613,7 +660,7 @@
             $localStorage.AmountDetails = '';
             $localStorage.Location = '';
             $localStorage = [];
-            
+
             setTimeout(function () {
                 //$window.location.reload();
                 $state.go('app.sending_loop');
@@ -674,13 +721,13 @@
 
         //GetFirstIndex
         if ($localStorage.Agents) {
-            debugger;
+
             var dd = ($localStorage.Agents);
 
             var data123 = $filter('filter')(dd, {
                 AgentId: parseInt($localStorage.CashpickLocationId),
             }, true);
-           if (data123.length>0)
+            if (data123.length > 0)
                 var LocationName = (data123[0].AgentFirstName + ' ' + data123[0].AgentLastName + '-' + data123[0].AgentCode);
         }
         if ($localStorage.BeneficiaryModel) {
@@ -1040,7 +1087,7 @@
         vm.SelectedCustomer = [];
 
         vm.PaymentModel = '';
-        
+
         if (($localStorage.AmountDetails.CardNumber)) {
             $localStorage.AmountDetails.CardNumber = '';
         } if ($localStorage.AmountDetails.cvv) {
@@ -1085,7 +1132,7 @@
             vm.ModelData.ReceivingAmount = $localStorage.AmountDetails.RecipientAmmount;
             vm.ModelData.SendingAmount = (($localStorage.AmountDetails.Amount - 0) + ($localStorage.AmountDetails.Fee - 0)).toFixed(2);
             vm.ModelData.Fees = $localStorage.AmountDetails.Fee;
-             var accountN = $localStorage.BeneficiaryModel.AccountNumber;
+            var accountN = $localStorage.BeneficiaryModel.AccountNumber;
             vm.AddressData.BeneficiaryModel.AccountNumber = accountN.replace(/.(?=.{4})/g, 'x');
         }
 
@@ -1341,7 +1388,7 @@
                 vm.CustomerId = vm.SelectedCustomer.CustomerId;
             }
         }
-       
+
 
         vm.ThankyouDetails = $localStorage;
 
@@ -1449,10 +1496,10 @@
                 .success(function (data) {
                     var idata = data[0];
                     vm.transactionDetails = idata;
-                  
-                  
-                        BeneficiaryDetails(idata.BeneficiaryId);
-                    
+
+
+                    BeneficiaryDetails(idata.BeneficiaryId);
+
                 });
 
             }
@@ -1461,26 +1508,26 @@
 
 
         function BeneficiaryDetails(Id) {
-           
+
             var iBeneficiaryId = parseInt(Id);
-        
-                var formData = JSON.parse(JSON.stringify({ "BeneficiaryId": iBeneficiaryId }));
-                $http({
-                    method: 'POST',
-                    url: baseUrl + 'getbeneficiarydetailsbyId',
-                    data: formData,
-                    headers: { 'Content-Type': 'application/json' },
-                    dataType: "json",
-                })
-                 .success(function (data) {
-                 
-                     var idata = data;
-                     vm.BeneficiaryDetails = idata;
-                     setTimeout(function () {
-                         $('#transactionDetails').modal('toggle');
-                     }, 1000);
-                 });
-           
+
+            var formData = JSON.parse(JSON.stringify({ "BeneficiaryId": iBeneficiaryId }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getbeneficiarydetailsbyId',
+                data: formData,
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+             .success(function (data) {
+
+                 var idata = data;
+                 vm.BeneficiaryDetails = idata;
+                 setTimeout(function () {
+                     $('#transactionDetails').modal('toggle');
+                 }, 1000);
+             });
+
         }
     }
 

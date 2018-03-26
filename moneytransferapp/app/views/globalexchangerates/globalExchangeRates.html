@@ -13,7 +13,7 @@
                 <thead>
                     <tr>
                         <th>Delivery Method</th>
-                        <th>Company Name</th>
+                     <!--   <th>Company Name</th>-->
                         <th>Source Country </th>
                         <th>Destination Country </th>
                         <th>FEE SETUP REF. CODE</th>
@@ -33,7 +33,7 @@
                 <tbody ng-if="globalExchangeRateDataList[0].GlobalExchangeId!=0">
                     <tr class="Active cm-td-spacing" ng-repeat="Fees in globalExchangeRateDataList ">
                         <td><small>{{Fees.PaymentMethod}} </small></td>
-                        <td><small>{{Fees.Company}}</small></td>
+                       <!-- <td><small>{{Fees.Company}}</small></td>-->
                         <td><small>{{Fees.SourceCountryName}} </small></td>
                         <td><small>{{Fees.DestinationCountryName}} </small></td>
                         <td><small>{{Fees.Code}} </small></td>
