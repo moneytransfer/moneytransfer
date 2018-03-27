@@ -1,0 +1,96 @@
+﻿
+<div class="padding" ng-controller="globalExchangeRatesController">
+    <div class="card">
+        <div class="card-header m-t-1">
+            <div class="col-sm-4 pull-right">
+                <button type="submit" class="btn btn-primary pull-right" ng-click="addfees()"><i class="glyphicon glyphicon-plus"></i> Add Global Exchange Rates</button>
+            </div>
+        </div>
+
+        <div class="card-block p-a-0">
+
+            <table id="tblFees" class="table m-b-none table-responsive" ui-jp="footable" data-filter="#filter" data-page-size="10">
+                <thead>
+                    <tr>
+                        <th>Delivery Method</th>
+                     <!--   <th>Company Name</th>-->
+                        <th>Source Country </th>
+                        <th>Destination Country </th>
+                        <th>FEE SETUP REF. CODE</th>
+                        <th>Created Date</th>
+                        <th>Base Currency</th>
+                        <th>Auto Fees</th>
+                        <th>Auto Update Exchange Rate</th>
+                        <th>Selling Exchange Rate</th>
+                        <th>Spot Price Sell</th>
+                        <th class="w-180">Action</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+
+                <tbody ng-if="globalExchangeRateDataList[0].GlobalExchangeId!=0">
+                    <tr class="Active cm-td-spacing" ng-repeat="Fees in globalExchangeRateDataList ">
+                        <td><small>{{Fees.PaymentMethod}} </small></td>
+                       <!-- <td><small>{{Fees.Company}}</small></td>-->
+                        <td><small>{{Fees.SourceCountryName}} </small></td>
+                        <td><small>{{Fees.DestinationCountryName}} </small></td>
+                        <td><small>{{Fees.Code}} </small></td>
+                        <td><small>{{Fees.CreatedDate }}</small></td>
+                        <td><small>{{Fees.SpotPrice }}</small></td>
+                        <td><small>{{Fees.AutoFees | currency}} </small></td>
+                        <td><small>{{Fees.SellSpotPrice}}</small></td>
+                        <td><small>{{Fees.SellingExchangeRate}}</small></td>
+                        <td><small >{{Fees.GlobalExchangeRate}}</small></td>
+                        <td>
+                           
+                                <button type="button" class="btn btn-default btn-disabled-td"  ng-class="{'cm-stackingorder':!Fees.IsActive}" id="checkDisabled" ng-click="setDisabled(Fees.GlobalExchangeId,false)">Disabled</button>
+                                <button type="button" id="isEnabled" class="btn btn-default btn-enabled-td" ng-click="setDisabled(Fees.GlobalExchangeId,true)">Enabled</button>
+                            
+
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditGlobalExchange(Fees.GlobalExchangeId)">Edit</button>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteGlobalExchangeRateById(Fees.GlobalExchangeId)">Delete </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot class="hide-if-no-paging">
+                    <tr>
+                        <td colspan="14" class="text-center">
+                            <ul class="pagination"></ul>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!--ng-click="EditGlobalExchange(Fees.GlobalExchangeId)"-->
+        <!--ng-click="deleteGlobalExchangeRateById(Fees.GlobalExchangeId)"-->
+        <!-- Large modal -->
+        <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteconfirm">Large modal</button>-->
+        <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title ">!Confirmation  </h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <h6 class="modal-title">Do you want to proceed to delete this 'Fees Details'? </h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+
+    </div>
+</div>
+

@@ -1,0 +1,148 @@
+﻿<div class="" data-ng-controller="CustomerProfileController">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h3>Customer Details </h3>
+                </div>
+                <div class="box-divider m-a-0"></div>
+                <div class="card card-block">
+                    <div class="col-sm-8">
+                        <form role="form" ui-jq="validate" name="tblCustomerregister">
+                            <legend>Personal info:</legend>
+                            <div class="form-group row">
+                                <label for="Name" class="col-sm-3 form-control-label">First Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="CustomerModel.FirstName" required maxlength="30">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Name" class="col-sm-3 form-control-label">Last Name: </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="CustomerModel.LastName" maxlength="30">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="Email" class="col-sm-3 form-control-label">Email: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="CustomerModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+                                    <span class="text-danger" ng-show="tblUser.Email.$error.pattern">Please Enter a valid Email address.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Username" class="col-sm-3 form-control-label">Phone: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="number" min="10" class="form-control" id="Username" placeholder="Phone" ng-model="CustomerModel.Phone" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="ProfileImage" class="col-sm-3 form-control-label">Profile Image: </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="ProfileImage" placeholder="Profile" ng-model="CustomerModel.ProfileImage">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="DOB" class="col-sm-3 form-control-label">DOB: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control datetimepicker" id="DOB" placeholder="Date Of Birth" ng-model="CustomerModel.DOB" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="AccountNumber" class="col-sm-3 form-control-label">Account Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="AccountNumber" placeholder="Account Number" ng-model="CustomerModel.AccountNumber" required maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Password" class="col-sm-3 form-control-label">Password: <b class="text-danger">&nbsp;*</b></label>
+                                <div class="col-sm-8">
+                                    <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" ng-model="CustomerModel.Password">
+                                </div>
+                            </div>
+
+                            <legend>Customer Address:</legend>
+
+                            <div class="form-group row">
+                                <label for="Address1" class="col-sm-3 form-control-label">Address1: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="Address1" placeholder="Address 1" ng-model="CustomerModel.Address1" required maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Address2" class="col-sm-3 form-control-label">Address2: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="Address2" placeholder="Address 2" ng-model="CustomerModel.Address2" required maxlength="30">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="City" class="col-sm-3 form-control-label">City: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="City" placeholder="City" ng-model="CustomerModel.City" required maxlength="30">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="State" class="col-sm-3 form-control-label">State: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="State" placeholder="State" ng-model="CustomerModel.State" required maxlength="30">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="ZipCode" class="col-sm-3 form-control-label">Zip Code: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                    <input type="text" class="form-control" id="ZipCode" placeholder="Zip Code" ng-model="CustomerModel.ZipCode" required maxlength="30">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Country" class="col-sm-3 form-control-label">Country : </label>
+                                <div class="col-sm-8">
+                                    <select name="Country" id="ddlCountry" ng-model="CustomerModel.CountryId" class="form-control" required>
+                                        <option value="0">-- Select Country --</option>
+                                        <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
+                                <div class="col-sm-8 checkbox checkbox-primary form-control-label">
+                                    <input id="IsActive" type="checkbox" ng-model="CustomerRegister.IsActive" ng-init="CustomerModel.IsActive=false ">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="IsAccountActivated" class="col-sm-3 form-control-label">Is Account Activated:</label>
+                                <div class="col-sm-8 checkbox checkbox-primary form-control-label">
+                                    <input id="IsAccountActivated" type="checkbox" ng-model="CustomerModel.IsAccountActivated" ng-init="CustomerModel.IsAccountActivated=false ">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="tblCustomerregister.$valid && update()">Update</button>
+                        </form>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="user-image">
+                            <img data-ng-src="images/avatar.jpg" class="avatar img-circle" alt="user" title="user" src="images/avatar.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //$(document).on("mouseover", '.datetimepicker', function () {
+    //    $(this).datepicker({
+    //        format: 'mm/dd/yyyy',
+    //        startDate: 'd'
+    //    });
+    //})
+
+    $(document).ready(function () {
+        $('.datetimepicker').datepicker({
+            format: 'yyyy/mm/dd'
+        });
+    })
+</script>

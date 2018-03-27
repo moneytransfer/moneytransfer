@@ -1,0 +1,32 @@
+﻿<div class="padding" ng-controller="PaymentMethodController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h3>Send money</h3>
+                </div>
+                <div class="card-block" id="tabs">
+                    <form role="form" class="ng-pristine ng-valid" id="tblpayment">
+                        <uib-tabset class="m-b-0" active="active">
+                        <uib-tab heading="TRANSACTION INFORMATION" id="tran" title="AmountDetails" index="0" >
+                            <div ng-include="'views/Customer/PaymentSetting/AmountDetails.html'"></div> 
+                                                      </uib-tab>
+                               <uib-tab heading="BENEFICIARY DETAILS" id="ben" title="Beneficiary" index="1">
+                              <div ng-include="'views/Customer/PaymentSetting/Beneficiary.html'"></div>  
+                                                                       </uib-tab>
+                    <uib-tab heading="CASH PICKUP DETAILS" title="CashPickUp" id="CashPickUp" index="2" >
+                         <div ng-include="'views/Customer/PaymentSetting/CashPickUp.html'"></div> 
+                                          </uib-tab>
+                        <div class="" ng-show="selected==true">
+                            <uib-tab heading="PAYMENT" title="PAYMENT" id="PAYMENT" index="3">  
+                         <div ng-include="'views/Customer/PaymentSetting/Payment.html'"></div> 
+                                   
+                       </uib-tab>
+                        </div>
+                 </uib-tabset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
