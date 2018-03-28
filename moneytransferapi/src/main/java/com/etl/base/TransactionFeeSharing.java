@@ -192,7 +192,7 @@ public class TransactionFeeSharing {
 								if (_TransactionFeeSharing.TransactionFeeSharingId <= 0) {	
 									
 									ResultSet _checkExist = _MYSQLHelper.GetResultSet(
-											"SELECT * FROM transactionfeesharing where CompanyId='" + _TransactionFeeSharing.CompanyId + "' and PaymentMethod='" + _TransactionFeeSharing.PaymentMethod + "' and PayInAgent='" + _TransactionFeeSharing.PayInAgent + "' and PayOutAgent='" + _TransactionFeeSharing.PayOutAgent + "'",
+											"SELECT * FROM transactionfeesharing where CompanyId='" + _TransactionFeeSharing.CompanyId + "' and PaymentMethod='" + _TransactionFeeSharing.PaymentMethod + "' and PayInAgent='" + _TransactionFeeSharing.PayInAgent + "' and PayOutAgent='" + _TransactionFeeSharing.PayOutAgent + "' and IsDeleted=0",
 											_Connection);
 									if (!_checkExist.next()) {
 										int Resultlastid = _addTransactionFeeSharing(_TransactionFeeSharing.CompanyId,_TransactionFeeSharing.TransactionFeeType,_TransactionFeeSharing.PaymentMethod,_TransactionFeeSharing.YourShare,_TransactionFeeSharing.PayInAgent,_TransactionFeeSharing.PayInAgentPer,_TransactionFeeSharing.PayOutAgent,_TransactionFeeSharing.PayOutAgentPer,_TransactionFeeSharing.CreatedDate,_TransactionFeeSharing.IsSpecific);

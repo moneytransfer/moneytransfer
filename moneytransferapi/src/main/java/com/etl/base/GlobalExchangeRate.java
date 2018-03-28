@@ -13,7 +13,6 @@ import com.etl.util.MYSQLHelper;
 
 public class GlobalExchangeRate {
 	public int GlobalExchangeId;
-	public int CompanyId;
 	public String PaymentMethod;
 	public int SourceCountryId;
 	public int DestinationCountryId;
@@ -38,14 +37,7 @@ public class GlobalExchangeRate {
 		return GlobalExchangeId;
 	}
 
-	private void setCompanyId(int CompanyId) {
-		this.CompanyId = CompanyId;
-	}
-
-	private int getCompanyId() {
-		return CompanyId;
-	}
-
+	
 	private void setPaymentMethod(String PaymentMethod) {
 		this.PaymentMethod = PaymentMethod;
 	}
@@ -181,12 +173,6 @@ public class GlobalExchangeRate {
 				String date = format.format(cal.getTime());
 				_GlobalExchangeRate.setCreatedDate(date);
 
-				
-
-					ResultSet _Company = _MYSQLHelper.GetResultSet(
-							"SELECT * FROM company where Company_Id='" + _GlobalExchangeRate.CompanyId + "'",
-							_Connection);
-					if (_Company.next()) {
 
 						ResultSet _SourceCountry = _MYSQLHelper.GetResultSet(
 								"SELECT * FROM country where country_id='" + _GlobalExchangeRate.SourceCountryId + "'",
@@ -204,12 +190,11 @@ public class GlobalExchangeRate {
 											.GetResultSet("SELECT * FROM globalexchangerate WHERE SourceCountryId ='"
 													+ _GlobalExchangeRate.SourceCountryId + "' and DestinationCountryId='"
 													+ _GlobalExchangeRate.DestinationCountryId + "' "
-															+ "and CompanyId='"
-													+ _GlobalExchangeRate.CompanyId + "' and PaymentMethod='"
+															+ " and PaymentMethod='"
 													+ _GlobalExchangeRate.PaymentMethod + "' and IsDeleted=0", _Connection);
 									if (!_ResultSetGlobalExchangeCheck.next()) {
 										int Resultlastid = _GlobalExchangeRate.addDataGlobalExchangeRate(
-												_GlobalExchangeRate.CompanyId, _GlobalExchangeRate.PaymentMethod,
+												 _GlobalExchangeRate.PaymentMethod,
 												_GlobalExchangeRate.SourceCountryId,
 												_GlobalExchangeRate.DestinationCountryId, _GlobalExchangeRate.SpotPrice,
 												_GlobalExchangeRate.AutoFees, _GlobalExchangeRate.SellSpotPrice,
@@ -246,7 +231,7 @@ public class GlobalExchangeRate {
 									if (_getGlobalExchangerateId.next()) {
 
 										_GlobalExchangeRate.updateDataGlobalExchangeRate(
-												_GlobalExchangeRate.GlobalExchangeId, _GlobalExchangeRate.CompanyId,
+												_GlobalExchangeRate.GlobalExchangeId,
 												_GlobalExchangeRate.PaymentMethod,
 												_GlobalExchangeRate.SourceCountryId,
 												_GlobalExchangeRate.DestinationCountryId, _GlobalExchangeRate.SpotPrice,
@@ -272,11 +257,7 @@ public class GlobalExchangeRate {
 							_GlobalExchangeRate.setError("Invalid Source Country Id!");
 							clear(_GlobalExchangeRate);
 						}
-					} else {
-						_GlobalExchangeRate.setResult("Failed!");
-						_GlobalExchangeRate.setError("Invalid Company Id!");
-						clear(_GlobalExchangeRate);
-					}
+					
 				
 			} else {
 				_GlobalExchangeRate.setResult("Failed!");
@@ -298,7 +279,7 @@ public class GlobalExchangeRate {
 		return _GlobalExchangeRate;
 	}
 
-	public int addDataGlobalExchangeRate(int ComapnyId, String PaymentMethod, int SourceCountryId,
+	public int addDataGlobalExchangeRate(String PaymentMethod, int SourceCountryId,
 			int DestinationCountryId, String SpotPrice, String AutoFees, String SellSpotPrice,
 			String SellingExchangeRate, String GlobalExchangeRate, boolean IsActive, String CreatedDate) {
 		int _result = 0;
@@ -306,21 +287,21 @@ public class GlobalExchangeRate {
 		PreparedStatement _PreparedStatement = null;
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		try {
-			String sInsertStatement = "INSERT INTO globalexchangerate(CompanyId,PaymentMethod,SourceCountryId,DestinationCountryId,SpotPrice,AutoFees,SellSpotPrice,SellingExchangeRate,GlobalExchangeRate,IsActive,CreatedDate)";
-			sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?,?,?,?,?)";
+			String sInsertStatement = "INSERT INTO globalexchangerate(PaymentMethod,SourceCountryId,DestinationCountryId,SpotPrice,AutoFees,SellSpotPrice,SellingExchangeRate,GlobalExchangeRate,IsActive,CreatedDate)";
+			sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?,?,?,?)";
 			_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 
-			_PreparedStatement.setInt(1, ComapnyId);
-			_PreparedStatement.setString(2, PaymentMethod);
-			_PreparedStatement.setInt(3, SourceCountryId);
-			_PreparedStatement.setInt(4, DestinationCountryId);
-			_PreparedStatement.setString(5, SpotPrice);
-			_PreparedStatement.setString(6, AutoFees);
-			_PreparedStatement.setString(7, SellSpotPrice);
-			_PreparedStatement.setString(8, SellingExchangeRate);
-			_PreparedStatement.setString(9, GlobalExchangeRate);
-			_PreparedStatement.setBoolean(10, IsActive);
-			_PreparedStatement.setString(11, CreatedDate);
+			
+			_PreparedStatement.setString(1, PaymentMethod);
+			_PreparedStatement.setInt(2, SourceCountryId);
+			_PreparedStatement.setInt(3, DestinationCountryId);
+			_PreparedStatement.setString(4, SpotPrice);
+			_PreparedStatement.setString(5, AutoFees);
+			_PreparedStatement.setString(6, SellSpotPrice);
+			_PreparedStatement.setString(7, SellingExchangeRate);
+			_PreparedStatement.setString(8, GlobalExchangeRate);
+			_PreparedStatement.setBoolean(9, IsActive);
+			_PreparedStatement.setString(10, CreatedDate);
 			_PreparedStatement.executeUpdate();
 
 			ResultSet _GlobalExchangeId = _MYSQLHelper.GetResultSet(
@@ -346,7 +327,7 @@ public class GlobalExchangeRate {
 		return _result;
 	}
 
-	public void updateDataGlobalExchangeRate(int GlobalExchangeId, int ComapnyId, String PaymentMethod,
+	public void updateDataGlobalExchangeRate(int GlobalExchangeId, String PaymentMethod,
 			int SourceCountryId, int DestinationCountryId, String SpotPrice, String AutoFees, String SellSpotPrice,
 			String SellingExchangeRate, String GlobalExchangeRate, boolean IsActive, String CreatedDate) {
 
@@ -355,22 +336,22 @@ public class GlobalExchangeRate {
 
 		try {
 
-			String sUpdatetStatement = "UPDATE globalexchangerate SET CompanyId = ?,PaymentMethod = ?,SourceCountryId = ?,DestinationCountryId = ?,SpotPrice = ?,AutoFees = ?,SellSpotPrice = ?,SellingExchangeRate=?,GlobalExchangeRate=?,IsActive=?,CreatedDate=?"
+			String sUpdatetStatement = "UPDATE globalexchangerate SET PaymentMethod = ?,SourceCountryId = ?,DestinationCountryId = ?,SpotPrice = ?,AutoFees = ?,SellSpotPrice = ?,SellingExchangeRate=?,GlobalExchangeRate=?,IsActive=?,CreatedDate=?"
 					+ " WHERE GlobalExchangeId = ?";
 
 			_PreparedStatement = _Connection.prepareStatement(sUpdatetStatement);
-			_PreparedStatement.setInt(1, ComapnyId);
-			_PreparedStatement.setString(2, PaymentMethod);
-			_PreparedStatement.setInt(3, SourceCountryId);
-			_PreparedStatement.setInt(4, DestinationCountryId);
-			_PreparedStatement.setString(5, SpotPrice);
-			_PreparedStatement.setString(6, AutoFees);
-			_PreparedStatement.setString(7, SellSpotPrice);
-			_PreparedStatement.setString(8, SellingExchangeRate);
-			_PreparedStatement.setString(9, GlobalExchangeRate);
-			_PreparedStatement.setBoolean(10, IsActive);
-			_PreparedStatement.setString(11, CreatedDate);
-			_PreparedStatement.setInt(12, GlobalExchangeId);
+	
+			_PreparedStatement.setString(1, PaymentMethod);
+			_PreparedStatement.setInt(2, SourceCountryId);
+			_PreparedStatement.setInt(3, DestinationCountryId);
+			_PreparedStatement.setString(4, SpotPrice);
+			_PreparedStatement.setString(5, AutoFees);
+			_PreparedStatement.setString(6, SellSpotPrice);
+			_PreparedStatement.setString(7, SellingExchangeRate);
+			_PreparedStatement.setString(8, GlobalExchangeRate);
+			_PreparedStatement.setBoolean(9, IsActive);
+			_PreparedStatement.setString(10, CreatedDate);
+			_PreparedStatement.setInt(11, GlobalExchangeId);
 			_PreparedStatement.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -385,7 +366,7 @@ public class GlobalExchangeRate {
 		}
 	}
 
-	public static ArrayList<GlobalExchangeRate> getGlobalExchangeRateDetailsByCompany(int CompanyId) {
+	public static ArrayList<GlobalExchangeRate> getGlobalExchangeRateDetailsByCompany() {
 		Connection _Connection = MYSQLConnection.GetConnection();
 
 		ArrayList<GlobalExchangeRate> _GlobalExchangeRateDetaillist = new ArrayList<GlobalExchangeRate>();
@@ -393,7 +374,7 @@ public class GlobalExchangeRate {
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		try {
 			if (_Connection != null) {
-				if (CompanyId == 0) {
+				
 					ResultSet _ResultSet = _MYSQLHelper
 							.GetResultSet("SELECT * FROM globalexchangerate where IsDeleted=0", _Connection);
 
@@ -401,8 +382,7 @@ public class GlobalExchangeRate {
 
 						GlobalExchangeRate _GlobalExchangeRate = new GlobalExchangeRate();
 						_GlobalExchangeRate.setGlobalExchangeId(_ResultSet.getInt("GlobalExchangeId"));
-						_GlobalExchangeRate.setPaymentMethod(_ResultSet.getString("PaymentMethod"));
-						_GlobalExchangeRate.setCompanyId(_ResultSet.getInt("CompanyId"));
+						_GlobalExchangeRate.setPaymentMethod(_ResultSet.getString("PaymentMethod"));					
 						_GlobalExchangeRate.setSourceCountryId(_ResultSet.getInt("SourceCountryId"));
 						_GlobalExchangeRate.setDestinationCountryId(_ResultSet.getInt("DestinationCountryId"));
 						_GlobalExchangeRate.setSpotPrice(_ResultSet.getString("SpotPrice"));
@@ -419,34 +399,7 @@ public class GlobalExchangeRate {
 						_GlobalExchangeRateDetaillist.add(_GlobalExchangeRate);
 					}
 					_ResultSet.close();
-				} else {
-					ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
-							"SELECT * FROM globalexchangerate where IsDeleted=0 and CompanyId='" + CompanyId + "'",
-							_Connection);
-
-					while (_ResultSet.next()) {
-						GlobalExchangeRate _GlobalExchangeRate = new GlobalExchangeRate();
-						_GlobalExchangeRate.setGlobalExchangeId(_ResultSet.getInt("GlobalExchangeId"));
-						_GlobalExchangeRate.setPaymentMethod(_ResultSet.getString("PaymentMethod"));
-						_GlobalExchangeRate.setCompanyId(_ResultSet.getInt("CompanyId"));
-						_GlobalExchangeRate.setSourceCountryId(_ResultSet.getInt("SourceCountryId"));
-						_GlobalExchangeRate.setDestinationCountryId(_ResultSet.getInt("DestinationCountryId"));
-						_GlobalExchangeRate.setSpotPrice(_ResultSet.getString("SpotPrice"));
-						_GlobalExchangeRate.setAutoFees(_ResultSet.getString("AutoFees"));
-						_GlobalExchangeRate.setSellSpotPrice(_ResultSet.getString("SellSpotPrice"));
-						_GlobalExchangeRate.setSellingExchangeRate(_ResultSet.getString("SellingExchangeRate"));
-						_GlobalExchangeRate.setGlobalExchangeRate(_ResultSet.getString("GlobalExchangeRate"));
-						_GlobalExchangeRate.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
-						_GlobalExchangeRate.setDeletedDate(_ResultSet.getString("DeletedDate"));
-						_GlobalExchangeRate.setCreatedDate(_ResultSet.getString("CreatedDate"));
-						_GlobalExchangeRate.setCode(_ResultSet.getString("Code"));
-						_GlobalExchangeRate.setIsActive(_ResultSet.getBoolean("IsActive"));
-						_GlobalExchangeRate.setResult("Sucess");
-						_GlobalExchangeRateDetaillist.add(_GlobalExchangeRate);
-					}
-					_ResultSet.close();
-
-				}
+			
 			}
 		} catch (Exception e) {
 
@@ -477,7 +430,7 @@ public class GlobalExchangeRate {
 
 					_GlobalExchangeRate.setGlobalExchangeId(_globalExchangeRate.getInt("GlobalExchangeId"));
 					_GlobalExchangeRate.setPaymentMethod(_globalExchangeRate.getString("PaymentMethod"));
-					_GlobalExchangeRate.setCompanyId(_globalExchangeRate.getInt("CompanyId"));
+				
 					_GlobalExchangeRate.setSourceCountryId(_globalExchangeRate.getInt("SourceCountryId"));
 					_GlobalExchangeRate.setDestinationCountryId(_globalExchangeRate.getInt("DestinationCountryId"));
 					_GlobalExchangeRate.setSpotPrice(_globalExchangeRate.getString("SpotPrice"));
@@ -603,6 +556,11 @@ public class GlobalExchangeRate {
 					_PreparedStatement.executeUpdate();
 					_GlobalExchangeRate.setDestinationCountryId(DestinationCountryId);
 					_GlobalExchangeRate.setResult("Success");
+					_GlobalExchangeRate.setGlobalExchangeRate(_ResultSet.getString("GlobalExchangeRate"));
+					_GlobalExchangeRate.setSellSpotPrice(_ResultSet.getString("SellSpotPrice"));
+					_GlobalExchangeRate.setSellingExchangeRate(_ResultSet.getString("SellingExchangeRate"));
+					_GlobalExchangeRate.setAutoFees(_ResultSet.getString("AutoFees"));
+					_GlobalExchangeRate.setSpotPrice(_ResultSet.getString("SpotPrice"));
 				}
 				_ResultSet.close();
 			
@@ -675,7 +633,7 @@ public class GlobalExchangeRate {
 			
 	private GlobalExchangeRate clear(GlobalExchangeRate _GlobalExchangeRate) {
 
-		_GlobalExchangeRate.setCompanyId(0);
+	
 		_GlobalExchangeRate.setPaymentMethod("");
 		_GlobalExchangeRate.setSourceCountryId(0);
 		_GlobalExchangeRate.setDestinationCountryId(0);

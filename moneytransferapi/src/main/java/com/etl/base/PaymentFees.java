@@ -245,8 +245,7 @@ public class PaymentFees {
 														+ _PaymentFees.SourceCountry + "' and DestinationCountry='"
 														+ _PaymentFees.DestinationCountry + "' and FeesCategoryId='"
 														+ _PaymentFees.FeesCategoryId + "' and CompanyId='"
-														+ _PaymentFees.CompanyId + "' and PaymentMethod='"
-														+ _PaymentFees.PaymentMethod + "'", _Connection);
+														+ _PaymentFees.CompanyId + "' and IsDeleted=0", _Connection);
 										if (!_ResultSetFeesCheck.next()) {
 											ResultSet _ResultSetFees = _MYSQLHelper
 													.GetResultSet("SELECT * FROM `paymentfees` WHERE StartingAmount >='"
@@ -567,8 +566,7 @@ public class PaymentFees {
 			if (_Connection != null) {
 
 				ResultSet _ResultSet = _MYSQLHelper
-						.GetResultSet("SELECT * FROM paymentfees where CompanyId='" + _PaymentFees.CompanyId
-								+ "' and IsDeleted=0 and PaymentMethod='"+_PaymentFees.PaymentMethod+"'and SourceCountry='"+_PaymentFees.SourceCountry+"' and DestinationCountry='"+_PaymentFees.DestinationCountry+"' order by PaymentFessId desc", _Connection);
+						.GetResultSet("SELECT * FROM paymentfees where  IsDeleted=0 and PaymentMethod='"+_PaymentFees.PaymentMethod+"'and SourceCountry='"+_PaymentFees.SourceCountry+"' and DestinationCountry='"+_PaymentFees.DestinationCountry+"' order by PaymentFessId desc", _Connection);
 				if (_ResultSet.next()) {
 
 				

@@ -20,6 +20,7 @@ import com.etl.base.CountryDeatils;
 import com.etl.base.Currency;
 import com.etl.base.CurrencyConversion;
 import com.etl.base.CustomerDetail;
+import com.etl.base.FeesCategory;
 import com.etl.base.GlobalExchangeRate;
 import com.etl.base.MagicPay;
 import com.etl.base.MagicTest;
@@ -489,11 +490,11 @@ public class Services {
 	public GlobalExchangeRate addGlobalExchange(GlobalExchangeRate _GlobalExchangeRate) {
 		return new GlobalExchangeRate().addupdateGlobalExchangeRateDetails(_GlobalExchangeRate);
 	}
-	@POST
+	@GET
 	@Path("getglobalExchangerateByComapny")
 	@Produces("application/json")
-	public ArrayList<GlobalExchangeRate> getglobalExchangerateByComapny(GlobalExchangeRate _GlobalExchangeRate) {
-		return GlobalExchangeRate.getGlobalExchangeRateDetailsByCompany(_GlobalExchangeRate.CompanyId);
+	public ArrayList<GlobalExchangeRate> getglobalExchangerateByComapny() {
+		return GlobalExchangeRate.getGlobalExchangeRateDetailsByCompany();
 	}
 	
 	@POST
@@ -538,5 +539,19 @@ public class Services {
 	@Produces("application/json")
 	public GlobalExchangeRate updateRealfeesglobalExchangerate(GlobalExchangeRate _GlobalExchangeRate) {
 		return new GlobalExchangeRate().updateRealdataFeedGlobalExchangeRate(_GlobalExchangeRate.DestinationCountryId, _GlobalExchangeRate.SellSpotPrice);
+	}
+	
+	@POST
+	@Path("getFeesCategoryById")
+	@Produces("application/json")
+	public FeesCategory getFeesCategoryById(FeesCategory _FeesCategory) {
+		return new FeesCategory()._getFeesCategoryById(_FeesCategory.FeesCategoryId);
+	}
+	
+	@GET
+	@Path("getFeesCategoryDetails")
+	@Produces("application/json")
+	public ArrayList<FeesCategory> getFeesCategoryDetails() {
+		return FeesCategory._getFeesCategoryDetails();
 	}
 }

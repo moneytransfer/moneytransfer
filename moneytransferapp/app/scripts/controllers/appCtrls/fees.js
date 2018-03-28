@@ -12,7 +12,7 @@
 
         var vm = $scope;
         var IsAdmin = false;
-        vm.ManageFees = [{ PaymentMethod: "", Fees: "", CreatedDate: "", ChargeSendingAmount: "", FeesType: "", DestinationCountry: "", SourceCountry:""}];
+        vm.ManageFees = [{ PaymentMethod: "", Fees: "", CreatedDate: "", ChargeSendingAmount: "", FeesType: "", DestinationCountry: "", SourceCountry:"",FeeCategory:""}];
         vm.UserId = 0;
         vm.CompanyId = 0;
        
@@ -48,25 +48,31 @@
               vm.ManageFees = idata;
        
               angular.forEach(vm.ManageFees, function (fee, index) {
+                  vm.getfeeCategory(fee, index);
                   vm.getOtherData(fee, index);
               });
-
-
-
-
-
-
-
-
 
           });
       });
 
+        //Get fee Category
+        vm.getfeeCategory = function (FeesCategory,i) {
+            if (FeesCategory!= null) {
+                var formData = JSON.parse(JSON.stringify({ "FeesCategoryId": FeesCategory.FeesCategoryId }));
+                $http({
+                    method: 'POST',
+                    url: baseUrl + 'getFeesCategoryById',
+                    data: formData,
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                })
+               .success(function (data) {
+                   var idata = data;
+                   vm.ManageFees[i].FeeCategory = idata.FeesCategoryName;
+               });
+            }
+            
+        }
 
-
-      
-
-       
 
         vm.getOtherData = function (fee, i) {
            
@@ -200,11 +206,24 @@
       });
 
         vm.FeeType = [{ Feetype: "1", FeeTypeName: "Flat" }, { Feetype: "2", FeeTypeName: "Percentage" }];
-        vm.FeesCategory = [{ FeesCategoryId: "1", FeesCategoryName: "Remittance" }, { FeesCategoryId: "2", FeesCategoryName: "Money transfer cancellation" },
-            { FeesCategoryId: "3", FeesCategoryName: "Wallet money fund transfer" }, { FeesCategoryId: "4", FeesCategoryName: "Wallet money load cash" },
-            { FeesCategoryId: "5", FeesCategoryName: "Airtime topup" }, { FeesCategoryId: "6", FeesCategoryName: "Bill" }, { FeesCategoryId: "7", FeesCategoryName: "Wallet money cash out" }
-        ];
+        //vm.FeesCategory = [{ FeesCategoryId: "1", FeesCategoryName: "Remittance" }, { FeesCategoryId: "2", FeesCategoryName: "Money transfer cancellation" },
+        //    { FeesCategoryId: "3", FeesCategoryName: "Wallet money fund transfer" }, { FeesCategoryId: "4", FeesCategoryName: "Wallet money load cash" },
+        //    { FeesCategoryId: "5", FeesCategoryName: "Airtime topup" }, { FeesCategoryId: "6", FeesCategoryName: "Bill" }, { FeesCategoryId: "7", FeesCategoryName: "Wallet money cash out" }
+        //];
 
+        //Get Fee Category
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getFeesCategoryDetails',
+            headers: { 'Content-Type': 'application/json' }
+        })
+      .success(function (data) {
+        
+          var idata = data;
+          vm.FeesCategory = idata;
+      });
+
+       
         //Get Aggent Details
         vm.selectedCompany = function (companyId) {
          

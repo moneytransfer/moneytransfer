@@ -29,6 +29,7 @@ com\pininteract\OrderResponse.class
 com\etl\base\CurrencyConversion.class
 com\etl\base\TransactionFeeSharing.class
 com\etl\base\CompanyDetail.class
+com\etl\base\FeesCategory.class
 com\pininteract\www\ServiceManagerSoapProxy.class
 com\etl\base\MagicTest.class
 com\pininteract\AccountLookupResponse.class
