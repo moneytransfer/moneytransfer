@@ -15,7 +15,7 @@ public class TransactionFeeSharing {
 
 	public int TransactionFeeSharingId;
 	public int CompanyId;
-	public String PaymentMethod;
+	public  int PaymentMethodId;
 	public String TransactionFeeType;
 	public String YourShare;
 	public int PayInAgent;
@@ -46,12 +46,12 @@ public class TransactionFeeSharing {
 		return CompanyId;
 	}
 
-	private void setPaymentMethod(String PaymentMethod) {
-		this.PaymentMethod = PaymentMethod;
+	private void setPaymentMethodId(int PaymentMethodId) {
+		this.PaymentMethodId = PaymentMethodId;
 	}
 
-	private String getPaymentMethod() {
-		return PaymentMethod;
+	private int getPaymentMethodId() {
+		return PaymentMethodId;
 	}
 
 	private void setTransactionFeeType(String TransactionFeeType) {
@@ -192,10 +192,10 @@ public class TransactionFeeSharing {
 								if (_TransactionFeeSharing.TransactionFeeSharingId <= 0) {	
 									
 									ResultSet _checkExist = _MYSQLHelper.GetResultSet(
-											"SELECT * FROM transactionfeesharing where CompanyId='" + _TransactionFeeSharing.CompanyId + "' and PaymentMethod='" + _TransactionFeeSharing.PaymentMethod + "' and PayInAgent='" + _TransactionFeeSharing.PayInAgent + "' and PayOutAgent='" + _TransactionFeeSharing.PayOutAgent + "' and IsDeleted=0",
+											"SELECT * FROM transactionfeesharing where CompanyId='" + _TransactionFeeSharing.CompanyId + "' and PaymentMethodId='" + _TransactionFeeSharing.PaymentMethodId + "' and PayInAgent='" + _TransactionFeeSharing.PayInAgent + "' and PayOutAgent='" + _TransactionFeeSharing.PayOutAgent + "' and IsDeleted=0",
 											_Connection);
 									if (!_checkExist.next()) {
-										int Resultlastid = _addTransactionFeeSharing(_TransactionFeeSharing.CompanyId,_TransactionFeeSharing.TransactionFeeType,_TransactionFeeSharing.PaymentMethod,_TransactionFeeSharing.YourShare,_TransactionFeeSharing.PayInAgent,_TransactionFeeSharing.PayInAgentPer,_TransactionFeeSharing.PayOutAgent,_TransactionFeeSharing.PayOutAgentPer,_TransactionFeeSharing.CreatedDate,_TransactionFeeSharing.IsSpecific);
+										int Resultlastid = _addTransactionFeeSharing(_TransactionFeeSharing.CompanyId,_TransactionFeeSharing.TransactionFeeType,_TransactionFeeSharing.PaymentMethodId,_TransactionFeeSharing.YourShare,_TransactionFeeSharing.PayInAgent,_TransactionFeeSharing.PayInAgentPer,_TransactionFeeSharing.PayOutAgent,_TransactionFeeSharing.PayOutAgentPer,_TransactionFeeSharing.CreatedDate,_TransactionFeeSharing.IsSpecific);
 										_TransactionFeeSharing.setTransactionFeeSharingId(Resultlastid);
 										_TransactionFeeSharing.setResult("Success");
 										
@@ -223,7 +223,7 @@ public class TransactionFeeSharing {
 											"SELECT * FROM transactionfeesharing where TransactionFeeSharingId='" + _TransactionFeeSharing.TransactionFeeSharingId + "'",
 											_Connection);
 									if (TransactionFeeSharingId.next()) {
-										_updateTransactionFeeSharing(_TransactionFeeSharing.TransactionFeeSharingId,_TransactionFeeSharing.CompanyId,_TransactionFeeSharing.TransactionFeeType,_TransactionFeeSharing.PaymentMethod,_TransactionFeeSharing.YourShare,_TransactionFeeSharing.PayInAgent,_TransactionFeeSharing.PayInAgentPer, _TransactionFeeSharing.PayOutAgent,_TransactionFeeSharing.PayOutAgentPer, _TransactionFeeSharing.CreatedDate, _TransactionFeeSharing.IsSpecific);
+										_updateTransactionFeeSharing(_TransactionFeeSharing.TransactionFeeSharingId,_TransactionFeeSharing.CompanyId,_TransactionFeeSharing.TransactionFeeType,_TransactionFeeSharing.PaymentMethodId,_TransactionFeeSharing.YourShare,_TransactionFeeSharing.PayInAgent,_TransactionFeeSharing.PayInAgentPer, _TransactionFeeSharing.PayOutAgent,_TransactionFeeSharing.PayOutAgentPer, _TransactionFeeSharing.CreatedDate, _TransactionFeeSharing.IsSpecific);
 										_TransactionFeeSharing.setResult("Success");
 										clear(_TransactionFeeSharing);
 									}
@@ -272,7 +272,7 @@ public class TransactionFeeSharing {
 		return _TransactionFeeSharing;
 	}
 
-	private int _addTransactionFeeSharing(int CompanyId, String TransactionFeeType, String PaymentMethod,
+	private int _addTransactionFeeSharing(int CompanyId, String TransactionFeeType, int PaymentMethodId,
 			String YourShare, int PayInAgent, String PayInAgentPer, int PayOutAgent, String PayOutAgentPer, String CreateDate,boolean IsSpecific) {
 
 		int _result = 0;
@@ -280,13 +280,13 @@ public class TransactionFeeSharing {
 		PreparedStatement _PreparedStatement = null;
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		try {
-			String sInsertStatement = "INSERT INTO transactionfeesharing(CompanyId,TransactionFeeType,PaymentMethod,YourShare,PayInAgent,PayInAgentPer,PayOutAgent,PayOutAgentPer,CreatedDate,IsSpecific)";
+			String sInsertStatement = "INSERT INTO transactionfeesharing(CompanyId,TransactionFeeType,PaymentMethodId,YourShare,PayInAgent,PayInAgentPer,PayOutAgent,PayOutAgentPer,CreatedDate,IsSpecific)";
 			sInsertStatement = sInsertStatement + " VALUES(?, ?, ?,?, ?, ?,?,?,?,?)";
 			_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 
 			_PreparedStatement.setInt(1, CompanyId);
 			_PreparedStatement.setString(2, TransactionFeeType);
-			_PreparedStatement.setString(3, PaymentMethod);
+			_PreparedStatement.setInt(3, PaymentMethodId);
 			_PreparedStatement.setString(4, YourShare);
 			_PreparedStatement.setInt(5, PayInAgent);
 			_PreparedStatement.setString(6, PayInAgentPer);
@@ -304,7 +304,7 @@ public class TransactionFeeSharing {
 				
 				
 				ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
-					"SELECT * FROM paymentfees where IsDeleted=0 and CompanyId='" + CompanyId + "' and PaymentMethod='"+PaymentMethod+"' and PayInAgentId='"+PayInAgent+"' and PayOutAgentId='"+PayOutAgent+"'",
+					"SELECT * FROM paymentfees where IsDeleted=0 and CompanyId='" + CompanyId + "' and PaymentMethodId='"+PaymentMethodId+"' and PayInAgentId='"+PayInAgent+"' and PayOutAgentId='"+PayOutAgent+"'",
 						_Connection);
 				while (_ResultSet.next()) {
 				String sUpdateStatement = "UPDATE paymentfees SET TransactionFeeType = ?" 
@@ -314,7 +314,7 @@ public class TransactionFeeSharing {
 					_PreparedStatement.setInt(2, CompanyId);
 					_PreparedStatement.setInt(3, PayInAgent);
 					_PreparedStatement.setInt(4, PayOutAgent);
-					_PreparedStatement.setString(5, PaymentMethod);
+					_PreparedStatement.setInt(5, PaymentMethodId);
 					_PreparedStatement.executeUpdate();
 				}
 				_ResultSet.close();
@@ -331,7 +331,7 @@ public class TransactionFeeSharing {
 
 		return _result;
 	}
-	private int _updateTransactionFeeSharing(int TransactionFeeSharingId,int CompanyId, String TransactionFeeType, String PaymentMethod,
+	private int _updateTransactionFeeSharing(int TransactionFeeSharingId,int CompanyId, String TransactionFeeType, int PaymentMethodId,
 			String YourShare, int PayInAgent, String PayInAgentPer, int PayOutAgent, String PayOutAgentPer, String CreateDate, boolean IsSpecific) {
 		int _result = 0;
 		
@@ -340,13 +340,13 @@ public class TransactionFeeSharing {
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		
 		try{
-			String sInsertStatement = "UPDATE transactionfeesharing SET CompanyId = ?,TransactionFeeType = ? ,PaymentMethod = ?,YourShare = ?,PayInAgent = ?,PayInAgentPer = ?,PayOutAgent = ?,PayOutAgentPer = ?,CreatedDate=?,IsSpecific=?"
+			String sInsertStatement = "UPDATE transactionfeesharing SET CompanyId = ?,TransactionFeeType = ? ,PaymentMethodId = ?,YourShare = ?,PayInAgent = ?,PayInAgentPer = ?,PayOutAgent = ?,PayOutAgentPer = ?,CreatedDate=?,IsSpecific=?"
 					+ " WHERE TransactionFeeSharingId = ?";
 			_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 
 			_PreparedStatement.setInt(1, CompanyId);
 			_PreparedStatement.setString(2, TransactionFeeType);			
-			_PreparedStatement.setString(3, PaymentMethod);
+			_PreparedStatement.setInt(3, PaymentMethodId);
 			_PreparedStatement.setString(4, YourShare);
 			_PreparedStatement.setInt(5, PayInAgent);
 			_PreparedStatement.setString(6, PayInAgentPer);
@@ -358,7 +358,7 @@ public class TransactionFeeSharing {
 			_PreparedStatement.executeUpdate();
 			
 			ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
-					"SELECT * FROM paymentfees where IsDeleted=0 and CompanyId='" + CompanyId + "' and PaymentMethod='"+PaymentMethod+"' and PayInAgentId='"+PayInAgent+"' and PayOutAgentId='"+PayOutAgent+"'",
+					"SELECT * FROM paymentfees where IsDeleted=0 and CompanyId='" + CompanyId + "' and PaymentMethodId='"+PaymentMethodId+"' and PayInAgentId='"+PayInAgent+"' and PayOutAgentId='"+PayOutAgent+"'",
 					_Connection);
 			while (_ResultSet.next()) {
 				String sUpdateStatement = "UPDATE paymentfees SET TransactionFeeType = ?" 
@@ -368,7 +368,7 @@ public class TransactionFeeSharing {
 				_PreparedStatement.setInt(2, CompanyId);
 				_PreparedStatement.setInt(3, PayInAgent);
 				_PreparedStatement.setInt(4, PayOutAgent);
-				_PreparedStatement.setString(5, PaymentMethod);
+				_PreparedStatement.setInt(5, PaymentMethodId);
 				_PreparedStatement.executeUpdate();
 			}
 			_ResultSet.close();
@@ -402,7 +402,7 @@ public class TransactionFeeSharing {
 
 						TransactionFeeSharing _TransactionFeeSharing = new TransactionFeeSharing();
 						_TransactionFeeSharing.setTransactionFeeSharingId(_ResultSet.getInt("TransactionFeeSharingId"));
-						_TransactionFeeSharing.setPaymentMethod(_ResultSet.getString("PaymentMethod"));
+						_TransactionFeeSharing.setPaymentMethodId(_ResultSet.getInt("PaymentMethodId"));
 						_TransactionFeeSharing.setCompanyId(_ResultSet.getInt("CompanyId"));						
 						_TransactionFeeSharing.setTransactionFeeType(_ResultSet.getString("TransactionFeeType"));
 						_TransactionFeeSharing.setYourShare(_ResultSet.getString("YourShare"));
@@ -429,7 +429,7 @@ public class TransactionFeeSharing {
 
 						TransactionFeeSharing _TransactionFeeSharing = new TransactionFeeSharing();
 						_TransactionFeeSharing.setTransactionFeeSharingId(_ResultSet.getInt("TransactionFeeSharingId"));
-						_TransactionFeeSharing.setPaymentMethod(_ResultSet.getString("PaymentMethod"));
+						_TransactionFeeSharing.setPaymentMethodId(_ResultSet.getInt("PaymentMethodId"));
 						_TransactionFeeSharing.setCompanyId(_ResultSet.getInt("CompanyId"));						
 						_TransactionFeeSharing.setTransactionFeeType(_ResultSet.getString("TransactionFeeType"));
 						_TransactionFeeSharing.setYourShare(_ResultSet.getString("YourShare"));
@@ -480,7 +480,7 @@ public class TransactionFeeSharing {
 				if (_Transaction.next()) {
 
 					_TransactionFeeSharing.setTransactionFeeSharingId(_Transaction.getInt("TransactionFeeSharingId"));
-					_TransactionFeeSharing.setPaymentMethod(_Transaction.getString("PaymentMethod"));
+					_TransactionFeeSharing.setPaymentMethodId(_Transaction.getInt("PaymentMethodId"));
 					_TransactionFeeSharing.setCompanyId(_Transaction.getInt("CompanyId"));						
 					_TransactionFeeSharing.setTransactionFeeType(_Transaction.getString("TransactionFeeType"));
 					_TransactionFeeSharing.setYourShare(_Transaction.getString("YourShare"));
@@ -620,7 +620,7 @@ public class TransactionFeeSharing {
 	
 	private TransactionFeeSharing clear(TransactionFeeSharing _TransactionFeeSharing) {
 		_TransactionFeeSharing.setCompanyId(0);
-		_TransactionFeeSharing.setPaymentMethod("");
+		_TransactionFeeSharing.setPaymentMethodId(0);
 		_TransactionFeeSharing.setPayInAgent(0);
 		_TransactionFeeSharing.setPayInAgentPer("");
 		_TransactionFeeSharing.setPayOutAgent(0);

@@ -64,8 +64,8 @@
                                         <span class="col-md-8">Fare Amount
                                             
                                         </span>
-                                        <span ng-if="!localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount*localStorage.SelectedCountry.ConvertAmount | number:2}} USD</span>
-                                         <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.AmountGer| number:2}} USD</span>
+                                        <span>{{localStorage.Ammount*localStorage.SelectedCountry.ConvertAmount | number:2}} USD</span>
+                                        <!-- <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.AmountGer| number:2}} USD</span>-->
                                     </div>
                                     <div class="row">
                                         <span class="col-md-8">Reloading Amount	
@@ -88,7 +88,7 @@
 
                                         </span>
                                         <span ng-if="!localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount*localStorage.SelectedCountry.ConvertAmount | number:2}} USD</span>
-                                        <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.AmountGer| number:2}} USD</span>
+                                        <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount *localStorage.SelectedCountry.ConvertAmount| number:2}} USD</span>
                                     </div>
                                     <div class="row">
                                         <span class="col-md-8">Reloading Amount

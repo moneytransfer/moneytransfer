@@ -248,11 +248,8 @@
 
             vm.isPayAmmount = false;
             if (Ammount != null) {
-
                 if (Ammount) {
-
                     vm.isAmmount = true;
-
                     $localStorage.Ammount = Ammount;
                     vm.getFeeDetails();
                     $('#proceedButton').prop('disabled', false);
@@ -266,10 +263,6 @@
                 $('#proceedButton').prop('disabled', false);
                 return 0;
             }
-
-
-
-
         }
 
 
@@ -317,6 +310,7 @@
                 var idata = data;
                 vm.feeData = idata;
                 var FareAmount = vm.localStorage.Ammount * vm.localStorage.SelectedCountry.ConvertAmount;
+                //$localStorage.AmountGer = FareAmount;
                 for (var i = 0; i < vm.feeData.length; i++) {
                     if (FareAmount <= vm.feeData[i].EndAmount) {
                         vm.Fee = vm.feeData[i].Fees;
@@ -338,12 +332,13 @@
 
                 if ($localStorage.Ammount) {
                     var fareAmmount = 0;
-                    if ($localStorage.SelectedCountry.IsGlobalExchangeRate) {
-                        fareAmmount =parseFloat($localStorage.AmountGer);
-                    }
-                    else { fareAmmount = parseFloat($localStorage.Ammount * $localStorage.SelectedCountry.ConvertAmount); }
+                    //if ($localStorage.SelectedCountry.IsGlobalExchangeRate) {
+                    //    fareAmmount =parseFloat($localStorage.AmountGer);
+                    //}
+                    //else {
+                        fareAmmount = parseFloat($localStorage.Ammount * $localStorage.SelectedCountry.ConvertAmount);
+                    //}
                     if (fareAmmount <= 100) {
-
                         $localStorage.FareAmmount = fareAmmount + vm.Fee;
                         $localStorage.Fees = vm.Fee;
                         setTimeout(function () {
@@ -510,11 +505,13 @@
                             headers: { 'Content-Type': 'application/json; charset=utf-8' }
                         })
                         .success(function (data) {
+                          
                             $localStorage.SelectedCountry.IsGlobalExchangeRate = false;
                             if (data.Result == "Success") {
                                 var iconvert = (parseFloat(data.GlobalExchangeRate) - parseFloat(data.SellSpotPrice)).toFixed(2);
                                 $localStorage.SelectedCountry.IsGlobalExchangeRate = true;
                                 //$localStorage.SelectedCountry.ConvertAmount = iconvert;
+                                ConvertMoneyMargin(code, iconvert);
                                 $localStorage.SelectedCountry.GlobalExchangesRate = parseFloat(data.GlobalExchangeRate).toFixed(2);
                             } else {
                                 $localStorage.SelectedCountry.IsGlobalExchangeRate = false;
@@ -528,7 +525,34 @@
                 });
         }
 
+        function ConvertMoneyMargin(code, amount) {
+            if (amount.startsWith("-")) {
+                var amount = amount.substr(1);
+            }
+            if (code) {
+                var accesstoken = 'rxv51rk8b4y1kjhasvww';
+                $http({
+                    url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: code, to: "USD", amount: amount }),
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    dataType: "json",
+                })
+                    .success(function (data) {
+                        var idata = data;
+                        if (idata.currency[0].value > 0) {
+                            var value = parseFloat(idata.currency[0].value).toFixed(2);
+                            var convertAmt = $localStorage.SelectedCountry.ConvertAmount;
+                            $localStorage.SelectedCountry.ConvertAmount = (parseFloat(convertAmt) + parseFloat(value));
 
+                            //vm.TemporaryGlobalExchangeRate.MarginAmount = value + " " + "USD";
+                        }
+                        else { //vm.TemporaryGlobalExchangeRate.MarginAmount = '0.00' + " " + "USD";
+                        }
+
+                    });
+            }
+        }
+        
     }
 
     manageCustomerLoginController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];

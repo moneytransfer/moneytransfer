@@ -19,7 +19,7 @@
                                     <span class="text-danger" ng-show="tblFees.$valid && FeesModel.CompanyId == 0">Please select Company.</span>
                                 </div>
                             </div>
-                            
+
                             <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">Source Country : </label>
                                 <div class="col-sm-8">
@@ -38,18 +38,15 @@
                         <div class="form-group row">
                             <div class="col-sm-6">
 
-                                 <label for="sel1" class="col-sm-3 form-control-label">Delivery Method</label>
-                            <div class="col-sm-8">
-                                <select name="methodType" id="DeliveryMethodType" ng-model="FeesModel.PaymentMethod" class="form-control" required ng-init="FeesModel.PaymentMethod='-1'">
-                                    <option value="-1" disabled>--Delivery Method--</option>
-                                    <option value="Bank Transfer">Bank Transfer</option>
-                                    <option value="Cash PickUp">Cash PickUp</option>
-                                    
-
-                                </select>
-                                <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PaymentMethod=='-1' ">Please select Payment Method.</span>
+                                <label for="sel1" class="col-sm-3 form-control-label">Payment Method</label>
+                                <div class="col-sm-8">
+                                    <select name="methodType" id="DeliveryMethodType" ng-model="FeesModel.PaymentMethodId" class="form-control" required>
+                                        <option value="-1" disabled>--Payment Method--</option>
+                                        <option ng-repeat="Payment in PaymentMethods" value="{{Payment.PaymentMethodId}}">{{Payment.Title}}</option>
+                                    </select>
+                                    <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PaymentMethodId=='-1' ">Please select Payment Method.</span>
+                                </div>
                             </div>
-                               </div>
                             <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">Destination Country : </label>
                                 <div class="col-sm-8">
@@ -63,9 +60,9 @@
                             </div>
 
                         </div>
-                        
-                        <div class="form-group row">
-                            <div class="col-sm-6" ng-if="FeesModel.PaymentMethod!='-1' &&  FeesModel.PaymentMethod!='Bank Transfer' ">
+
+                        <div class="form-group row" ng-if="FeesModel.PaymentMethodId!='-1' && FeesModel.PaymentMethodId!='13' && FeesModel.PaymentMethodId!='17'&& FeesModel.PaymentMethodId!='18'&& FeesModel.PaymentMethodId!='19'&& FeesModel.PaymentMethodId!='20' ">
+                            <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">PAY-IN AGENT : </label>
                                 <div class="col-sm-8">
                                     <select name="Agent" id="ddlAgent" ng-model="FeesModel.PayInAgentId" class="form-control" required>
@@ -78,48 +75,48 @@
                                         <input id="IsActive" type="checkbox" ng-model="FeesModel.IsPayInAgent" ng-init="FeesModel.IsPayInAgent=true ">
                                     </div>
                                 </div>
-                                </div>
-
-
-
-                             
-                                <div class="col-sm-6">
-                                    <label for="Country" class="col-sm-3 form-control-label">Fee Type : </label>
-                                    <div class="col-sm-8">
-                                        <select name="FamRole" id="Select6" ng-model="FeesModel.FeesType" class="form-control" required>
-                                            <option value="0">-- Fee type --</option>
-                                            <option ng-repeat="Fee in FeeType" value="{{Fee.Feetype}}">{{Fee.FeeTypeName}}</option>
-                                        </select>
-                                        <span class="text-danger" ng-show="tblFees.$valid && FeesModel.FeesType == 0">Please select Fee type .</span>
-                                    </div>
-                                </div>
                             </div>
 
-                        <div class="form-group row">
 
-
-                            <div class="col-sm-6" ng-if="FeesModel.PaymentMethod!='-1' && FeesModel.PaymentMethod!='Bank Transfer' ">
+                               <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">PAY-OUT AGENT : </label>
                                 <div class="col-sm-8">
-                                    <select name="Agent" id="ddlAgent" ng-model="FeesModel.PayOutAgentId" class="form-control" required>
+                                    <select name="Agent" id="Select1" ng-model="FeesModel.PayOutAgentId" class="form-control" required>
                                         <option value="0">-- Select Aggent --</option>
                                         <option ng-repeat="Agent in ManageAgent" value="{{Agent.AgentId}}" ng-hide="Agent.AgentId==-1">{{Agent.AgentFirstName}}</option>
                                     </select>
                                     <span class="text-danger" ng-show="tblFees.$valid && FeesModel.PayOutAgentId == 0">Please select Agent.</span>
 
                                     <div class="col-sm-4 checkbox checkbox-primary form-control-label cm-feeCheckbox">
-                                        <input id="IsActive" type="checkbox" ng-model="FeesModel.IsPayOutAgent" ng-init="FeesModel.IsPayOutAgent=true ">
+                                        <input id="Checkbox1" type="checkbox" ng-model="FeesModel.IsPayOutAgent" ng-init="FeesModel.IsPayOutAgent=true ">
                                     </div>
                                 </div>
 
                             </div>
-                             <div class="col-sm-6">
+
+                          
+                        </div>
+
+                        <div class="form-group row">
+                              <div class="col-sm-6">
+                                <label for="Country" class="col-sm-3 form-control-label">Fee Type : </label>
+                                <div class="col-sm-8">
+                                    <select name="FamRole" id="Select6" ng-model="FeesModel.FeesType" class="form-control" required>
+                                        <option value="0">-- Fee type --</option>
+                                        <option ng-repeat="Fee in FeeType" value="{{Fee.Feetype}}">{{Fee.FeeTypeName}}</option>
+                                    </select>
+                                    <span class="text-danger" ng-show="tblFees.$valid && FeesModel.FeesType == 0">Please select Fee type .</span>
+                                </div>
+                            </div>
+
+                         
+                         
+                               <div class="col-sm-6">
                                 <label for="inputName" class="col-sm-3 form-control-label">Fees: <b class="text-danger">&nbsp;*</b> </label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="Fees" placeholder="Fees" ng-model="FeesModel.Fees" required min="0" max="100"  onkeyup="fun_AllowOnlyAmountAndDot(this)">
-                                
+                                    <input type="number" class="form-control" id="Fees" placeholder="Fees" ng-model="FeesModel.Fees" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)">
                                 </div>
-                              
+
                             </div>
                         </div>
 
@@ -134,15 +131,15 @@
                                     <span class="text-danger" ng-show="tblFees.$valid && FeesModel.FeesCategoryId == 0">Please select Fees Category.</span>
                                 </div>
                             </div>
-                           
-                           
+
+
                             <div class="col-sm-6">
                                 <label for="IsActive" class="col-sm-3 form-control-label">Charge Sending Amount:</label>
                                 <div class="col-sm-8 checkbox checkbox-primary form-control-label">
                                     <input id="IsActive" type="checkbox" ng-model="FeesModel.ChargeSendingAmount" ng-init="FeesModel.ChargeSendingAmount=false ">
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6">
@@ -155,14 +152,14 @@
 
 
 
-                           
+
                             <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">Base Currency : </label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="baseCurrency" placeholder="Base Currency" ng-model="BaseCurrency" disabled>
                                 </div>
                             </div>
-                           
+
                             <!--<div class="col-sm-6">
                                 <label for="IsActive" class="col-sm-3 form-control-label">Delivery Method</label>
                                 <div class="col-sm-8">
@@ -184,20 +181,20 @@
                                     <span class="text-danger" ng-show="parseInt(FeesModel.StartingAmount)>parseInt(FeesModel.EndAmount)">Ending Amount is not Less then Starting Amount.</span>
                                 </div>
                             </div>
-                            
+
                             <div class="col-sm-6">
                                 <label for="Country" class="col-sm-3 form-control-label">To Currency : </label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" id="toCurrency" placeholder="To Currency" ng-model="ToCurrency" disabled>
                                 </div>
                             </div>
-                           
+
                         </div>
                         <!--<div class="form-group row">
                             
                         </div>-->
-                        
-                     
+
+
                         <div class="form-group row m-t-md">
                             <div class="col-sm-9 pull-right">
 
@@ -206,7 +203,8 @@
                                 <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
                             </div>
                         </div>
-                        <div class="col-sm-4" ng-if="code"><label class="cm-code" >FEE SETUP REF.CODE:  {{code}}</label></div>
+                        <div class="col-sm-4" ng-if="code">
+                            <label class="cm-code">FEE SETUP REF.CODE:  {{code}}</label></div>
                     </form>
                     <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
                         <div class="modal-dialog modal-lg" role="document">
@@ -240,7 +238,7 @@
         var count = (txt.match(/\./g) || []).length;
         if (count > 1) {
             txt = txt.slice(0, -1);
-            $("#"+id).val(txt);
+            $("#" + id).val(txt);
 
             return false;
         }
@@ -248,13 +246,13 @@
             var arr = txt.split('.');
             if (arr[1].length > 2) {
                 txt = txt.slice(0, -1);
-                $("#"+id).val(txt);
+                $("#" + id).val(txt);
             }
             return true;
         }
-        
 
-       
+
+
 
     }
 </script>

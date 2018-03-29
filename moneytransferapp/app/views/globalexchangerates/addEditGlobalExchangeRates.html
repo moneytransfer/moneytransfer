@@ -24,11 +24,11 @@
                         <div class="form-group p-y-1">
                             <label for="Country" class="col-sm-3 form-control-label">Source Country : </label>
                             <div class="col-sm-8">
-                                <select name="sourcCountry" id="SourceCountry" ng-model="globalExchangeRateData.SourceCountry" class="form-control" ng-change="getBaseCurrency(globalExchangeRateData.SourceCountry)" required ng-init="globalExchangeRateData.SourceCountry='0'">
+                                <select name="sourcCountry" id="SourceCountry" ng-model="globalExchangeRateData.SourceCountryId" class="form-control" ng-change="getBaseCurrency(globalExchangeRateData.SourceCountryId)" required ng-init="globalExchangeRateData.SourceCountryId='0'">
                                     <option value="0" disabled>-- Source Country --</option>
                                     <option ng-repeat="Country in Countries" value="{{Country.CountryId}}" ng-disabled="Country.CountryId!=230">{{Country.CountryName}}</option>
                                 </select>
-                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.SourceCountry=='0'">Please select Source Country.</span>
+                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.SourceCountryId=='0'">Please select Source Country.</span>
 
                             </div>
                         </div>
@@ -43,16 +43,13 @@
                         </div>
 
                         <div class="form-group p-y-1">
-                            <label for="sel1" class="col-sm-3 form-control-label">Delivery Method</label>
+                            <label for="sel1" class="col-sm-3 form-control-label">Payment Method</label>
                             <div class="col-sm-8">
-                                <select name="methodType" id="DeliveryMethodType" ng-model="globalExchangeRateData.PaymentMethod" class="form-control" required ng-change="getFee()">
-                                    <option value="-1" disabled>--Delivery Method--</option>
-                                    <option value="Bank Transfer">Bank Transfer</option>
-                                    <option value="Cash PickUp">Cash PickUp</option>
-                                    <!--<option value="AGS">Aguascalientes</option>-->
-                                   
+                                <select name="methodType" id="DeliveryMethodType" ng-model="globalExchangeRateData.PaymentMethodId" class="form-control" required ng-change="getFee()">
+                                    <option value="-1" disabled>--Payment Method--</option>
+                                    <option ng-repeat="Payment in PaymentMethods" value="{{Payment.PaymentMethodId}}">{{Payment.Title}}</option>
                                 </select>
-                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.PaymentMethod=='-1' ">Please select Delivery Method.</span>
+                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.PaymentMethodId=='-1' ">Please select Payment Method.</span>
                             </div>
                         </div>
                         
@@ -60,12 +57,12 @@
                         <div class="form-group p-y-1">
                             <label for="Country" class="col-sm-3 form-control-label">Destination Country : </label>
                             <div class="col-sm-8">
-                                <select name="destination" id="DestinationCountry" ng-model="globalExchangeRateData.DestinationCountry" class="form-control" ng-change="getToCurrency(globalExchangeRateData.DestinationCountry)" required ng-init="globalExchangeRateData.DestinationCountry='0'">
+                                <select name="destination" id="DestinationCountry" ng-model="globalExchangeRateData.DestinationCountryId" class="form-control" ng-change="getToCurrency(globalExchangeRateData.DestinationCountryId)" required ng-init="globalExchangeRateData.DestinationCountryId='0'">
                                     <option value="0" disabled>-- Destination Country --</option>
                                     <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
 
                                 </select>
-                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.DestinationCountry=='0'">Please select Destination Country.</span>
+                                <span class="text-danger" ng-show="tblGlobalExchangeRates.$valid && globalExchangeRateData.DestinationCountryId=='0'">Please select Destination Country.</span>
                             </div>
                         </div>
 
@@ -114,8 +111,8 @@
                                 <div class="col-sm-4">
 
                                     <div">
-                                        <input type="text" class="form-control" id="toCurrency" placeholder="0.00%" ng-model="globalExchangeRateData.SellingExchangeRate" disabled required>
-                                </div>
+                                        <input type="text" class="form-control" id="AddjustCurrency" placeholder="0.00%" ng-model="globalExchangeRateData.SellingExchangeRate" ng-change="AddManualSellingExchangeRate(globalExchangeRateData.SellingExchangeRate)" required/>
+                                    </div>
                             </div>
                         </div>
 
@@ -148,13 +145,13 @@
                                 </div>-->
                                 <div class="col-sm-6">
                                     <div>
-                                        <input type="text" id="marginPercant" class="form-control" placeholder="0.00" disabled ng-model="TemporaryGlobalExchangeRate.RatePercant">
+                                        <input type="text" id="marginPercant" class="form-control" placeholder="0.00" disabled value="{{globalExchangeRateData.SpotMarginBaseCurrency}} {{globalExchangeRateData.ToCurrency}}">
                                     </div>
                                 </div>
 
                                  <div class="col-sm-6">
                                     <div>
-                                        <input type="text" id="marginamount" class="form-control" placeholder="0.00" disabled ng-model="TemporaryGlobalExchangeRate.MarginAmount">
+                                        <input type="text" id="marginamount" class="form-control" placeholder="0.00" value="{{globalExchangeRateData.SpotMarginUSDCurrency}} USD" disabled>
                                     </div>
                                 </div>
 

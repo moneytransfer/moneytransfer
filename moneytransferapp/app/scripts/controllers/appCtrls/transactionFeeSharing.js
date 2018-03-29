@@ -22,6 +22,20 @@
             }
         }
 
+        //Get Method Details
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getpaymentmethodbycompany ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+            var idata = data;
+            vm.PaymentMethods = idata;
+        });
+
+
         //get Company
         $http({
             method: 'GET',
@@ -94,8 +108,13 @@
              }, true);
              if (companydetil.length>0)
                  vm.TransactionFeeDetails[i].CompanyName = companydetil[0].CompanyName;
+           
+             var Payment = $filter('filter')(vm.PaymentMethods, {
+                 PaymentMethodId: fee.PaymentMethodId,
+             }, true);
 
-
+             if (Payment.length > 0)
+                 vm.TransactionFeeDetails[i].Payment = Payment[0].Title;
          });
 
           
@@ -175,6 +194,7 @@
         }
 
     }
+
     addEditTransactionFeesController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$filter'];
     function addEditTransactionFeesController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $filter) {
         var vm = $scope;
@@ -187,7 +207,7 @@
         vm.DeliveryMethod = [];
         vm.Companies = [];
         vm.header = 'Add New';
-        vm.CustomizeTransactionFeeData = { TransactionFeeSharingId: 0, PaymentMethod: "-1", PayInAgent :"-1",PayOutAgent:"-1",IsSpecific:true};
+        vm.CustomizeTransactionFeeData = { TransactionFeeSharingId: 0, PaymentMethodId: "-1", PayInAgent: "-1", PayOutAgent: "-1", IsSpecific: true };
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -208,6 +228,20 @@
            vm.Companies = idata;
 
        });
+
+        //Get Method Details
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getpaymentmethodbycompany ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+            var idata = data;
+            vm.PaymentMethods = idata;
+        });
+
 
         if ($stateParams.TransactionFeeSharingId) {
        
@@ -241,17 +275,12 @@
                         var id = document.getElementById("cust_radio");
                         vm.CustomizeTransactionFeeData = idata;
                         vm.CustomizeTransactionFeeData.IsSpecific = idata.IsSpecific;
-                        vm.CustomizeTransactionFeeData.PaymentMethod = idata.PaymentMethod;
+                        vm.CustomizeTransactionFeeData.PaymentMethodId = idata.PaymentMethodId;
                         vm.CustomizeTransactionFeeData.PayInAgentPer = parseFloat(idata.PayInAgentPer);
                         vm.CustomizeTransactionFeeData.PayOutAgentPer = parseFloat(idata.PayOutAgentPer);
                         vm.CustomizeTransactionFeeData.YourShare = parseFloat(idata.YourShare);
                         vm.SelectedCompnay = "" + idata.CompanyId;
                         vm.SetCustomizeData(idata.CompanyId, idata);
-                        
-                       
-                        
-                      
-
                     }
                 } else {
                     alert(2, idata.Result);
@@ -342,7 +371,7 @@
                     vm.TransactionFeeSharingDetails.CompanyId = vm.SelectedCompnay;
                     vm.TransactionFeeSharingDetails.PayInAgent = "0";
                     vm.TransactionFeeSharingDetails.PayOutAgent = "0";
-                    vm.TransactionFeeSharingDetails.PaymentMethod = "";
+                    vm.TransactionFeeSharingDetails.PaymentMethodId = "0";
                     var iData = vm.TransactionFeeSharingDetails;
                     var formData = JSON.stringify(iData);
                     $http({
@@ -375,7 +404,7 @@
                     vm.TransactionFeeSharingDetails.CompanyId = vm.SelectedCompnay;
                     vm.TransactionFeeSharingDetails.PayInAgent = "0";
                     vm.TransactionFeeSharingDetails.PayOutAgent = "0";
-                    vm.TransactionFeeSharingDetails.PaymentMethod = "";
+                    vm.TransactionFeeSharingDetails.PaymentMethodId = "0";
                     var iData = vm.TransactionFeeSharingDetails;
                     var formData = JSON.stringify(iData);
                     $http({
@@ -406,11 +435,12 @@
             }
         }
         vm.SaveSpecificfee = function () {
-         
-            if (vm.CustomizeTransactionFeeData.PaymentMethod == 'Bank Transfer') {
+             
+            if (vm.CustomizeTransactionFeeData.PaymentMethodId == "13" || vm.CustomizeTransactionFeeData.PaymentMethodId == "17" || vm.CustomizeTransactionFeeData.PaymentMethodId == "18"|| vm.CustomizeTransactionFeeData.PaymentMethodId == "19" || vm.CustomizeTransactionFeeData.PaymentMethodId == "20") {
                 vm.CustomizeTransactionFeeData.PayInAgent = '-1';
                 vm.CustomizeTransactionFeeData.PayInAgentPer = 0;
             }
+            
             var TotalShare = vm.CustomizeTransactionFeeData.PayInAgentPer + vm.CustomizeTransactionFeeData.PayOutAgentPer + vm.CustomizeTransactionFeeData.YourShare;
             if (TotalShare == 100) {
                 if ($stateParams.TransactionFeeSharingId) {

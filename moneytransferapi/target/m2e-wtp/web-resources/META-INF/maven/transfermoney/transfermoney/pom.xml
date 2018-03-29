@@ -492,8 +492,22 @@
     <artifactId>el-ri</artifactId>
     <version>1.0</version>
 </dependency>
+
     </dependencies>
-    
+    <pluginRepositories>
+    <pluginRepository>
+      <id>central</id>
+      <name>Maven Plugin Repository</name>
+      <url>http://repo1.maven.org/maven2</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
     <properties>
         <jersey.version>1.20-SNAPSHOT</jersey.version>
         <glassfish.version>3.1.1</glassfish.version>

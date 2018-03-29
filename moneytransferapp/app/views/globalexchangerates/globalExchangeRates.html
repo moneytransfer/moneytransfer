@@ -12,7 +12,7 @@
             <table id="tblFees" class="table m-b-none table-responsive" ui-jp="footable" data-filter="#filter" data-page-size="10">
                 <thead>
                     <tr>
-                        <th>Delivery Method</th>
+                        <th>Payment Method</th>
                      <!--   <th>Company Name</th>-->
                         <th>Source Country </th>
                         <th>Destination Country </th>
@@ -20,8 +20,8 @@
                         <th>Created Date</th>
                         <th>Base Currency</th>
                         <th>Auto Fees</th>
-                        <th>Auto Update Exchange Rate</th>
-                        <th>Selling Exchange Rate</th>
+                        <th>Spot Rate</th>
+                        <th>Adjustment Type %</th>
                         <th>Spot Price Sell</th>
                         <th class="w-180">Action</th>
                         <th></th>
@@ -32,7 +32,7 @@
 
                 <tbody ng-if="globalExchangeRateDataList[0].GlobalExchangeId!=0">
                     <tr class="Active cm-td-spacing" ng-repeat="Fees in globalExchangeRateDataList ">
-                        <td><small>{{Fees.PaymentMethod}} </small></td>
+                        <td><small>{{Fees.Payment}} </small></td>
                        <!-- <td><small>{{Fees.Company}}</small></td>-->
                         <td><small>{{Fees.SourceCountryName}} </small></td>
                         <td><small>{{Fees.DestinationCountryName}} </small></td>

@@ -48,16 +48,13 @@
                             
                             
                             <div class="form-group">
-                                <label for="sel1" class="form-control-label">Delivery Method</label>
-                                <div>
-                                    <select  class="form-control"  name="methodType" id="PaymentMethod" ng-model="CustomizeTransactionFeeData.PaymentMethod"  required>
-                                        <option value="-1" disabled>--Delivery Method--</option>
-                                        <option value="Bank Transfer">Bank Transfer</option>
-                                        <option value="Cash PickUp">Cash PickUp</option>
-
-
+                                 <label for="sel1" class="col-sm-3 form-control-label">Payment Method</label>
+                                <div class="col-sm-8">
+                                    <select name="methodType" id="DeliveryMethodType" ng-model="CustomizeTransactionFeeData.PaymentMethodId" class="form-control" required>
+                                        <option value="-1" disabled>--Payment Method--</option>
+                                        <option ng-repeat="Payment in PaymentMethods" value="{{Payment.PaymentMethodId}}">{{Payment.Title}}</option>
                                     </select>
-                                    <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PaymentMethod=='-1' ">Please select Payment Method.</span>
+                                    <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PaymentMethodId=='-1' ">Please select Payment Method.</span>
                                 </div>
                               
                                 
@@ -68,7 +65,7 @@
                             </div>
 
 
-                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1' && CustomizeTransactionFeeData.PaymentMethod!='Bank Transfer'">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethodId!='-1' && CustomizeTransactionFeeData.PaymentMethodId!='13' && CustomizeTransactionFeeData.PaymentMethodId!='17'&& CustomizeTransactionFeeData.PaymentMethodId!='18'&& CustomizeTransactionFeeData.PaymentMethodId!='19'&& CustomizeTransactionFeeData.PaymentMethodId!='20'">
                                 <label for="sel1">Pay-In Agent</label>
                                 <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayInAgent" class="form-control" required >
                                     <option value="-1" disabled>-- Select Agent --</option>
@@ -77,13 +74,13 @@
                                 <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayInAgentId=='-1'">Please select Pay-In Agent.</span>
                             </div>
 
-                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1'  && CustomizeTransactionFeeData.PaymentMethod!='Bank Transfer'">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethodId!='-1'  && CustomizeTransactionFeeData.PaymentMethodId!='13' && CustomizeTransactionFeeData.PaymentMethodId!='17'&& CustomizeTransactionFeeData.PaymentMethodId!='18'&& CustomizeTransactionFeeData.PaymentMethodId!='19'&& CustomizeTransactionFeeData.PaymentMethodId!='20'">
                                 <label for="your-share">pay in agent(%)</label>
                                 <input type="number" id="payAgentShare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayInAgentPer">
                             </div>
 
 
-                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1'">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethodId!='-1'">
                                 <label for="sel1">Pay-Out Agent</label>
                                 <select name="Agent" id="ddlAgent" ng-model="CustomizeTransactionFeeData.PayOutAgent" class="form-control" required >
                                     <option value="-1" disabled>-- Select Agent --</option>
@@ -91,7 +88,7 @@
                                 </select>
                                 <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PayOutAgentId=='-1'">Please select Pay-Out Agent.</span>
                             </div>
-                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethod!='-1'">
+                            <div class="form-group" ng-if="CustomizeTransactionFeeData.PaymentMethodId!='-1'">
                                 <label for="your-share">pay out agent(%)</label>
                                 <input type="number" id="payOutAgentshare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayOutAgentPer">
                             </div>
