@@ -5,7 +5,7 @@
                 <label for="Country" class="col-sm-3 form-control-label">Fees Category : </label>
                 <div class="col-sm-8">
                     <select name="FeesCategory" id="FeesCategory" class="form-control" ng-model="Feesfilter.FeesCategoryId" ng-change="FilterFees(Feesfilter.FeesCategoryId)">
-                        <option value="-1" disabled>-- Fees Category --</option>
+                        <option value="-1">--All Fees Category --</option>
                         <option ng-repeat="Fees in FeesCategory" value="{{Fees.FeesCategoryId}}">{{Fees.FeesCategoryName}}</option>
                     </select>
 

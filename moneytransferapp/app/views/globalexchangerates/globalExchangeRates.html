@@ -16,13 +16,15 @@
                      <!--   <th>Company Name</th>-->
                         <th>Source Country </th>
                         <th>Destination Country </th>
-                        <th>FEE SETUP REF. CODE</th>
+                        <th>Global Exchange REF. CODE</th>
                         <th>Created Date</th>
                         <th>Base Currency</th>
                         <th>Auto Fees</th>
                         <th>Spot Rate</th>
                         <th>Adjustment Type %</th>
                         <th>Spot Price Sell</th>
+                        <th>SPOT PRICE SELL PROFIT MARGIN</th>
+                      
                         <th class="w-180">Action</th>
                         <th></th>
                         <th></th>
@@ -43,6 +45,7 @@
                         <td><small>{{Fees.SellSpotPrice}}</small></td>
                         <td><small>{{Fees.SellingExchangeRate}}</small></td>
                         <td><small >{{Fees.GlobalExchangeRate}}</small></td>
+                         <td><small >{{Fees.SpotMarginBaseCurrency}}&nbsp;{{Fees.BaseCurrency}} &nbsp; | &nbsp; {{Fees.SpotMarginUSDCurrency}}&nbsp;{{Fees.SpotPrice}}</small></td>
                         <td>
                            
                                 <button type="button" class="btn btn-default btn-disabled-td"  ng-class="{'cm-stackingorder':!Fees.IsActive}" id="checkDisabled" ng-click="setDisabled(Fees.GlobalExchangeId,false)">Disabled</button>

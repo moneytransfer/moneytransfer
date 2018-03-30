@@ -33,23 +33,11 @@
             url: baseUrl + 'getFeesCategoryDetails',
             headers: { 'Content-Type': 'application/json' }
         })
-      .success(function (data) {
+          .success(function (data) {
 
-          var idata = data;
-          vm.FeesCategory = idata;
-      });
-
-        //Get Country
-        $http({
-            method: 'GET',
-            url: baseUrl + 'getcountrydetails',
-            headers: { 'Content-Type': 'application/json' }
-        })
-      .success(function (data) {
-          var idata = data;
-          vm.Countries = idata;
-          vm.ReloadData();
-      });
+              var idata = data;
+              vm.FeesCategory = idata;
+          });
 
         //Get Method Details
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
@@ -59,10 +47,24 @@
             url: baseUrl + 'getpaymentmethodbycompany ',
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
-        .success(function (data) {
-            var idata = data;
-            vm.PaymentMethods = idata;
-        });
+           .success(function (data) {
+               var idata = data;
+               vm.PaymentMethods = idata;
+           });
+
+        //Get Country
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getcountrydetails',
+            headers: { 'Content-Type': 'application/json' }
+        })
+          .success(function (data) {
+              var idata = data;
+              vm.Countries = idata;
+              vm.ReloadData();
+          });
+
+
         //Load data
         vm.ReloadData = function () {
             var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
@@ -76,33 +78,14 @@
                var idata = data;
                vm.ManageFees = idata;
                angular.forEach(vm.ManageFees, function (fee, index) {
-                   vm.getfeeCategory(fee, index);
+                   //vm.getfeeCategory(fee, index);
                    vm.getOtherData(fee, index);
                });
            });
         }
 
-        //Get fee Category
-        vm.getfeeCategory = function (FeesCategory, i) {
-            if (FeesCategory != null) {
-                var formData = JSON.parse(JSON.stringify({ "FeesCategoryId": FeesCategory.FeesCategoryId }));
-                $http({
-                    method: 'POST',
-                    url: baseUrl + 'getFeesCategoryById',
-                    data: formData,
-                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
-                })
-               .success(function (data) {
-                   var idata = data;
-                   vm.ManageFees[i].FeeCategory = idata.FeesCategoryName;
-               });
-            }
-
-        }
-
-
+        //Get Ref. Data for Fee Details
         vm.getOtherData = function (fee, i) {
-
             var formData = JSON.parse(JSON.stringify({ "CompanyId": fee.CompanyId }));
             $http({
                 method: 'POST',
@@ -111,7 +94,6 @@
                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
             })
          .success(function (data) {
-
              vm.ManageAgent = data;
              var data12 = $filter('filter')(vm.ManageAgent, {
                  AgentId: fee.PayInAgentId,
@@ -132,13 +114,9 @@
              }, true);
              if (SourcecountryData.length > 0)
                  vm.ManageFees[i].Sourcecountry = SourcecountryData[0].CountryName;
-
-
              var DestinationcountryData = $filter('filter')(vm.Countries, {
                  CountryId: fee.DestinationCountry,
              }, true);
-
-
 
              if (SourcecountryData.length > 0)
                  vm.ManageFees[i].Destinationcountry = DestinationcountryData[0].CountryName;
@@ -149,30 +127,49 @@
 
              if (Payment.length > 0)
                  vm.ManageFees[i].Payment = Payment[0].Title;
+             var FeeCategory = $filter('filter')(vm.FeesCategory, {
+                 FeesCategoryId: fee.FeesCategoryId,
+             }, true);
+
+             if (FeeCategory.length > 0)
+                 vm.ManageFees[i].FeeCategory = FeeCategory[0].FeesCategoryName;
 
          });
         }
-        //Get users
+
+        //Filter Fee Data
         vm.Feesfilter = { FeesCategoryId: "-1" };
 
-        vm.idata = vm.ManageFees;
-
         vm.FilterFees = function (CategoryId) {
-            //vm.ReloadData();
-
             var CategoryId = parseInt(CategoryId);
-            //var idata = vm.ManageFees;
-            vm.ManageFees = [];
-            if (CategoryId > 0) {
-                angular.forEach(vm.idata, function (fee, index) {
-                    if (fee.FeesCategoryId == CategoryId) {
-                        vm.ManageFees.push(fee);
-                    }
-                });
-            }
 
-            //vm.ManageFees;
-
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getPaymentFeesDetails',
+                data: formData,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+           .success(function (data) {
+               var idata = data;
+               if (CategoryId > 0) {
+                   vm.ManageFees = [];
+                   angular.forEach(idata, function (fee, index) {
+                       if (fee.FeesCategoryId == CategoryId) {
+                           vm.ManageFees.push(fee);
+                       }
+                   });
+                   angular.forEach(vm.ManageFees, function (fee, index) {
+                       vm.getOtherData(fee, index);
+                   });
+               }
+               else {
+                   vm.ManageFees = idata;
+                   angular.forEach(vm.ManageFees, function (fee, index) {
+                       vm.getOtherData(fee, index);
+                   });
+               }
+           });
         }
 
 
@@ -430,7 +427,6 @@
                 });
             }
             else {
-
                 vm.FeesModel.StartingAmount = $('#StartingAmount').val();
                 vm.FeesModel.EndAmount = $('#EndAmount').val();
                 vm.FeesModel.Fees = +$('#Fees').val();
