@@ -980,8 +980,8 @@
     }
 
 
-    manageGuestCustomerTransactionController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
-    function manageGuestCustomerTransactionController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+    manageGuestCustomerTransactionController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
+    function manageGuestCustomerTransactionController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
         var CompanyId = 0;
         vm.localStorage = 0;
@@ -1009,8 +1009,9 @@
         .success(function (data) {
 
             var idata = data;
+            $scope.reverse = true;
+            idata = $filter('orderBy')(idata, 'TransactionId', $scope.reverse);
 
-            // $timeout(function () {
             vm.totalItems = idata.length;
             vm.currentPage = 1;
             vm.itemsPerPage = 15;
@@ -1056,6 +1057,8 @@
 
 
     }
+
+
     customerPortalthankyouController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function customerPortalthankyouController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;

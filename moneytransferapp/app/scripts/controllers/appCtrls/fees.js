@@ -64,7 +64,6 @@
               vm.ReloadData();
           });
 
-
         //Load data
         vm.ReloadData = function () {
             var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
@@ -142,7 +141,6 @@
 
         vm.FilterFees = function (CategoryId) {
             var CategoryId = parseInt(CategoryId);
-
             var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
             $http({
                 method: 'POST',
@@ -172,6 +170,56 @@
            });
         }
 
+        //Link Button Click
+        vm.dfees = 0;
+        vm.getExchangeRateDetails = function (CountryId, fees) {
+           vm.dfees = parseFloat(fees);
+            $http({
+                method: 'GET',
+                url: baseUrl + 'getglobalExchangerateByComapny',
+                // data: formData,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            }).success(function (data2) {
+                var idata = data2;
+                if (CountryId > 0) {
+                    $('#updatefee').modal('toggle');
+                    vm.globalExchangeRateDetails = [];
+                    angular.forEach(idata, function (fee, index) {
+                        if (fee.DestinationCountryId == CountryId) {
+                            vm.globalExchangeRateDetails.push(fee);
+                        }
+                    });
+                }
+            });
+        }
+        vm.checkvalue = {GlobalExchangeId:0};
+        vm.updateExchangeRate = function () {
+            var gender = document.querySelector('input[name = chkglobalrate]:checked').value;
+            var GlobalExchangeraetId = parseInt(gender);
+            if (GlobalExchangeraetId > 0 && vm.dfees > 0) {
+                var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": GlobalExchangeraetId, "AutoFees": vm.dfees }));
+                $http({
+                    method: 'POST',
+                    url: baseUrl + 'updateglobalExchangerateFees',
+                    data: formData,
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                })
+               .success(function (data) {
+                   var idata = data;
+                   if (idata.Result == "Sucess") {
+                       setTimeout(function () {
+                           $('#updatefee').modal('toggle');
+                           Alert(1, "! Global exchange rate updated successfully");
+                       }, 500);
+
+                   }
+
+               });
+            }
+            else {
+                Alert(2, "! Select a valid exchange rate to update");
+            }
+        }
 
         vm.addfees = function () {
             $state.go('app.add_Fees');

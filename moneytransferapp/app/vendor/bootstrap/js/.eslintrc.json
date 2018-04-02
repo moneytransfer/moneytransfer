@@ -21,7 +21,7 @@
         "no-console": "error",
         "no-constant-condition": "error",
         "no-control-regex": "error",
-        "no-debugger": "error",
+        "no-": "error",
         "no-dupe-args": "error",
         "no-dupe-keys": "error",
         "no-duplicate-case": "error",

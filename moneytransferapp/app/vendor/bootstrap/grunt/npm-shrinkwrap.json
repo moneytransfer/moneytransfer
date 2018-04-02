@@ -318,10 +318,10 @@
       "from": "babel-plugin-remove-console@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/babel-plugin-remove-console/-/babel-plugin-remove-console-1.0.1.tgz"
     },
-    "babel-plugin-remove-debugger": {
+    "babel-plugin-remove-": {
       "version": "1.0.1",
-      "from": "babel-plugin-remove-debugger@>=1.0.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/babel-plugin-remove-debugger/-/babel-plugin-remove-debugger-1.0.1.tgz"
+      "from": "babel-plugin-remove-@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/babel-plugin-remove-/-/babel-plugin-remove--1.0.1.tgz"
     },
     "babel-plugin-runtime": {
       "version": "1.0.7",

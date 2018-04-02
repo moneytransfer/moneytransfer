@@ -136,7 +136,7 @@
                     var idata = data;
                     if (idata.countryCode != null) {
                         idata.countryCode = idata.countryCode.toLowerCase();
-                        debugger;
+                        
                         vm.FlagModel = idata;
                         var res = idata.internationalCodes.split(" ");
                         var PhoneCode =parseInt(res[0]);
@@ -169,7 +169,7 @@
 
         //Payment Confirmation
         vm.Paynow = function () {
-            //debugger;
+            //
            
             $('#PaymentConfirm').modal('toggle');
             //$('#PaymentConfirmbtn').click();
@@ -180,7 +180,7 @@
 
             var idata = vm.PaybillModel;
             if ($location.path() != "/app/PayBill") {
-                debugger;
+                
                 idata.Amount = $localStorage.numberDetails.Ammount;
                 idata.PaymentMethodId = 1;
                idata.MobileNumber = $localStorage.numberDetails.MobileNumber;
@@ -199,7 +199,7 @@
             idata.SenderName = vm.CustomerName;
             var formData = JSON.stringify(idata);
 
-            debugger;
+            
             $http({
                 method: 'POST',
                 url: baseUrl + 'billPay',

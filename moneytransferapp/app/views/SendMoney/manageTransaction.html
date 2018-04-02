@@ -58,9 +58,8 @@
                         <td><small><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{Transaction.ReceivingAmount | number:2  }}</small></td>
                         <td><small>{{Transaction.Status}}</small></td>
                         <td><small ng-click="GetDetails(Transaction.TransactionId)"><a class="fa fa-check text-success fa-2x" aria-hidden="true" ng-click="GetDetails(Transaction.TransactionId)"></a></small></td>
-
-
                     </tr>
+                    <tr> <td ng-show="ManageTransaction.length==0">No Record found</td></tr>
                 </tbody>
 
 

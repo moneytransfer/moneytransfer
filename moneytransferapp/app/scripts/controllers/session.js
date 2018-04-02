@@ -66,7 +66,7 @@ var authorisedUser = [];
                 dataType: "json",
             })
             .success(function (data, status, headers, config) {
-                debugger;
+                
                 authorisedUser = data;
                 if (authorisedUser.UserId) {
                     $window.sessionStorage.authorisedUser = JSON.stringify(data);

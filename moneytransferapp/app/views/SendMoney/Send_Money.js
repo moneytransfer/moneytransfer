@@ -763,7 +763,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-            debugger;
+            
             var idata = data;
             vm.PickUpLocation = idata;
         });
@@ -928,7 +928,7 @@
 
         //Next Page
         vm.CashPickUp = function (Id) {
-            debugger;
+            
             vm.ValidAcountRoute = false;
             var route = vm.BeneficiaryModel.RoutingNumber;
             var account = vm.BeneficiaryModel.AccountNumber;
@@ -1413,8 +1413,8 @@
 
     }
 
-    managesendMoneyTransactionController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
-    function managesendMoneyTransactionController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+    managesendMoneyTransactionController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
+    function managesendMoneyTransactionController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
         var CompanyId = 0;
         vm.CustomerId = 0;
@@ -1442,9 +1442,13 @@
         })
         .success(function (data) {
             var idata = data;
-            idata.sort(function (a, b) {
-                (a.TransactionId) - (b.TransactionId);
-            });
+        
+            $scope.reverse = true;
+            idata = $filter('orderBy')(idata, 'TransactionId', $scope.reverse);
+
+            //idata.sort(function (a, b) {
+            //    (a.TransactionId) - (b.TransactionId);
+            //});
             // $timeout(function () {
             vm.totalItems = idata.length;
             vm.currentPage = 1;
@@ -1460,8 +1464,10 @@
                   page * vm.itemsPerPage
                 );
 
-
+               
                 vm.ManageTransaction = pagedData;
+
+                
             }
             //}, 100);
         });

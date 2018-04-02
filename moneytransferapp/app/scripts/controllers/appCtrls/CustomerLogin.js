@@ -155,7 +155,7 @@ var authorisedCustomer = [];
 
     CustomerauthenticateController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function CustomerauthenticateController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
-        debugger;
+        
         if ($window.sessionStorage.authorisedCustomer) {
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             if (!authorisedCustomer.CustomerId) {

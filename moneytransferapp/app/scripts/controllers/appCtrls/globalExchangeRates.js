@@ -417,6 +417,7 @@
                     dataType: "json",
                 })
                     .success(function (data) {
+                        vm.globalExchangeRateData.SpotMarginUSDCurrency = '0.00';
                         var idata = data;
                         if (idata.currency[0].value > 0) {
                             var value = parseFloat(idata.currency[0].value).toFixed(4);
@@ -532,17 +533,10 @@
 
         //On text change
         vm.AddManualSellingExchangeRate = function (value) {
-            //debugger;
+            //
             //var result = parseFloat(value);
             var result = value;
 
-            //var results = (result - Math.floor(result)) !== 0;
-            //if (!results) {
-            //    result = result + ".00";
-            //}
-            //else {
-            //    result = result;
-            //}
             if (result != '' && result !== undefined && result != null) {
                 //var data = .10 + parseFloat(vm.globalExchangeRateData.SellingExchangeRate);
                 vm.globalExchangeRateData.SellingExchangeRate = "" + result;
@@ -568,9 +562,17 @@
                         if (SpotMarginBaseCurrency.toString().startsWith("-")) {
                             var SpotMarginBaseCurrency = SpotMarginBaseCurrency.toString().substr(1);
                         }
-
-                        vm.globalExchangeRateData.SpotMarginBaseCurrency = "" + parseFloat(SpotMarginBaseCurrency).toFixed(4);
-                        ConvertMoneyMargin(vm.globalExchangeRateData.ToCurrency, parseFloat(SpotMarginBaseCurrency).toFixed(4));
+                        if (!isNaN(SpotMarginBaseCurrency)) {
+                            vm.globalExchangeRateData.SpotMarginBaseCurrency = "" + parseFloat(SpotMarginBaseCurrency).toFixed(4);
+                            ConvertMoneyMargin(vm.globalExchangeRateData.ToCurrency, parseFloat(SpotMarginBaseCurrency).toFixed(4));
+                        }
+                        else {
+                            SpotMarginBaseCurrency = '0.00';
+                            
+                            vm.globalExchangeRateData.SpotMarginBaseCurrency = "" + parseFloat(SpotMarginBaseCurrency).toFixed(4);
+                           ConvertMoneyMargin(vm.globalExchangeRateData.ToCurrency, parseFloat(SpotMarginBaseCurrency).toFixed(4));
+                        }
+                       
 
                     }
                 }
@@ -595,7 +597,16 @@
                     if (SpotMarginBaseCurrency.toString().startsWith("-")) {
                         var SpotMarginBaseCurrency = SpotMarginBaseCurrency.toString().substr(1);
                     }
+                    if (!isNaN(SpotMarginBaseCurrency)) {
+                        vm.globalExchangeRateData.SpotMarginBaseCurrency = "" + parseFloat(SpotMarginBaseCurrency).toFixed(4);
+                        ConvertMoneyMargin(vm.globalExchangeRateData.ToCurrency, parseFloat(SpotMarginBaseCurrency).toFixed(4));
+                    }
+                    else {
+                        SpotMarginBaseCurrency = '0.00';
 
+                        vm.globalExchangeRateData.SpotMarginBaseCurrency = "" + parseFloat(SpotMarginBaseCurrency).toFixed(4);
+                        ConvertMoneyMargin(vm.globalExchangeRateData.ToCurrency, parseFloat(SpotMarginBaseCurrency).toFixed(4));
+                    }
                     vm.TemporaryGlobalExchangeRate.SpotMarginBaseCurrency = "" + parseFloat(SpotMarginBaseCurrency).toFixed(4);
                 }
             }
