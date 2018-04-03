@@ -149,6 +149,7 @@
                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
             })
            .success(function (data) {
+
                var idata = data;
                if (CategoryId > 0) {
                    vm.ManageFees = [];
@@ -172,14 +173,17 @@
 
         //Link Button Click
         vm.dfees = 0;
-        vm.getExchangeRateDetails = function (CountryId, fees) {
-           vm.dfees = parseFloat(fees);
+        vm.feeId = 0;
+        vm.getExchangeRateDetails = function (CountryId, fees, feeId, ExchangeRateCode) {
+            vm.dfees = parseFloat(fees);
+            vm.feeId = parseInt(feeId);
             $http({
                 method: 'GET',
                 url: baseUrl + 'getglobalExchangerateByComapny',
                 // data: formData,
                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
             }).success(function (data2) {
+              
                 var idata = data2;
                 if (CountryId > 0) {
                     $('#updatefee').modal('toggle');
@@ -187,17 +191,43 @@
                     angular.forEach(idata, function (fee, index) {
                         if (fee.DestinationCountryId == CountryId) {
                             vm.globalExchangeRateDetails.push(fee);
+
+                            var SourcecountryData = $filter('filter')(vm.Countries, {
+                                CountryId: fee.SourceCountryId,
+                            }, true);
+                            if (SourcecountryData.length > 0)
+                                vm.globalExchangeRateDetails[index].Sourcecountry = SourcecountryData[0].CurrencyCode;
+
+                            var DestinationcountryData = $filter('filter')(vm.Countries, {
+                                CountryId: fee.DestinationCountryId,
+                            }, true);
+
+                            if (DestinationcountryData.length > 0)
+                                vm.globalExchangeRateDetails[index].Destinationcountry = DestinationcountryData[0].CurrencyCode;
                         }
                     });
+                    setTimeout(function () {
+                        if (ExchangeRateCode != "") {
+                            angular.forEach(vm.globalExchangeRateDetails, function (fee, index) {
+                                if (fee.Code == ExchangeRateCode) {
+                                    $("input[name=chkglobalrate][value=" + fee.GlobalExchangeId + "]").attr("checked", true);
+                                    var row = $("input[name=chkglobalrate][value=" + fee.GlobalExchangeId + "]").parent().parent().addClass('selected');
+                                }
+                            });
+                        }
+                    }, 500);
                 }
             });
         }
-        vm.checkvalue = {GlobalExchangeId:0};
+
+
+
+        vm.checkvalue = { GlobalExchangeId: 0 };
         vm.updateExchangeRate = function () {
             var gender = document.querySelector('input[name = chkglobalrate]:checked').value;
             var GlobalExchangeraetId = parseInt(gender);
             if (GlobalExchangeraetId > 0 && vm.dfees > 0) {
-                var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": GlobalExchangeraetId, "AutoFees": vm.dfees }));
+                var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": GlobalExchangeraetId, "AutoFees": vm.dfees, "PaymentFeesId": vm.feeId }));
                 $http({
                     method: 'POST',
                     url: baseUrl + 'updateglobalExchangerateFees',
@@ -210,6 +240,7 @@
                        setTimeout(function () {
                            $('#updatefee').modal('toggle');
                            Alert(1, "! Global exchange rate updated successfully");
+                           vm.ReloadData();
                        }, 500);
 
                    }
@@ -438,13 +469,15 @@
         }
 
         vm.Create = function () {
+
             if ($stateParams.PaymentFessId) {
                 vm.FeesModel.StartingAmount = $('#StartingAmount').val();
                 vm.FeesModel.EndAmount = $('#EndAmount').val();
                 vm.FeesModel.Fees = +$('#Fees').val();
                 //17 18 19 20
-                if (vm.FeesModel.PaymentMethodId == '13' && vm.FeesModel.PaymentMethodId == '17' && vm.FeesModel.PaymentMethodId == '18' && vm.FeesModel.PaymentMethodId == '19' && vm.FeesModel.PaymentMethodId == '20') {
+                if (vm.FeesModel.PaymentMethodId == "13" || vm.FeesModel.PaymentMethodId == "17" || vm.FeesModel.PaymentMethodId == "18" || vm.FeesModel.PaymentMethodId == "19" || vm.FeesModel.PaymentMethodId == "20") {
                     vm.FeesModel.PayInAgentId = '-1'
+                    vm.FeesModel.PayOutAgentId = '-1';
                 }
                 var iData = vm.FeesModel;
                 var formData = JSON.stringify(vm.FeesModel);
@@ -479,7 +512,7 @@
                 vm.FeesModel.EndAmount = $('#EndAmount').val();
                 vm.FeesModel.Fees = +$('#Fees').val();
                 var iData = vm.FeesModel;
-                if (vm.FeesModel.PaymentMethodId == '13' || vm.FeesModel.PaymentMethodId == '17' || vm.FeesModel.PaymentMethodId == '18' || vm.FeesModel.PaymentMethodId == '19' || vm.FeesModel.PaymentMethodId == '20') {
+                if (vm.FeesModel.PaymentMethodId == "13" || vm.FeesModel.PaymentMethodId == "17" || vm.FeesModel.PaymentMethodId == "18" || vm.FeesModel.PaymentMethodId == "19" || vm.FeesModel.PaymentMethodId == "20") {
                     vm.FeesModel.PayInAgentId = '-1';
                     vm.FeesModel.PayOutAgentId = '-1';
                 }
@@ -491,8 +524,6 @@
                 //}
 
                 var formData = JSON.stringify(iData);
-
-
                 $http({
                     method: 'POST',
                     data: formData,

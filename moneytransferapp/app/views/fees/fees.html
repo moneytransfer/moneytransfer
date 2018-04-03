@@ -18,7 +18,7 @@
 
         <div class="card-block p-a-0">
 
-            <table id="tblFees" class="table m-b-none table-responsive" ui-jp="footable" data-filter="#filter" data-page-size="10">
+            <table id="tblFees" class="table m-b-none table-responsive ox-auto" ui-jp="footable" data-filter="#filter" data-page-size="10">
                 <thead>
                     <tr>
                         <th>Fee Setup Ref. Code</th>
@@ -31,7 +31,9 @@
                         <th>Service Fee Type</th>
                         <th>Service Fee</th>
                         <th>Starting Amount</th>
+                        
                         <th>End Amount</th>
+                        <th>Exchange Rate code</th>
                         <th>Charge Sending Amount</th>
                         <th>Service Date Created</th>
                         <th></th>
@@ -52,6 +54,7 @@
                         <td><small>{{Fees.Fees | currency}} </small></td>
                         <td><small>{{Fees.StartingAmount | currency}} </small></td>
                         <td><small>{{Fees.EndAmount | currency}} </small></td>
+                        <td><small>{{Fees.GobalExchangeRateCode}}</small></td>
                         <td>
                             <input type="checkbox" name="check" value='{{Fees.IsActive}}' ng-model="Fees.ChargeSendingAmount" disabled="true" /></td>
                         <td><small>{{Fees.CreatedDate }}</small></td>
@@ -64,7 +67,7 @@
                             <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteUser(Fees.PaymentFessId)">Delete </button>
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="getExchangeRateDetails(Fees.DestinationCountry, Fees.Fees)">Exchange Rate </button>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="getExchangeRateDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.GobalExchangeRateCode)">Exchange Rate </button>
                         </td>
                     </tr>
                 </tbody>
@@ -112,13 +115,13 @@
                     </div>
 
                     <div class="modal-body">
-                        <table id="Table1" class="table m-b-none table-responsive" ui-jp="footable" data-filter="#filter" data-page-size="10">
+                        <table id="tblFeeglobalRate" class="table m-b-none table-responsive" ui-jp="footable" data-filter="#filter" data-page-size="10">
                             <thead>
                                 <tr>
                                     <th>Select</th>
                                     <th>Global Exchange REF. CODE</th>
-                                    <th>Base Currency</th>
-                                    <th>Auto Fees</th>
+                                    <th>Combination</th>
+                                    <th>Fees</th>
                                     <th>Spot Rate</th>
                                     <th>Adjustment Type %</th>
                                     <th>Spot Price Sell</th>
@@ -128,16 +131,16 @@
 
 
                             <tbody>
-                                <tr class="Active cm-td-spacing" ng-repeat="Fees in globalExchangeRateDetails ">
+                                <tr class="Active cm-td-spacing" ng-repeat="Fees in globalExchangeRateDetails " ng-class="{'selected':$index == selectedRow}">
                                     <td>
                                     <input type="radio" id="chk_Rate" name="chkglobalrate" value="{{Fees.GlobalExchangeId}}" ng-modal="checkvalue.GlobalExchangeId" /></td>
                                     <td><small>{{Fees.Code}} </small></td>
-                                    <td><small>{{Fees.SpotPrice }}</small></td>
+                                    <td><small>{{Fees.Sourcecountry }}  to {{Fees.Destinationcountry}}</small></td>
                                     <td><small>{{Fees.AutoFees | currency}} </small></td>
                                     <td><small>{{Fees.SellSpotPrice}}</small></td>
                                     <td><small>{{Fees.SellingExchangeRate}}</small></td>
                                     <td><small>{{Fees.GlobalExchangeRate}}</small></td>
-                                    <td><small>{{Fees.SpotMarginBaseCurrency}}&nbsp;{{Fees.BaseCurrency}} &nbsp; | &nbsp; {{Fees.SpotMarginUSDCurrency}}&nbsp;{{Fees.SpotPrice}}</small></td>
+                                    <td><small>{{Fees.SpotMarginBaseCurrency}}&nbsp;{{Fees.Destinationcountry}} &nbsp; | &nbsp; {{Fees.SpotMarginUSDCurrency}}&nbsp;{{Fees.SpotPrice}}</small></td>
                                     <!-- <td>
                                             <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="updateExchangeRate(Fees.GlobalExchangeId)">Update </button>
                                         </td>-->
@@ -163,3 +166,10 @@
     </div>
 </div>
 
+<style>
+.selected {
+    background-color:black;
+    color:white;
+    font-weight:bold;
+}
+</style>
