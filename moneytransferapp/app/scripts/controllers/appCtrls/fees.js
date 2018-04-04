@@ -242,9 +242,7 @@
                            Alert(1, "! Global exchange rate updated successfully");
                            vm.ReloadData();
                        }, 500);
-
                    }
-
                });
             }
             else {

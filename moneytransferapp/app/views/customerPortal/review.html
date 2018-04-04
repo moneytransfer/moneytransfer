@@ -62,12 +62,12 @@
                         </tr>
                         <tr>
                             <td>Reloading Amount</td>
-                            <td>{{localStorage.Ammount  | number:2}} {{localStorage.SelectedCountry.currencyCode}}</td>
+                            <td>{{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate  | number:2}} {{localStorage.SelectedCountry.currencyCode}}</td>
                         </tr>
-                        <tr>
+                      <!--  <tr>
                             <td>Fees</td>
                             <td>{{localStorage.Fees | number:2}} USD</td>
-                        </tr>
+                        </tr>-->
                        
                         <tr>
                             <td>Total Amount</td>

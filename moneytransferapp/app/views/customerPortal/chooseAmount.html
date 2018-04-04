@@ -54,8 +54,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4 form-group pr-md-0">
-                                <div class="number-wrapper cm-input">
-                                      <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">{{localStorage.SelectedCountry.currencyCode}}</span>
+                                <div class="number-wrapper cm-input"><!--{{localStorage.SelectedCountry.currencyCode}}-->
+                                      <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">USD</span>
                                     <input type="number" class="form-control w-width" id="amountfeild" placeholder="Amount" onchange="amountInput()" ng-change="checkPayAmmount(Amount)" ng-model="Amount">
                                 </div>
                                
@@ -64,22 +64,22 @@
                                         <span class="col-md-8">Fare Amount
                                             
                                         </span>
-                                        <span>{{localStorage.Ammount*localStorage.SelectedCountry.ConvertAmount | number:2}} USD</span>
-                                        <!-- <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.AmountGer| number:2}} USD</span>-->
+                                        <span>{{localStorage.Ammount | number:2}} USD</span>
+                                        <!--*localStorage.SelectedCountry.ConvertAmount <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.AmountGer| number:2}} USD</span>-->
                                     </div>
                                     <div class="row">
                                         <span class="col-md-8">Reloading Amount	
                                           
                                         </span>
-                                        <span>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
+                                        <span>{{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
                                         
                                     </div>
-                                    <div class="row">
+                                  <!--  <div class="row">
                                         <span class="col-md-8">
                                             Fee
                                             </span>
                                         <span>{{Fee | number:2}} USD</span>
-                                    </div>
+                                    </div>-->
                                 </div>
 
                                 <div ng-if="isAmmount" class="mt-3 fs-14 text-black">
@@ -87,21 +87,21 @@
                                         <span class="col-md-8">Fare Amount
 
                                         </span>
-                                        <span ng-if="!localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount*localStorage.SelectedCountry.ConvertAmount | number:2}} USD</span>
-                                        <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount *localStorage.SelectedCountry.ConvertAmount| number:2}} USD</span>
+                                        <span>{{localStorage.Ammount | number:2}} USD</span>
+                                       <!-- <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount *localStorage.SelectedCountry.ConvertAmount| number:2}} USD</span>-->
                                     </div>
                                     <div class="row">
                                         <span class="col-md-8">Reloading Amount
 
                                         </span>
-                                        <span>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
+                                        <span>{{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
                                     </div>
-                                    <div class="row">
+                                   <!-- <div class="row">
                                         <span class="col-md-8">
                                             Fee
                                         </span>
                                         <span>{{Fee | number:2}} USD</span>
-                                    </div>
+                                    </div>-->
                                 </div>
 
                                 <span class="validity"></span>
@@ -129,7 +129,7 @@
                             </div>
 
                             <div class="col-sm-6 col-md-3" ng-repeat="Amount in PayAmountWithExchange" ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">
-                                <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmountWithGER(Amount.Amount  * localStorage.SelectedCountry.GlobalExchangesRate,Amount.Amount)">
+                                <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount.Amount)">
                                     <center><span >{{Amount.Amount| number:2}}</span> &nbsp;USD</center>
                                     <small class="d-inline-block"><span>{{Amount.Amount  * localStorage.SelectedCountry.GlobalExchangesRate| number:2 }}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</small></a>
                             </div>

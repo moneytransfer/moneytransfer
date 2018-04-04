@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-sm-12 desaturated-blue">
                     <ul class="row custom-banner-breadcrumb">
-                      <!--  <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>-->
+                        <!--  <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>-->
                         <li class="col-md-4 ">Choose Amount</li>
                         <li class="col-md-4 " ui-sref='app.reviewAmmount'>Review</li>
                         <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}">Payment</li>
@@ -38,10 +38,10 @@
     <div class="container" ui-view>
         <section class="payment-amount-wrapper amount-wrap pt-5 pb-5" ng-controller="manageMakePaymentController">
             <div class="httpprocess" id="Processbar" ng-show="process">
-        <img src="./assets/image/spinner.gif" />
-    </div>
-            <div class="row choose-amt">
-                <div class="col-sm">
+                <img src="./assets/image/spinner.gif" />
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
                     <form class="">
                         <div class="row">
                             <div class="col-md-6 form-group">
@@ -54,17 +54,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <a class="background-white custom-payment-amount new-payment text-sm-center">{{localStorage.FareAmmount | number:2}}&nbsp;&nbsp;USD &nbsp;&nbsp;<span>&nbsp;&nbsp;({{localStorage.Ammount  | number:2}}&nbsp;&nbsp;{{localStorage.SelectedCountry.currencyCode}})</span></a>
-                                
-                                <!--<div class="mt-3 fs-14 text-black ng-scope" style="">
-                                    <div class="row">
-                                        <span class="col-md-8">Fees
-
-                                        </span>
-                                        <span class="ng-binding">$4.99</span>
-                                    </div>
-                                    
-                                </div>-->
+                                <a class="background-white custom-payment-amount new-payment text-sm-center">{{localStorage.FareAmmount | number:2}}&nbsp;&nbsp;USD &nbsp;&nbsp;<span>&nbsp;&nbsp;({{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate | number:2}}&nbsp;&nbsp;{{localStorage.SelectedCountry.currencyCode}})</span></a>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -73,7 +63,7 @@
                             </div>
                             <div class="col-sm-4" ng-repeat="PaymentMethod in PaymentMethods">
                                 <label class="form-control-label">
-                                    <input type="radio" name="methods" ng-model="PaybillModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaymentModel.PaymentMethodId)" required ng-init="$index==0?(PaybillModel.PaymentMethodId=PaymentMethod.PaymentMethodId):''" />
+                                    <input type="radio" name="methods" ng-model="PaybillModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaybillModel.PaymentMethodId)" required ng-init="$index==0?(PaybillModel.PaymentMethodId=PaymentMethod.PaymentMethodId):''" />
                                     {{PaymentMethod.Title}}</label>
                             </div>
                         </div>
@@ -161,7 +151,51 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-sm-4">
+                    <dl class="section-bottom data-row">
+                        <dt class="data-label no-border">
+                            <img src="images/Flag/{{localStorage.SelectedCountry.countryCode}}.png" alt="">
+                        </dt>
+                        <dd class="data-value text-right">{{localStorage.SelectedCountry.currencyCode}}</dd>
+                    </dl>
+                    <dl class="section-bottom data-row">
+                        <dt class="data-label">Reloading Amount</dt>
+                        <dd class="data-value text-right"><span>{{localStorage.FareAmmount*localStorage.SelectedCountry.GlobalExchangesRate |  number: 2}}</span><span> {{localStorage.SelectedCountry.currencyCode}}</span></dd>
+                    </dl>
+
+
+
+                    <dl class="data-row bb-1px-ccc">
+                        <dt class="data-label">Exchange rate<span>*</span></dt>
+                        <dd class="data-value text-right"><span>1 USD =</span><span>{{localStorage.SelectedCountry.GlobalExchangesRate}}</span><span> {{PaymentModel.ReceivingCurrency}}</span></dd>
+                    </dl>
+                    <dl class="section-bottom data-row">
+                        <dt class="data-label no-border">
+                            <img src="images/Flag/us.png" alt="">
+                        </dt>
+                        <dd class="data-value text-right">U.S.A</dd>
+                    </dl>
+                    <dl class="data-row">
+                        <dt class="data-label">Fare Amount</dt>
+                        <dd class="data-value text-right"><span>{{localStorage.FareAmmount |  number: 2}}</span><span> USD</span></dd>
+                    </dl>
+                    <dl class="section-bottom  data-row bb-1px-ccc">
+                        <dt class="data-label">Fees</dt>
+                        <dd class="data-value text-right">{{localStorage.Fees}}<span></span><span> USD</span></dd>
+                    </dl>
+
+                    <div class="mt-2">
+                        <dl class="data-row">
+                            <dt class="data-label">Your Total</dt>
+                            <dd class="data-value text-right"><span>{{(localStorage.FareAmmount-0) + (localStorage.Fees-0) |  number: 2 }}</span><span> USD</span></dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
+
+
+
+
 
 
             <!--Confirmation model-->
@@ -235,30 +269,30 @@
         </section>
         <!--Footer col -->
         <hr>
-         <div class="row section-02">
-                    <div class="phoneReload"></div>
-                    <div class="col-md d-flex mb-12 mb-md-0">
-                        <div class="flowimg">
-                            <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
-                        </div>
-                    </div>
+        <div class="row section-02">
+            <div class="phoneReload"></div>
+            <div class="col-md d-flex mb-12 mb-md-0">
+                <div class="flowimg">
+                    <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
                 </div>
-         <div class="container my-4">
-                    <div class="row">
-                        <div class="col-sm-6 text-center">
-                            <span class="lock-icon"></span>
-                            <h4 class="mt-1">We’ve got your back</h4>
-                            <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
-                        </div>
-                        <div class="col-sm-6 text-center">
-                            <span class="security-icon"></span>
-                            <h4 class="mt-1">Money-back guarantee</h4>
+            </div>
+        </div>
+        <div class="container my-4">
+            <div class="row">
+                <div class="col-sm-6 text-center">
+                    <span class="lock-icon"></span>
+                    <h4 class="mt-1">We’ve got your back</h4>
+                    <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <span class="security-icon"></span>
+                    <h4 class="mt-1">Money-back guarantee</h4>
 
-                            <p>We stand behind the Sendingloop. If your money doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
-                        </div>
-                    </div>
+                    <p>We stand behind the Sendingloop. If your money doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
                 </div>
-           <!-- <div class="row">
+            </div>
+        </div>
+        <!-- <div class="row">
                     <div class="moneyReload"></div>
                     <div class="col-md topnotch d-flex mb-6 mb-md-0">
                         <div class="">
