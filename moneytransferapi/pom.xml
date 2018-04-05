@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>moneytransfer</groupId>
-    <artifactId>moneytransfer</artifactId>
+    <groupId>transfermoney</groupId>
+    <artifactId>transfermoney</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>money transfer Jersey Webapp</name>
     <build>
-        <finalName>moneytransfer</finalName>
+        <finalName>transfermoney</finalName>
         <resources>			
 			<resource>
 				<directory>src/main/Configuration</directory>
@@ -31,7 +31,7 @@
                 <version>${glassfish.version}</version>
                 <configuration>
                     <goalPrefix>embedded-glassfish</goalPrefix>
-                    <app>E:/acap/moneytransfer/target/${project.build.finalName}.war</app>
+                    <app>E:/acap/transfermoney/target/${project.build.finalName}.war</app>
                     <autoDelete>true</autoDelete>
                     <port>8080</port>
                 </configuration>
@@ -59,16 +59,16 @@
     </build>
      <profiles>
     <profile>
-        <id>moneytransfer</id>
+        <id>transfermoney</id>
         <build>
-            <finalName>moneytransfer</finalName>
+            <finalName>transfermoney</finalName>
             <plugins>
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>2.4</version>
                     <configuration>
                         <outputDirectory>webapps</outputDirectory>
-                        <warName>moneytransfer</warName>
+                        <warName>transfermoney</warName>
                     </configuration>
                 </plugin>
             </plugins>
@@ -455,8 +455,59 @@
            <artifactId>javax.json</artifactId>
            <version>1.0.4</version>
        </dependency>
+        <dependency>
+			<groupId>net.authorize</groupId>
+			<artifactId>anet-java-sdk</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+      <dependency>
+	<groupId>com.stripe</groupId>
+	<artifactId>stripe-java</artifactId>
+	<version>1.0.12</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>4.1.6.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.axis</groupId>
+    <artifactId>axis</artifactId>
+    <version>1.4</version>
+</dependency>
+
+<dependency>
+  <groupId>com.google.guava</groupId>
+  <artifactId>guava</artifactId>
+  <version>11.0.2</version>
+</dependency>
+
+<dependency>
+    <groupId>com.sun.grizzly</groupId>
+    <artifactId>grizzly-utils</artifactId>
+    <version>1.9.45</version>
+</dependency>
+<dependency>
+    <groupId>com.sun.el</groupId>
+    <artifactId>el-ri</artifactId>
+    <version>1.0</version>
+</dependency>
+
     </dependencies>
-    
+    <pluginRepositories>
+    <pluginRepository>
+      <id>central</id>
+      <name>Maven Plugin Repository</name>
+      <url>http://repo1.maven.org/maven2</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
     <properties>
         <jersey.version>1.20-SNAPSHOT</jersey.version>
         <glassfish.version>3.1.1</glassfish.version>

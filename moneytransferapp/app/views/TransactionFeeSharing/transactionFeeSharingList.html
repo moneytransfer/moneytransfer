@@ -1,9 +1,8 @@
-﻿
-<div class="padding" ng-controller="transactionFeeSharingController">
+﻿<div class="padding" ng-controller="transactionFeeSharingController">
     <div class="card">
         <div class="card-header m-t-1">
             <div class="col-sm-4 pull-right">
-                <button type="submit" class="btn btn-primary pull-right" ng-click="AddFeeSharing()"><i class="glyphicon glyphicon-plus"></i> Add Transaction Fees Sharing </button>
+                <button type="submit" class="btn btn-primary pull-right" ng-click="AddFeeSharing()"><i class="glyphicon glyphicon-plus"></i>Add Transaction Fees Sharing </button>
             </div>
         </div>
 
@@ -11,34 +10,35 @@
 
             <table id="tblFees" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
                 <thead>
-                    <tr >
+                    <tr>
+                        <th>Code</th>
+                        <th>Transaction Fee Type</th>
                         <th>Payment Method </th>
                         <th>Company Name</th>
-                        <th>Created Date</th>
                         <th>Pay-In Agent Name</th>
                         <th>Pay-Out Agent Name</th>
                         <th>Your Share %</th>
                         <th>Pay-In Agent Share %</th>
                         <th>Pay-Out Agent Share %</th>
-                         <th>Transaction Fee Type</th>
-                        <th>Code</th>
-                       <th  class="w-180">Action</th>
-                       <th></th>
+                        <th>Created Date</th>
+                        <th class="w-180">Action</th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody ng-if="TransactionFeeDetails[0].TransactionFeeSharingId!=0">
                     <tr class="Active cm-td-spacing" ng-repeat="Fees in TransactionFeeDetails ">
+                        <td><small>{{Fees.Code }}</small></td>
+                        <td><small>{{Fees.TransactionFeeType }}</small></td>
                         <td><small>{{Fees.Payment}} </small></td>
                         <td><small>{{Fees.CompanyName}} </small></td>
-                        <td><small>{{Fees.CreatedDate  }}</small></td>
                         <td><small>{{Fees.PayInAgentName }}</small></td>
                         <td><small>{{Fees.PayOutAgentName }}</small></td>
                         <td><small>{{Fees.YourShare | number:2}}</small></td>
                         <td><small>{{Fees.PayInAgentPer | number:2}}</small></td>
                         <td><small>{{Fees.PayOutAgentPer | number:2}}</small></td>
-                        <td><small>{{Fees.TransactionFeeType }}</small></td>
-                        <td><small>{{Fees.Code }}</small></td>
+                        <td><small>{{Fees.CreatedDate  }}</small></td>
+
                         <td>
 
                             <button type="button" class="btn btn-default btn-disabled-td" ng-class="{'cm-stackingorder':!Fees.IsSpecific}" id="checkDisabled" ng-click="setDisabled(Fees.TransactionFeeSharingId,false)">Disabled</button>
@@ -48,15 +48,15 @@
                         </td>
                         <!--<td><input type="checkbox" name="check" value='{{Fees.IsSpecific}}' ng-model="Fees.IsSpecific" disabled="true" /></td>-->
                         <td>
-                            <button type="submit" class="btn btn-sm btn-primary"  ng-click="EditFee(Fees.TransactionFeeSharingId)">Edit</button>
+                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditFee(Fees.TransactionFeeSharingId)">Edit</button>
                         </td>
                         <td>
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal"   ng-click="deleteTransactionFeeSharing(Fees.TransactionFeeSharingId)">Delete </button>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteTransactionFeeSharing(Fees.TransactionFeeSharingId)">Delete </button>
                         </td>
                     </tr>
                 </tbody>
-               
-              
+
+
                 <tfoot class="hide-if-no-paging">
                     <tr>
                         <td colspan="12" class="text-center">
@@ -82,7 +82,7 @@
                         <h6 class="modal-title">Do you want to proceed to delete this 'Fees Details'? </h6>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" ng-click="deleteconfirm()" >Yes</button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
                     </div>
                 </div>

@@ -31,13 +31,12 @@
                         <th>Service Fee Type</th>
                         <th>Service Fee</th>
                         <th>Starting Amount</th>
-                        
                         <th>End Amount</th>
                         <th>Exchange Rate code</th>
                         <th>Charge Sending Amount</th>
                         <th>Service Date Created</th>
-                        <th></th>
-                        <th></th>
+                        <th colspan="3">Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -121,7 +120,6 @@
                                     <th>Select</th>
                                     <th>Global Exchange REF. CODE</th>
                                     <th>Combination</th>
-                                    <th>Fees</th>
                                     <th>Spot Rate</th>
                                     <th>Adjustment Type %</th>
                                     <th>Spot Price Sell</th>
@@ -136,7 +134,7 @@
                                     <input type="radio" id="chk_Rate" name="chkglobalrate" value="{{Fees.GlobalExchangeId}}" ng-modal="checkvalue.GlobalExchangeId" /></td>
                                     <td><small>{{Fees.Code}} </small></td>
                                     <td><small>{{Fees.Sourcecountry }}  to {{Fees.Destinationcountry}}</small></td>
-                                    <td><small>{{Fees.AutoFees | currency}} </small></td>
+                                  <!--  <td><small>{{Fees.AutoFees | currency}} </small></td>-->
                                     <td><small>{{Fees.SellSpotPrice}}</small></td>
                                     <td><small>{{Fees.SellingExchangeRate}}</small></td>
                                     <td><small>{{Fees.GlobalExchangeRate}}</small></td>
@@ -168,8 +166,8 @@
 
 <style>
 .selected {
-    background-color:black;
-    color:white;
-    font-weight:bold;
+    background-color: gray;
+    color: white;
+    font-weight: bold;
 }
 </style>

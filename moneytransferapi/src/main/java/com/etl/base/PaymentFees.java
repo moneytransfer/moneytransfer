@@ -29,6 +29,7 @@ public class PaymentFees {
 	public String CreatedDate;
 	public boolean ChargeSendingAmount;
 	public String Code;
+	public String GobalExchangeRateCode;
 	public String TransactionFeeType;
 	public boolean IsDeleted;
 	public String DeletedDate;
@@ -130,7 +131,15 @@ public class PaymentFees {
 	private double getFees() {
 		return Fees;
 	}
+	
+	
+	private void setGobalExchangeRateCode(String GobalExchangeRateCode) {
+		this.GobalExchangeRateCode = GobalExchangeRateCode;
+	}
 
+	private String getGobalExchangeRateCode() {
+		return GobalExchangeRateCode;
+	}
 	private void setTransactionFeeType(String CreatedDate) {
 		this.TransactionFeeType = TransactionFeeType;
 	}
@@ -247,7 +256,9 @@ public class PaymentFees {
 														+ _PaymentFees.FeesCategoryId + "' and CompanyId='"
 														+ _PaymentFees.CompanyId + "' and IsDeleted=0", _Connection);
 										if (!_ResultSetFeesCheck.next()) {
-											ResultSet _ResultSetFees = _MYSQLHelper
+										
+										
+										ResultSet _ResultSetFees = _MYSQLHelper
 													.GetResultSet("SELECT * FROM `paymentfees` WHERE StartingAmount >='"
 															+ _PaymentFees.StartingAmount + "' and EndAmount <='"
 															+ _PaymentFees.EndAmount + "' and SourceCountry ='"
@@ -259,8 +270,20 @@ public class PaymentFees {
 															+ _PaymentFees.PayOutAgentId + "' and FeesType='"
 															+ _PaymentFees.FeesType + "' and PaymentMethod='"
 															+ _PaymentFees.PaymentMethodId + "'", _Connection);
+										*/
+							
+										
+											ResultSet _ResultSetFees = _MYSQLHelper
+													.GetResultSet("SELECT * FROM `paymentfees`"
+															+ " WHERE ((`StartingAmount` <= '" + _PaymentFees.StartingAmount + "' and EndAmount >='"+ _PaymentFees.EndAmount + "') or (EndAmount BETWEEN '" + _PaymentFees.StartingAmount+"' and  '"+_PaymentFees.EndAmount + "'  or StartingAmount BETWEEN '" + _PaymentFees.StartingAmount+"' and  '"+_PaymentFees.EndAmount + "' and `StartingAmount` <= '" + _PaymentFees.StartingAmount + "' and EndAmount >='"+ _PaymentFees.EndAmount + "')) and SourceCountry ='"
+															+ _PaymentFees.SourceCountry + "' and DestinationCountry='"
+															+ _PaymentFees.DestinationCountry + "' and FeesCategoryId='"
+															+ _PaymentFees.FeesCategoryId + "' and CompanyId='"
+															+ _PaymentFees.CompanyId + "' and FeesType='"
+															+ _PaymentFees.FeesType + "' and PaymentMethodId='"
+															+ _PaymentFees.PaymentMethodId + "' and IsDeleted=0" , _Connection);
 											if (!_ResultSetFees.next()) {
-											*/
+											
 
 												String sInsertStatement = "INSERT INTO paymentfees( PaymentMethodId,CompanyId,SourceCountry,DestinationCountry,FeesCategoryId,PayInAgentId,IsPayInAgent,PayOutAgentId,IsPayOutAgent,StartingAmount,EndAmount,FeesType,Fees,ChargeSendingAmount,CreatedDate)";
 												sInsertStatement = sInsertStatement
@@ -324,14 +347,17 @@ public class PaymentFees {
 													_PreparedStatement.executeUpdate();
 												}
 												clear(_PaymentFees);
-									/*		
+										
 									} else {
-												_PaymentFees.setResult("Failed");
-												_PaymentFees.setError("Unable to add fees for this starting amount and end amount!");
-												clear(_PaymentFees);
+										String _Exitscode = _ResultSetFees.getString("Code");
+										
+										_PaymentFees.setResult("Failed");
+										_PaymentFees.setError("Fees already exists under Code "+_Exitscode +" please edit Fee Code "+ _Exitscode +" for new requirements");
+										clear(_PaymentFees);
 											}
 
-										} else {
+											/*		
+									} else {
 											
 											String _Exitscode = _ResultSetFeesCheck.getString("Code");
 											
@@ -457,6 +483,7 @@ public class PaymentFees {
 						_PaymentFees.setIsPayInAgent(_ResultSet.getBoolean("IsPayInAgent"));
 						_PaymentFees.setIsPayOutAgent(_ResultSet.getBoolean("IsPayOutAgent"));
 						_PaymentFees.setCode(_ResultSet.getString("Code"));
+						_PaymentFees.setGobalExchangeRateCode(_ResultSet.getString("GobalExchangeRateCode"));
 						_PaymentFees.setSourceCountry(_ResultSet.getInt("SourceCountry"));
 						_PaymentFees.setDestinationCountry(_ResultSet.getInt("DestinationCountry"));
 						_PaymentFees.setFeesCategoryId(_ResultSet.getInt("FeesCategoryId"));
@@ -490,6 +517,7 @@ public class PaymentFees {
 						_PaymentFees.setIsPayInAgent(_ResultSet.getBoolean("IsPayInAgent"));
 						_PaymentFees.setIsPayOutAgent(_ResultSet.getBoolean("IsPayOutAgent"));
 						_PaymentFees.setCode(_ResultSet.getString("Code"));
+						_PaymentFees.setGobalExchangeRateCode(_ResultSet.getString("GobalExchangeRateCode"));
 						_PaymentFees.setSourceCountry(_ResultSet.getInt("SourceCountry"));
 						_PaymentFees.setDestinationCountry(_ResultSet.getInt("DestinationCountry"));
 						_PaymentFees.setFeesCategoryId(_ResultSet.getInt("FeesCategoryId"));
@@ -553,6 +581,7 @@ public class PaymentFees {
 					_PaymentFees.setIsPayInAgent(_ResultSet.getBoolean("IsPayInAgent"));
 					_PaymentFees.setIsPayOutAgent(_ResultSet.getBoolean("IsPayOutAgent"));
 					_PaymentFees.setCode(_ResultSet.getString("Code"));
+					_PaymentFees.setGobalExchangeRateCode(_ResultSet.getString("GobalExchangeRateCode"));
 					_PaymentFees.setSourceCountry(_ResultSet.getInt("SourceCountry"));
 					_PaymentFees.setDestinationCountry(_ResultSet.getInt("DestinationCountry"));
 					_PaymentFees.setFeesCategoryId(_ResultSet.getInt("FeesCategoryId"));
@@ -610,6 +639,7 @@ public class PaymentFees {
 					_PaymentFees.setIsPayInAgent(_ResultSet.getBoolean("IsPayInAgent"));
 					_PaymentFees.setIsPayOutAgent(_ResultSet.getBoolean("IsPayOutAgent"));
 					_PaymentFees.setCode(_ResultSet.getString("Code"));
+					_PaymentFees.setGobalExchangeRateCode(_ResultSet.getString("GobalExchangeRateCode"));
 					_PaymentFees.setSourceCountry(_ResultSet.getInt("SourceCountry"));
 					_PaymentFees.setDestinationCountry(_ResultSet.getInt("DestinationCountry"));
 					_PaymentFees.setFeesCategoryId(_ResultSet.getInt("FeesCategoryId"));
@@ -710,6 +740,7 @@ public class PaymentFees {
 					_PaymentFees.setIsPayInAgent(_PaymentFessId.getBoolean("IsPayInAgent"));
 					_PaymentFees.setIsPayOutAgent(_PaymentFessId.getBoolean("IsPayOutAgent"));
 					_PaymentFees.setCode(_PaymentFessId.getString("Code"));
+					_PaymentFees.setGobalExchangeRateCode(_PaymentFessId.getString("GobalExchangeRateCode"));
 					_PaymentFees.setFeesType(_PaymentFessId.getInt("FeesType"));
 					_PaymentFees.setSourceCountry(_PaymentFessId.getInt("SourceCountry"));
 					_PaymentFees.setDestinationCountry(_PaymentFessId.getInt("DestinationCountry"));
@@ -748,6 +779,70 @@ public class PaymentFees {
 		return _PaymentFees;
 	}
 
+	
+	public static ArrayList<PaymentFees> getPaymentFeesDetailsByPaymentMethod(int PaymentMethodId, int FeesCategoryId) {
+		Connection _Connection = MYSQLConnection.GetConnection();
+
+		ArrayList<PaymentFees> _PaymentFeesDetaillist = new ArrayList<PaymentFees>();
+
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		try {
+			if (_Connection != null)
+
+			{
+				
+					ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM paymentfees where IsDeleted=0 and PaymentMethodId='"+PaymentMethodId+"'and FeesCategoryId='"+FeesCategoryId+"'",
+							_Connection);
+
+					while (_ResultSet.next()) {
+
+						PaymentFees _PaymentFees = new PaymentFees();
+						_PaymentFees.setPaymentFessId(_ResultSet.getInt("PaymentFessId"));
+						_PaymentFees.setPaymentMethodId(_ResultSet.getInt("PaymentMethodId"));
+						_PaymentFees.setCompanyId(_ResultSet.getInt("CompanyId"));
+						_PaymentFees.setStartingAmount(_ResultSet.getDouble("StartingAmount"));
+						_PaymentFees.setEndAmount(_ResultSet.getDouble("EndAmount"));
+						_PaymentFees.setFees(_ResultSet.getDouble("Fees"));
+						_PaymentFees.setFeesType(_ResultSet.getInt("FeesType"));
+						_PaymentFees.setPayInAgentId(_ResultSet.getInt("PayInAgentId"));
+						_PaymentFees.setIsPayInAgent(_ResultSet.getBoolean("IsPayInAgent"));
+						_PaymentFees.setIsPayOutAgent(_ResultSet.getBoolean("IsPayOutAgent"));
+						_PaymentFees.setCode(_ResultSet.getString("Code"));
+						_PaymentFees.setGobalExchangeRateCode(_ResultSet.getString("GobalExchangeRateCode"));
+						_PaymentFees.setSourceCountry(_ResultSet.getInt("SourceCountry"));
+						_PaymentFees.setDestinationCountry(_ResultSet.getInt("DestinationCountry"));
+						_PaymentFees.setFeesCategoryId(_ResultSet.getInt("FeesCategoryId"));
+						_PaymentFees.setPayOutAgentId(_ResultSet.getInt("PayOutAgentId"));
+						_PaymentFees.setChargeSendingAmount(_ResultSet.getBoolean("ChargeSendingAmount"));
+						_PaymentFees.setCreatedDate(_ResultSet.getString("CreatedDate"));
+						_PaymentFees.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
+						_PaymentFees.setDeletedDate(_ResultSet.getString("DeletedDate"));
+						_PaymentFees.setTransactionFeeType(_ResultSet.getString("TransactionFeeType"));
+						_PaymentFees.setResult("Sucess");
+						_PaymentFeesDetaillist.add(_PaymentFees);
+
+					}
+					_ResultSet.close();
+				
+
+			}
+
+		} catch (Exception e) {
+
+		} finally {
+
+			if (_Connection != null) {
+				try {
+					_Connection.close();
+				} catch (SQLException e) {
+
+				}
+			}
+		}
+
+		return _PaymentFeesDetaillist;
+	}
+
 	public PaymentFees clear(PaymentFees _PaymentFees) {
 		_PaymentFees.setSourceCountry(0);
 		_PaymentFees.setDestinationCountry(0);
@@ -758,6 +853,7 @@ public class PaymentFees {
 		_PaymentFees.setFees(0);
 		_PaymentFees.setPayOutAgentId(0);
 		_PaymentFees.setTransactionFeeType("");
+		_PaymentFees.setGobalExchangeRateCode("");
 		return _PaymentFees;
 
 	}

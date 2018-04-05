@@ -16,7 +16,6 @@
 
         vm.globalExchangeRateDataList = [{ GlobalExchangeId: 0, Company: "", PaymentMethod: "", SourceCountryName: "", DestinationCountryName: "", SpotPrice: "", AutoFees: "", SellSpotPrice: "", SellingExchangeRate: "", GlobalExchangeRate: "", CreatedDate: "", Code: "" }]
         if ($window.sessionStorage.authorisedUser) {
-
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
             if (authorisedUser.UserId) {
                 vm.UserId = parseInt(authorisedUser.UserId);
@@ -65,7 +64,7 @@
             // data: formData,
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         }).success(function (data2) {
-          
+
             var idata2 = data2;
             vm.globalExchangeRateDataList = idata2;
             angular.forEach(vm.globalExchangeRateDataList, function (data, index) {
@@ -114,7 +113,7 @@
 
             if (Payment.length > 0)
                 vm.globalExchangeRateDataList[i].Payment = Payment[0].Title;
-            
+
         }
 
         vm.addfees = function () {
@@ -431,7 +430,7 @@
 
         //On Add button click
         vm.AddSellingExchangeRate = function (value) {
-          
+
             if (value != " " && value !== undefined && value != null) {
                 var data = .10 + parseFloat(vm.globalExchangeRateData.SellingExchangeRate);
                 vm.globalExchangeRateData.SellingExchangeRate = "" + data.toFixed(2);
@@ -557,8 +556,8 @@
                         else {
                             $('#globalExchangeRate').val("0.00" + ' ' + vm.globalExchangeRateData.ToCurrency);
                         }
-                            vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.SellSpotPrice + " " + vm.globalExchangeRateData.ToCurrency;
-                       
+                        vm.TemporaryGlobalExchangeRate.SellProfitMargin = vm.globalExchangeRateData.SellSpotPrice + " " + vm.globalExchangeRateData.ToCurrency;
+
                         if (SpotMarginBaseCurrency.toString().startsWith("-")) {
                             var SpotMarginBaseCurrency = SpotMarginBaseCurrency.toString().substr(1);
                         }
@@ -568,11 +567,11 @@
                         }
                         else {
                             SpotMarginBaseCurrency = '0.00';
-                            
+
                             vm.globalExchangeRateData.SpotMarginBaseCurrency = "" + parseFloat(SpotMarginBaseCurrency).toFixed(4);
-                           ConvertMoneyMargin(vm.globalExchangeRateData.ToCurrency, parseFloat(SpotMarginBaseCurrency).toFixed(4));
+                            ConvertMoneyMargin(vm.globalExchangeRateData.ToCurrency, parseFloat(SpotMarginBaseCurrency).toFixed(4));
                         }
-                       
+
 
                     }
                 }
@@ -628,16 +627,15 @@
                     url: baseUrl + 'globalExchangerateFees ',
                     headers: { 'Content-Type': 'application/json; charset=utf-8' }
                 })
-     .success(function (data) {
-         if (data.Result == "Sucess") {
-             var idata = data;
-             vm.globalExchangeRateData.AutoFees = "" + data.Fees;
-         } else {
-             vm.globalExchangeRateData.AutoFees = "0";
-         }
+                   .success(function (data) {
+                       if (data.Result == "Sucess") {
+                           var idata = data;
+                           vm.globalExchangeRateData.AutoFees = "" + data.Fees;
+                       } else {
+                           vm.globalExchangeRateData.AutoFees = "0";
+                       }
 
-
-     });
+                   });
 
             } else {
                 vm.globalExchangeRateData.AutoFees = "0";

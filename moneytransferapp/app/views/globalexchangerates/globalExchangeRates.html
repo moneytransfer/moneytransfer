@@ -19,12 +19,11 @@
                         <th>Global Exchange REF. CODE</th>
                         <th>Created Date</th>
                         <th>Base Currency</th>
-                        <th>Auto Fees</th>
+                      <!--  <th>Auto Fees</th>-->
                         <th>Spot Rate</th>
                         <th>Adjustment Type %</th>
                         <th>Spot Price Sell</th>
-                        <th>SPOT PRICE SELL PROFIT MARGIN</th>
-                      
+                        <th>Spot Price Sell Profit Margin</th>
                         <th class="w-180">Action</th>
                         <th></th>
                         <th></th>
@@ -41,17 +40,14 @@
                         <td><small>{{Fees.Code}} </small></td>
                         <td><small>{{Fees.CreatedDate }}</small></td>
                         <td><small>{{Fees.SpotPrice }}</small></td>
-                        <td><small>{{Fees.AutoFees | currency}} </small></td>
+                      <!--  <td><small>{{Fees.AutoFees | currency}} </small></td>-->
                         <td><small>{{Fees.SellSpotPrice}}</small></td>
                         <td><small>{{Fees.SellingExchangeRate}}</small></td>
                         <td><small >{{Fees.GlobalExchangeRate}}</small></td>
                          <td><small >{{Fees.SpotMarginBaseCurrency}}&nbsp;{{Fees.BaseCurrency}} &nbsp; | &nbsp; {{Fees.SpotMarginUSDCurrency}}&nbsp;{{Fees.SpotPrice}}</small></td>
                         <td>
-                           
                                 <button type="button" class="btn btn-default btn-disabled-td"  ng-class="{'cm-stackingorder':!Fees.IsActive}" id="checkDisabled" ng-click="setDisabled(Fees.GlobalExchangeId,false)">Disabled</button>
                                 <button type="button" id="isEnabled" class="btn btn-default btn-enabled-td" ng-click="setDisabled(Fees.GlobalExchangeId,true)">Enabled</button>
-                            
-
                         </td>
                         <td>
                             <button type="submit" class="btn btn-sm btn-primary" ng-click="EditGlobalExchange(Fees.GlobalExchangeId)">Edit</button>

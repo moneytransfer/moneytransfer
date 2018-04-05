@@ -77,11 +77,53 @@
                var idata = data;
                vm.ManageFees = idata;
                angular.forEach(vm.ManageFees, function (fee, index) {
-                   //vm.getfeeCategory(fee, index);
+
                    vm.getOtherData(fee, index);
+                   vm.updatefee(fee);
+                   
                });
            });
         }
+
+        //Get Curency Code
+        vm.updatefee = function (fee) {
+            var SourcecountryData = $filter('filter')(vm.Countries, {
+                CountryId: fee.DestinationCountry,
+            }, true);
+            if (SourcecountryData.length > 0)
+                vm.CountryCode = SourcecountryData[0].CurrencyCode;
+
+            UpdateglobalExchange(vm.CountryCode, fee.DestinationCountry);
+        }
+
+        //Update globalExchange Rate
+        function UpdateglobalExchange(code, DestinationCountryId) {
+            var accesstoken = 'rxv51rk8b4y1kjhasvww';
+            $http({
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: code, amount: "1" }),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata.currency[0].value > 0) {
+                        var value = parseFloat(idata.currency[0].value).toFixed(2)
+                        var SellSpotPrice = value;
+                        var formData = JSON.parse(JSON.stringify({ "DestinationCountryId": DestinationCountryId, "SellSpotPrice": SellSpotPrice }));
+                        $http({
+                            method: 'POST',
+                            url: baseUrl + 'updateRealfeesglobalExchangerate',
+                            data: formData,
+                            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                        })
+                        .success(function (data) {
+                            var idata = data;
+                        });
+                    }
+                });
+        }
+
 
         //Get Ref. Data for Fee Details
         vm.getOtherData = function (fee, i) {
@@ -185,27 +227,17 @@
             }).success(function (data2) {
               
                 var idata = data2;
+                vm.loaddata = idata;
                 if (CountryId > 0) {
                     $('#updatefee').modal('toggle');
                     vm.globalExchangeRateDetails = [];
-                    angular.forEach(idata, function (fee, index) {
+                    angular.forEach(vm.loaddata, function (fee, index) {
                         if (fee.DestinationCountryId == CountryId) {
                             vm.globalExchangeRateDetails.push(fee);
-
-                            var SourcecountryData = $filter('filter')(vm.Countries, {
-                                CountryId: fee.SourceCountryId,
-                            }, true);
-                            if (SourcecountryData.length > 0)
-                                vm.globalExchangeRateDetails[index].Sourcecountry = SourcecountryData[0].CurrencyCode;
-
-                            var DestinationcountryData = $filter('filter')(vm.Countries, {
-                                CountryId: fee.DestinationCountryId,
-                            }, true);
-
-                            if (DestinationcountryData.length > 0)
-                                vm.globalExchangeRateDetails[index].Destinationcountry = DestinationcountryData[0].CurrencyCode;
+                            
                         }
                     });
+                    LoadPopUp();
                     setTimeout(function () {
                         if (ExchangeRateCode != "") {
                             angular.forEach(vm.globalExchangeRateDetails, function (fee, index) {
@@ -220,342 +252,362 @@
             });
         }
 
+        //Load PopUp Data
+        function LoadPopUp () {
+            angular.forEach(vm.globalExchangeRateDetails, function (fee, index) {
 
+                var SourcecountryData = $filter('filter')(vm.Countries, {
+                    CountryId: fee.SourceCountryId,
+                }, true);
 
-        vm.checkvalue = { GlobalExchangeId: 0 };
-        vm.updateExchangeRate = function () {
-            var gender = document.querySelector('input[name = chkglobalrate]:checked').value;
-            var GlobalExchangeraetId = parseInt(gender);
-            if (GlobalExchangeraetId > 0 && vm.dfees > 0) {
-                var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": GlobalExchangeraetId, "AutoFees": vm.dfees, "PaymentFeesId": vm.feeId }));
-                $http({
-                    method: 'POST',
-                    url: baseUrl + 'updateglobalExchangerateFees',
-                    data: formData,
-                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
-                })
-               .success(function (data) {
-                   var idata = data;
-                   if (idata.Result == "Sucess") {
-                       setTimeout(function () {
-                           $('#updatefee').modal('toggle');
-                           Alert(1, "! Global exchange rate updated successfully");
-                           vm.ReloadData();
-                       }, 500);
-                   }
-               });
-            }
-            else {
-                Alert(2, "! Select a valid exchange rate to update");
-            }
-        }
+                if (SourcecountryData.length > 0)
+                    vm.globalExchangeRateDetails[index].Sourcecountry = SourcecountryData[0].CurrencyCode;
 
-        vm.addfees = function () {
-            $state.go('app.add_Fees');
-        }
+                var DestinationcountryData = $filter('filter')(vm.Countries, {
+                    CountryId: fee.DestinationCountryId,
+                }, true);
 
-        vm.EditFee = function (Id) {
-            $state.go('app.Edit_Fees', { PaymentFessId: Id });
-        }
-
-        ////DeleteUser
-        var DeleteUserID = 0;
-        vm.deleteUser = function (Id) {
-            DeleteUserID = Id;
-            $('#deleteconfirm').modal('toggle');
-        }
-
-        vm.deleteconfirm = function () {
-            $('#deleteconfirm').modal('toggle');
-            var PaymentFessId = 0;
-            PaymentFessId = +DeleteUserID;
-
-            var formData = JSON.parse(JSON.stringify({ "PaymentFessId": PaymentFessId }));
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'deletePaymentFeesById',
-                headers: { 'Content-Type': 'application/json' },
-                dataType: "json",
-            })
-            .success(function (data) {
-
-                var idata = data;
-                if (idata.PaymentFessId > 0 && idata.Result == "Sucess") {
-                    Alert(1, "! Fees deleted successfully");
-                    var iManageUsers = vm.ManageFees;
-                    vm.ManageFees = [];
-                    for (var i = 0; i < iManageUsers.length; i++) {
-                        if (iManageUsers[i].PaymentFessId !== DeleteUserID) vm.ManageFees.push(iManageUsers[i]);
-                    }
-                }
+                if (DestinationcountryData.length > 0)
+                    vm.globalExchangeRateDetails[index].Destinationcountry = DestinationcountryData[0].CurrencyCode;
             });
-        }
-
-
     }
 
-    addEditFeesController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
-    function addEditFeesController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
 
-        var vm = $scope;
-        vm.parseInt = parseInt;
-        vm.ToCurrency = "";
-        vm.BaseCurrency = "";
-        vm.FeesModel = { PaymentFessId: "0", CompanyId: "0", SourceCountry: "0", DestinationCountry: "0", FeesType: "0", FeesCategoryId: "0", PayInAgentId: "0", PayOutAgentId: "0", PaymentMethodId: "-1" };
-        vm.Companies = [];
-        vm.DeliveryMethod = [];
-        vm.code = "";
-        vm.header = 'Add New';
-        vm.Error = "";
 
-        if ($window.sessionStorage.authorisedUser) {
-            authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
-            if (authorisedUser.UserId) {
-                vm.UserId = parseInt(authorisedUser.UserId);
-                vm.CompanyId = parseInt(authorisedUser.CompanyId);
-            }
+    vm.checkvalue = { GlobalExchangeId: 0 };
+    vm.updateExchangeRate = function () {
+        var gender = document.querySelector('input[name = chkglobalrate]:checked').value;
+        var GlobalExchangeraetId = parseInt(gender);
+        if (GlobalExchangeraetId > 0 && vm.dfees > 0) {
+            var formData = JSON.parse(JSON.stringify({ "GlobalExchangeId": GlobalExchangeraetId, "AutoFees": vm.dfees, "PaymentFeesId": vm.feeId }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'updateglobalExchangerateFees',
+                data: formData,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+           .success(function (data) {
+               var idata = data;
+               if (idata.Result == "Sucess") {
+                   setTimeout(function () {
+                       $('#updatefee').modal('toggle');
+                       Alert(1, "! Global exchange rate updated successfully");
+                       vm.ReloadData();
+                   }, 500);
+               }
+           });
         }
+        else {
+            Alert(2, "! Select a valid exchange rate to update");
+        }
+    }
 
+    vm.addfees = function () {
+        $state.go('app.add_Fees');
+    }
 
+    vm.EditFee = function (Id) {
+        $state.go('app.Edit_Fees', { PaymentFessId: Id });
+    }
 
-        //Get Company
-        $http({
-            method: 'GET',
-            url: baseUrl + 'getcompanydetails',
-            headers: { 'Content-Type': 'application/json' }
-        })
-       .success(function (data) {
-           var idata = data;
-           vm.Companies = idata;
+    ////DeleteUser
+    var DeleteUserID = 0;
+    vm.deleteUser = function (Id) {
+        DeleteUserID = Id;
+        $('#deleteconfirm').modal('toggle');
+    }
 
-       });
-        //Get Country
-        $http({
-            method: 'GET',
-            url: baseUrl + 'getcountrydetails',
-            headers: { 'Content-Type': 'application/json' }
-        })
-      .success(function (data) {
-          var idata = data;
-          vm.Countries = idata;
-      });
+    vm.deleteconfirm = function () {
+        $('#deleteconfirm').modal('toggle');
+        var PaymentFessId = 0;
+        PaymentFessId = +DeleteUserID;
 
-        //Get Method Details
-        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+        var formData = JSON.parse(JSON.stringify({ "PaymentFessId": PaymentFessId }));
         $http({
             method: 'POST',
             data: formData,
-            url: baseUrl + 'getpaymentmethodbycompany ',
+            url: baseUrl + 'deletePaymentFeesById',
+            headers: { 'Content-Type': 'application/json' },
+            dataType: "json",
+        })
+        .success(function (data) {
+
+            var idata = data;
+            if (idata.PaymentFessId > 0 && idata.Result == "Sucess") {
+                Alert(1, "! Fees deleted successfully");
+                var iManageUsers = vm.ManageFees;
+                vm.ManageFees = [];
+                for (var i = 0; i < iManageUsers.length; i++) {
+                    if (iManageUsers[i].PaymentFessId !== DeleteUserID) vm.ManageFees.push(iManageUsers[i]);
+                }
+            }
+        });
+    }
+
+
+}
+
+    addEditFeesController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
+function addEditFeesController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
+
+    var vm = $scope;
+    vm.parseInt = parseInt;
+    vm.ToCurrency = "";
+    vm.BaseCurrency = "";
+    vm.FeesModel = { PaymentFessId: "0", CompanyId: "0", SourceCountry: "0", DestinationCountry: "0", FeesType: "0", FeesCategoryId: "0", PayInAgentId: "0", PayOutAgentId: "0", PaymentMethodId: "-1" };
+    vm.Companies = [];
+    vm.DeliveryMethod = [];
+    vm.code = "";
+    vm.header = 'Add New';
+    vm.Error = "";
+
+    if ($window.sessionStorage.authorisedUser) {
+        authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
+        if (authorisedUser.UserId) {
+            vm.UserId = parseInt(authorisedUser.UserId);
+            vm.CompanyId = parseInt(authorisedUser.CompanyId);
+        }
+    }
+
+
+
+    //Get Company
+    $http({
+        method: 'GET',
+        url: baseUrl + 'getcompanydetails',
+        headers: { 'Content-Type': 'application/json' }
+    })
+   .success(function (data) {
+       var idata = data;
+       vm.Companies = idata;
+
+   });
+    //Get Country
+    $http({
+        method: 'GET',
+        url: baseUrl + 'getcountrydetails',
+        headers: { 'Content-Type': 'application/json' }
+    })
+  .success(function (data) {
+      var idata = data;
+      vm.Countries = idata;
+  });
+
+    //Get Method Details
+    var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+    $http({
+        method: 'POST',
+        data: formData,
+        url: baseUrl + 'getpaymentmethodbycompany ',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' }
+    })
+    .success(function (data) {
+        var idata = data;
+        vm.PaymentMethods = idata;
+    });
+
+
+    vm.FeeType = [{ Feetype: "1", FeeTypeName: "Flat" }, { Feetype: "2", FeeTypeName: "Percentage" }];
+    //vm.FeesCategory = [{ FeesCategoryId: "1", FeesCategoryName: "Remittance" }, { FeesCategoryId: "2", FeesCategoryName: "Money transfer cancellation" },
+    //    { FeesCategoryId: "3", FeesCategoryName: "Wallet money fund transfer" }, { FeesCategoryId: "4", FeesCategoryName: "Wallet money load cash" },
+    //    { FeesCategoryId: "5", FeesCategoryName: "Airtime topup" }, { FeesCategoryId: "6", FeesCategoryName: "Bill" }, { FeesCategoryId: "7", FeesCategoryName: "Wallet money cash out" }
+    //];
+
+    //Get Fee Category
+    $http({
+        method: 'GET',
+        url: baseUrl + 'getFeesCategoryDetails',
+        headers: { 'Content-Type': 'application/json' }
+    })
+  .success(function (data) {
+
+      var idata = data;
+      vm.FeesCategory = idata;
+  });
+
+
+    //Get Aggent Details
+    vm.selectedCompany = function (companyId) {
+
+        var iComapnyId = parseInt(companyId);
+
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": iComapnyId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getAgentdetailsByCompanyId ',
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
             var idata = data;
-            vm.PaymentMethods = idata;
+            vm.ManageAgent = idata;
         });
+    }
 
 
-        vm.FeeType = [{ Feetype: "1", FeeTypeName: "Flat" }, { Feetype: "2", FeeTypeName: "Percentage" }];
-        //vm.FeesCategory = [{ FeesCategoryId: "1", FeesCategoryName: "Remittance" }, { FeesCategoryId: "2", FeesCategoryName: "Money transfer cancellation" },
-        //    { FeesCategoryId: "3", FeesCategoryName: "Wallet money fund transfer" }, { FeesCategoryId: "4", FeesCategoryName: "Wallet money load cash" },
-        //    { FeesCategoryId: "5", FeesCategoryName: "Airtime topup" }, { FeesCategoryId: "6", FeesCategoryName: "Bill" }, { FeesCategoryId: "7", FeesCategoryName: "Wallet money cash out" }
-        //];
 
-        //Get Fee Category
+    if ($stateParams.PaymentFessId) {
+
+        vm.header = 'Update';
+        var iPaymentFessId = "";
+        iPaymentFessId = JSON.stringify($stateParams.PaymentFessId);
+
+        var formData = JSON.parse(JSON.stringify({ "PaymentFessId": iPaymentFessId }));
         $http({
-            method: 'GET',
-            url: baseUrl + 'getFeesCategoryDetails',
-            headers: { 'Content-Type': 'application/json' }
+            method: 'POST',
+            url: baseUrl + 'getPaymentFeesById',
+            data: formData,
+            headers: { 'Content-Type': 'application/json' },
+            dataType: "json",
         })
-      .success(function (data) {
+         .success(function (data) {
 
-          var idata = data;
-          vm.FeesCategory = idata;
-      });
+             var idata = data;
+             //vm.FeesModel = idata;
+             if (idata) {
+                 vm.FeesModel.PaymentFessId = "" + idata.PaymentFessId;
+                 vm.FeesModel.PayInAgentId = "" + idata.PayInAgentId;
+                 vm.FeesModel.PayOutAgentId = "" + idata.PayOutAgentId;
+                 vm.FeesModel.IsPayInAgent = idata.IsPayInAgent;
+                 vm.FeesModel.IsPayOutAgent = idata.IsPayOutAgent;
+                 vm.FeesModel.CompanyId = "" + idata.CompanyId;
+                 vm.selectedCompany(vm.FeesModel.CompanyId);
+                 vm.FeesModel.DestinationCountry = "" + idata.DestinationCountry;
+                 vm.getToCurrency(vm.FeesModel.DestinationCountry);
+                 vm.FeesModel.FeesCategoryId = "" + idata.FeesCategoryId;
+                 vm.FeesModel.FeesType = "" + idata.FeesType;
+                 vm.FeesModel.SourceCountry = "" + idata.SourceCountry;
+                 vm.getBaseCurrency(vm.FeesModel.SourceCountry);
+                 vm.FeesModel.PaymentMethodId = "" + idata.PaymentMethodId;
+                 vm.FeesModel.ChargeSendingAmount = idata.ChargeSendingAmount
+                 vm.FeesModel.EndAmount = idata.EndAmount;
+                 vm.FeesModel.StartingAmount = idata.StartingAmount;
+                 vm.FeesModel.Fees = +idata.Fees;
+             }
+         });
+    }
+
+    vm.getBaseCurrency = function (SourceCountryId) {
+        var formData = JSON.parse(JSON.stringify({ "CountryId": SourceCountryId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getcountry ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+  .success(function (data) {
+      var idata = data;
+      vm.BaseCurrency = idata.CurrencyCode;
+  });
+    }
 
 
-        //Get Aggent Details
-        vm.selectedCompany = function (companyId) {
 
-            var iComapnyId = parseInt(companyId);
+    vm.getToCurrency = function (DestinationCurrencyId) {
 
-            var formData = JSON.parse(JSON.stringify({ "CompanyId": iComapnyId }));
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'getAgentdetailsByCompanyId ',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            })
-            .success(function (data) {
-                var idata = data;
-                vm.ManageAgent = idata;
-            });
-        }
+        var formData = JSON.parse(JSON.stringify({ "CountryId": DestinationCurrencyId }));
+        $http({
+            method: 'POST',
+            data: formData,
+            url: baseUrl + 'getcountry ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+  .success(function (data) {
+      var idata = data;
+      vm.ToCurrency = idata.CurrencyCode;
+  });
+    }
 
-
+    vm.Create = function () {
 
         if ($stateParams.PaymentFessId) {
-
-            vm.header = 'Update';
-            var iPaymentFessId = "";
-            iPaymentFessId = JSON.stringify($stateParams.PaymentFessId);
-
-            var formData = JSON.parse(JSON.stringify({ "PaymentFessId": iPaymentFessId }));
+            vm.FeesModel.StartingAmount = $('#StartingAmount').val();
+            vm.FeesModel.EndAmount = $('#EndAmount').val();
+            vm.FeesModel.Fees = +$('#Fees').val();
+            //17 18 19 20
+            if (vm.FeesModel.PaymentMethodId == "13" || vm.FeesModel.PaymentMethodId == "17" || vm.FeesModel.PaymentMethodId == "18" || vm.FeesModel.PaymentMethodId == "19" || vm.FeesModel.PaymentMethodId == "20") {
+                vm.FeesModel.PayInAgentId = '-1'
+                vm.FeesModel.PayOutAgentId = '-1';
+            }
+            var iData = vm.FeesModel;
+            var formData = JSON.stringify(vm.FeesModel);
             $http({
                 method: 'POST',
-                url: baseUrl + 'getPaymentFeesById',
+                url: baseUrl + 'addPaymentFees',
                 data: formData,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                dataType: "json",
+            })
+            .success(function (data) {
+
+                var idata = data;
+                if (idata && idata.PaymentFessId > 0 && idata.Result == "Sucess") {
+                    Alert(1, "! Fees updated successfully");
+                    vm.FeesModel = angular.copy(vm.FeesModel);
+                    setTimeout(function () {
+                        $state.go('app.Fees');
+                    }, 1000);
+
+                }
+                else {
+                    vm.Error = idata.Error;
+                    $('#deleteconfirm').modal('show');
+                }
+            });
+        }
+        else {
+            vm.FeesModel.StartingAmount = $('#StartingAmount').val();
+            vm.FeesModel.EndAmount = $('#EndAmount').val();
+            vm.FeesModel.Fees = +$('#Fees').val();
+            var iData = vm.FeesModel;
+            if (vm.FeesModel.PaymentMethodId == "13" || vm.FeesModel.PaymentMethodId == "17" || vm.FeesModel.PaymentMethodId == "18" || vm.FeesModel.PaymentMethodId == "19" || vm.FeesModel.PaymentMethodId == "20") {
+                vm.FeesModel.PayInAgentId = '-1';
+                vm.FeesModel.PayOutAgentId = '-1';
+            }
+            //if (vm.UserModel.IsActive == true) {
+            //    iData.IsActive = "true"
+            //}
+            //else {
+            //    iData.IsActive = "false"
+            //}
+
+            var formData = JSON.stringify(iData);
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'addPaymentFees',
                 headers: { 'Content-Type': 'application/json' },
                 dataType: "json",
             })
-             .success(function (data) {
+            .success(function (data) {
 
-                 var idata = data;
-                 //vm.FeesModel = idata;
-                 if (idata) {
-                     vm.FeesModel.PaymentFessId = "" + idata.PaymentFessId;
-                     vm.FeesModel.PayInAgentId = "" + idata.PayInAgentId;
-                     vm.FeesModel.PayOutAgentId = "" + idata.PayOutAgentId;
-                     vm.FeesModel.IsPayInAgent = idata.IsPayInAgent;
-                     vm.FeesModel.IsPayOutAgent = idata.IsPayOutAgent;
-                     vm.FeesModel.CompanyId = "" + idata.CompanyId;
-                     vm.selectedCompany(vm.FeesModel.CompanyId);
-                     vm.FeesModel.DestinationCountry = "" + idata.DestinationCountry;
-                     vm.getToCurrency(vm.FeesModel.DestinationCountry);
-                     vm.FeesModel.FeesCategoryId = "" + idata.FeesCategoryId;
-                     vm.FeesModel.FeesType = "" + idata.FeesType;
-                     vm.FeesModel.SourceCountry = "" + idata.SourceCountry;
-                     vm.getBaseCurrency(vm.FeesModel.SourceCountry);
-                     vm.FeesModel.PaymentMethodId = "" + idata.PaymentMethodId;
-                     vm.FeesModel.ChargeSendingAmount = idata.ChargeSendingAmount
-                     vm.FeesModel.EndAmount = idata.EndAmount;
-                     vm.FeesModel.StartingAmount = idata.StartingAmount;
-                     vm.FeesModel.Fees = +idata.Fees;
-                 }
-             });
-        }
-
-        vm.getBaseCurrency = function (SourceCountryId) {
-            var formData = JSON.parse(JSON.stringify({ "CountryId": SourceCountryId }));
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'getcountry ',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            })
-      .success(function (data) {
-          var idata = data;
-          vm.BaseCurrency = idata.CurrencyCode;
-      });
-        }
+                var idata = data;
+                if (idata && idata.Result == "Sucess") {
+                    Alert(1, "! Fees created successfully");
+                    vm.FeesModel = angular.copy(vm.FeesModel);
+                    setTimeout(function () {
+                        $state.go('app.Fees');
+                    }, 1000);
 
 
 
-        vm.getToCurrency = function (DestinationCurrencyId) {
-
-            var formData = JSON.parse(JSON.stringify({ "CountryId": DestinationCurrencyId }));
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'getcountry ',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            })
-      .success(function (data) {
-          var idata = data;
-          vm.ToCurrency = idata.CurrencyCode;
-      });
-        }
-
-        vm.Create = function () {
-
-            if ($stateParams.PaymentFessId) {
-                vm.FeesModel.StartingAmount = $('#StartingAmount').val();
-                vm.FeesModel.EndAmount = $('#EndAmount').val();
-                vm.FeesModel.Fees = +$('#Fees').val();
-                //17 18 19 20
-                if (vm.FeesModel.PaymentMethodId == "13" || vm.FeesModel.PaymentMethodId == "17" || vm.FeesModel.PaymentMethodId == "18" || vm.FeesModel.PaymentMethodId == "19" || vm.FeesModel.PaymentMethodId == "20") {
-                    vm.FeesModel.PayInAgentId = '-1'
-                    vm.FeesModel.PayOutAgentId = '-1';
                 }
-                var iData = vm.FeesModel;
-                var formData = JSON.stringify(vm.FeesModel);
-                $http({
-                    method: 'POST',
-                    url: baseUrl + 'addPaymentFees',
-                    data: formData,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    dataType: "json",
-                })
-                .success(function (data) {
-
-                    var idata = data;
-                    if (idata && idata.PaymentFessId > 0 && idata.Result == "Sucess") {
-                        Alert(1, "! Fees updated successfully");
-                        vm.FeesModel = angular.copy(vm.FeesModel);
-                        setTimeout(function () {
-                            $state.go('app.Fees');
-                        }, 1000);
-
-                    }
-                    else {
-                        vm.Error = idata.Error;
-                        $('#deleteconfirm').modal('show');
-                    }
-                });
-            }
-            else {
-                vm.FeesModel.StartingAmount = $('#StartingAmount').val();
-                vm.FeesModel.EndAmount = $('#EndAmount').val();
-                vm.FeesModel.Fees = +$('#Fees').val();
-                var iData = vm.FeesModel;
-                if (vm.FeesModel.PaymentMethodId == "13" || vm.FeesModel.PaymentMethodId == "17" || vm.FeesModel.PaymentMethodId == "18" || vm.FeesModel.PaymentMethodId == "19" || vm.FeesModel.PaymentMethodId == "20") {
-                    vm.FeesModel.PayInAgentId = '-1';
-                    vm.FeesModel.PayOutAgentId = '-1';
+                else {
+                    vm.Error = idata.Error;
+                    $('#deleteconfirm').modal('show');
                 }
-                //if (vm.UserModel.IsActive == true) {
-                //    iData.IsActive = "true"
-                //}
-                //else {
-                //    iData.IsActive = "false"
-                //}
-
-                var formData = JSON.stringify(iData);
-                $http({
-                    method: 'POST',
-                    data: formData,
-                    url: baseUrl + 'addPaymentFees',
-                    headers: { 'Content-Type': 'application/json' },
-                    dataType: "json",
-                })
-                .success(function (data) {
-
-                    var idata = data;
-                    if (idata && idata.Result == "Sucess") {
-                        Alert(1, "! Fees created successfully");
-                        vm.FeesModel = angular.copy(vm.FeesModel);
-                        setTimeout(function () {
-                            $state.go('app.Fees');
-                        }, 1000);
-
-
-
-                    }
-                    else {
-                        vm.Error = idata.Error;
-                        $('#deleteconfirm').modal('show');
-                    }
-                });
-            }
+            });
         }
-
-        vm.cancel = function () {
-            $state.go('app.Fees');
-        }
-
-
     }
+
+    vm.cancel = function () {
+        $state.go('app.Fees');
+    }
+
+
+}
 
 
 })();
