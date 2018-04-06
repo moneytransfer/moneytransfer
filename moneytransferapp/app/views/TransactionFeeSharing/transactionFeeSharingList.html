@@ -1,6 +1,18 @@
 ﻿<div class="padding" ng-controller="transactionFeeSharingController">
     <div class="card">
         <div class="card-header m-t-1">
+            <div class="col-sm-6">
+                <label for="sel1" class="col-sm-3 form-control-label">Fee sharing type</label>
+                <div class="col-sm-8">
+                    <select name="methodType" id="DeliveryMethodType" class="form-control" ng-model="Feesfilter.FeesCategory" ng-change="FilterFeeSharing(Feesfilter.FeesCategory)">
+                        <option value="-1" disabled>--Select Fee sharing type--</option>
+                        <option value="All">All</option>
+                        <option value="Universal">Universal</option>
+                        <option value="specific">Specific</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="col-sm-4 pull-right">
                 <button type="submit" class="btn btn-primary pull-right" ng-click="AddFeeSharing()"><i class="glyphicon glyphicon-plus"></i>Add Transaction Fees Sharing </button>
             </div>
@@ -27,7 +39,7 @@
                     </tr>
                 </thead>
                 <tbody ng-if="TransactionFeeDetails[0].TransactionFeeSharingId!=0">
-                    <tr class="Active cm-td-spacing" ng-repeat="Fees in TransactionFeeDetails ">
+                    <tr class="Active cm-td-spacing" ng-repeat="Fees in TransactionFeeDetails">
                         <td><small>{{Fees.Code }}</small></td>
                         <td><small>{{Fees.TransactionFeeType }}</small></td>
                         <td><small>{{Fees.Payment}} </small></td>

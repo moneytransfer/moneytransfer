@@ -3,6 +3,8 @@
     angular.module('app')
       .controller('transactionFeeSharingController', transactionFeeSharingController)
      .controller('addEditTransactionFeesController', addEditTransactionFeesController)
+
+    //Manage Fee sharing
     transactionFeeSharingController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$filter'];
     function transactionFeeSharingController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $filter) {
 
@@ -12,7 +14,7 @@
         vm.CompanyId = 0;
         vm.Companies = [];
         vm.PaymentMethodType = [];
-        vm.TransactionFeeDetails = [{ TransactionFeeSharingId:0,PaymentMethod: "", CreatedDate: "", Code: "", YourShare: "", PayInAgentPer: "", PayOutAgentPer: "", TransactionFeeType: "", PayInAgentName: "", PayOutAgentName: "", CompanyName: "" }];
+        vm.TransactionFeeDetails = [{ TransactionFeeSharingId: 0, PaymentMethod: "", CreatedDate: "", Code: "", YourShare: "", PayInAgentPer: "", PayOutAgentPer: "", TransactionFeeType: "", PayInAgentName: "", PayOutAgentName: "", CompanyName: "" }];
         if ($window.sessionStorage.authorisedUser) {
 
             authorisedUser = JSON.parse($window.sessionStorage.authorisedUser);
@@ -48,30 +50,27 @@
 
           //Get PaymentMethod
           var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
-         
+          //Get TransactionFee Sharing Details
+          $http({
+              method: 'POST',
+              url: baseUrl + 'getTransactionFeeSharingByComapny',
+              data: formData,
+              headers: { 'Content-Type': 'application/json; charset=utf-8' }
+          }).success(function (data2) {
+             
+              var idata2 = data2;
 
-
-              //Get TransactionFee Sharing Details
-              $http({
-                  method: 'POST',
-                  url: baseUrl + 'getTransactionFeeSharingByComapny',
-                  data: formData,
-                  headers: { 'Content-Type': 'application/json; charset=utf-8' }
-              }).success(function (data2) {
-                  var idata2 = data2;
-                 
-                  vm.TransactionFeeDetails = idata2;
-                  angular.forEach(vm.TransactionFeeDetails, function (fee, index) {
-                      vm.getOtherData(fee, index);
-                  });
-              
+              vm.TransactionFeeDetails = idata2;
+              angular.forEach(vm.TransactionFeeDetails, function (fee, index) {
+                  vm.getOtherData(fee, index);
               });
 
           });
-     
+
+      });
+       
 
         vm.getOtherData = function (fee, i) {
-
             var formData = JSON.parse(JSON.stringify({ "CompanyId": fee.CompanyId }));
             $http({
                 method: 'POST',
@@ -101,14 +100,14 @@
                      vm.TransactionFeeDetails[i].PayOutAgentName = data123[0].AgentFirstName;
                  }
              }
-          
-           
+
+
              var companydetil = $filter('filter')(vm.Companies, {
                  CompanyId: fee.CompanyId,
              }, true);
-             if (companydetil.length>0)
+             if (companydetil.length > 0)
                  vm.TransactionFeeDetails[i].CompanyName = companydetil[0].CompanyName;
-           
+
              var Payment = $filter('filter')(vm.PaymentMethods, {
                  PaymentMethodId: fee.PaymentMethodId,
              }, true);
@@ -117,13 +116,8 @@
                  vm.TransactionFeeDetails[i].Payment = Payment[0].Title;
          });
 
-          
+
         }
-
-
-
-
-
 
         vm.AddFeeSharing = function () {
             $state.go('app.add_Transaction_Fees_Sharing');
@@ -135,7 +129,7 @@
         //Deletetransaction
         var DeleteUserID = 0;
         vm.deleteTransactionFeeSharing = function (Id) {
-           
+
             DeleteUserID = Id;
             $('#deleteconfirm').modal('toggle');
         }
@@ -156,7 +150,7 @@
                 dataType: "json",
             })
             .success(function (data) {
-            
+
                 var idata = data;
                 if (idata.TransactionFeeSharingId > 0 && idata.Result == "Sucess") {
                     Alert(1, "! Transaction Fee  deleted successfully");
@@ -193,13 +187,48 @@
             });
         }
 
+        vm.Feesfilter = { FeesCategory: "-1" };
+        vm.FilterFeeSharing = function (value) {
+
+            var FeeType = value;
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getTransactionFeeSharingByComapny',
+                data: formData,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+           .success(function (data) {
+
+               var idata = data;
+               if (FeeType != "All") {
+                   vm.TransactionFeeDetails = [];
+                   angular.forEach(idata, function (fee, index) {
+                       if (fee.TransactionFeeType == FeeType) {
+                       vm.TransactionFeeDetails.push(fee);
+                       }
+                   });
+                   angular.forEach(vm.TransactionFeeDetails, function (fee, index) {
+                       vm.getOtherData(fee, index);
+                   });
+               }
+               else {
+                   vm.TransactionFeeDetails = idata;
+                   angular.forEach(vm.TransactionFeeDetails, function (fee, index) {
+                       vm.getOtherData(fee, index);
+                   });
+               }
+           });
+        }
+
     }
 
+    //Add/Edit Fee Sharing
     addEditTransactionFeesController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$filter'];
     function addEditTransactionFeesController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $filter) {
         var vm = $scope;
         vm.Error = "";
-        vm.TransactionFeeSharingDetails = { TransactionFeeSharingId :0};
+        vm.TransactionFeeSharingDetails = { TransactionFeeSharingId: 0 };
 
         vm.SelectedCompnay = "";
         vm.UserId = 0;
@@ -242,9 +271,20 @@
             vm.PaymentMethods = idata;
         });
 
+        //Get Country
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getcountrydetails',
+            headers: { 'Content-Type': 'application/json' }
+        })
+         .success(function (data) {
+             var idata = data;
+             vm.Countries = idata;
+         });
+
+
 
         if ($stateParams.TransactionFeeSharingId) {
-       
             vm.header = 'Update';
             var iTransactionFeeSharingId = 0;
             iTransactionFeeSharingId = $stateParams.TransactionFeeSharingId;
@@ -257,7 +297,7 @@
                 dataType: "json",
             })
             .success(function (data) {
-            var idata = data;
+                var idata = data;
                 if (idata && idata.Result == "Sucess") {
                     if (idata.TransactionFeeType == 'Universal') {
                         vm.TransactionFeeSharingDetails.TransactionFeeSharingId = idata.TransactionFeeSharingId;
@@ -265,10 +305,13 @@
                         vm.TransactionFeeSharingDetails.PayInAgentPer = parseFloat(idata.PayInAgentPer);
                         vm.TransactionFeeSharingDetails.PayOutAgentPer = parseFloat(idata.PayOutAgentPer);
                         vm.TransactionFeeSharingDetails.YourShare = parseFloat(idata.YourShare);
+
+                        vm.TransactionFeeSharingDetails.SourceCountryId = "" + idata.SourceCountryId;
+                        vm.TransactionFeeSharingDetails.DestinationCountryId = "" + idata.DestinationCountryId;
                         vm.SelectedCompnay = "" + idata.CompanyId;
                         vm.selectedCompany(idata.CompanyId);
                     } else {
-                      
+
                         vm.TransactionFeeSharingDetails.TransactionFeeType = idata.TransactionFeeType;
                         vm.TransactionFeeSharingDetails.TransactionFeeSharingId = idata.TransactionFeeSharingId;
                         vm.CustomizeTransactionFeeData.TransactionFeeSharingId = idata.TransactionFeeSharingId;;
@@ -279,6 +322,8 @@
                         vm.CustomizeTransactionFeeData.PayInAgentPer = parseFloat(idata.PayInAgentPer);
                         vm.CustomizeTransactionFeeData.PayOutAgentPer = parseFloat(idata.PayOutAgentPer);
                         vm.CustomizeTransactionFeeData.YourShare = parseFloat(idata.YourShare);
+                        vm.TransactionFeeSharingDetails.SourceCountryId = "" + idata.SourceCountryId;
+                        vm.TransactionFeeSharingDetails.DestinationCountryId = "" + idata.DestinationCountryId;
                         vm.SelectedCompnay = "" + idata.CompanyId;
                         vm.SetCustomizeData(idata.CompanyId, idata);
                     }
@@ -287,7 +332,7 @@
                 }
             });
         }
-     
+
 
 
 
@@ -304,11 +349,12 @@
                 url: baseUrl + 'getpaymentmethodbycompanyid ',
                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
             })
-    .success(function (data) {
-        var idata = data;
-        vm.DeliveryMethod = idata;
-      
-    });
+             .success(function (data) {
+                 var idata = data;
+                 vm.DeliveryMethod = idata;
+             });
+
+
             //Agent
             $http({
                 method: 'POST',
@@ -319,8 +365,6 @@
                   .success(function (data) {
                       var idata = data;
                       vm.ManageAgent = idata;
-                    
-                     
                   });
 
 
@@ -328,16 +372,15 @@
         vm.SetCustomizeData = function (companyId, data1) {
             var iComapnyId = parseInt(companyId);
             var formData = JSON.parse(JSON.stringify({ "CompanyId": iComapnyId }));
-            $http({
-                method: 'POST',
-                data: formData,
-                url: baseUrl + 'getpaymentmethodbycompanyid ',
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            })
-    .success(function (data) {
-        var idata = data;
-       
-    });
+            //$http({
+            //    method: 'POST',
+            //    data: formData,
+            //    url: baseUrl + 'getpaymentmethodbycompanyid ',
+            //    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            //})
+            //  .success(function (data) {
+            //      var idata = data;
+            //  });
             //Agent
             $http({
                 method: 'POST',
@@ -352,7 +395,7 @@
                           AgentId: parseInt(data1.PayInAgent),
                       }, true);
                       if (AgentData.length > 0)
-                          vm.CustomizeTransactionFeeData.PayInAgent = ""+AgentData[0].AgentId;
+                          vm.CustomizeTransactionFeeData.PayInAgent = "" + AgentData[0].AgentId;
                       AgentData = $filter('filter')(vm.ManageAgent, {
                           AgentId: parseInt(data1.PayOutAgent),
                       }, true);
@@ -361,10 +404,10 @@
                   });
         }
 
-
+        //Save Universal Fee
         vm.SaveUnivarsalFee = function () {
-          
-            
+
+
             var TotalShare = vm.TransactionFeeSharingDetails.PayInAgentPer + vm.TransactionFeeSharingDetails.PayOutAgentPer + vm.TransactionFeeSharingDetails.YourShare;
             if (TotalShare == 100) {
                 if ($stateParams.TransactionFeeSharingId) {
@@ -382,14 +425,14 @@
                         dataType: "json",
                     })
                   .success(function (data) {
-          
+
                       var idata = data;
                       if (idata && idata.Result == "Success") {
                           Alert(1, "! Transaction Fee Sharing Updated successfully");
                           setTimeout(function () {
                               $state.go('app.TransactionFeeSharing');
                           }, 1000);
-                         
+
 
 
                       }
@@ -415,32 +458,34 @@
                         dataType: "json",
                     })
                    .success(function (data) {
-                     
+
                        var idata = data;
                        if (idata && idata.Result == "Success") {
                            Alert(1, "! Transaction Fee Sharing created successfully");
                            setTimeout(function () {
                                $state.go('app.TransactionFeeSharing');
                            }, 1000);
-                          }
+                       }
                        else {
                            vm.Error = idata.Error;
                            $('#deleteconfirm').modal('show');
                        }
                    });
                 }
-               
+
             } else {
                 Alert(2, "! Please correct the Share Amount!");
             }
         }
+
+        //Save Specific Fee
         vm.SaveSpecificfee = function () {
-             
-            if (vm.CustomizeTransactionFeeData.PaymentMethodId == "13" || vm.CustomizeTransactionFeeData.PaymentMethodId == "17" || vm.CustomizeTransactionFeeData.PaymentMethodId == "18"|| vm.CustomizeTransactionFeeData.PaymentMethodId == "19" || vm.CustomizeTransactionFeeData.PaymentMethodId == "20") {
+
+            if (vm.CustomizeTransactionFeeData.PaymentMethodId == "13" || vm.CustomizeTransactionFeeData.PaymentMethodId == "17" || vm.CustomizeTransactionFeeData.PaymentMethodId == "18" || vm.CustomizeTransactionFeeData.PaymentMethodId == "19" || vm.CustomizeTransactionFeeData.PaymentMethodId == "20") {
                 vm.CustomizeTransactionFeeData.PayInAgent = '-1';
                 vm.CustomizeTransactionFeeData.PayInAgentPer = 0;
             }
-            
+
             var TotalShare = vm.CustomizeTransactionFeeData.PayInAgentPer + vm.CustomizeTransactionFeeData.PayOutAgentPer + vm.CustomizeTransactionFeeData.YourShare;
             if (TotalShare == 100) {
                 if ($stateParams.TransactionFeeSharingId) {
@@ -456,14 +501,14 @@
                         dataType: "json",
                     })
                    .success(function (data) {
-                 
+
                        var idata = data;
                        if (idata && idata.Result == "Success") {
                            Alert(1, "! Transaction Fee Sharing Updated successfully");
                            setTimeout(function () {
                                $state.go('app.TransactionFeeSharing');
                            }, 1000);
-                         
+
 
 
                        }
@@ -473,7 +518,7 @@
                        }
                    });
                 } else {
-                   
+
                     vm.CustomizeTransactionFeeData.TransactionFeeType = vm.TransactionFeeSharingDetails.TransactionFeeType;
                     vm.CustomizeTransactionFeeData.CompanyId = vm.SelectedCompnay;
                     var iData = vm.CustomizeTransactionFeeData;
@@ -486,7 +531,7 @@
                         dataType: "json",
                     })
                    .success(function (data) {
-             
+
                        var idata = data;
                        if (idata && idata.Result == "Success") {
                            Alert(1, "! Transaction Fee Sharing created successfully");
@@ -503,29 +548,28 @@
                    });
 
                 }
-              
+
 
             } else {
                 Alert(2, "! Please correct the Share Amount!");
             }
         }
-       
+
         vm.cancel = function () {
             $state.go('app.TransactionFeeSharing');
         }
 
         vm.setDisabled = function () {
-           
             vm.CustomizeTransactionFeeData.IsSpecific = false;
             $('#disabledBtn').addClass('cm-stackingorder');
         }
         vm.setEnabled = function () {
-        
+
             vm.CustomizeTransactionFeeData.IsSpecific = true;
             $('#disabledBtn').removeClass('cm-stackingorder');
-            
+
         }
-      
+
     }
 
 

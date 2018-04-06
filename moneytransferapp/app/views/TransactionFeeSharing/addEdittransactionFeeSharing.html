@@ -9,13 +9,30 @@
                 
                 <div class="card-block">
                     <form role="form" class="ng-pristine ng-valid" name="tblTransactionFeesSharing" ui-jq="validate">
-                        <div>
+                        <div class="form-group">
                             <select name="Company" id="ddlCompany" ng-model="SelectedCompnay" class="form-control" ng-change="selectedCompany(SelectedCompnay)" required ng-init="SelectedCompnay='0'">
                                 <option value="0" disabled>-- Select Company --</option>
                                 <option ng-repeat="Company in Companies" value="{{Company.CompanyId}}">{{Company.CompanyName}}</option>
                             </select>
                             <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && SelectedCompnay == 0">Please select Company.</span>
                         </div>
+
+                         <div class="form-group">
+                            <select name="SourceCountry" id="ddlSourceCountry" ng-model="TransactionFeeSharingDetails.SourceCountryId" class="form-control" required ng-init="TransactionFeeSharingDetails.SourceCountryId='0'">
+                                <option value="0" disabled>-- Source Country --</option>
+                                <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                            </select>
+                            <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && TransactionFeeSharingDetails.SourceCountryId == 0">Please select Source Country.</span>
+                        </div>
+
+                         <div class="form-group">
+                            <select name="DestinationCountry" id="ddlDestinationCountry" ng-model="TransactionFeeSharingDetails.DestinationCountryId" class="form-control" required ng-init="TransactionFeeSharingDetails.DestinationCountryId='0'">
+                                <option value="0" disabled>-- Destination Country --</option>
+                                <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                            </select>
+                            <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && TransactionFeeSharingDetails.DestinationCountryId == 0">Please select Destination Country.</span>
+                        </div>
+
                      
                         <div class="radio  m-t-1">
                             <label><input type="radio" name="radioResult"  value="Universal" ng-model="TransactionFeeSharingDetails.TransactionFeeType" ng-init="TransactionFeeSharingDetails.TransactionFeeType='Universal'" > Universal Transaction Fee Sharing</label>
@@ -34,7 +51,7 @@
                             </div>
                  
                             <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
-                            <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'" ng-click="SaveUnivarsalFee()">{{TransactionFeeSharingDetails.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0' || TransactionFeeSharingDetails.SourceCountryId=='0' || TransactionFeeSharingDetails.DestinationCountryId=='0'" ng-click="SaveUnivarsalFee()">{{TransactionFeeSharingDetails.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
                             <div class="code-label m-y-1">
                                 <label for="">UNIVERSAL TRANS. SHARING FEE REF. CODE {{code}}</label>
                             </div>
@@ -45,8 +62,6 @@
                         </div>
                         
                         <div  ng-if="TransactionFeeSharingDetails.TransactionFeeType=='Specific'">
-                            
-                            
                             <div class="form-group">
                                  <label for="sel1" class="col-sm-3 form-control-label">Payment Method</label>
                                 <div class="col-sm-8">
@@ -56,8 +71,6 @@
                                     </select>
                                     <span class="text-danger" ng-show="tblTransactionFeesSharing.$valid && CustomizeTransactionFeeData.PaymentMethodId=='-1' ">Please select Payment Method.</span>
                                 </div>
-                              
-                                
                             </div>
                             <div class="form-group">
                                 <label for="your-share">Your Share (%)</label>
@@ -109,7 +122,7 @@
 
                           <div class="cm-align-btn">
                               <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
-                              <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'" ng-click="SaveSpecificfee()">{{CustomizeTransactionFeeData.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
+                              <button type="submit" class="btn btn-primary" ng-disabled="!tblTransactionFeesSharing.$valid || SelectedCompnay=='0'|| TransactionFeeSharingDetails.SourceCountryId=='0' || TransactionFeeSharingDetails.DestinationCountryId=='0'" ng-click="SaveSpecificfee()">{{CustomizeTransactionFeeData.TransactionFeeSharingId !=0 ?'Update':'Save' }}</button>
                           </div>
                            
                             

@@ -32,10 +32,10 @@
             url: baseUrl + 'getpaymentmethodbycompany ',
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
-        .success(function (data) {
-            var idata = data;
-            vm.PaymentMethods = idata;
-        });
+          .success(function (data) {
+              var idata = data;
+              vm.PaymentMethods = idata;
+          });
 
         //Get Country
         $http({
@@ -43,43 +43,39 @@
             url: baseUrl + 'getcountrydetails',
             headers: { 'Content-Type': 'application/json' }
         })
-   .success(function (data) {
-       var idata = data;
-       vm.Countries = idata;
-       $http({
-           method: 'GET',
-           url: baseUrl + 'getcompanydetails',
-           headers: { 'Content-Type': 'application/json' }
-       })
-    .success(function (data) {
-        var idata = data;
-        vm.Companies = idata;
-        // var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
+         .success(function (data) {
+             var idata = data;
+             vm.Countries = idata;
+             $http({
+                 method: 'GET',
+                 url: baseUrl + 'getcompanydetails',
+                 headers: { 'Content-Type': 'application/json' }
+             })
+              .success(function (data) {
+                  var idata = data;
+                  vm.Companies = idata;
+                  // var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
 
+                  $http({
+                      method: 'GET',
+                      url: baseUrl + 'getglobalExchangerateByComapny',
+                      // data: formData,
+                      headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                  }).success(function (data2) {
+                      var idata2 = data2;
+                      vm.globalExchangeRateDataList = idata2;
 
+                      angular.forEach(vm.globalExchangeRateDataList, function (data, index) {
+                          vm.getOtherData(data, index);
+                          //vm.updateRate(data);
+                      });
 
-        $http({
-            method: 'GET',
-            url: baseUrl + 'getglobalExchangerateByComapny',
-            // data: formData,
-            headers: { 'Content-Type': 'application/json; charset=utf-8' }
-        }).success(function (data2) {
+                      //Update Exchange Rate
+                      vm.updateRate();
+                  });
+              });
 
-            var idata2 = data2;
-            vm.globalExchangeRateDataList = idata2;
-            angular.forEach(vm.globalExchangeRateDataList, function (data, index) {
-                vm.getOtherData(data, index);
-            });
-
-        });
-    });
-
-
-
-
-
-
-   });
+         });
 
 
 
@@ -161,7 +157,9 @@
                 }
             });
         }
+        //End Delete
 
+        //Set Disabled
         vm.setDisabled = function (id, IsActive) {
 
 
@@ -187,7 +185,58 @@
             });
         }
 
+        //Update globalExchange Rate
+        //Get Curency Code
+        vm.updateRate = function () {
+           
+            $http({
+                method: 'GET',
+                url: baseUrl + 'getglobalExchangerateByComapny',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            }).success(function (data2) {
+                var idata2 = data2;
+                vm.globalExchange = idata2;
+                angular.forEach(vm.globalExchange, function (data, index) {
+                    var SourcecountryData = $filter('filter')(vm.Countries, {
+                        CountryId: data.DestinationCountryId,
+                    }, true);
 
+                    if (SourcecountryData.length > 0)
+                        vm.CountryCode = SourcecountryData[0].CurrencyCode;
+
+                    UpdateglobalExchange(vm.CountryCode, data.DestinationCountryId);
+
+                });
+            });
+        }
+
+        //Update globalExchange Rate
+        function UpdateglobalExchange(code, DestinationCountryId) {
+            var accesstoken = 'rxv51rk8b4y1kjhasvww';
+            $http({
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: code, amount: "1" }),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+                .success(function (data) {
+                    var idata = data;
+                    if (idata.currency[0].value > 0) {
+                        var value = parseFloat(idata.currency[0].value).toFixed(2)
+                        var SellSpotPrice = value;
+                        var formData = JSON.parse(JSON.stringify({ "DestinationCountryId": DestinationCountryId, "SellSpotPrice": SellSpotPrice }));
+                        $http({
+                            method: 'POST',
+                            url: baseUrl + 'updateRealfeesglobalExchangerate',
+                            data: formData,
+                            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                        })
+                        .success(function (data) {
+                            var idata = data;
+                        });
+                    }
+                });
+        }
 
 
         function toFixed(num) {
@@ -239,11 +288,11 @@
             url: baseUrl + 'getcompanydetails',
             headers: { 'Content-Type': 'application/json' }
         })
-       .success(function (data) {
-           var idata = data;
-           vm.Companies = idata;
+         .success(function (data) {
+             var idata = data;
+             vm.Companies = idata;
 
-       });
+         });
 
         //Get Country
         $http({
@@ -251,10 +300,10 @@
             url: baseUrl + 'getcountrydetails',
             headers: { 'Content-Type': 'application/json' }
         })
-   .success(function (data) {
-       var idata = data;
-       vm.Countries = idata;
-   });
+           .success(function (data) {
+               var idata = data;
+               vm.Countries = idata;
+           });
 
         //getDelivery Method
         vm.selectedCompany = function (companyId) {
@@ -341,7 +390,6 @@
             });
         }
 
-
         //getExchangerate 
         function ConvertMoney(code) {
             if (code) {
@@ -385,14 +433,14 @@
                             vm.globalExchangeRateData.SellingExchangeRate = "0.00";
                             vm.globalExchangeRateData.GlobalExchangeRate = "";
                             vm.globalExchangeRateData.SellSpotPrice = "";
-                            vm.Error = "!sorry we can't proceed. ";
+                            vm.Error = "!Sorry we don't support this Destination country. ";
                             $('#deleteconfirm').modal('show');
                         }
                     });
             } else {
                 vm.Error = "";
 
-                vm.Error = "!sorry we can't proceed. ";
+                vm.Error = "!Sorry we don't support this Destination country. ";
                 $('#deleteconfirm').modal('show');
 
                 vm.globalExchangeRateData.SellSpotPrice = "0.00";
@@ -617,6 +665,7 @@
             vm.getFeesDetails();
         }
 
+        //Get Fee details
         vm.getFeesDetails = function () {
 
             if (vm.globalExchangeRateData.SourceCountry != "0" && vm.globalExchangeRateData.DestinationCountry != "0" && vm.globalExchangeRateData.PaymentMethod != "-1") {
@@ -642,6 +691,8 @@
                 return 0;
             }
         }
+
+        //Save Global Exchange Rate
         vm.SaveGlobalExcahangeRate = function () {
 
             if ($stateParams.GlobalExchangeId) {
@@ -719,7 +770,6 @@
             vm.globalExchangeRateData.IsActive = true;
             $('#disabledBtn').css("z-index", '');
         }
-
 
         function toFixed(num) {
             return num.slice(0, (num.indexOf(".")) + 3);

@@ -302,10 +302,19 @@
         }
     }
 
+    vm.IsHidden = true;
+    vm.ShowHide = function () {
+        //If DIV is hidden it will be visible and vice versa.
+        vm.IsHidden = vm.IsHidden ? false : true;
+    }
+
+
+        //Get Create Ui
     vm.addfees = function () {
         $state.go('app.add_Fees');
     }
 
+        //Move Edit Ui
     vm.EditFee = function (Id) {
         $state.go('app.Edit_Fees', { PaymentFessId: Id });
     }
