@@ -781,7 +781,7 @@
             if (vm.PaymentMethods[0].PaymentMethodId == 0)
                 vm.PaymentMethods.splice(0, 1);
             setTimeout(function () {
-                vm.selectedMethod(vm.PaybillModel.PaymentMethodId);
+                vm.selectedMethod(vm.PaymentMethods[0].PaymentMethodId);
             }, 500);
            
         });
@@ -801,10 +801,10 @@
                         angular.forEach(idata, function (data, index) {
                             var val = data;
                             if (vm.localStorage.FareAmmount >= data.StartingAmount && vm.localStorage.FareAmmount <= data.EndAmount) {
-
                                 $localStorage.Fees = data.Fees;
                                 vm.PaymentFee = data.Fees;
                             }
+                            else { $localStorage.Fees = 0.00; }
                         });
                     }
                     else {
@@ -936,6 +936,7 @@
                     idata.CompanyId = vm.localStorage.GustCustomer.CompanyId;
                     idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
                     idata.SenderName = vm.localStorage.GustCustomer.FirstName;
+                    idata.Fees = vm.localStorage.Fees;
                     var sMonth = parseInt(vm.ExpireModel.ExpireMonth);
                     if (sMonth < 10) {
                         sMonth = '0' + sMonth

@@ -23,7 +23,7 @@
             }
         }
 
-
+        vm.PayM = "";
         //Get Method Details
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
         $http({
@@ -46,36 +46,45 @@
          .success(function (data) {
              var idata = data;
              vm.Countries = idata;
-             $http({
-                 method: 'GET',
-                 url: baseUrl + 'getcompanydetails',
-                 headers: { 'Content-Type': 'application/json' }
-             })
-              .success(function (data) {
-                  var idata = data;
-                  vm.Companies = idata;
-                  // var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
-
-                  $http({
-                      method: 'GET',
-                      url: baseUrl + 'getglobalExchangerateByComapny',
-                      // data: formData,
-                      headers: { 'Content-Type': 'application/json; charset=utf-8' }
-                  }).success(function (data2) {
-                      var idata2 = data2;
-                      vm.globalExchangeRateDataList = idata2;
-
-                      angular.forEach(vm.globalExchangeRateDataList, function (data, index) {
-                          vm.getOtherData(data, index);
-                          //vm.updateRate(data);
-                      });
-
-                      //Update Exchange Rate
-                      vm.updateRate();
-                  });
-              });
-
          });
+
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getcompanydetails',
+            headers: { 'Content-Type': 'application/json' }
+        })
+         .success(function (data) {
+             var idata = data;
+             vm.Companies = idata;
+             // var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
+         });
+
+        setTimeout(function () {
+            vm.LoadGlobalExchangeRate();
+        }, 1000);
+
+        //Load Global Exchange Rate
+        vm.LoadGlobalExchangeRate = function () {
+            //Update Exchange Rate
+            vm.updateRate();
+            //Load Updated Data
+            setTimeout(function () {
+                $http({
+                    method: 'GET',
+                    url: baseUrl + 'getglobalExchangerateByComapny',
+                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                }).success(function (data2) {
+                    var idata2 = data2;
+                    vm.globalExchangeRateDataList = idata2;
+                    angular.forEach(vm.globalExchangeRateDataList, function (data, index) {
+                        vm.getOtherData(data, index);
+                        //vm.updateRate(data);
+                    });
+                });
+            }, 500);
+        }
+
+
 
 
 
@@ -188,7 +197,7 @@
         //Update globalExchange Rate
         //Get Curency Code
         vm.updateRate = function () {
-           
+
             $http({
                 method: 'GET',
                 url: baseUrl + 'getglobalExchangerateByComapny',
@@ -232,6 +241,7 @@
                             headers: { 'Content-Type': 'application/json; charset=utf-8' }
                         })
                         .success(function (data) {
+
                             var idata = data;
                         });
                     }
@@ -358,13 +368,13 @@
                 url: baseUrl + 'getcountry ',
                 headers: { 'Content-Type': 'application/json; charset=utf-8' }
             })
-      .success(function (data) {
-          var idata = data;
-          vm.globalExchangeRateData.BaseCurrency = idata.CurrencyCode;
+                .success(function (data) {
+                    var idata = data;
+                    vm.globalExchangeRateData.BaseCurrency = idata.CurrencyCode;
 
-          vm.TemporaryGlobalExchangeRate.SpotPrice = 1 + " " + vm.globalExchangeRateData.BaseCurrency;
-          vm.getFeesDetails();
-      });
+                    vm.TemporaryGlobalExchangeRate.SpotPrice = 1 + " " + vm.globalExchangeRateData.BaseCurrency;
+                    vm.getFeesDetails();
+                });
         }
 
         //Get To Courrency
