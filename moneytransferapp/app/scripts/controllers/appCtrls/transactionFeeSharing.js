@@ -309,6 +309,7 @@
                         vm.TransactionFeeSharingDetails.SourceCountryId = "" + idata.SourceCountryId;
                         vm.TransactionFeeSharingDetails.DestinationCountryId = "" + idata.DestinationCountryId;
                         vm.SelectedCompnay = "" + idata.CompanyId;
+                        vm.code = idata.Code;
                         vm.selectedCompany(idata.CompanyId);
                     } else {
 
@@ -325,6 +326,7 @@
                         vm.TransactionFeeSharingDetails.SourceCountryId = "" + idata.SourceCountryId;
                         vm.TransactionFeeSharingDetails.DestinationCountryId = "" + idata.DestinationCountryId;
                         vm.SelectedCompnay = "" + idata.CompanyId;
+                        vm.code = idata.Code;
                         vm.SetCustomizeData(idata.CompanyId, idata);
                     }
                 } else {
@@ -480,7 +482,6 @@
 
         //Save Specific Fee
         vm.SaveSpecificfee = function () {
-
             if (vm.CustomizeTransactionFeeData.PaymentMethodId == "13" || vm.CustomizeTransactionFeeData.PaymentMethodId == "17" || vm.CustomizeTransactionFeeData.PaymentMethodId == "18" || vm.CustomizeTransactionFeeData.PaymentMethodId == "19" || vm.CustomizeTransactionFeeData.PaymentMethodId == "20") {
                 vm.CustomizeTransactionFeeData.PayInAgent = '-1';
                 vm.CustomizeTransactionFeeData.PayInAgentPer = 0;
@@ -491,6 +492,8 @@
                 if ($stateParams.TransactionFeeSharingId) {
                     vm.CustomizeTransactionFeeData.CompanyId = vm.SelectedCompnay;
                     vm.CustomizeTransactionFeeData.TransactionFeeType = vm.TransactionFeeSharingDetails.TransactionFeeType;
+                    vm.CustomizeTransactionFeeData.SourceCountryId = vm.TransactionFeeSharingDetails.SourceCountryId;
+                    vm.CustomizeTransactionFeeData.DestinationCountryId = vm.TransactionFeeSharingDetails.DestinationCountryId;
                     var iData = vm.CustomizeTransactionFeeData;
                     var formData = JSON.stringify(iData);
                     $http({
@@ -521,6 +524,8 @@
 
                     vm.CustomizeTransactionFeeData.TransactionFeeType = vm.TransactionFeeSharingDetails.TransactionFeeType;
                     vm.CustomizeTransactionFeeData.CompanyId = vm.SelectedCompnay;
+                    vm.CustomizeTransactionFeeData.SourceCountryId = vm.TransactionFeeSharingDetails.SourceCountryId;
+                    vm.CustomizeTransactionFeeData.DestinationCountryId = vm.TransactionFeeSharingDetails.DestinationCountryId;
                     var iData = vm.CustomizeTransactionFeeData;
                     var formData = JSON.stringify(iData);
                     $http({
@@ -538,18 +543,13 @@
                            setTimeout(function () {
                                $state.go('app.TransactionFeeSharing');
                            }, 1000);
-
-
                        }
                        else {
                            vm.Error = idata.Error;
                            $('#deleteconfirm').modal('show');
                        }
                    });
-
                 }
-
-
             } else {
                 Alert(2, "! Please correct the Share Amount!");
             }

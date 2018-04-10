@@ -24,6 +24,8 @@
         }
 
         vm.PayM = "";
+        vm.Payt = "";
+        vm.Payd = "";
         //Get Method Details
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
         $http({
@@ -84,7 +86,9 @@
             }, 500);
         }
 
-
+        vm.filterFeeData = function (Pay) {
+            vm.PayM = Pay;
+        }
 
 
 
@@ -750,23 +754,23 @@
                     headers: { 'Content-Type': 'application/json' },
                     dataType: "json",
                 })
-                       .success(function (data) {
+                   .success(function (data) {
 
-                           var idata = data;
-                           if (idata && idata.Result == "Success") {
-                               Alert(1, "! Global Exchange Rates created successfully");
-                               setTimeout(function () {
-                                   $state.go('app.GlobalExchangeRates');
-                               }, 1000);
-                           }
-                           else {
+                       var idata = data;
+                       if (idata && idata.Result == "Success") {
+                           Alert(1, "! Global Exchange Rates created successfully");
+                           setTimeout(function () {
+                               $state.go('app.GlobalExchangeRates');
+                           }, 1000);
+                       }
+                       else {
 
-                               vm.Error = idata.Error;
-                               $('#deleteconfirm').modal('show');
+                           vm.Error = idata.Error;
+                           $('#deleteconfirm').modal('show');
 
-                               //Alert(2, idata.Error);
-                           }
-                       });
+                           //Alert(2, idata.Error);
+                       }
+                   });
             }
 
         }

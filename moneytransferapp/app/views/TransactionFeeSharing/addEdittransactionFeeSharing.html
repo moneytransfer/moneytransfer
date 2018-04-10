@@ -58,10 +58,10 @@
                         </div>
 
                         <div class="radio">
-                            <label><input type="radio" name="radioResult" id="cust_radio" value="Specific" ng-model="TransactionFeeSharingDetails.TransactionFeeType">Customize Transaction Fee Sharing  for individual Payment Delivery Method</label>
+                            <label><input type="radio" name="radioResult" id="cust_radio" value="specific" ng-model="TransactionFeeSharingDetails.TransactionFeeType">Customize Transaction Fee Sharing  for individual Payment Delivery Method</label>
                         </div>
                         
-                        <div  ng-if="TransactionFeeSharingDetails.TransactionFeeType=='Specific'">
+                        <div  ng-if="TransactionFeeSharingDetails.TransactionFeeType=='specific'">
                             <div class="form-group">
                                  <label for="sel1" class="col-sm-3 form-control-label">Payment Method</label>
                                 <div class="col-sm-8">
@@ -105,7 +105,9 @@
                                 <label for="your-share">pay out agent(%)</label>
                                 <input type="number" id="payOutAgentshare" required min="0" max="100" onkeyup="fun_AllowOnlyAmountAndDot(this)" class="form-control" ng-model="CustomizeTransactionFeeData.PayOutAgentPer">
                             </div>
-
+                             <div class="code-label m-y-1">
+                                <label for="">SPECIFIC TRANS. SHARING FEE REF. CODE {{code}}</label>
+                            </div>
                             <!--<div class="form-check">
                                 <label class="col-sm-3 form-control-label">
                                     Is Active :
