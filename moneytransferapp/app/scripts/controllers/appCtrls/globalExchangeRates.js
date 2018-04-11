@@ -86,8 +86,18 @@
             }, 500);
         }
 
+
+        //Filter
         vm.filterFeeData = function (Pay) {
-            vm.PayM = Pay;
+            if (Pay == "" && vm.Payt !="") {
+                vm.PayM = vm.Payt;
+            }
+            if (Pay == "" && vm.Payd != "") {
+                vm.PayM = vm.Payd;
+            }
+            else {
+                vm.PayM = Pay;
+            }
         }
 
 

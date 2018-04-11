@@ -59,7 +59,7 @@
           }).success(function (data2) {
              
               var idata2 = data2;
-
+             
               vm.TransactionFeeDetails = idata2;
               angular.forEach(vm.TransactionFeeDetails, function (fee, index) {
                   vm.getOtherData(fee, index);
@@ -187,7 +187,7 @@
             });
         }
 
-        vm.Feesfilter = { FeesCategory: "-1" };
+        vm.Feesfilter = { FeesCategory: "All" };
         vm.FilterFeeSharing = function (value) {
 
             var FeeType = value;

@@ -1,15 +1,15 @@
 ﻿<div class="padding" ng-controller="feesController">
     <div class="card">
         <div class="card-header m-t-1">
-            <div class="col-sm-6">
-                <label for="Country" class="col-sm-3 form-control-label">Fees Category : </label>
-                <div class="col-sm-8">
-                    <select name="FeesCategory" id="FeesCategory" class="form-control" ng-model="Feesfilter.FeesCategoryId" ng-change="FilterFees(Feesfilter.FeesCategoryId)">
-                        <option value="-1">--All Fees Category --</option>
-                        <option ng-repeat="Fees in FeesCategory" value="{{Fees.FeesCategoryId}}">{{Fees.FeesCategoryName}}</option>
-                    </select>
-
-                </div>
+            <div class="col-sm-3">
+                <input id="filter" placeholder="Advanced Search" ng-model="Feest" type="text" ng-change="FilterFees(Feest)" class="form-control input-sm w-auto inline m-r" />
+            </div>
+            <div class="col-sm-3">
+                <select name="FeesCategory" id="FeesCategory" class="form-control" ng-model="Feesd" ng-change="FilterFees(Feesd)">
+                    <option value="">--All Fees Category --</option>
+                    <option ng-repeat="Fees in FeesCategory" value="{{Fees.FeesCategoryName}}">{{Fees.FeesCategoryName}}</option>
+                </select>
+             
             </div>
             <div class="col-sm-4 pull-right">
                 <button type="submit" class="btn btn-primary pull-right" ng-click="addfees()"><i class="glyphicon glyphicon-plus"></i>Add Fees </button>
@@ -17,58 +17,62 @@
         </div>
 
         <div class="card-block p-a-0">
-
             <table id="tblFees" class="table m-b-none table-responsive ox-auto" ui-jp="footable" data-filter="#filter" data-page-size="10">
                 <thead>
                     <tr>
                         <th>Fee Setup Ref. Code</th>
                         <th>Service Type</th>
                         <th>Payment Method </th>
-                        <th>Source Country </th>
-                        <th>Destination Country </th>
-                        <th>Pay-In Agent</th>
-                        <th>Pay-Out Agent</th>
+                        <th>Country </th>
+                        <th>Agent</th>
                         <th>Service Fee Type</th>
                         <th>Service Fee</th>
                         <th>Starting Amount</th>
                         <th>End Amount</th>
                         <th>Exchange Rate code</th>
-                        <th>Charge Sending Amount</th>
+                        <th>Fees Sharing code</th>
+                        <!-- <th>Charge Sending Amount</th>-->
                         <th>Service Date Created</th>
-                        <th colspan="3">Action</th>
+                        <th colspan="3" class="text-center">Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="Active" ng-repeat="Fees in ManageFees ">
+                    <tr class="Active" ng-repeat="Fees in ManageFees | filter: FeesM">
                         <td><small>{{Fees.Code}} </small></td>
                         <td><small>{{Fees.FeeCategory}} </small></td>
-
                         <td><small>{{Fees.Payment}} </small></td>
-                        <td><small>{{Fees.Sourcecountry}} </small></td>
-                        <td><small>{{Fees.Destinationcountry}} </small></td>
-                        <td><small>{{Fees.PayInAgentName}} </small></td>
-                        <td><small>{{Fees.PayOutAgentName}} </small></td>
+                        <td><small>{{Fees.Sourcecountry}} - {{Fees.Destinationcountry}}</small></td>
+                        <td><small>{{Fees.PayInAgentName}} - {{Fees.PayOutAgentName}}</small></td>
                         <td><small ng-if="Fees.FeesType==1">Flat</small><small ng-if="Fees.FeesType==2">Percentage</small></td>
                         <td><small>{{Fees.Fees | currency}} </small></td>
                         <td><small>{{Fees.StartingAmount | currency}} </small></td>
                         <td><small>{{Fees.EndAmount | currency}} </small></td>
                         <td><small>{{Fees.GobalExchangeRateCode}}</small></td>
-                        <td>
+                        <td><small>{{Fees.TransactionFeeSharingCode}}</small></td>
+                        <!-- <td>
                             <input type="checkbox" name="check" value='{{Fees.IsActive}}' ng-model="Fees.ChargeSendingAmount" disabled="true" /></td>
-                        <td><small>{{Fees.CreatedDate }}</small></td>
+                       -->
+                        <td><small>{{Fees.CreatedDate |date:'MM/dd/yyyy'}}</small></td>
 
-                        <td><span class="" data-ng-click="ShowHide()">
-                            <i class="{{IsHidden ? 'fa fa-angle-double-right':'fa fa-angle-double-left'}} fa-2x" aria-hidden="true"></i>
-                            </span></td>
-                        <td data-ng-hide="IsHidden">
-                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditFee(Fees.PaymentFessId)">Edit</button>
-                        </td>
-                         <td data-ng-hide="IsHidden">
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteUser(Fees.PaymentFessId)">Delete </button>
-                        </td>
-                        <td data-ng-hide="IsHidden">
-                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="getExchangeRateDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.GobalExchangeRateCode)">Exchange Rate </button>
+                        <td class="text-center">
+                            <div class="m-r-xs m-b-xs dropdown text-center" uib-dropdown="">
+                                <!--     <button type="button" class="btn btn-outline-primary uib-dropdown-toggle dropdown-toggle" style="width: 100px;" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">...
+                                    <span class="caret"></span>
+                                </button>-->
+                                <a class="uib-dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+                                    <span class="text-lg">&bull; &bull; &bull;</span></a>
+                                <div class="dropdown-menu" style="left: -112px !important;" uib-dropdown-menu="" role="menu">
+                                    <a class="dropdown-item" ng-click="EditFee(Fees.PaymentFessId)">Edit
+                                    </a>
+                                    <a class="dropdown-item" ng-click="getExchangeRateDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.GobalExchangeRateCode)">Exchange Rate
+                                    </a>
+                                    <a class="dropdown-item" ng-click="getFeesharingDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.TransactionFeeSharingCode)">Fees Sharing Rate
+                                    </a>
+                                    <a class="dropdown-item" ng-click="deleteUser(Fees.PaymentFessId)">Delete
+                                    </a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -106,13 +110,13 @@
         <!-- /.modal -->
 
 
-        <!--Update Fees modal-->
+        <!----------------------------------Update Fees modal-------------------------------------------------->
         <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="updatefee">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header text-success">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title ">Update Exchange Rate  </h4>
+                        <h4 class="modal-title ">Update Global Exchange Rate  </h4>
                     </div>
 
                     <div class="modal-body">
@@ -165,6 +169,73 @@
                 </div>
             </div>
         </div>
+        <!----------------------------------Update Fees modal-------------------------------------------------->
+
+        <!----------------------------------Update Fees Sharing modal-------------------------------------------------->
+        <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="FeeSharingModal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-success">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title ">Update Transaction Fees Sharing  </h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <table id="Table1" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
+                            <thead>
+                                <tr>
+
+                                    <th>Action</th>
+                                    <th>Code</th>
+                                    <th>Transaction Fee Type</th>
+                                    <th>Payment Method </th>
+                                    <!--  <th>Company Name</th>
+                                    <th>Pay-In Agent Name</th>
+                                    <th>Pay-Out Agent Name</th>-->
+                                    <th>Your Share %</th>
+                                    <th>Pay-In Agent Share %</th>
+                                    <th>Pay-Out Agent Share %</th>
+                                    <th>Created Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="Active cm-td-spacing" ng-repeat="Feesharing in globalFeeSharingDetails">
+                                    <td>
+                                        <input type="radio" id="chk_feesharing" name="chkfeesharing" value="{{Feesharing.TransactionFeeSharingId}}" ng-modal="checkvalue.TransactionFeeSharingId" /></td>
+                                    <td><small>{{Feesharing.Code }}</small></td>
+                                    <td><small>{{Feesharing.TransactionFeeType }}</small></td>
+                                    <td><small>{{Feesharing.Payment}} </small></td>
+                                    <!--<td><small>{{Feesharing.CompanyName}} </small></td>
+                                    <td><small>{{Feesharing.PayInAgentName }}</small></td>
+                                    <td><small>{{Feesharing.PayOutAgentName }}</small></td>-->
+                                    <td><small>{{Feesharing.YourShare | number:2}}</small></td>
+                                    <td><small>{{Feesharing.PayInAgentPer | number:2}}</small></td>
+                                    <td><small>{{Feesharing.PayOutAgentPer | number:2}}</small></td>
+                                    <td><small>{{Feesharing.CreatedDate |date:'MM/dd/yyyy'  }}</small></td>
+                                </tr>
+                            </tbody>
+
+
+                            <tfoot class="hide-if-no-paging">
+                                <tr>
+                                    <td colspan="12" class="text-center">
+                                        <ul class="pagination"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+
+
+                    </div>
+                    <div class="modal-footer pull-center">
+                        <button type="button" class="btn btn-primary" ng-click="updateFeeShaingRate()">Save</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -173,5 +244,26 @@
         background-color: gray;
         color: white;
         font-weight: bold;
+    }
+
+    .text-lg {
+        font-size: 1rem !important;
+    }
+
+    .text-center {
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .dropdown-toggle::after {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 0.3em;
+        vertical-align: middle;
+        content: none !important;
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
     }
 </style>

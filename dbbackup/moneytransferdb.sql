@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 21, 2018 at 10:29 AM
+-- Generation Time: Apr 11, 2018 at 01:53 PM
 -- Server version: 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.16.04.1
 
@@ -65,7 +65,15 @@ INSERT INTO `agent` (`AgentId`, `AgentFirstName`, `SecondName`, `AgentLastName`,
 (0, 'All', 'All', 'All', 'All', 17, 99, 'All', '8798787465465', 'all01', 'all@gmail.com', '23', 'All', 'All', '2', 'All', '12365', 0, 0, 0, 0, 0, 0, '2018-03-01 00:00:00', 1, 0, NULL),
 (1, 'Wallmart', 'Gerry', 'Terry', 'Zurry', 17, 150, 'Marshal', '5879566255', '7008', 'marshal@gmail.com', 'dom', 'delhi', 'Rajouri', '25', 'uuy', '222222', 1, 1, 1, 1, 1, 1, '2018-02-14 07:22:19', 0, 0, NULL),
 (2, 'Tinkle', 'Jorg', 'Herry', 'mart', 17, 150, 'Tinkle', '5879566255', '7880', 'tinkle@gmail.com', 'dom', 'delhi', 'Rajouri', '25', 'uuy', '222222', 1, 1, 1, 1, 1, 1, '2018-02-14 07:23:16', 1, 0, NULL),
-(3, 'Tijuna', 'mart', 'shop', '36', 17, 230, 'Sendingloop', '8010276833', '0952', 'tijuna@gmail.com', 'mr.', 'usa', 'usa 3', '20', 'Greek test', '25874', 0, 0, 0, 0, 0, 0, '2018-02-14 08:48:36', 1, 0, NULL);
+(3, 'Tijuna', 'mart', 'shop', '36', 17, 230, 'Sendingloop', '8010276833', '0952', 'tijuna@gmail.com', 'mr.', 'usa', 'usa 3', '20', 'Greek test', '25874', 0, 0, 0, 0, 0, 0, '2018-02-14 08:48:36', 1, 0, NULL),
+(5, 'Visa Credit Card', 'Visa Credit Card', '.', 'Visa Credit Card', 17, 139, 'Visa Credit Card', '76547654654', '4175', 'visa@gmail.com', 'test', 'Visa', 'Credit', '34', 'Card', '564564', 0, 0, 0, 0, 0, 0, '2018-04-05 08:06:45', 1, 0, NULL),
+(6, 'MasterCard Credit Card', 'MasterCard', '.', 'MasterCard', 17, 139, 'MasterCard', '6765756', '7317', 'MasterCard@gmail.com', '34', 'MasterCard', NULL, '3', 'MasterCard', '554456', 0, 0, 0, 0, 0, 0, '2018-04-05 08:08:24', 1, 0, NULL),
+(7, 'Visa Debit Card', 'Visa', '.', 'Visa', 17, 139, 'Visa', '55345', '5320', 'Visa@gmail.com', '3', 'Visa', NULL, '4', 'Visa', '2345345', 0, 0, 0, 0, 0, 0, '2018-04-05 08:09:08', 1, 0, NULL),
+(8, 'MasterCard Debit Card', 'MasterCard Debit', '.', 'MasterCard Debit', 17, 139, 'MasterCard Debit', '6546546546', '3769', 'MasterCardDebit@gmail.com', '3', 'MasterCard Debit', 'MasterCard Debit', '54', 'MasterCard Debit', '55345345345345', 0, 0, 0, 0, 0, 0, '2018-04-05 08:09:49', 1, 0, NULL),
+(9, 'Visa Gift Card', 'Visa', '0', 'Gift', 17, 139, 'Gift', '454354353453453', '3707', 'Gift@gmail.com', '34', 'Gift', 'Gift', '454', 'Gift', '24234234234', 0, 0, 0, 0, 0, 0, '2018-04-05 08:10:24', 1, 0, NULL),
+(10, 'MasterCard Gift Card', 'Gift Card', '.', 'Gift Card', 17, 139, 'Gift Card', '355252525235', '5243', 'GiftCard@gmail.com', '34', 'Gift Card', 'Gift Card', '25', 'Gift Card', '523235235325', 0, 0, 0, 0, 0, 0, '2018-04-05 08:11:06', 1, 0, NULL),
+(11, 'Visa Voucher', 'Visa Voucher', '.', 'Visa Voucher', 17, 139, 'Visa Voucher', '23325325325', '4287', 'VisaVoucher@gmail.com', '42', 'Visa Voucher', 'Visa Voucher', '43', 'Visa Voucher', '3534534534', 0, 0, 0, 0, 0, 0, '2018-04-05 08:11:36', 1, 0, NULL),
+(12, 'MasterCard Voucher', 'MasterCard Voucher', '.', 'MasterCard Voucher', 17, 139, 'MasterCard Voucher', '45345433443435', '5700', 'MasterCardVoucher@gmail.com', '24', 'MasterCard Voucher', 'MasterCard Voucher', '42', 'MasterCard Voucher', '342323325', 0, 0, 0, 0, 0, 0, '2018-04-05 08:12:06', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -94,7 +102,12 @@ CREATE TABLE `authorizepaymentsettings` (
 
 INSERT INTO `authorizepaymentsettings` (`AuthorizePaymentSettingsId`, `PaymentMethodId`, `Mode`, `PaymentUrl`, `MerchantLoginId`, `MerchantTransactionKey`, `Server`, `Port`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
 (1, 1, 'TEST', 'https://test.authorize.net/gateway/transact.dll', '6cUR4e9b', '8Q6338wTVa647Rfe', NULL, NULL, 0, 0, '2018-02-05', NULL),
-(5, 12, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-01-18', NULL);
+(5, 12, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
+(6, 15, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
+(7, 21, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
+(8, 22, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
+(9, 23, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
+(12, 26, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL);
 
 -- --------------------------------------------------------
 
@@ -225,7 +238,31 @@ INSERT INTO `billpaydetails` (`BillPayId`, `CompanyId`, `CustomerId`, `Transacti
 (27, 17, 8, 45, 'zolly', '52521202588555', '1.0', '1560', '', '2018-03-19 10:49:40', '4.99', '0.00', '000'),
 (28, 17, 8, 46, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-19 11:20:21', '7.99', '0.00', '000'),
 (29, 17, 8, 49, 'zolly', '52129897978945', '1.0', '1560', '', '2018-03-19 11:29:29', '7.99', '0.00', '000'),
-(30, 17, 8, 50, 'zolly', '521298979789435', '1.0', '1560', '', '2018-03-19 11:31:04', '103.99', '0.00', '000');
+(30, 17, 8, 50, 'zolly', '521298979789435', '1.0', '1560', '', '2018-03-19 11:31:04', '103.99', '0.00', '000'),
+(31, 17, 8, 51, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-02 07:07:36', '2.99', '0.00', '000'),
+(32, 17, 8, 52, 'zolly', '527974756456', '1.0', '1560', '', '2018-04-02 07:29:38', '9.99', '0.00', '000'),
+(33, 17, 8, 53, 'zolly', '52551515165156170', '1.0', '1560', '', '2018-04-02 12:14:03', '5.89', '0.00', '000'),
+(34, 17, 8, 54, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-02 13:15:02', '3.99', '0.00', '000'),
+(35, 17, 8, 55, 'zolly', '5212345678', '1.0', '1560', '', '2018-04-04 07:44:08', '11.59', '0.00', '000'),
+(36, 17, 8, 56, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-04 15:33:04', '3.49', '0.00', '000'),
+(37, 17, 8, 57, 'zolly', '525553423453', '1.0', '1560', '', '2018-04-06 03:38:59', '11.69', '0.00', '000'),
+(38, 17, 8, 58, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 06:52:32', '8.00', '0.00', '000'),
+(39, 17, 8, 59, 'zolly', '521247410258', '1.0', '1560', '', '2018-04-09 07:17:44', '1.00', '0.00', '000'),
+(40, 17, 8, 60, 'zolly', '521247410258', '1.0', '1560', '', '2018-04-09 07:18:20', '7.00', '0.00', '000'),
+(41, 17, 8, 61, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:28:55', '4.10', '0.00', '000'),
+(42, 17, 8, 62, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:30:24', '7.00', '0.00', '000'),
+(43, 17, 8, 63, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:30:48', '3.00', '0.00', '000'),
+(44, 17, 8, 64, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:31:27', '2.00', '0.00', '000'),
+(45, 17, 8, 65, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:32:20', '12.69', '0.00', '000'),
+(46, 17, 8, 66, 'zolly', '52147956514444', '1.0', '1560', '', '2018-04-09 07:34:16', '11.69', '0.00', '000'),
+(47, 17, 8, 67, 'zolly', '5212021020125', '1.0', '1560', '', '2018-04-09 07:44:00', '8.00', '0.00', '000'),
+(48, 17, 8, 68, 'zolly', '5214795852252', '1.0', '1560', '', '2018-04-09 07:56:41', '3.00', '0.00', '000'),
+(49, 17, 8, 69, 'zolly', '5212345678', '1.0', '1560', '', '2018-04-09 07:57:54', '1.00', '0.00', '000'),
+(50, 17, 8, 70, 'zolly', '52147899666', '1.0', '1560', '', '2018-04-09 07:59:59', '3.00', '0.00', '000'),
+(51, 17, 8, 71, 'ram ranjana kumari', '9599902190', '1.0', '1560', '18795827', '2018-04-09 03:01:59', '10.00', '9.00', '000'),
+(52, 17, 8, 72, 'zolly', '521478969633366', '1.0', '1560', '', '2018-04-09 08:03:14', '1.00', '0.00', '000'),
+(53, 17, 8, 73, 'zolly', '5212459874102', '1.0', '1560', '', '2018-04-09 13:34:01', '4.00', '0.00', '000'),
+(54, 17, 8, 74, 'zolly', '5212459874102', '1.0', '1560', '', '2018-04-09 13:34:51', '22.00', '0.00', '000');
 
 -- --------------------------------------------------------
 
@@ -899,14 +936,26 @@ CREATE TABLE `feescategory` (
 --
 
 INSERT INTO `feescategory` (`FeesCategoryId`, `FeesCategoryName`) VALUES
-(0, 'PaymentMethod'),
 (1, 'Remittance'),
-(2, 'Money transfer cancellation'),
-(3, 'Wallet money fund transfer'),
-(4, 'Wallet money load cash'),
-(5, 'Airtime topup'),
-(6, 'Bill'),
-(7, 'Wallet money cash out');
+(2, 'Airtime Top-Up'),
+(3, 'Utility Bill Payment'),
+(4, 'Merchant Bill Payment'),
+(5, 'Business Venture'),
+(6, 'Charitable Donation'),
+(7, 'Estate Settlement  / Inheritance'),
+(8, 'Government Related Payment'),
+(9, 'Intercompany Payment'),
+(10, 'Investment Related Payment'),
+(11, 'Medical Fee Refund'),
+(12, 'Paying Consultancy Fees'),
+(13, 'Payment for a loan or deposit'),
+(14, 'Payroll / Personnel Payment'),
+(15, 'Professional Fees Payment'),
+(16, 'Purchase of Goods'),
+(17, 'Purchase of Property / Real Estate'),
+(18, 'Purchase of Service(s)'),
+(19, 'Research and Development Payment Fees'),
+(20, 'Ambulant Merchant Bill Payment');
 
 -- --------------------------------------------------------
 
@@ -916,8 +965,7 @@ INSERT INTO `feescategory` (`FeesCategoryId`, `FeesCategoryName`) VALUES
 
 CREATE TABLE `globalexchangerate` (
   `GlobalExchangeId` int(11) NOT NULL,
-  `CompanyId` int(11) NOT NULL,
-  `PaymentMethod` varchar(50) NOT NULL,
+  `PaymentMethodId` int(11) NOT NULL,
   `SourceCountryId` int(11) NOT NULL,
   `DestinationCountryId` int(11) NOT NULL,
   `SpotPrice` varchar(50) NOT NULL,
@@ -928,6 +976,8 @@ CREATE TABLE `globalexchangerate` (
   `IsActive` tinyint(4) NOT NULL DEFAULT '1',
   `CreatedDate` date NOT NULL,
   `Code` varchar(50) DEFAULT NULL,
+  `SpotMarginBaseCurrency` decimal(18,2) NOT NULL,
+  `SpotMarginUSDCurrency` decimal(18,2) NOT NULL,
   `IsDeleted` tinyint(4) NOT NULL DEFAULT '0',
   `DeletedDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -936,8 +986,24 @@ CREATE TABLE `globalexchangerate` (
 -- Dumping data for table `globalexchangerate`
 --
 
-INSERT INTO `globalexchangerate` (`GlobalExchangeId`, `CompanyId`, `PaymentMethod`, `SourceCountryId`, `DestinationCountryId`, `SpotPrice`, `AutoFees`, `SellSpotPrice`, `SellingExchangeRate`, `GlobalExchangeRate`, `IsActive`, `CreatedDate`, `Code`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 17, 'Cash PickUp', 229, 229, 'MXN', '10.20', '10.00', '1.02', '10.36', 1, '2018-03-21', 'FLUTSFMXN1', 0, '2018-03-21');
+INSERT INTO `globalexchangerate` (`GlobalExchangeId`, `PaymentMethodId`, `SourceCountryId`, `DestinationCountryId`, `SpotPrice`, `AutoFees`, `SellSpotPrice`, `SellingExchangeRate`, `GlobalExchangeRate`, `IsActive`, `CreatedDate`, `Code`, `SpotMarginBaseCurrency`, `SpotMarginUSDCurrency`, `IsDeleted`, `DeletedDate`) VALUES
+(1, 12, 230, 139, 'USD', '2.99', '18.25', '-0.03', '18.24', 1, '2018-04-11', 'FLUTSFUSD1', '0.01', '0.00', 1, '2018-04-02'),
+(2, 12, 230, 139, 'USD', '2.99', '18.25', '-0.09', '18.23', 1, '2018-04-11', 'FLUTSFUSD2', '0.02', '0.00', 0, NULL),
+(3, 13, 230, 139, 'USD', '0.49', '18.25', '1.10', '18.45', 1, '2018-04-11', 'FLUTSFUSD3', '0.20', '0.01', 0, NULL),
+(4, 14, 230, 38, 'USD', '4.99', '1.26', '1.00', '1.27', 1, '2018-04-11', 'FLUTSFUSD4', '0.01', '0.01', 0, NULL),
+(5, 12, 230, 139, 'USD', '0.69', '18.25', '1.00', '18.43', 1, '2018-04-11', 'FLUTSFUSD5', '0.18', '0.01', 0, NULL),
+(6, 13, 230, 139, 'USD', '0.49', '18.25', '-0.10', '18.23', 1, '2018-04-11', 'FLUTSFUSD6', '0.02', '0.00', 0, NULL),
+(7, 12, 230, 139, 'USD', '5.99', '18.25', '-0.09', '18.23', 1, '2018-04-11', 'FLUTSFUSD7', '0.02', '0.00', 0, NULL),
+(8, 12, 230, 139, 'USD', '5.99', '18.25', '-0.08', '18.24', 1, '2018-04-11', 'FLUTSFUSD8', '0.01', '0.00', 0, NULL),
+(9, 12, 230, 139, 'USD', '5.99', '18.25', '-0.01', '18.25', 1, '2018-04-11', 'FLUTSFUSD9', '0.00', '0.00', 0, NULL),
+(10, 12, 230, 139, 'USD', '2.99', '18.25', '0.00', '18.25', 1, '2018-04-11', 'FLUTSFUSD10', '0.00', '0.00', 0, NULL),
+(11, 12, 230, 139, 'USD', '2.99', '18.25', '0.00', '18.25', 1, '2018-04-11', 'FLUTSFUSD11', '0.00', '0.00', 1, '2018-04-06'),
+(12, 12, 230, 139, 'USD', '0.69', '18.25', '0.10', '18.27', 1, '2018-04-11', 'FLUTSFUSD12', '0.02', '0.00', 0, NULL),
+(13, 12, 230, 38, 'USD', '0.00', '1.26', '0.00', '1.26', 1, '2018-04-11', 'FLUTSFUSD13', '0.00', '0.00', 1, '2018-04-06'),
+(14, 12, 230, 38, 'USD', '0.00', '1.26', '0.20', '1.26', 1, '2018-04-11', 'FLUTSFUSD14', '0.00', '0.00', 0, NULL),
+(15, 13, 230, 38, 'USD', '0.00', '1.26', '0.20', '1.26', 1, '2018-04-11', 'FLUTSFUSD15', '0.00', '0.00', 0, NULL),
+(16, 12, 230, 107, 'USD', '0.00', '106.92', '0.00', '106.92', 1, '2018-04-11', 'FLUTSFUSD16', '0.00', '0.00', 0, NULL),
+(17, 25, 230, 43, 'USD', '0.00', '600.11', '0.00', '600.11', 1, '2018-04-11', 'FLUTSFUSD17', '0.00', '0.00', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1004,7 +1070,17 @@ INSERT INTO `magicpaydetails` (`MagicPayId`, `CompanyId`, `CustomerId`, `Transac
 (39, 17, 8, 46, '4033307543', 'zolly', '7.99', NULL, '2018-03-19 11:20:21', 'Success'),
 (40, 17, 8, 47, '4033312048', 'zolly', '101.99', 'BankDeposit', '2018-03-19 11:28:37', 'Success'),
 (41, 17, 8, 49, '4033312508', 'zolly', '7.99', NULL, '2018-03-19 11:29:29', 'Success'),
-(42, 17, 8, 50, '4033313393', 'zolly', '103.99', NULL, '2018-03-19 11:31:04', 'Success');
+(42, 17, 8, 50, '4033313393', 'zolly', '103.99', NULL, '2018-03-19 11:31:04', 'Success'),
+(43, 17, 8, 51, '4053209270', 'zolly', '2.99', NULL, '2018-04-02 07:07:36', 'Success'),
+(44, 17, 8, 52, '4053254986', 'zolly', '9.99', NULL, '2018-04-02 07:29:38', 'Success'),
+(45, 17, 8, 53, '4053566939', 'zolly', '5.89', NULL, '2018-04-02 12:14:03', 'Success'),
+(46, 17, 8, 54, '4053638570', 'zolly', '3.99', NULL, '2018-04-02 13:15:02', 'Success'),
+(47, 17, 8, 55, '4056712960', 'zolly', '11.59', NULL, '2018-04-04 07:44:08', 'Success'),
+(48, 17, 8, 56, '4057549432', 'zolly', '3.49', NULL, '2018-04-04 15:33:04', 'Success'),
+(49, 17, 8, 57, '4059776141', 'zolly', '11.69', NULL, '2018-04-06 03:38:59', 'Success'),
+(50, 17, 8, 61, '4063393123', 'zolly', '4.10', NULL, '2018-04-09 07:28:55', 'Success'),
+(51, 17, 8, 65, '4063396337', 'zolly', '12.69', NULL, '2018-04-09 07:32:20', 'Success'),
+(52, 17, 8, 66, '4063398853', 'zolly', '11.69', NULL, '2018-04-09 07:34:16', 'Success');
 
 -- --------------------------------------------------------
 
@@ -1015,7 +1091,7 @@ INSERT INTO `magicpaydetails` (`MagicPayId`, `CompanyId`, `CustomerId`, `Transac
 CREATE TABLE `paymentfees` (
   `PaymentFessId` int(11) NOT NULL,
   `CompanyId` int(11) NOT NULL,
-  `PaymentMethod` varchar(50) NOT NULL,
+  `PaymentMethodId` int(11) NOT NULL,
   `SourceCountry` int(11) NOT NULL,
   `DestinationCountry` int(11) NOT NULL,
   `FeesCategoryId` int(11) NOT NULL,
@@ -1028,6 +1104,8 @@ CREATE TABLE `paymentfees` (
   `FeesType` int(11) NOT NULL,
   `Fees` decimal(10,2) NOT NULL,
   `Code` varchar(50) DEFAULT NULL,
+  `GobalExchangeRateCode` varchar(50) DEFAULT NULL,
+  `TransactionFeeSharingCode` varchar(50) DEFAULT NULL,
   `ChargeSendingAmount` tinyint(1) NOT NULL DEFAULT '0',
   `TransactionFeeType` varchar(50) DEFAULT NULL,
   `CreatedDate` date NOT NULL,
@@ -1039,8 +1117,18 @@ CREATE TABLE `paymentfees` (
 -- Dumping data for table `paymentfees`
 --
 
-INSERT INTO `paymentfees` (`PaymentFessId`, `CompanyId`, `PaymentMethod`, `SourceCountry`, `DestinationCountry`, `FeesCategoryId`, `PayInAgentId`, `IsPayInAgent`, `PayOutAgentId`, `IsPayOutAgent`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `Code`, `ChargeSendingAmount`, `TransactionFeeType`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 17, 'Bank Transfer', 99, 99, 5, -1, 0, 1, 0, '1.00', '70.00', 2, '20.00', 'FLPTPD1', 1, NULL, '2018-03-21', 0, NULL);
+INSERT INTO `paymentfees` (`PaymentFessId`, `CompanyId`, `PaymentMethodId`, `SourceCountry`, `DestinationCountry`, `FeesCategoryId`, `PayInAgentId`, `IsPayInAgent`, `PayOutAgentId`, `IsPayOutAgent`, `StartingAmount`, `EndAmount`, `FeesType`, `Fees`, `Code`, `GobalExchangeRateCode`, `TransactionFeeSharingCode`, `ChargeSendingAmount`, `TransactionFeeType`, `CreatedDate`, `IsDeleted`, `DeletedDate`) VALUES
+(1, 17, 12, 230, 139, 2, 2, 1, 3, 1, '0.99', '9.99', 1, '0.49', 'FLATUPS1', 'FLUTSFUSD2', 'FLUTSF15', 1, NULL, '2018-04-03', 1, '2018-04-05'),
+(2, 17, 12, 230, 139, 2, 1, 0, 3, 0, '10.00', '19.99', 1, '0.59', 'FLATUPS2', 'FLUTSFUSD6', '', 1, NULL, '2018-04-02', 1, '2018-04-05'),
+(3, 17, 13, 230, 139, 2, -1, 1, -1, 1, '20.00', '29.99', 1, '0.69', 'FLATUPS3', 'FLUTSFUSD5', '', 1, NULL, '2018-04-02', 1, '2018-04-05'),
+(7, 17, 12, 230, 139, 1, -1, 1, -1, 1, '9.99', '99.99', 1, '0.49', 'FLRTS7', 'FLUTSFUSD2', 'FLUTSF15', 1, NULL, '2018-04-06', 0, NULL),
+(8, 20, 12, 230, 139, 1, 0, 1, 0, 1, '100.00', '299.99', 1, '2.99', 'FLRTS8', NULL, 'FLUTSF18', 1, NULL, '2018-04-03', 0, NULL),
+(13, 17, 12, 230, 139, 2, 2, 1, 3, 1, '20.00', '30.00', 1, '5.99', 'FLATUPS13', NULL, '', 0, NULL, '2018-04-03', 1, '2018-04-05'),
+(15, 17, 13, 230, 139, 2, -1, 1, -1, 1, '31.00', '35.00', 1, '6.99', 'FLATUPS15', NULL, '', 0, NULL, '2018-04-03', 1, '2018-04-05'),
+(16, 17, 13, 230, 139, 2, -1, 0, -1, 0, '30.00', '32.00', 1, '100.00', 'FLATUPS16', NULL, '', 0, NULL, '2018-04-03', 1, '2018-04-05'),
+(17, 17, 13, 230, 139, 3, -1, 1, -1, 1, '1.00', '10.00', 1, '2.99', 'FLUBPS17', NULL, '', 1, NULL, '2018-04-03', 0, NULL),
+(18, 17, 12, 230, 139, 2, 5, 0, 5, 0, '10.00', '20.00', 1, '0.69', 'FLATUPS18', NULL, 'FLUTSF18', 1, NULL, '2018-04-06', 0, NULL),
+(19, 17, 13, 230, 139, 2, -1, 0, -1, 0, '10.00', '20.00', 1, '0.10', 'FLATUPS19', NULL, '', 1, NULL, '2018-04-06', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1065,10 +1153,25 @@ CREATE TABLE `paymentmethod` (
 --
 
 INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `Title`, `Description`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(0, 1, 17, 'All', 'all', 1, 0, '2018-03-01', NULL),
+(0, 1, 17, 'All', 'all', 1, 1, '2018-03-01', NULL),
 (1, 1, 17, 'Authorize', 'my custom method', 0, 1, '2018-02-05', '2018-02-28'),
 (11, 3, 17, 'test', 'test ishu', 0, 1, '2018-01-15', '2018-01-16'),
-(12, 3, 17, 'Credit/Debit Card', 'MagicPay Payment Gateway', 1, 0, '2018-01-18', NULL);
+(12, 3, 17, 'Visa Credit Card', 'MagicPay Payment Gateway', 1, 0, '2018-04-09', NULL),
+(13, 4, 17, 'Bank Transfer', 'Bank Transfer', 1, 0, '2018-03-28', NULL),
+(14, 5, 17, 'Cash-Pickup', 'Cash-Pickup', 1, 0, '2018-03-28', NULL),
+(15, 6, 17, 'Bank Debit (ACH)', 'Bank Debit (ACH)', 1, 0, '2018-04-09', NULL),
+(17, 7, 17, 'Bank2Bank', 'Bank2Bank', 1, 0, '2018-03-28', NULL),
+(18, 8, 17, 'Gift Card', 'Gift Card', 1, 0, '2018-03-28', NULL),
+(19, 9, 17, 'Voucher', 'Voucher', 1, 0, '2018-04-09', NULL),
+(20, 10, 17, 'Wallet', 'Wallet', 1, 0, '2018-04-09', NULL),
+(21, 11, 17, 'MasterCard Credit Card', 'MasterCard Credit Card', 1, 0, '2018-04-09', NULL),
+(22, 12, 17, 'Visa Debit Card', 'Visa Debit Card', 1, 0, '2018-04-09', NULL),
+(23, 13, 17, 'MasterCard Debit Card', 'MasterCard Debit Card', 1, 0, '2018-04-09', NULL),
+(24, 8, 17, 'Visa Gift Card', 'Visa Gift Card', 1, 1, '2018-04-09', '2018-04-09'),
+(25, 8, 17, 'Visa Gift Card', 'Visa Gift Card', 1, 0, '2018-04-09', NULL),
+(26, 14, 17, 'MasterCard Gift Card', 'MasterCard Gift Card', 1, 0, '2018-04-09', NULL),
+(27, 9, 17, 'Visa Voucher', 'Visa Voucher', 1, 0, '2018-04-09', NULL),
+(28, 15, 17, 'MasterCard Voucher', 'MasterCard Voucher', 1, 0, '2018-04-09', NULL);
 
 -- --------------------------------------------------------
 
@@ -1089,7 +1192,23 @@ CREATE TABLE `paymenttype` (
 
 INSERT INTO `paymenttype` (`PaymentTypeId`, `PaymentType`, `Description`, `PaymentTypeLogo`) VALUES
 (1, 'Authorize.net', 'Authorize .net payment gateway', ''),
-(3, 'Credit/Debit Card', 'Magic Pay Gateway', '');
+(3, 'Visa Credit Card', 'Magic Pay Gateway', ''),
+(4, 'Bank Transfer', 'Bank Transfer', NULL),
+(5, 'Cash-Pickup', 'Cash-Pickup', NULL),
+(6, 'Bank Debit (ACH)', 'Bank Debit (ACH)', NULL),
+(7, 'Bank2Bank', 'Bank2Bank', NULL),
+(8, 'Visa Gift Card', 'Visa Gift Card', NULL),
+(9, 'Visa Voucher', 'Visa Voucher', NULL),
+(10, 'Wallet2Wallet', 'Wallet2Wallet', NULL),
+(11, 'MasterCard Credit Card', 'MasterCard Credit Card', NULL),
+(12, 'Visa Debit Card', 'Visa Debit Card', NULL),
+(13, 'MasterCard Debit Card', 'MasterCard Debit Card', NULL),
+(14, 'MasterCard Gift Card', 'MasterCard Gift Card', NULL),
+(15, 'MasterCard Voucher', 'MasterCard Voucher', NULL),
+(16, 'Wallet2Bank', 'Wallet2Bank', NULL),
+(17, 'Wallet2Visa Credit Card', 'Wallet2Visa Credit Card', NULL),
+(18, 'Wallet2MasterCredit Card', 'Wallet2MasterCredit Card', NULL),
+(19, 'Wallet2MasterCard Debit Card', 'Wallet2MasterCard Debit Card', NULL);
 
 -- --------------------------------------------------------
 
@@ -1178,7 +1297,31 @@ INSERT INTO `transactiondetails` (`TransactionId`, `CompanyId`, `CustomerId`, `T
 (47, 17, 8, 'zolly', '101.99', '0.00', '3.99', '0.00', '2018-03-19 11:28:37', 'Success', '1', '4033312048', 1, '1843.38', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-19 11:28:37'),
 (48, 17, 8, 'zolly', '22.00', '0.00', '0.00', '0.00', '2018-03-19 11:29:07', 'Success', '1', '4033312309', 1, '1421.20', 2, 2, 12, 98, 230, 0, 'wq', '65', 'wqe', '2018-03-19 11:29:07'),
 (49, 17, 8, 'zolly', '7.99', '0.00', '4.99', '0.00', '2018-03-19 11:29:29', 'Success', '1', '4033312508', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 11:29:29'),
-(50, 17, 8, 'zolly', '103.99', '0.00', '4.99', '0.00', '2018-03-19 11:31:04', 'Success', '1', '4033313393', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 11:31:04');
+(50, 17, 8, 'zolly', '103.99', '0.00', '4.99', '0.00', '2018-03-19 11:31:04', 'Success', '1', '4033313393', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 11:31:04'),
+(51, 17, 8, 'zolly', '2.99', '0.00', '4.99', '0.00', '2018-04-02 07:07:36', 'Success', '1', '4053209270', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 07:07:36'),
+(52, 17, 8, 'zolly', '9.99', '0.00', '4.99', '0.00', '2018-04-02 07:29:38', 'Success', '1', '4053254986', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 07:29:38'),
+(53, 17, 8, 'zolly', '5.89', '0.00', '4.99', '0.00', '2018-04-02 12:14:03', 'Success', '1', '4053566939', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 12:14:03'),
+(54, 17, 8, 'zolly', '3.99', '0.00', '4.99', '0.00', '2018-04-02 13:15:02', 'Success', '1', '4053638570', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 13:15:02'),
+(55, 17, 8, 'zolly', '11.59', '0.00', '4.99', '0.00', '2018-04-04 07:44:08', 'Success', '1', '4056712960', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-04 07:44:08'),
+(56, 17, 8, 'zolly', '3.49', '0.00', '4.99', '0.00', '2018-04-04 15:33:04', 'Success', '1', '4057549432', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-04 15:33:04'),
+(57, 17, 8, 'zolly', '11.69', '0.00', '4.99', '0.00', '2018-04-06 03:38:59', 'Success', '1', '4059776141', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-06 03:38:59'),
+(58, 17, 8, 'zolly', '8.00', '0.00', '4.99', '0.00', '2018-04-09 06:52:32', 'Success', '1', '4063367614', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 06:52:32'),
+(59, 17, 8, 'zolly', '1.00', '0.00', '4.99', '0.00', '2018-04-09 07:17:44', 'Success', '1', '4063384751', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:17:44'),
+(60, 17, 8, 'zolly', '7.00', '0.00', '4.99', '0.00', '2018-04-09 07:18:20', 'Success', '1', '4063385389', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:18:20'),
+(61, 17, 8, 'zolly', '4.10', '0.00', '4.99', '0.00', '2018-04-09 07:28:55', 'Success', '1', '4063393123', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:28:55'),
+(62, 17, 8, 'zolly', '7.00', '0.00', '4.99', '0.00', '2018-04-09 07:30:24', 'Success', '1', '4063393945', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:30:24'),
+(63, 17, 8, 'zolly', '3.00', '0.00', '4.99', '0.00', '2018-04-09 07:30:48', 'Success', '1', '4063394217', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:30:48'),
+(64, 17, 8, 'zolly', '2.00', '0.00', '4.99', '0.00', '2018-04-09 07:31:27', 'Success', '1', '4063395104', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:31:27'),
+(65, 17, 8, 'zolly', '12.69', '0.00', '4.99', '0.00', '2018-04-09 07:32:20', 'Success', '1', '4063396337', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:32:20'),
+(66, 17, 8, 'zolly', '11.69', '0.00', '4.99', '0.00', '2018-04-09 07:34:16', 'Success', '1', '4063398853', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:34:16'),
+(67, 17, 8, 'zolly', '8.00', '0.00', '0.00', '0.00', '2018-04-09 07:44:00', 'Success', '1', '4063408499', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:44:00'),
+(68, 17, 8, 'zolly', '3.00', '0.00', '0.00', '0.00', '2018-04-09 07:56:41', 'Success', '1', '4063417395', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:56:41'),
+(69, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-04-09 07:57:54', 'Success', '1', '4063418163', 3, '0.00', 3, 0, 15, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:57:54'),
+(70, 17, 8, 'zolly', '3.00', '0.00', '0.00', '0.00', '2018-04-09 07:59:59', 'Success', '1', '4063419455', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:59:59'),
+(71, 17, 8, 'ram ranjana kumari', '10.00', '0.00', '0.00', '0.00', '2018-04-09 03:01:59', 'Success', '1', '40012510724', 3, '3.00', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2018-04-09 08:01:57'),
+(72, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-04-09 08:03:14', 'Success', '1', '4063423887', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 08:03:14'),
+(73, 17, 8, 'zolly', '4.00', '0.00', '0.00', '0.00', '2018-04-09 13:34:01', 'Success', '1', '4063689546', 3, '0.00', 3, 0, 15, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 13:34:01'),
+(74, 17, 8, 'zolly', '22.00', '0.00', '0.00', '0.00', '2018-04-09 13:34:51', 'Success', '1', '4063690431', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 13:34:51');
 
 -- --------------------------------------------------------
 
@@ -1190,13 +1333,16 @@ CREATE TABLE `transactionfeesharing` (
   `TransactionFeeSharingId` int(11) NOT NULL,
   `CompanyId` int(11) NOT NULL,
   `TransactionFeeType` varchar(50) NOT NULL,
-  `PaymentMethod` varchar(50) NOT NULL,
+  `PaymentMethodId` int(11) NOT NULL,
+  `SourceCountryId` int(11) NOT NULL,
+  `DestinationCountryId` int(11) NOT NULL,
   `YourShare` varchar(50) NOT NULL,
   `PayInAgent` int(11) NOT NULL,
   `PayInAgentPer` varchar(50) NOT NULL,
   `PayOutAgent` int(11) NOT NULL,
   `PayOutAgentPer` varchar(50) NOT NULL,
   `Code` varchar(50) DEFAULT NULL,
+  `AutoFees` decimal(18,2) DEFAULT NULL,
   `CreatedDate` date NOT NULL,
   `IsSpecific` tinyint(1) NOT NULL DEFAULT '0',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
@@ -1207,10 +1353,13 @@ CREATE TABLE `transactionfeesharing` (
 -- Dumping data for table `transactionfeesharing`
 --
 
-INSERT INTO `transactionfeesharing` (`TransactionFeeSharingId`, `CompanyId`, `TransactionFeeType`, `PaymentMethod`, `YourShare`, `PayInAgent`, `PayInAgentPer`, `PayOutAgent`, `PayOutAgentPer`, `Code`, `CreatedDate`, `IsSpecific`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 17, 'Universal', '0', '80', 0, '0', 0, '20', 'FLUTSF1', '2018-03-15', 0, 0, NULL),
-(2, 17, 'Specific', '12', '60', 1, '25', 3, '15', 'FLUTSF2', '2018-03-14', 1, 0, NULL),
-(3, 17, 'Universal', 'Cash PickUp', '80', 1, '10', 3, '10', 'FLUTSF3', '2018-03-21', 1, 1, '2018-03-21');
+INSERT INTO `transactionfeesharing` (`TransactionFeeSharingId`, `CompanyId`, `TransactionFeeType`, `PaymentMethodId`, `SourceCountryId`, `DestinationCountryId`, `YourShare`, `PayInAgent`, `PayInAgentPer`, `PayOutAgent`, `PayOutAgentPer`, `Code`, `AutoFees`, `CreatedDate`, `IsSpecific`, `IsDeleted`, `DeletedDate`) VALUES
+(15, 17, 'specific', 12, 139, 139, '30', 1, '60', 3, '10', 'FLUTSF15', '0.49', '2018-04-11', 1, 0, NULL),
+(16, 17, 'specific', 12, 98, 98, '50', 5, '30', 5, '20', 'FLUTSF16', NULL, '2018-04-10', 1, 0, NULL),
+(17, 17, 'specific', 21, 98, 98, '50', 5, '30', 5, '20', 'FLUTSF17', NULL, '2018-04-10', 1, 0, NULL),
+(18, 17, 'Universal', 0, 139, 139, '50', 0, '30', 0, '20', 'FLUTSF18', '0.69', '2018-04-11', 0, 0, NULL),
+(19, 17, 'Universal', 0, 98, 98, '50', 0, '0', 0, '50', 'FLUTSF19', NULL, '2018-04-10', 1, 0, NULL),
+(20, 17, 'specific', 12, 98, 98, '50', 9, '30', 5, '20', 'FLUTSF20', NULL, '2018-04-10', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1329,9 +1478,9 @@ ALTER TABLE `feescategory`
 --
 ALTER TABLE `globalexchangerate`
   ADD PRIMARY KEY (`GlobalExchangeId`),
-  ADD KEY `CompanyId` (`CompanyId`),
   ADD KEY `SourceCountryId` (`SourceCountryId`),
-  ADD KEY `DestinationCountryId` (`DestinationCountryId`);
+  ADD KEY `DestinationCountryId` (`DestinationCountryId`),
+  ADD KEY `PaymentMethodId` (`PaymentMethodId`);
 
 --
 -- Indexes for table `magicpaydetails`
@@ -1349,7 +1498,8 @@ ALTER TABLE `paymentfees`
   ADD PRIMARY KEY (`PaymentFessId`),
   ADD KEY `DestinationCountry` (`DestinationCountry`),
   ADD KEY `FeesCategoryId` (`FeesCategoryId`),
-  ADD KEY `AgentId` (`PayOutAgentId`);
+  ADD KEY `AgentId` (`PayOutAgentId`),
+  ADD KEY `FK_PersonOrder` (`PaymentMethodId`);
 
 --
 -- Indexes for table `paymentmethod`
@@ -1382,7 +1532,10 @@ ALTER TABLE `transactiondetails`
 -- Indexes for table `transactionfeesharing`
 --
 ALTER TABLE `transactionfeesharing`
-  ADD PRIMARY KEY (`TransactionFeeSharingId`);
+  ADD PRIMARY KEY (`TransactionFeeSharingId`),
+  ADD KEY `FK_transactionfeesharing` (`PaymentMethodId`),
+  ADD KEY `SourceCountryId` (`SourceCountryId`),
+  ADD KEY `DestinationCountryId` (`DestinationCountryId`);
 
 --
 -- Indexes for table `users`
@@ -1400,12 +1553,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `agent`
 --
 ALTER TABLE `agent`
-  MODIFY `AgentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `AgentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `authorizepaymentsettings`
 --
 ALTER TABLE `authorizepaymentsettings`
-  MODIFY `AuthorizePaymentSettingsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `AuthorizePaymentSettingsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `beneficiary`
 --
@@ -1420,7 +1573,7 @@ ALTER TABLE `beneficiarytype`
 -- AUTO_INCREMENT for table `billpaydetails`
 --
 ALTER TABLE `billpaydetails`
-  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `company`
 --
@@ -1450,42 +1603,42 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `feescategory`
 --
 ALTER TABLE `feescategory`
-  MODIFY `FeesCategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `FeesCategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `globalexchangerate`
 --
 ALTER TABLE `globalexchangerate`
-  MODIFY `GlobalExchangeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `GlobalExchangeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `magicpaydetails`
 --
 ALTER TABLE `magicpaydetails`
-  MODIFY `MagicPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `MagicPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 --
 -- AUTO_INCREMENT for table `paymentfees`
 --
 ALTER TABLE `paymentfees`
-  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `paymentmethod`
 --
 ALTER TABLE `paymentmethod`
-  MODIFY `PaymentMethodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `PaymentMethodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `paymenttype`
 --
 ALTER TABLE `paymenttype`
-  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `PaymentTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `transactiondetails`
 --
 ALTER TABLE `transactiondetails`
-  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 --
 -- AUTO_INCREMENT for table `transactionfeesharing`
 --
 ALTER TABLE `transactionfeesharing`
-  MODIFY `TransactionFeeSharingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `TransactionFeeSharingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -1505,9 +1658,9 @@ ALTER TABLE `authorizepaymentsettings`
 -- Constraints for table `globalexchangerate`
 --
 ALTER TABLE `globalexchangerate`
-  ADD CONSTRAINT `globalexchangerate_ibfk_1` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`),
   ADD CONSTRAINT `globalexchangerate_ibfk_3` FOREIGN KEY (`SourceCountryId`) REFERENCES `country` (`country_id`),
-  ADD CONSTRAINT `globalexchangerate_ibfk_4` FOREIGN KEY (`DestinationCountryId`) REFERENCES `country` (`country_id`);
+  ADD CONSTRAINT `globalexchangerate_ibfk_4` FOREIGN KEY (`DestinationCountryId`) REFERENCES `country` (`country_id`),
+  ADD CONSTRAINT `globalexchangerate_ibfk_5` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`);
 
 --
 -- Constraints for table `magicpaydetails`
@@ -1516,6 +1669,20 @@ ALTER TABLE `magicpaydetails`
   ADD CONSTRAINT `magicpaydetails_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `customer` (`customer_Id`),
   ADD CONSTRAINT `magicpaydetails_ibfk_2` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`),
   ADD CONSTRAINT `magicpaydetails_ibfk_3` FOREIGN KEY (`TransactionId`) REFERENCES `transactiondetails` (`TransactionId`);
+
+--
+-- Constraints for table `paymentfees`
+--
+ALTER TABLE `paymentfees`
+  ADD CONSTRAINT `FK_PersonOrder` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`);
+
+--
+-- Constraints for table `transactionfeesharing`
+--
+ALTER TABLE `transactionfeesharing`
+  ADD CONSTRAINT `FK_transactionfeesharing` FOREIGN KEY (`PaymentMethodId`) REFERENCES `paymentmethod` (`PaymentMethodId`),
+  ADD CONSTRAINT `transactionfeesharing_ibfk_1` FOREIGN KEY (`SourceCountryId`) REFERENCES `country` (`country_id`),
+  ADD CONSTRAINT `transactionfeesharing_ibfk_2` FOREIGN KEY (`DestinationCountryId`) REFERENCES `country` (`country_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

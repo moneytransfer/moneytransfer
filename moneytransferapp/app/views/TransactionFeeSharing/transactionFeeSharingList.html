@@ -1,16 +1,15 @@
 ﻿<div class="padding" ng-controller="transactionFeeSharingController">
     <div class="card">
         <div class="card-header m-t-1">
-            <div class="col-sm-6">
-                <label for="sel1" class="col-sm-3 form-control-label">Fee sharing type</label>
-                <div class="col-sm-8">
-                    <select name="methodType" id="DeliveryMethodType" class="form-control" ng-model="Feesfilter.FeesCategory" ng-change="FilterFeeSharing(Feesfilter.FeesCategory)">
-                        <option value="-1" disabled>--Select Fee sharing type--</option>
-                        <option value="All">All</option>
-                        <option value="Universal">Universal</option>
-                        <option value="specific">Specific</option>
-                    </select>
-                </div>
+            <div class="col-sm-3">
+                <input id="filter" placeholder="Advanced Search" ng-model="Feest" type="text" class="form-control input-sm w-auto inline m-r" />
+            </div>
+            <div class="col-sm-3">
+                <select name="methodType" id="DeliveryMethodType" class="form-control" ng-model="Feesfilter.FeesCategory" ng-change="FilterFeeSharing(Feesfilter.FeesCategory)">
+                    <option value="All">--Select Fee sharing type--</option>                  
+                    <option value="Universal">Universal</option>
+                    <option value="specific">Specific</option>
+                </select>
             </div>
 
             <div class="col-sm-4 pull-right">
@@ -39,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody ng-if="TransactionFeeDetails[0].TransactionFeeSharingId!=0">
-                    <tr class="Active cm-td-spacing" ng-repeat="Fees in TransactionFeeDetails">
+                    <tr class="Active cm-td-spacing" ng-repeat="Fees in TransactionFeeDetails |filter:Feest">
                         <td><small>{{Fees.Code }}</small></td>
                         <td><small>{{Fees.TransactionFeeType }}</small></td>
                         <td><small>{{Fees.Payment}} </small></td>
@@ -49,7 +48,7 @@
                         <td><small>{{Fees.YourShare | number:2}}</small></td>
                         <td><small>{{Fees.PayInAgentPer | number:2}}</small></td>
                         <td><small>{{Fees.PayOutAgentPer | number:2}}</small></td>
-                        <td><small>{{Fees.CreatedDate  }}</small></td>
+                        <td><small>{{Fees.CreatedDate |date:'MM/dd/yyyy' }}</small></td>
 
                         <td>
 
@@ -91,7 +90,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <h6 class="modal-title">Do you want to proceed to delete this 'Fees Details'? </h6>
+                        <h6 class="modal-title">Do you want to proceed to delete this 'Transaction Fees Sharing Details'? </h6>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
