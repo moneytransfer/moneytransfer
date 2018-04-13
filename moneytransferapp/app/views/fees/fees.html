@@ -34,6 +34,7 @@
                         <!-- <th>Charge Sending Amount</th>-->
                         <th>Service Date Created</th>
                         <th colspan="3" class="text-center">Action</th>
+                        <th></th>
 
                     </tr>
                 </thead>
@@ -74,6 +75,9 @@
                                 </div>
                             </div>
                         </td>
+                        <td>
+                             <button type="submit" class="btn btn-sm btn-primary" data-ng-click="GetDetails(Fees.PaymentFessId)">Details</button>
+                        </td>
                     </tr>
                 </tbody>
                 <tfoot class="hide-if-no-paging">
@@ -110,7 +114,7 @@
         <!-- /.modal -->
 
 
-        <!----------------------------------Update Fees modal-------------------------------------------------->
+        <!----------------------------------Update Exchange Fees modal-------------------------------------------------->
         <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="updatefee">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -184,7 +188,6 @@
                         <table id="Table1" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
                             <thead>
                                 <tr>
-
                                     <th>Action</th>
                                     <th>Code</th>
                                     <th>Transaction Fee Type</th>
@@ -231,6 +234,26 @@
                     <div class="modal-footer pull-center">
                         <button type="button" class="btn btn-primary" ng-click="updateFeeShaingRate()">Save</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="feesDetailsModal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title ">Fees Details </h4>
+                    </div>
+
+                    <div class="modal-body">
+                       <div ng-include="'views/fees/FeesDetails.html'"></div>
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

@@ -820,6 +820,11 @@
 
         vm.Paynow = function () {
             $('#Payconfirm').modal('toggle');
+
+            //$('.modal-backdrop').remove();
+            //$('#Payconfirm').modal('show');
+
+            
         }
 
 

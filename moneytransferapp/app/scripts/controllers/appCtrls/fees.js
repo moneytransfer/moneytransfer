@@ -64,6 +64,30 @@
               vm.ReloadData();
           });
 
+
+        //Get Exchange Rate
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getglobalExchangerateByComapny',
+            // data: formData,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        }).success(function (data) {
+            var idata = data;
+            vm.ExchangeRateDetail = idata;
+        });
+
+        //Get Transaction Fee Sharing Details
+        var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
+        $http({
+            method: 'POST',
+            url: baseUrl + 'getTransactionFeeSharingByComapny',
+            data: formData,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        }).success(function (data2) {
+            var idata2 = data2;
+            vm.TransactionFeeDetails = idata2;
+        });
+
         //Load data
         vm.ReloadData = function () {
             var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
@@ -184,46 +208,13 @@
         vm.Fessd = "";
         vm.FeesM = " ";
         vm.FilterFees = function (value) {
-            if (value =="" && vm.Feest!="") {
+            if (value == "" && vm.Feest != "") {
                 vm.FeesM = vm.Feest;
             }
             else if (value == "" && vm.Fessd != "") { vm.FeesM = vm.Fessd; }
             else { vm.FeesM = value; }
         }
 
-
-
-        //vm.FilterFees = function (CategoryId) {
-        //    var CategoryId = parseInt(CategoryId);
-        //    var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
-        //    $http({
-        //        method: 'POST',
-        //        url: baseUrl + 'getPaymentFeesDetails',
-        //        data: formData,
-        //        headers: { 'Content-Type': 'application/json; charset=utf-8' }
-        //    })
-        //   .success(function (data) {
-
-        //       var idata = data;
-        //       if (CategoryId > 0) {
-        //           vm.ManageFees = [];
-        //           angular.forEach(idata, function (fee, index) {
-        //               if (fee.FeesCategoryId == CategoryId) {
-        //                   vm.ManageFees.push(fee);
-        //               }
-        //           });
-        //           angular.forEach(vm.ManageFees, function (fee, index) {
-        //               vm.getOtherData(fee, index);
-        //           });
-        //       }
-        //       else {
-        //           vm.ManageFees = idata;
-        //           angular.forEach(vm.ManageFees, function (fee, index) {
-        //               vm.getOtherData(fee, index);
-        //           });
-        //       }
-        //   });
-        //}
 
         //--------------------Link Button Click------------------------//
         //--------------------Update globle exchange rate------------------------//
@@ -232,19 +223,19 @@
         vm.getExchangeRateDetails = function (CountryId, fees, feeId, ExchangeRateCode) {
             vm.dfees = parseFloat(fees);
             vm.feeId = parseInt(feeId);
-            $http({
-                method: 'GET',
-                url: baseUrl + 'getglobalExchangerateByComapny',
-                // data: formData,
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            }).success(function (data2) {
+            //$http({
+            //    method: 'GET',
+            //    url: baseUrl + 'getglobalExchangerateByComapny',
+            //    // data: formData,
+            //    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            //}).success(function (data2) {
 
-                var idata = data2;
-                vm.loaddata = idata;
+            //    var idata = data2;
+            //    vm.loaddata = idata;
                 if (CountryId > 0) {
                     $('#updatefee').modal('toggle');
                     vm.globalExchangeRateDetails = [];
-                    angular.forEach(vm.loaddata, function (fee, index) {
+                    angular.forEach(vm.ExchangeRateDetail, function (fee, index) {
                         if (fee.DestinationCountryId == CountryId) {
                             vm.globalExchangeRateDetails.push(fee);
 
@@ -262,7 +253,7 @@
                         }
                     }, 500);
                 }
-            });
+           // });
         }
 
         //Load PopUp Data
@@ -315,25 +306,26 @@
 
         //--------------------End Update globle exchange rate------------------------//
 
+
         //--------------------Update fee rate Start------------------------//
-        vm.checkFeeSharing = {TransactionFeeSharingId:0}
+        vm.checkFeeSharing = { TransactionFeeSharingId: 0 }
         vm.getFeesharingDetails = function (CountryId, fees, feeId, FeeSharingCode) {
             vm.dfees = parseFloat(fees);
             vm.feeId = parseInt(feeId);
             //Get PaymentMethod
-            var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
-            //Get TransactionFee Sharing Details
-            $http({
-                method: 'POST',
-                url: baseUrl + 'getTransactionFeeSharingByComapny',
-                data: formData,
-                headers: { 'Content-Type': 'application/json; charset=utf-8' }
-            }).success(function (data2) {
-                var idata2 = data2;
-                vm.NewData = idata2;
+            //var formData = JSON.parse(JSON.stringify({ "CompanyId": 0 }));
+            ////Get TransactionFee Sharing Details
+            //$http({
+            //    method: 'POST',
+            //    url: baseUrl + 'getTransactionFeeSharingByComapny',
+            //    data: formData,
+            //    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            //}).success(function (data2) {
+            //    var idata2 = data2;
+                //vm.NewData = idata2;
                 $('#FeeSharingModal').modal('toggle');
                 vm.globalFeeSharingDetails = [];
-                angular.forEach(vm.NewData, function (fee, index) {
+                angular.forEach(vm.TransactionFeeDetails, function (fee, index) {
                     if (fee.DestinationCountryId == CountryId) {
                         vm.globalFeeSharingDetails.push(fee);
                     }
@@ -349,7 +341,7 @@
                         });
                     }
                 }, 500);
-            });
+           // });
 
         }
 
@@ -396,6 +388,132 @@
         }
         //--------------------End Update fee rate------------------------//
 
+
+        //------------------- Show Details-----------------------------//
+        vm.FeesDetails = [{ PaymentMethod: "", Fees: "", CreatedDate: "", ChargeSendingAmount: "", FeesType: "", DestinationCountry: "", SourceCountry: "", FeeCategory: "" }];
+
+        vm.GetDetails = function (PaymentFessId) {
+            if (PaymentFessId > 0) {
+                var formData = JSON.parse(JSON.stringify({ "PaymentFessId": PaymentFessId }));
+                $http({
+                    method: 'POST',
+                    url: baseUrl + 'getPaymentFeesById',
+                    data: formData,
+                    headers: { 'Content-Type': 'application/json' },
+                    dataType: "json",
+                })
+                 .success(function (data) {
+                     $('#feesDetailsModal').modal('toggle');
+                     var idata = data;
+                     vm.FeesDetails = idata;
+                     vm.ReferralExchangeRate = [];
+                     if (idata.GobalExchangeRateCode !="") {
+                         angular.forEach(vm.ExchangeRateDetail, function (fee, index) {
+                             if (fee.Code == idata.GobalExchangeRateCode) {
+                                 vm.ReferralExchangeRate.push(fee);
+                             }
+                         });
+
+                         angular.forEach(vm.ReferralExchangeRate, function (fee, index) {
+                             var SourcecountryData = $filter('filter')(vm.Countries, {
+                                 CountryId: fee.SourceCountryId,
+                             }, true);
+                             if (SourcecountryData.length > 0)
+                                 vm.ReferralExchangeRate[index].Sourcecountry = SourcecountryData[0].CurrencyCode;
+
+                             var DestinationcountryData = $filter('filter')(vm.Countries, {
+                                 CountryId: fee.DestinationCountryId,
+                             }, true);
+
+                             if (DestinationcountryData.length > 0)
+                                 vm.ReferralExchangeRate[index].Destinationcountry = DestinationcountryData[0].CurrencyCode;
+                         });
+
+                         //TransactionFeeDetails
+                     }
+                     vm.ReferralFeeSharing = [];
+                     if (idata.TransactionFeeSharingCode != "") {
+                         //vm.ReferralFeeSharing = [];
+                         angular.forEach(vm.TransactionFeeDetails, function (fee, index) {
+                             if (fee.Code == idata.TransactionFeeSharingCode) {
+                                 vm.ReferralFeeSharing.push(fee);
+                             }
+                         });
+
+                         angular.forEach(vm.ReferralFeeSharing, function (fee, index) {
+                             var Payment = $filter('filter')(vm.PaymentMethods, {
+                                 PaymentMethodId: fee.PaymentMethodId,
+                             }, true);
+
+                             if (Payment.length > 0)
+                                 vm.ReferralFeeSharing[index].Payment = Payment[0].Title;
+                         });
+                     }
+                     vm.getReferralData(idata);
+
+                 });
+            }
+        }
+
+        vm.getReferralData = function (fee) {
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": fee.CompanyId }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'getAgentdetailsByCompanyId ',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+         .success(function (data) {
+             vm.ManageAgent = data;
+             var data12 = $filter('filter')(vm.ManageAgent, {
+                 AgentId: fee.PayInAgentId,
+             }, true);
+             if (data12.length > 0) {
+                 vm.FeesDetails.PayInAgentName = data12[0].AgentFirstName;
+             }
+             var data123 = $filter('filter')(vm.ManageAgent, {
+                 AgentId: fee.PayOutAgentId,
+             }, true);
+
+             if (data123.length > 0) {
+                 vm.FeesDetails.PayOutAgentName = data123[0].AgentFirstName;
+             }
+             var SourcecountryData = $filter('filter')(vm.Countries, {
+                 CountryId: fee.SourceCountry,
+             }, true);
+             if (SourcecountryData.length > 0)
+                 vm.FeesDetails.Sourcecountry = SourcecountryData[0].CountryName;
+             vm.FeesDetails.BaseCurrency = SourcecountryData[0].CurrencyCode;
+             vm.FeesDetails.BaseCountryCode = SourcecountryData[0].iso;
+             
+
+             var DestinationcountryData = $filter('filter')(vm.Countries, {
+                 CountryId: fee.DestinationCountry,
+             }, true);
+
+             if (DestinationcountryData.length > 0)
+                 vm.FeesDetails.Destinationcountry = DestinationcountryData[0].CountryName;
+             vm.FeesDetails.ToCurrency = DestinationcountryData[0].CurrencyCode;
+             vm.FeesDetails.DestinationCountryCode = DestinationcountryData[0].iso;
+
+             var Payment = $filter('filter')(vm.PaymentMethods, {
+                 PaymentMethodId: fee.PaymentMethodId,
+             }, true);
+
+             if (Payment.length > 0)
+                 vm.FeesDetails.Payment = Payment[0].Title;
+
+             var FeeCategory = $filter('filter')(vm.FeesCategory, {
+                 FeesCategoryId: fee.FeesCategoryId,
+             }, true);
+
+             if (FeeCategory.length > 0)
+                 vm.FeesDetails.FeeCategory = FeeCategory[0].FeesCategoryName;
+
+         });
+        }
+
+        //-------------------End Detals------------------------------//
 
         vm.IsHidden = true;
         vm.ShowHide = function () {
