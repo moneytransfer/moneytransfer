@@ -783,7 +783,7 @@
             setTimeout(function () {
                 vm.selectedMethod(vm.PaymentMethods[0].PaymentMethodId);
             }, 500);
-           
+
         });
 
         vm.selectedMethod = function (PaymentId) {
@@ -810,8 +810,8 @@
                     else {
                         $localStorage.Fees = 0.00;
                     }
-                    });
-                
+                });
+
             }
         }
 
@@ -824,7 +824,7 @@
             //$('.modal-backdrop').remove();
             //$('#Payconfirm').modal('show');
 
-            
+
         }
 
 
@@ -965,7 +965,7 @@
                     .success(function (data) {
 
                         var idata = data;
-                        if (idata.PaymentMethodId == 12) {
+                        if (idata.Result == "Success" && idata.TransactionId > 0) {
                             idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
                             idata.InvoiceAmount = idata.Amount;
                             idata.FaceAmount = idata.Amount;

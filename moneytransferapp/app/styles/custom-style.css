@@ -144,3 +144,21 @@
 .ox-auto {
     overflow-x: auto;
 }
+
+
+.column-header {
+    height: 50px;
+    line-height: 50px;
+    color: #333;
+    font-weight: bold;
+    border-bottom: 3px solid #D5D5D5;
+    letter-spacing: 2px;
+}
+.details-container {
+    border-bottom: 1px dashed #D5D5D5;
+    margin-bottom: 12px;
+}
+.btn-link{
+    text-decoration-line: underline !important;
+    color: blue !important;
+}

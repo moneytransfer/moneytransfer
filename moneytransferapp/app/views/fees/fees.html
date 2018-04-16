@@ -66,18 +66,22 @@
                                 <div class="dropdown-menu" style="left: -112px !important;" uib-dropdown-menu="" role="menu">
                                     <a class="dropdown-item" ng-click="EditFee(Fees.PaymentFessId)">Edit
                                     </a>
-                                    <a class="dropdown-item" ng-click="getExchangeRateDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.GobalExchangeRateCode)">Exchange Rate
+                                     <a class="dropdown-item" ng-click="deleteUser(Fees.PaymentFessId)">Delete
                                     </a>
-                                    <a class="dropdown-item" ng-click="getFeesharingDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.TransactionFeeSharingCode)">Fees Sharing Rate
+                                    <a class="dropdown-item btn-link" ng-click="getExchangeRateDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.GobalExchangeRateCode)">Exchange Rate
                                     </a>
-                                    <a class="dropdown-item" ng-click="deleteUser(Fees.PaymentFessId)">Delete
+                                    <a class="dropdown-item btn-link" ng-click="getFeesharingDetails(Fees.DestinationCountry, Fees.Fees,Fees.PaymentFessId,Fees.TransactionFeeSharingCode)">Fees Sharing Rate
+                                    </a>
+                                   
+                                    <a class="dropdown-item link btn-link" ng-click="GetDetails(Fees.PaymentFessId)">
+                                        Details
                                     </a>
                                 </div>
                             </div>
                         </td>
-                        <td>
+                      <!--  <td>
                              <button type="submit" class="btn btn-sm btn-primary" data-ng-click="GetDetails(Fees.PaymentFessId)">Details</button>
-                        </td>
+                        </td>-->
                     </tr>
                 </tbody>
                 <tfoot class="hide-if-no-paging">

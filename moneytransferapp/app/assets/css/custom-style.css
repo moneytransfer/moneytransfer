@@ -524,9 +524,13 @@ label {
 .master-banner {
     position: relative;
     /*min-height: 570px;*/
-    background: url('../image/master-banner.jpg') no-repeat center top;
-    background-size: cover;
+    background: url('../image/master-banner.jpg') no-repeat left 100px;
+    background-size: 100%;
     padding-top: 50px;
+}
+
+.banner-form {
+    padding: 88px 150px;
 }
 
     .master-banner.inner-page-banner {

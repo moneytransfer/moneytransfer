@@ -1748,6 +1748,105 @@
               title: 'customerPortal',
               // controller: "authenticateSendMoneyController"
           })
+
+              //Information-pages
+          .state('app.Guide', {
+              url: '/Guide',
+              templateUrl: 'views/information_pages/Guide.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                         // return $ocLazyLoad.load('views/sendimgloop/index.js');
+                      });
+                  }]
+              },
+              title: 'Guide',
+          })
+
+          .state('app.TransactionRule', {
+              url: '/TransactionRule',
+              templateUrl: 'views/information_pages/TransactionRule.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                          //return $ocLazyLoad.load('views/sendimgloop/index.js');
+                      });
+                  }]
+              },
+              title: 'Transaction Rule',
+          })
+
+          .state('app.Kyc', {
+              url: '/Kyc',
+              templateUrl: 'views/information_pages/Kyc.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                        //  return $ocLazyLoad.load('views/sendimgloop/index.js');
+                      });
+                  }]
+              },
+              title: 'KYC',
+          })
+
+            .state('app.SuspiciousTransaction', {
+                url: '/SuspiciousTransaction',
+                templateUrl: 'views/information_pages/SuspiciousTransaction.html',
+                resolve: {
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                           // return $ocLazyLoad.load('views/sendimgloop/index.js');
+                        });
+                    }]
+                },
+                title: 'Suspicious Transaction Form',
+            })
+          .state('app.SuspiciousTransactionHistory', {
+              url: '/SuspiciousTransactionHistory',
+              templateUrl: 'views/information_pages/SuspiciousTransactionHistory.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                         // return $ocLazyLoad.load('views/sendimgloop/index.js');
+                      });
+                  }]
+              },
+              title: 'Suspicious Transaction History',
+          })
+
+          .state('app.ManageWatchlist', {
+              url: '/ManageWatchlist',
+              templateUrl: 'views/information_pages/ManageWatchlist.html',
+              resolve: {
+                  deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                      return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                          //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                          //return $ocLazyLoad.load('views/sendimgloop/index.js');
+                      });
+                  }]
+              },
+              title: 'Manage Watchlist',
+          })
+
+           .state('app.SanctionSettings', {
+               url: '/SanctionSettings',
+               templateUrl: 'views/information_pages/SanctionSettings.html',
+               resolve: {
+                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                           //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                           //return $ocLazyLoad.load('views/sendimgloop/index.js');
+                       });
+                   }]
+               },
+               title: 'Sanction Settings',
+           })
+
       }
 
 
