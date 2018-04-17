@@ -213,6 +213,22 @@
                   controller: "CustomerauthenticateController"
               })
 
+              //Admin: All Transactions
+              .state('app.Transaction_Details', {
+                  url: '/Transaction_Details',
+                  templateUrl: 'views/Transactions/transactions.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/Transaction.js');
+                          });
+                      }]
+                  },
+                  title: 'Transaction Details',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
+
                .state('app.manage_pay_bill', {
                    url: '/Manage_PayBill',
                    templateUrl: 'views/Customer/PayBill/PaidBillList.html',

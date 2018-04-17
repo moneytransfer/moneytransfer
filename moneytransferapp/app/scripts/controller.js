@@ -57,7 +57,7 @@ var authorisedCustomer = [];
         var vm = $scope;
 
         vm.app = {
-            name: 'Money Transfer',
+            name: 'Phone Reloads',
             year: (new Date()).getFullYear(),
             offcanvas: false,
             expanding: false,
