@@ -8,17 +8,24 @@
 
         </li>
 
-        <!--<li class="nav-item">
-            <a class="nav-link" href="#">CRM</a>
 
+        <li class="nav-item dropdown"uib-dropdown>
+           <a href="javascript:;" class="uib-dropdown-toggle nav-link" uib-dropdown-toggle>
+              CRM
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" uib-dropdown-menu role="menu">
+            <a class="dropdown-item" ui-sref="app.Manage_Customer">
+             Customers
+            </a>
+          </div>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="#">Reports</a>
 
         </li>-->
 
         <li class="nav-item">
-            <a class="nav-link" ui-sref="app.Transaction_Details">All Transactions</a>
+            <a class="nav-link" ui-sref="app.Transaction_Details">Transactions</a>
         </li>
 
 

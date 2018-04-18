@@ -77,6 +77,19 @@
                 controller: "authenticateController"
             })
 
+               //Dashboard
+            .state('app.Manage_Customer', {
+                url: '/Manage_Customer',
+                templateUrl: 'views/CRM/Manage_Customer.html',
+                resolve: {
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('scripts/controllers/appCtrls/crm.js');
+                    }]
+                },
+                title: 'Manage Customers',
+                controller: "authenticateController"
+            })
+
               .state('app.login', {
                   url: '/customersignin',
                   templateUrl: 'views/Customer/CustomerLogin/Customer_login.html',

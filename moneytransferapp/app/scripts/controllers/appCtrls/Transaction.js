@@ -8,8 +8,8 @@
      .controller('manageAllTransactionController', manageAllTransactionController)
 
     //Customer Login site
-    manageTransactionController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
-    function manageTransactionController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
+    manageTransactionController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
+    function manageTransactionController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
         var CompanyId = 0;
         vm.CustomerId = 0;
@@ -38,7 +38,7 @@
         .success(function (data) {
 
             var idata = data;
-
+            idata = $filter('orderBy')(idata, 'TransactionId', $scope.reverse);
             // $timeout(function () {
             vm.totalItems = idata.length;
             vm.currentPage = 1;
