@@ -1,0 +1,28 @@
+<!-- content panel -->
+<div class="main-panel">
+    <!-- top header -->
+
+
+    <nav class="header navbar" data-ng-if="authorisedUser.UserId">
+        <div ng-include="'views/common/horizontal/header.html'"></div>
+    </nav>
+    <nav class="header navbar" data-ng-if="authorisedCustomer.CustomerId">
+        <div ng-include="'views/common/horizontal/Customer_header.html'"></div>
+    </nav>
+    <!-- /top header -->
+
+    <!-- horizontal menu header -->
+    <div class="header-secondary navbar bg-faded shadow" ng-show="authorisedUser.UserId" ng-include="'views/common/horizontal/headernav.html'" menu-panel show="main.menu"></div>
+     <div class="header-secondary navbar bg-faded shadow" ng-show="authorisedCustomer.CustomerId" ng-include="'views/common/horizontal/Customerheadernav.html'" menu-panel show="main.menu"></div>
+    <!-- /horizontal menu header -->
+
+    <!-- main area -->
+    <div class="main-content">
+        <div class="content-view" ui-view id="view"></div>
+        <!-- bottom footer -->
+        <div class="content-footer" ng-include="'views/common/footer.html'"></div>
+        <!-- /bottom footer -->
+    </div>
+    <!-- /main area -->
+</div>
+

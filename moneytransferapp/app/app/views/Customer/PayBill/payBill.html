@@ -1,0 +1,116 @@
+﻿<div class="padding" ng-controller="addPayBillController">
+    <div class="card-block" id="tabs">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h3>Pay Bill </h3>
+                </div>
+                <div class="card-block">
+                    <form role="form" class="ng-pristine ng-valid" id="tblpayment">
+                        <uib-tabset class="m-b-0 p-a-0 selectedTab" active="active" id="tabPrevent">
+                        <uib-tab heading="Recharge Number" id="Numberd" title="NumberDetails" index="0" disabled="true" deselect="select($event)">
+                            <div ng-include="'views/Customer/PayBill/NumberDetails.html'"></div> 
+
+                                                      </uib-tab>
+                               <uib-tab heading="Choose Amount"  id="Bill" title="AmountDetails" index="1" disabled="true" deselect="select($event)">
+                              <div ng-include="'views/Customer/PayBill/BillDetails.html'"></div>  
+                                                                       </uib-tab>
+                            <uib-tab heading="Review" id="review" title="Review" index="2" disabled="true" deselect="select($event)">
+                                <div ng-include="'views/Customer/PayBill/Review.html'"></div>
+                            </uib-tab>
+                        <uib-tab heading="Payment" id="Pay" title="Payment" index="3" disabled="true" deselect="selectTwo($event)">
+                              <div ng-include="'views/Customer/PayBill/CardDetails.html'"></div>  
+                                                                       </uib-tab>
+                 </uib-tabset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="ThankyouPaybill">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-danger">
+                    <h4 class="col-md-offset-2 modal-title ">Thank You for your payment  </h4>
+                </div>
+                <div class="modal-body p-a-0">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-offset-2 col-sm-8">
+
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-md-offset-2 modal-title ">Payment Details  </td>
+                                        </tr>
+                                        <tr class="active bold">
+                                            <td>Transaction Id:</td>
+                                            <td>{{PayDetails.InvoiceNumber}}</td>
+                                        </tr>
+                                        <tr class="active bold">
+                                            <td>Mobile Number:</td>
+                                            <td>{{PayDetails.MobileNumber}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bold"><b>Sender Name:</b></td>
+                                            <td class="bold"><b>{{PayDetails.SenderName}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bill Amount:</td>
+                                            <td>$&nbsp;{{PayDetails.FaceAmount | number:2}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Fee:</td>
+                                            <td>$&nbsp;{{FlagModel.Fee | number:2}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Total:</td>
+                                            <td>$&nbsp;{{PayDetails.InvoiceAmount | number:2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datetimepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    })
+</script>

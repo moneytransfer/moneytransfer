@@ -1,0 +1,42 @@
+﻿<div class="row">
+
+    <form role="form" class="ng-pristine ng-valid" name="tableNumber" ui-jq="validate">
+
+        <div class="form-group cm-form-group-wrap">
+            <div class="input-number-wrap">
+                <span class="flag-icon"><i class="fa fa-globe" aria-hidden="true"></i>
+                    <span ng-if="FlagModel.Result=='Success'" class="flag" style="background-image: url(./images/Flag/{{FlagModel.countryCode}}.png);"></span>
+                </span>
+                <span class="flag-code {{FlagModel.Result=='Success'?'code-block':''}}">+{{FlagModel.internationalCodes}}</span>
+                <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required aria-required="true" aria-invalid="true" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+            </div>
+        </div>
+
+
+        <div class="form-group row m-t-md">
+            <div class="col-sm-7 pull-right">
+                <button type="submit" class="btn btn-primary "
+                    ng-disabled="!PaybillModel.MobileNumber || !FlagModel.countryCode"
+                    onclick="$('#Bill a').trigger('click'); $('#Bill').addClass('active');">
+                    Send</button>
+                <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datetimepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+
+        $(".nav nav-tabs li a").click(function (event) {
+            
+            event.preventDefault();
+            return false;
+        });
+    })
+</script>

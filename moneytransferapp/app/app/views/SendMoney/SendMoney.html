@@ -1,0 +1,360 @@
+<header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
+    <div class="container flex-column flex-sm-row" ng-controller="manageSendMoneyLoginController">
+        <a class="navbar-brand" ui-sref='app.sending_loop'>
+            <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
+        </a>
+        <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
+
+            <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp; Log out</a></li>
+
+            <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
+        </ul>
+        <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
+            <ul class="navbar-nav ">
+                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneylogin'>Log In</a></li>
+                <li class="nav-item" ng-if="!IsLogin"><a class="nav-link" href="" ui-sref='app.SendMoneyUserRegister'>Sign Up</a></li>
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.sending_loop'>Home</a></li>
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.SendMoneyTransaction'>Transactions</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<!--end header-->
+<div class="body-container-wrapper mt-6rem" ng-controller="manageSendMoneyController">
+    <div id="view"></div>
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
+    <div class="master-banner d-flex">
+        <div class="container position-relative d-flex justify-content-center align-items-center">
+            <div class="banner-form w-100 text-center">
+                <h5 class="display-4">Send Money
+                    <br>
+                    to your friends and family</h5>
+                <form class="banner-form-wrapper d-flex flex-column">
+
+                    <div class="form-group">
+                        <label class="additional-info text-white" id="SelectedStatelabel">Sending Money from the U.S.A.</label>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control banner-input" id="StateSelected" ng-model="SelectedState">
+                            <option value="0">Select State</option>
+                            <option ng-repeat="(key,value) in States" value="{{key}}">{{key}}</option>
+                        </select>
+                    </div>
+                    <div class="alert alert-danger text-left position-static mt-3" id="PaymentMethod" ng-if="stateSelect">
+                        <span>Please select U.S.A State.</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="additional-info text-white" id="SelectedCountryLabel">Destination Country</label>
+                    </div>
+                    <div class="form-group form-group-country">
+                        <span class="flag-icon" style="background-image: url(./images/Flag/{{FlagModel.iso|lowercase}}.png);">
+                            <i class="fa fa-globe" ng-if="FlagModel.Result!='Success'" aria-hidden="true"></i>
+                        </span>
+                        <select class="form-control banner-input" id="CountrySelected" ng-model="CountryDetails.phonecode" ng-change="getcountrydata(CountryDetails.phonecode)" ng-init="CountryDetails.phonecode='0'">
+                            <option value="0">Select Country</option>
+                            <option ng-repeat="Country in Countries" value="{{Country.phonecode}}">{{Country.CountryName}}</option>
+                        </select>
+                    </div>
+
+                    <div ng-if="CountryDetails.phonecode=='52'">
+
+                      
+                      <!--  <div class="form-group form-group-country fl-w-100">
+                            <span class="flag-icon">
+                                <i class="fa fa-globe" aria-hidden="true"></i>
+                            </span>
+                            <select class="form-control banner-input" id="SelectCountyState" ng-model="FlagModel.SelectedCountryState" ng-init="FlagModel.SelectedCountryState='0'">
+                                <option value="0">Select Receiver State/Province</option>
+                                <option value="DIF">Ciudad de México</option>
+                                <option value="AGS">Aguascalientes</option>
+                                <option value="BCN">Baja California</option>
+                                <option value="BCS">Baja California Sur</option>
+                                <option value="CAM">Campeche</option>
+                                <option value="CHP">Chiapas</option>
+                                <option value="CHI">Chihuahua</option>
+                                <option value="COA">Coahuila</option>
+                                <option value="COL">Colima</option>
+                                <option value="DUR">Durango</option>
+                                <option value="GTO">Guanajuato</option>
+                                <option value="GRO">Guerrero</option>
+                                <option value="HGO">Hidalgo</option>
+                                <option value="JAL">Jalisco</option>
+                                <option value="MEX">Estado de México</option>
+                                <option value="MIC">Michoac&aacute;n</option>
+                                <option value="MOR">Morelos</option>
+                                <option value="NAY">Nayarit</option>
+                                <option value="NLE">Nuevo Le&oacute;n</option>
+                                <option value="OAX">Oaxaca</option>
+                                <option value="PUE">Puebla</option>
+                                <option value="QRO">Quer&eacute;taro</option>
+                                <option value="ROO">Quintana Roo</option>
+                                <option value="SLP">San Luis Potos&iacute;</option>
+                                <option value="SIN">Sinaloa</option>
+                                <option value="SON">Sonora</option>
+                                <option value="TAB">Tabasco</option>
+                                <option value="TAM">Tamaulipas</option>
+                                <option value="TLX">Tlaxcala</option>
+                                <option value="VER">Veracruz</option>
+                                <option value="YUC">Yucat&aacute;n</option>
+                                <option value="ZAC">Zacatecas</option>
+                            </select>
+                        </div>-->
+
+                        <!-- onkeypress='return event.charCode >= 48 && event.charCode <= 57 && event.charCode > 31 && event.charCode != 46'-->
+                        <div class="form-group text-left " ng-if="FlagModel.Result =='Success'">
+                            <label class="" for="exampleInputAmount">You're sending</label>
+                            <div class="input-group">
+                                <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" onkeypress="return AllowDecimal(event)" class="form-control cm-bg-white" id="exampleSendingAmount" maxlength="10" ng-model="FlagModel.Amount" ng-change="EnteredNumber(FlagModel.Amount)">
+                                <div class="input-group-addon">
+                                    <select class="cm-select-USD">
+                                        <option value="0" selected="selected" label="USD">USD</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-left" ng-if="FlagModel.Result =='Success'">
+                            <label class="" for="exampleInputAmount">RECIPIENT GETS</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control cm-bg-white" id="exampleInputAmount" ng-pattern="/^[0-9]*$/" maxlength="12" placeholder="0.00" ng-model="FlagModel.RecipientAmmount">
+                                <div class="input-group-addon">
+                                    <select class="cm-select-USD">
+                                        <option value="0" selected="selected" label="{{FlagModel.CurrencyCode}}">{{FlagModel.CurrencyCode}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 info-cell" ng-if="FlagModel.IsData">
+                                <label>Exchange rate:</label>
+                                <span class="additional-info">1 USD = {{FlagModel.ExchangeRate?FlagModel.ExchangeRate:0.0000}}&nbsp; {{FlagModel.CurrencyCode}}</span>
+                            </div>
+                            <div class="info-cell col-sm-6 text-right" ng-if="FlagModel.IsData">
+
+                                <label>Fee:</label>
+                                <span class="additional-info">{{FlagModel.Fee}} USD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="CountryDetails.phonecode !='52' && CountryDetails.phonecode>0" class="alert alert-danger text-left position-static">
+                        <span>Sorry, We are unable to proceed with this country.!</span>
+                    </div>
+
+                    <button class="button-send" ng-click="sendMoneyClick()" ng-disabled="!isValidData">
+                        Send money
+                    </button>
+                    <div ng-if="!IsLogin" ng-controller="manageSendMoneyLoginController" style="margin-bottom: 1rem;">
+                        <a ng-if="!IsLogin" class="text-white" ui-sref='app.SendMoneylogin'>Log In</a> &nbsp; &nbsp;
+                        <a ng-if="!IsLogin" class="text-white" ui-sref='app.SendMoneyUserRegister'>Sign Up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--end master banner-->
+    <section class="payment-section pt-5 pb-5">
+        <div class="container">
+            <div class="row section-01">
+                <div class="col-md d-flex mb-4 mb-md-0">
+                    <div class="">
+                        <div class="reason-image mb-4">
+                            <img src="assets/image/gift.jpg" alt="easy and fast">
+                        </div>
+                        <h4>Give the gift of talk and connect</h4>
+                        <p>Surprise your Family and Friends with airtime anytime, for any occasion. Giving is easy. All you need is their phone number.</p>
+                    </div>
+                </div>
+                <div class="col-md d-flex mb-4 mb-md-0">
+                    <div class="">
+                        <div class="reason-image mb-4">
+                            <img src="assets/image/send.jpg" alt="Low cost">
+                        </div>
+                        <h4>Get on-the-go convenience</h4>
+                        <p>Reload at home or on-the-go. We’ll send it instantly and your Family or Friends will get a text message the moment it arrives.</p>
+                    </div>
+                </div>
+                <div class="col-md d-flex">
+                    <div class="">
+                        <div class="reason-image mb-4">
+                            <img src="assets/image/sync.jpg" alt="120+ countries supported">
+                        </div>
+                        <h4>Do more than just reload</h4>
+                        <p>Whether you want to recharge a prepaid phone, send money or pay a bill, you can do it all with SendingLoop.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row section-02">
+                <div class="phoneReload"></div>
+                <div class="col-md d-flex mb-12 mb-md-0">
+                    <div class="flowimg">
+                        <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
+                    </div>
+                </div>
+            </div><div class="container my-4">
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <span class="lock-icon"></span>
+                <h4 class="mt-1">We’ve got your back</h4>
+                <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
+            </div>
+            <div class="col-sm-6 text-center">
+                <span class="security-icon"></span>
+                <h4 class="mt-1">Money-back guarantee</h4>
+
+                <p>We stand behind the Sendingloop. If your money doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+            </div>
+        </div>
+    </div>
+            <!--<div class="row">
+                <div class="moneyReload"></div>
+                <div class="col-md topnotch d-flex mb-6 mb-md-0">
+                    <div class="">
+                        <div class="mb-6">
+                            <img src="assets/image/money-bck.png" width="12%" alt="easy and fast">
+                        </div>
+                        <h4>Money-back guarantee</h4>
+                        <p>We stand behind the reliability of our service. If your reload doesn't get there, we'll refund it in full. Call us anytime if you need help.</p>
+                    </div>
+                </div>
+                <div class="col-md topnotch d-flex mb-6 mb-md-0">
+                    <div class="">
+                        <div class="mb-6">
+                            <img src="assets/image/security.png" width="9%" alt="Low cost">
+                        </div>
+                        <h4>Top-notch security</h4>
+                        <p>We employ top-tier technology to keep your information safe at all times.</p>
+                    </div>
+                </div>
+            </div>-->
+            <div class="row footercol">
+                <div class="col-md-3 ftr-bdr">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon01.png" class="" />
+                    </div>
+                    <div>
+                        <h5>24/7 HELP</h5>
+                        <p>Call us 1-800-970-9618</p>
+                    </div>
+                </div>
+                <div class="col-md-3 ftr-bdr">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon02.png" class="" />
+                    </div>
+                    <div>
+                        <h5>Trusted Pay</h5>
+                        <p>100% Payment Protection &amp; Easy Return</p>
+                    </div>
+                </div>
+                <div class="col-md-3 ftr-bdr">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon03.png" class="" />
+                    </div>
+                    <div>
+                        <h5>Secured Payment</h5>
+                        <p>All Major Credit &amp; Debit Cards Accepted</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="ftr-img">
+                        <img src="assets/image/footer-icon04.png" class="" />
+                    </div>
+                    <div>
+                        <h5>REGHARGE on app</h5>
+                        <p>Just Download our App to get Best Offers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="newsletter-bg"></div>
+                <div class="newsletter">
+                    <img src="assets/image/signup-newsletter.png" width="85%" />
+                </div>
+            </div>
+            <div class="row footercol last">
+                <div class="col-md-3 ftr-txt">
+                    <div>
+                        <p>
+                            <img src="assets/image/ftr-logo.png" width="45%" />
+                        </p>
+                        <p>Your Money | Your Best Option | Your Best Solution!</p>
+                        <p>
+                            Address: FalconLoop Inc.
+                <br>
+                            506 Second Ave. Suite 1400<br>
+                            Seattle WA, 98104<br>
+                            United States of America<br>
+                            1-800-970-9618
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 ftr-txt">
+                    <h5>ABOUT US</h5>
+                    <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
+                </div>
+                <div class="col-md-3 ftr-txt" ng-controller="manageSendMoneyLoginController">
+                        <h5>HELP &amp; SUPPORT</h5>
+                        <ul>
+                            <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
+                            <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
+                            <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>
+                            <li><span ng-if="IsLogin"><a target="_blank" ui-sref='app.SendMoneyTransaction'>Track Transfers</a></span>
+                                <span ng-if="!IsLogin"><a target="_blank" ui-sref='app.SendMoneylogin'>Track Transfers</a></span></li>
+                            <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>
+                        </ul>
+                    </div>
+                <div class="col-md-3 ftr-txt">
+                    <h5>SECURITY &amp; PRIVACY</h5>
+                    <ul>
+                        <li><a target="_blank" ui-sref='app.US_state_lcensing'>U.S. State Licensing</a></li>
+                        <li><a target="_blank" ui-sref='app.International_Licensing'>International Licensing</a></li>
+                        <li><a target="_blank" ui-sref='app.Security_Center'>Security Center</a></li>
+                        <li><a target="_blank" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
+                        <li><a target="_blank" ui-sref='app.User_agreement'>User Agreement</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+<footer class="footer-container-wrapper pt-4 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>Copyright 2017 © Falconloop. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function AllowDecimal(evt) {
+
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
+            return false;
+        else {
+            var len = document.getElementById("exampleSendingAmount").value.length;
+            var index = document.getElementById("exampleSendingAmount").value.indexOf('.');
+
+            if (index > 0 && charCode == 46) {
+                return false;
+            }
+            if (index > 0) {
+                var CharAfterdot = (len + 1) - index;
+                if (CharAfterdot > 3) {
+                    return false;
+                }
+            }
+
+        }
+        return true;
+    }
+</script>

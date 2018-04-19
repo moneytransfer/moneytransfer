@@ -1,0 +1,195 @@
+﻿<div class="card-block">
+    <form role="form" class="ng-pristine ng-valid" name="tblFees" ui-jq="validate">
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="inputName" class="col-sm-6 form-control-label bold">Fees Code: </label>
+                <div class="col-sm-6 bold">
+                    {{FeesDetails.Code}}
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="sel1" class="col-sm-6 form-control-label bold">Payment Method</label>
+                <div class="col-sm-6 bold">
+                    {{FeesDetails.Payment}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="Country" class="col-sm-6 form-control-label bold">Source Country : </label>
+                <div class="col-sm-6 bold">
+                    {{FeesDetails.Sourcecountry}} <span> <img src="images/Flag/{{FeesDetails.BaseCountryCode}}.png" alt=""></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="Country" class="col-sm-6 form-control-label bold">Destination Country : </label>
+                <div class="col-sm-6 bold">
+                    {{FeesDetails.Destinationcountry}} <span> <img src="images/Flag/{{FeesDetails.DestinationCountryCode}}.png" alt=""></span>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="Country" class="col-sm-6 form-control-label bold">PAY-IN AGENT : </label>
+                <div class="col-sm-6 bold">
+                    {{FeesDetails.PayInAgentName}}
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <label for="Country" class="col-sm-6 form-control-label bold">PAY-OUT AGENT : </label>
+                <div class="col-sm-6 bold">
+                    {{FeesDetails.PayOutAgentName}}
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6 bold">
+                <label for="Country" class="col-sm-6 form-control-label">Fee Type : </label>
+                <div class="col-sm-6">
+                    <span ng-if="FeesDetails.FeesType==1">Flat</span><span ng-if="FeesDetails.FeesType==2">Percentage</span>
+                </div>
+            </div>
+
+
+
+            <div class="col-sm-6 bold">
+                <label for="inputName" class="col-sm-6 form-control-label">Fees: </label>
+                <div class="col-sm-6">
+                    {{FeesDetails.Fees}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row bold">
+            <div class="col-sm-6">
+                <label for="Country" class="col-sm-6 form-control-label">Fees Category : </label>
+                <div class="col-sm-6">
+                    {{FeesDetails.FeeCategory}}
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <label for="IsActive" class="col-sm-6 form-control-label">Charge Sending Amount:</label>
+                <div class="col-sm-6 checkbox checkbox-primary form-control-label">
+                    <input id="IsActive" type="checkbox" ng-model="FeesDetails.ChargeSendingAmount">
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row bold">
+            <div class="col-sm-6">
+                <label for="inputName" class="col-sm-6 form-control-label">Starting Amount: <b class="text-danger">&nbsp;*</b> </label>
+                <div class="col-sm-6">
+                    {{FeesDetails.StartingAmount}}
+                </div>
+            </div>
+
+
+
+
+            <div class="col-sm-6">
+                <label for="Country" class="col-sm-6 form-control-label">Base Currency : </label>
+                <div class="col-sm-6">
+                    {{FeesDetails.BaseCurrency}}
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row bold">
+
+            <div class="col-sm-6">
+                <label for="inputName" class="col-sm-6 form-control-label">End Amount: <b class="text-danger">&nbsp;*</b> </label>
+                <div class="col-sm-6">
+                    {{FeesDetails.EndAmount}}    
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="Country" class="col-sm-6 form-control-label">To Currency : </label>
+                <div class="col-sm-6">
+                    {{FeesDetails.ToCurrency}}    
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group row" ng-if="ReferralExchangeRate != ''">
+            <div class="col-sm-12 text-primary">
+                <h3>Global Exchange Rate Details</h3>
+            </div>
+            <table id="tblFeeglobalRate" class="table table-condensed" data-filter="#filter">
+                <thead>
+                    <tr>
+                        <th>CODE</th>
+                        <th>Combination</th>
+                        <th>Spot Rate</th>
+                        <th>Adjustment %</th>
+                        <th>Spot Price Sell</th>
+                        <th>PROFIT MARGIN</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="Active cm-td-spacing" ng-repeat="Fees in ReferralExchangeRate" ng-class="{'selected':$index == selectedRow}">
+                        <td><small>{{Fees.Code}} </small></td>
+                        <td><small>{{Fees.Sourcecountry }}  to {{Fees.Destinationcountry}}</small></td>
+                        <td><small>{{Fees.SellSpotPrice}}</small></td>
+                        <td><small>{{Fees.SellingExchangeRate}}</small></td>
+                        <td><small>{{Fees.GlobalExchangeRate}}</small></td>
+                        <td><small>{{Fees.SpotMarginBaseCurrency}}&nbsp;{{Fees.Destinationcountry}} &nbsp; | &nbsp; {{Fees.SpotMarginUSDCurrency}}&nbsp;{{Fees.SpotPrice}}</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="form-group row" ng-if="ReferralFeeSharing !=''">
+            <div class="col-sm-12 text-primary">
+                <h3>Transaction Sharing Fee Details</h3>
+            </div>
+           
+             <table id="Table1" class="table m-b-none" ui-jp="footable" data-filter="#filter" data-page-size="10">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Fee Type</th>
+                        <th>Method </th>
+                        <th>Your Share %</th>
+                        <th>Pay-In Share %</th>
+                        <th>Pay-Out Share %</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="Active cm-td-spacing" ng-repeat="Feesharing in ReferralFeeSharing">
+                        <td><small>{{Feesharing.Code }}</small></td>
+                        <td><small>{{Feesharing.TransactionFeeType }}</small></td>
+                        <td><small>{{Feesharing.Payment}} </small></td>
+                        <td><small>{{Feesharing.YourShare | number:2}}</small></td>
+                        <td><small>{{Feesharing.PayInAgentPer | number:2}}</small></td>
+                        <td><small>{{Feesharing.PayOutAgentPer | number:2}}</small></td>
+                        <td><small>{{Feesharing.CreatedDate |date:'MM/dd/yyyy'  }}</small></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </form>
+
+
+
+
+</div>
+
