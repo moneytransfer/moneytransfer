@@ -1,0 +1,181 @@
+﻿<div class="padding" ng-controller="addEditCustomerController">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h3>{{header}} Customer </h3>
+                </div>
+                <div class="box-divider m-a-0"></div>
+                <div class="card-block">
+                    <form role="form" class="ng-pristine ng-valid" name="tblCustomer" ui-jq="validate">
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="inputName">Company: <b class="text-danger">&nbsp;*</b> </label>
+                                </div>
+                                <div class="col-sm-9">
+
+                                    <select name="FamRole" id="ddlCompany" ng-model="CustomerModal.CompanyId" class="form-control" required>
+                                        <option value="0">-- Select Company --</option>
+                                        <option ng-repeat="Company in Companies" value="{{Company.CompanyId}}">{{Company.CompanyName}}</option>
+                                    </select>
+                                    <span class="text-danger" ng-show="tblCustomer.$valid && CustomerModal.CompanyId == 0">Please select Company.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="inputName" class="form-control-label  ">First name: <b class="text-danger">&nbsp;*</b> </label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control  " ng-model="CustomerModal.FirstName" name="first-name" placeholder="First name">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="Username">Last name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control  " ng-model="CustomerModal.LastName" name="last-name" placeholder="Last name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="email">Email address</label>
+
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control  " ng-model="CustomerModal.Email" name="email" placeholder="Email address">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="phone">Phone <b class="text-danger">&nbsp;*</b></label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="Phone" ng-model="CustomerModal.Phone" name="phone" class="form-control " autocomplete="false">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="DOB">DOB</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control  " ng-model="CustomerModal.DOB" name="DOB" placeholder="DOB">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="Address1">Address1</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control  " ng-model="CustomerModal.Address1" name="Address1" placeholder="Address1">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="Address2">Address2 </label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="Address2" ng-model="CustomerModal.Address2" name="Address2" class="form-control ">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="sel1">Country:</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select name="CustomerRegister" id="Select1" ng-model="CustomerModal.CountryId" class="form-control " required>
+                                        <option value="0">-- Select Country --</option>
+                                        <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                                    </select>
+                                    <span class="text-danger" ng-show="tblCustomer.$valid && CustomerModal.CountryId == 0">Please select Country.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                      
+                          <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="State">State</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="State" ng-model="CustomerModal.State" name="State" class="form-control ">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="City">City</label>
+                                </div>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="City" name="City" ng-model="CustomerModal.City" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="ZipCode">ZipCode <b class="text-danger">&nbsp;*</b></label>
+                                </div>
+
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="ZipCode" name="ZipCode" ng-model="CustomerModal.ZipCode" class="form-control ">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="firstname">Password </label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="password" placeholder="Password" name="password" ng-model="CustomerModal.Password" class="form-control ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-3">
+                                    <label for="ProfileImage">ProfileImage <b class="text-danger">&nbsp;*</b></label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="ProfileImage" name="ProfileImage" ng-model="CustomerModal.ProfileImage" class="form-control ">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row m-t-md">
+                            <div class="col-sm-9 pull-right">
+                                <button type="submit" class="btn btn-primary" ng-click="tblCustomer.$valid && Create()">
+                                    {{CustomerModal.CustomerId>0?'Update':'Create' }}
+                                </button>
+                                <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

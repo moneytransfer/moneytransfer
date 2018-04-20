@@ -80,15 +80,47 @@
                //Dashboard
             .state('app.Manage_Customer', {
                 url: '/Manage_Customer',
-                templateUrl: 'views/CRM/Manage_Customer.html',
+                templateUrl: 'views/CRM/customer/Manage_Customer.html',
                 resolve: {
                     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                        return $ocLazyLoad.load('scripts/controllers/appCtrls/crm.js');
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            return $ocLazyLoad.load('scripts/controllers/appCtrls/crm.js');
+                        });
                     }]
                 },
                 title: 'Manage Customers',
                 controller: "authenticateController"
             })
+
+               .state('app.add_Customer', {
+                   url: '/Manage_Customer',
+                   templateUrl: 'views/CRM/customer/addEdit_Customer.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               return $ocLazyLoad.load('scripts/controllers/appCtrls/crm.js');
+                           });
+                       }]
+                   },
+                   title: 'Add Customer',
+                   classes: 'no-padding no-footer layout-static',
+                   controller: "authenticateController"
+               })
+              .state('app.Edit_Customer', {
+                  url: '/Manage_Customer',
+                  templateUrl: 'views/CRM/customer/addEdit_Customer.html',
+                  params: { CustomerId: 0 },
+                  resolve: {
+                      deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                          return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/crm.js');
+                          });
+                      }]
+                  },
+                  title: 'Update Customer',
+                  classes: 'no-padding no-footer layout-static',
+                  controller: "authenticateController"
+              })
 
               .state('app.login', {
                   url: '/customersignin',

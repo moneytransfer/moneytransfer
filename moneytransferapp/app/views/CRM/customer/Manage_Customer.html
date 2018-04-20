@@ -1,0 +1,115 @@
+﻿<div class="padding" ng-controller="manageCustomerController">
+    <div class="card m-t-1">
+        <div class="card-header m-t-1">
+            <div class="col-sm-4 pull-right">
+                <button type="submit" class="btn btn-primary pull-right" ng-click="adduser()"><i class="glyphicon glyphicon-plus"></i>Add Customer </button>
+            </div>
+        </div>
+        <div class="card-block p-a-0">
+            <table id="tblBeneficiary" class="table datatable m-b-none">
+                <thead>
+                    <tr>
+                        <th>Code </th>
+                        <th>Name </th>
+                        <th>Email </th>
+                        <th>Phone</th>
+                        <th>Account#</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Status</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="Active" ng-repeat="Transaction  in ManageCustomers | orderBy:'-CreatedDate'">
+                        <td><small>{{Transaction.ActivationCode}}</small></td>
+                        <td><small>{{Transaction.FirstName}} &nbsp; {{Transaction.LastName}} </small></td>
+                        <td><small>{{Transaction.Email}}</small></td>
+                        <td><small>{{Transaction.Phone}} </small></td>
+                        <td><small>{{Transaction.AccountNumber }} </small></td>
+                        <td><small>{{Transaction.City}}</small></td>
+                        <td><small>{{Transaction.State}}</small></td>
+                        <td><small>{{Transaction.IsActive}}</small></td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-primary" ng-click="EditUser(Transaction.CustomerId)">Edit</button>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" ng-click="deleteCustomer(Transaction.CustomerId)">Delete </button>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn-link" data-toggle="modal" ng-click="GetDetails(Transaction.CustomerId)">Transactions Details </button>
+                        </td>
+                    </tr>
+                </tbody>
+
+
+            </table>
+            <div class="" ng-show="totalItems>15">
+                <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
+
+
+            </uib-pagination>
+            </div>
+        </div>
+
+        <script id="uib/template/pagination/pagination.html" type="text/ng-template">
+<nav class="col-sm-8 pull-right">
+  <ul class="pagination">
+    <li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="page-item pagination-first"><a href class="page-link" ng-click="selectPage(1, $event)">{{::getText('first')}}</a></li>
+    <li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="page-item pagination-prev"><a href class="page-link" ng-click="selectPage(page - 1, $event)">{{::getText('previous')}}</a></li>
+    <li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="page-item pagination-page"><a href class="page-link" ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
+    <li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="page-item pagination-next"><a href class="page-link" ng-click="selectPage(page + 1, $event)">{{::getText('next')}}</a></li>
+    <li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="page-item pagination-last"><a href class="page-link" ng-click="selectPage(totalPages, $event)">{{::getText('last')}}</a></li>
+  </ul>
+</nav>
+        </script>
+
+    </div>
+
+    <!-- Large modal -->
+    <!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteconfirm">Large modal</button>-->
+    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="deleteconfirm">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-danger">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title ">!Confirmation  </h4>
+                </div>
+
+                <div class="modal-body">
+                    <h6 class="modal-title">Do you want to proceed to delete this 'Customer'? </h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="deleteconfirm()">Yes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+
+
+
+
+
+
+    <!--Details model-->
+    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="transactionDetails">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="text-md text-center">Customer Details</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div ng-include="'views/CRM/customer/CustomerDetails.html'"></div>
+                </div>
+                <div class="modal-footer pull-center">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
