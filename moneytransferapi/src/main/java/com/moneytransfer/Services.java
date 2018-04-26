@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import com.etl.base.AgentDetails;
+import com.etl.base.ApplicantKYC;
 import com.etl.base.AuthorizePaymentDetails;
 import com.etl.base.AuthrozieTranscation;
 import com.etl.base.BeneficiaryDetails;
@@ -569,5 +570,39 @@ public class Services {
 	public ArrayList<PaymentFees> getPaymentFeesDetailsByPaymentMethod(PaymentFees _PaymentFees) {
 
 		return  PaymentFees.getPaymentFeesDetailsByPaymentMethod(_PaymentFees.PaymentMethodId,_PaymentFees.FeesCategoryId);
+	}
+	
+	@POST
+	@Path("updateTransactionFeeSharingFees")
+	@Produces("application/json")
+	public TransactionFeeSharing updateTransactionFeeSharingFees(TransactionFeeSharing _TransactionFeeSharing) {
+		return new TransactionFeeSharing()._updateTransactionFeeSharing(_TransactionFeeSharing.TransactionFeeSharingId, _TransactionFeeSharing.AutoFees,_TransactionFeeSharing.PaymentFeesId);
+	}
+	@POST
+	@Path("gettranscationdetailsByCompany")
+	@Produces("application/json")
+	public ArrayList<AuthrozieTranscation> gettranscationdetailsByCompany(AuthrozieTranscation _AuthrozieTranscation) {
+
+		return AuthrozieTranscation.getAuthrozieTranscationDetailsByCompany(_AuthrozieTranscation.CompanyId);
+	}
+	
+	@POST
+	@Path("saveapplicantkyc")
+	@Produces("application/json")
+	public ApplicantKYC saveapplicantkyc(ApplicantKYC _ApplicantKYC) {
+		return new ApplicantKYC().addupdateApplicantKYC(_ApplicantKYC);
+	}
+	@POST
+	@Path("getsaveapplicantkyc")
+	@Produces("application/json")
+	public ArrayList<ApplicantKYC> getsaveapplicantkyc(ApplicantKYC _ApplicantKYC) {
+
+		return ApplicantKYC.getKYCDetilasApplicant(_ApplicantKYC.CompanyId, _ApplicantKYC.CustomerId, _ApplicantKYC.ApplicantId);
+	}
+	@POST
+	@Path("getapplicantkycById")
+	@Produces("application/json")
+	public ApplicantKYC getapplicantkycById(ApplicantKYC _ApplicantKYC) {
+		return new ApplicantKYC().getApplicantKYCId(_ApplicantKYC.CustomerApplicantKYCId);
 	}
 }

@@ -35,7 +35,7 @@ public class PaymentFees {
 	public String DeletedDate;
 	public String Result;
 	public String Error;
-
+	public String TransactionFeeSharingCode;
 	private void setPaymentFessId(int PaymentFessId) {
 		this.PaymentFessId = PaymentFessId;
 	}
@@ -220,6 +220,14 @@ public class PaymentFees {
 		return Code;
 	}
 
+	
+	private void setTransactionFeeSharingCode(String TransactionFeeSharingCode) {
+		this.TransactionFeeSharingCode = TransactionFeeSharingCode;
+	}
+
+	private String getTransactionFeeSharingCode() {
+		return TransactionFeeSharingCode;
+	}
 	public PaymentFees addPaymentFees(PaymentFees _PaymentFees) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		PreparedStatement _PreparedStatement = null;
@@ -484,6 +492,7 @@ public class PaymentFees {
 						_PaymentFees.setIsPayOutAgent(_ResultSet.getBoolean("IsPayOutAgent"));
 						_PaymentFees.setCode(_ResultSet.getString("Code"));
 						_PaymentFees.setGobalExchangeRateCode(_ResultSet.getString("GobalExchangeRateCode"));
+						_PaymentFees.setTransactionFeeSharingCode(_ResultSet.getString("TransactionFeeSharingCode"));
 						_PaymentFees.setSourceCountry(_ResultSet.getInt("SourceCountry"));
 						_PaymentFees.setDestinationCountry(_ResultSet.getInt("DestinationCountry"));
 						_PaymentFees.setFeesCategoryId(_ResultSet.getInt("FeesCategoryId"));
@@ -527,6 +536,7 @@ public class PaymentFees {
 						_PaymentFees.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_PaymentFees.setDeletedDate(_ResultSet.getString("DeletedDate"));
 						_PaymentFees.setTransactionFeeType(_ResultSet.getString("TransactionFeeType"));
+						_PaymentFees.setTransactionFeeSharingCode(_ResultSet.getString("TransactionFeeSharingCode"));
 						_PaymentFees.setResult("Sucess");
 						_PaymentFeesDetaillist.add(_PaymentFees);
 
@@ -591,6 +601,7 @@ public class PaymentFees {
 					_PaymentFees.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 					_PaymentFees.setDeletedDate(_ResultSet.getString("DeletedDate"));
 					_PaymentFees.setTransactionFeeType(_ResultSet.getString("TransactionFeeType"));
+					_PaymentFees.setTransactionFeeSharingCode(_ResultSet.getString("TransactionFeeSharingCode"));
 					_PaymentFees.setResult("Sucess");
 					_PaymentFeesDetaillist.add(_PaymentFees);
 
@@ -649,6 +660,7 @@ public class PaymentFees {
 					_PaymentFees.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 					_PaymentFees.setDeletedDate(_ResultSet.getString("DeletedDate"));
 					_PaymentFees.setTransactionFeeType(_ResultSet.getString("TransactionFeeType"));
+					_PaymentFees.setTransactionFeeSharingCode(_ResultSet.getString("TransactionFeeSharingCode"));
 					_PaymentFees.setResult("Sucess");
 				} else {
 					_PaymentFees.setResult("Failed!");
@@ -751,6 +763,7 @@ public class PaymentFees {
 					_PaymentFees.setIsDeleted(_PaymentFessId.getBoolean("IsDeleted"));
 					_PaymentFees.setDeletedDate(_PaymentFessId.getString("DeletedDate"));
 					_PaymentFees.setTransactionFeeType(_PaymentFessId.getString("TransactionFeeType"));
+					_PaymentFees.setTransactionFeeSharingCode(_PaymentFessId.getString("TransactionFeeSharingCode"));
 					_PaymentFees.setResult("Sucess");
 				} else {
 					_PaymentFees.setResult("Failed!");
@@ -818,6 +831,7 @@ public class PaymentFees {
 						_PaymentFees.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_PaymentFees.setDeletedDate(_ResultSet.getString("DeletedDate"));
 						_PaymentFees.setTransactionFeeType(_ResultSet.getString("TransactionFeeType"));
+						_PaymentFees.setTransactionFeeSharingCode(_ResultSet.getString("TransactionFeeSharingCode"));
 						_PaymentFees.setResult("Sucess");
 						_PaymentFeesDetaillist.add(_PaymentFees);
 
@@ -854,6 +868,7 @@ public class PaymentFees {
 		_PaymentFees.setPayOutAgentId(0);
 		_PaymentFees.setTransactionFeeType("");
 		_PaymentFees.setGobalExchangeRateCode("");
+		_PaymentFees.setTransactionFeeSharingCode("");
 		return _PaymentFees;
 
 	}

@@ -620,7 +620,7 @@ public class BillPay {
 							_BillPay.setError("Invalid transaction Key!");
 							clear(_BillPay);
 						}
-					} else if (PaymentMethod.contains("Credit/Debit Card")) {
+					} else if (PaymentMethod.contains("Visa Credit Card") || PaymentMethod.contains("MasterCard Credit Card")||PaymentMethod.contains("Visa Debit Card")||PaymentMethod.contains("MasterCard Debit Card")||PaymentMethod.contains("Bank Debit (ACH)")) {
 						MagicPay _MagicPay = new MagicPay();
 						
 						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -633,8 +633,7 @@ public class BillPay {
 						_MagicPay.CustomerId = _BillPay.CustomerId;
 						_MagicPay.SenderName = _BillPay.SenderName;
 						_MagicPay.SendingAmount = _BillPay.Amount;
-						_MagicPay.Charges = 0.00;
-						_MagicPay.Fees = 4.99;
+						_MagicPay.Charges = 0.00;						
 						_MagicPay.Tax = 0.00;
 						_MagicPay.SendingCurrencyId = 3;
 						_MagicPay.ReceivingAmount = 0;
@@ -692,7 +691,7 @@ public class BillPay {
 			} else {
 				// System.out.println("Null Response.");
 				_BillPay.setResult("failed");
-				_BillPay.setError("Invalid Payment Method Id!");
+				_BillPay.setError("Payment settings are not available for this Payment Method, please contact to system administrator!");
 				clear(_BillPay);
 			}
 

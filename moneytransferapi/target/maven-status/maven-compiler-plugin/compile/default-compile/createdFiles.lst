@@ -42,6 +42,7 @@ com\pininteract\Card.class
 com\pininteract\CarrierListResponse.class
 com\pininteract\Promotion.class
 com\pininteract\www\ServiceManagerLocator.class
+com\etl\base\ApplicantKYC.class
 com\pininteract\PromotionsResponse.class
 com\etl\base\Currency.class
 com\etl\base\BeneficiaryType.class

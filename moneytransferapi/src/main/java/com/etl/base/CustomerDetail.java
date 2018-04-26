@@ -256,8 +256,8 @@ public class CustomerDetail {
 							String date=format.format(cal.getTime());
 							_CustomerDetail.setCreatedDate(date);
 							
-							String sInsertStatement = "INSERT INTO customer( Company_Id, AccountNumber, FirstName, LastName, Address1, Address2, City, State, ZipCode, country_id, Phone, Email, Password, DOB, ProfileImage, ActivationCode, IsAccountActivated,CreatedDate, IsActive)";
-							 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?, ?, ?,?,?,?,?,?,?, ?, ?, ?, ?, ?,?,?,?)";
+							String sInsertStatement = "INSERT INTO customer( Company_Id, AccountNumber, FirstName, LastName, Address1, Address2, City, State, ZipCode, country_id, Phone, Email, Password, DOB, ProfileImage, IsAccountActivated,CreatedDate, IsActive)";
+							 sInsertStatement = sInsertStatement + " VALUES(?, ?, ?, ?, ?,?,?,?,?,?,?, ?, ?, ?, ?, ?,?,?)";
 								_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 								_PreparedStatement.setInt(1, _CustomerDetail.CompanyId);							
 								_PreparedStatement.setString(2, _CustomerDetail.AccountNumber);		
@@ -274,17 +274,24 @@ public class CustomerDetail {
 								_PreparedStatement.setString(13, _CustomerDetail.Password);
 								_PreparedStatement.setString(14, _CustomerDetail.DOB);
 								_PreparedStatement.setString(15, _CustomerDetail.ProfileImage);
-								_PreparedStatement.setString(16, _CustomerDetail.ActivationCode);
-								_PreparedStatement.setBoolean(17, _CustomerDetail.IsAccountActivated);
-								_PreparedStatement.setString(18, _CustomerDetail.CreatedDate);
-								_PreparedStatement.setBoolean(19, _CustomerDetail.IsActive);
+								//_PreparedStatement.setString(16, _CustomerDetail.ActivationCode);
+								_PreparedStatement.setBoolean(16, _CustomerDetail.IsAccountActivated);
+								_PreparedStatement.setString(17, _CustomerDetail.CreatedDate);
+								_PreparedStatement.setBoolean(18, _CustomerDetail.IsActive);
 								_PreparedStatement.executeUpdate();	
 								_CustomerDetail.setResult("Sucess");
 								ResultSet _ResultSetld = _MYSQLHelper.GetResultSet("SELECT MAX(customer_Id) AS customer_Id FROM customer",_Connection);
 								if (_ResultSetld.next()){
 								int lastid = _ResultSetld.getInt("customer_Id");								
 								_CustomerDetail.setCustomerId(lastid);}
-								
+								String _code="";
+								_code = "FALCON" + _CustomerDetail.CustomerId;
+								String sUpdateStatement = "UPDATE customer SET ActivationCode = ?"
+										+ " WHERE customer_Id = ?";
+								_PreparedStatement = _Connection.prepareStatement(sUpdateStatement);
+								_PreparedStatement.setString(1, _code);
+								_PreparedStatement.setInt(2, _CustomerDetail.CustomerId);								
+								_PreparedStatement.executeUpdate();								
 								clear(_CustomerDetail);
 						}
 						else{
@@ -377,7 +384,7 @@ public class CustomerDetail {
 								
 								String sInsertStatement ="UPDATE customer SET 	Company_Id = ?,AccountNumber = ? ,FirstName = ? ,LastName = ? ,Address1 = ? "
 										+ ",Address2 = ?,City = ?,State = ? ,ZipCode = ? ,country_id = ? ,Phone = ? ,Email = ? "
-										+ ",DOB = ?,ProfileImage = ?,ActivationCode = ?,IsAccountActivated = ?,IsActive = ?,CreatedDate = ?"+ " WHERE customer_Id = ?";
+										+ ",DOB = ?,ProfileImage = ?,IsAccountActivated = ?,IsActive = ?,CreatedDate = ?"+ " WHERE customer_Id = ?";
 								_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 								_PreparedStatement.setInt(1, _CustomerDetail.CompanyId);							
 								_PreparedStatement.setString(2, _CustomerDetail.AccountNumber);		
@@ -393,12 +400,12 @@ public class CustomerDetail {
 								_PreparedStatement.setString(12, _CustomerDetail.Email);						
 								_PreparedStatement.setString(13, _CustomerDetail.DOB);
 								_PreparedStatement.setString(14, _CustomerDetail.ProfileImage);
-								_PreparedStatement.setString(15, _CustomerDetail.ActivationCode);
-								_PreparedStatement.setBoolean(16, _CustomerDetail.IsAccountActivated);
+								//_PreparedStatement.setString(15, _CustomerDetail.ActivationCode);
+								_PreparedStatement.setBoolean(15, _CustomerDetail.IsAccountActivated);
 								
-								_PreparedStatement.setBoolean(17, _CustomerDetail.IsActive);
-								_PreparedStatement.setString(18, _CustomerDetail.CreatedDate);
-								_PreparedStatement.setInt(19, _CustomerDetail.CustomerId);
+								_PreparedStatement.setBoolean(16, _CustomerDetail.IsActive);
+								_PreparedStatement.setString(17, _CustomerDetail.CreatedDate);
+								_PreparedStatement.setInt(18, _CustomerDetail.CustomerId);
 								_PreparedStatement.executeUpdate();
 								_CustomerDetail.setResult("Sucess");
 								clear(_CustomerDetail);

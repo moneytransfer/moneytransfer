@@ -674,7 +674,73 @@ public class AuthrozieTranscation {
 	}
 
 	
-	
+	public static ArrayList<AuthrozieTranscation> getAuthrozieTranscationDetailsByCompany(int CompanyId) {
+		Connection _Connection = MYSQLConnection.GetConnection();
+
+		ArrayList<AuthrozieTranscation> _AuthrozieTranscationDetaillist = new ArrayList<AuthrozieTranscation>();
+
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		try {
+			if (_Connection != null)
+
+			{
+
+				ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
+						"SELECT * FROM transactiondetails where CompanyId='" + CompanyId + "'", _Connection);
+
+				while (_ResultSet.next()) {
+
+					AuthrozieTranscation _AuthrozieTranscation = new AuthrozieTranscation();
+					_AuthrozieTranscation.setTransactionId(_ResultSet.getInt("TransactionId"));
+					_AuthrozieTranscation.setCompanyId(_ResultSet.getInt("CompanyId"));
+					_AuthrozieTranscation.setCustomerId(_ResultSet.getInt("CustomerId"));
+					_AuthrozieTranscation.setTransactionDetail(_ResultSet.getString("TransactionDetail"));
+					_AuthrozieTranscation.setSendingAmount(_ResultSet.getDouble("SendingAmount"));
+					_AuthrozieTranscation.setCharges(_ResultSet.getDouble("Charges"));
+					_AuthrozieTranscation.setFees(_ResultSet.getDouble("Fees"));
+					_AuthrozieTranscation.setTax(_ResultSet.getDouble("Tax"));
+					_AuthrozieTranscation.setCreatedDate(_ResultSet.getString("TransactionDate"));
+
+					_AuthrozieTranscation.setStatus(_ResultSet.getString("Status"));
+					_AuthrozieTranscation.setPaymentGatewayResponse(_ResultSet.getString("PaymentGatewayResponse"));
+					_AuthrozieTranscation
+							.setPaymentGatewayTransactionId(_ResultSet.getString("PaymentGatewayTransactionId"));
+					_AuthrozieTranscation.setSendingCurrencyId(_ResultSet.getInt("SendingCurrencyId"));
+					_AuthrozieTranscation.setReceivingAmount(_ResultSet.getDouble("ReceivingAmount"));
+					_AuthrozieTranscation.setReceivingCurrencytId(_ResultSet.getInt("ReceivingCurrencytId"));
+					_AuthrozieTranscation.setBeneficiaryId(_ResultSet.getInt("BeneficiaryId"));
+					_AuthrozieTranscation.setPaymentMethodId(_ResultSet.getInt("PaymentMethodId"));
+					_AuthrozieTranscation.setDestinationCountryId(_ResultSet.getInt("DestinationCountryId"));
+					_AuthrozieTranscation.setSourceCountryId(_ResultSet.getInt("SourceCountryId"));
+					_AuthrozieTranscation.setIsLive(_ResultSet.getBoolean("IsLive"));
+					_AuthrozieTranscation.setTransferPurpose(_ResultSet.getString("TransferPurpose"));
+					_AuthrozieTranscation.setExchangeRate(_ResultSet.getDouble("ExchangeRate"));
+					_AuthrozieTranscation.setDeliveryType(_ResultSet.getString("DeliveryType"));
+					_AuthrozieTranscation.setCreatedDate(_ResultSet.getString("CreatedDate"));
+					_AuthrozieTranscation.setResult("Success");
+					_AuthrozieTranscationDetaillist.add(_AuthrozieTranscation);
+
+				}
+				_ResultSet.close();
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			if (_Connection != null) {
+				try {
+					_Connection.close();
+				} catch (SQLException e) {
+					// logger.error(e.getMessage() + " Stack Trace: " +
+					// e.getStackTrace());
+				}
+			}
+		}
+
+		return _AuthrozieTranscationDetaillist;
+	}
 	
 	
 	public static ArrayList<AuthrozieTranscation> getAuthrozieTranscationById(int TransactionId) {
@@ -706,8 +772,7 @@ public class AuthrozieTranscation {
 
 					_AuthrozieTranscation.setStatus(_ResultSet.getString("Status"));
 					_AuthrozieTranscation.setPaymentGatewayResponse(_ResultSet.getString("PaymentGatewayResponse"));
-					_AuthrozieTranscation
-							.setPaymentGatewayTransactionId(_ResultSet.getString("PaymentGatewayTransactionId"));
+					_AuthrozieTranscation.setPaymentGatewayTransactionId(_ResultSet.getString("PaymentGatewayTransactionId"));
 					_AuthrozieTranscation.setSendingCurrencyId(_ResultSet.getInt("SendingCurrencyId"));
 					_AuthrozieTranscation.setReceivingAmount(_ResultSet.getDouble("ReceivingAmount"));
 					_AuthrozieTranscation.setReceivingCurrencytId(_ResultSet.getInt("ReceivingCurrencytId"));
