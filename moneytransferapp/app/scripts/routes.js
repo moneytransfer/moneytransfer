@@ -13,8 +13,9 @@
           });
           FastClick.attach(document.body);
       },
-        ]).config(['$stateProvider', '$urlRouterProvider',
-      function ($stateProvider, $urlRouterProvider) {
+        ]).config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+      function ($stateProvider, $urlRouterProvider, $locationProvider) {
+          $locationProvider.hashPrefix();
 
           var p = getParams('layout'),
 
@@ -43,7 +44,6 @@
           //    templateUrl: 'views/common/horizontal/layout.html',
           //})
               .state('horizontal', {
-                  abstract: true,
                   //  templateUrl: 'views/common/horizontal/layout.html',
               })
 
@@ -106,6 +106,7 @@
                    classes: 'no-padding no-footer layout-static',
                    controller: "authenticateController"
                })
+
               .state('app.Edit_Customer', {
                   url: '/Manage_Customer',
                   templateUrl: 'views/CRM/customer/addEdit_Customer.html',
@@ -339,7 +340,7 @@
           .state('app.Edit_Fees', {
               url: '/Edit_Fees',
               templateUrl: 'views/fees/addEditFees.html',
-              params: {PaymentFessId: 0 },
+              params: { PaymentFessId: 0 },
               resolve: {
                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
@@ -366,7 +367,7 @@
               controller: "authenticateController"
           })
               //Manage Transaction Fee Sharing
-              .state('app.TransactionFeeSharing',{
+              .state('app.TransactionFeeSharing', {
                   url: '/transactionFeeSharing',
                   templateUrl: 'views/TransactionFeeSharing/transactionFeeSharingList.html',
                   resolve: {
@@ -413,7 +414,7 @@
               controller: "authenticateController"
           })
               //Manage Global Exchange Rates 
-          
+
 
                .state('app.GlobalExchangeRates', {
                    url: '/globalExchangeRates',
@@ -1471,6 +1472,21 @@
                 controller: "authenticateGuestController"
             })
 
+               .state('app.addKyc', {
+                   url: '/KYC',
+                   templateUrl: 'views/customerPortal/kyc_form.html',
+                   resolve: {
+                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                               return $ocLazyLoad.load('views/customerPortal/customer_portal.js');
+                           });
+                       }]
+                   },
+                   title: 'customerPortal',
+                   controller: "authenticateGuestController"
+               })
+
             .state('app.User_agreement', {
                 url: '/User_agreement',
                 templateUrl: 'views/customerPortal/LinkPage/user-agreement.html',
@@ -1766,6 +1782,8 @@
               controller: "authenticateSendMoneyController"
           })
 
+
+
           .state('app.sending_loop', {
               url: '/Sendingloop',
               templateUrl: 'views/sendimgloop/index.html',
@@ -1818,7 +1836,7 @@
                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                           //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                         // return $ocLazyLoad.load('views/sendimgloop/index.js');
+                          // return $ocLazyLoad.load('views/sendimgloop/index.js');
                       });
                   }]
               },
@@ -1846,7 +1864,7 @@
                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                           //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                        //  return $ocLazyLoad.load('views/sendimgloop/index.js');
+                          //  return $ocLazyLoad.load('views/sendimgloop/index.js');
                       });
                   }]
               },
@@ -1860,7 +1878,7 @@
                     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                         return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                             //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                           // return $ocLazyLoad.load('views/sendimgloop/index.js');
+                            // return $ocLazyLoad.load('views/sendimgloop/index.js');
                         });
                     }]
                 },
@@ -1873,7 +1891,7 @@
                   deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                       return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                           //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                         // return $ocLazyLoad.load('views/sendimgloop/index.js');
+                          // return $ocLazyLoad.load('views/sendimgloop/index.js');
                       });
                   }]
               },
@@ -1917,6 +1935,8 @@
                 events: false
             });
         }]);
+
+
 
     function getParams(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

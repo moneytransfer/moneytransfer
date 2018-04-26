@@ -78,14 +78,14 @@
             <div class="col-sm-6">
                 <label for="IsActive" class="col-sm-6 form-control-label">State:</label>
                 <div class="col-sm-6 checkbox checkbox-primary form-control-label">
-                   {{CustomerDetails[0].State}}
+                    {{CustomerDetails[0].State}}
                 </div>
             </div>
 
         </div>
 
 
-        <div class="form-group row" ng-if="CustomerTransactions != ''">
+        <div class="form-group row">
             <div class="col-sm-12 text-primary">
                 <h3>Customer Transactions</h3>
             </div>
@@ -102,7 +102,7 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody ng-if="CustomerTransactions != ''">
                     <tr class="Active cm-td-spacing" ng-repeat="Transaction in CustomerTransactions" ng-class="{'selected':$index == selectedRow}">
                         <td><small>{{Transaction.PaymentGatewayTransactionId}} </small></td>
                         <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
@@ -112,6 +112,11 @@
                         <td><small><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{Transaction.ReceivingAmount | number:2  }}</small></td>
                         <td><small>{{Transaction.Status}}</small></td>
                     </tr>
+                </tbody>
+                <tbody ng-if="CustomerTransactions == ''">
+                     <tr class="Active cm-td-spacing">
+                         <td colspan="7" style="text-align:center;"><b> No Records found!</b></td>
+                     </tr>
                 </tbody>
             </table>
             <div class="" ng-show="totalItems>8">
@@ -132,7 +137,7 @@
     <li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="page-item pagination-last"><a href class="page-link" ng-click="selectPage(totalPages, $event)">{{::getText('last')}}</a></li>
   </ul>
 </nav>
-</script>
+    </script>
 
 
 </div>

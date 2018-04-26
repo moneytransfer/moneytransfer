@@ -1,5 +1,5 @@
 
-var baseUrl = 'http://18.221.150.151:8080/transfermoney/api/';
+var baseUrl = 'http://18.221.150.151/transfermoney/api/';
 //var baseUrl = 'http://192.168.1.6:8080/transfermoney/api/';
 
 var authorisedUser = [];
@@ -88,6 +88,7 @@ var authorisedCustomer = [];
             $localStorage.app = vm.app;
         }, true);
 
+
         //Dummy user data
         vm.user = {
             fname: 'Betty',
@@ -169,6 +170,8 @@ var authorisedCustomer = [];
                 vm.app.expanding = false;
             }
         }
+
+
 
 
         function getParams(name) {

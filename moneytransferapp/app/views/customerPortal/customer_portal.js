@@ -2,12 +2,14 @@
     'use strict';
     angular
         .module('app')
-        .controller('manageGustCustomerController', manageGustCustomerController)
-        .controller('manageGuestCustomerTransactionController', manageGuestCustomerTransactionController)
-        .controller('manageMakePaymentController', manageMakePaymentController)
+         .controller('manageGustCustomerController', manageGustCustomerController)
+         .controller('manageGuestCustomerTransactionController', manageGuestCustomerTransactionController)
+         .controller('manageMakePaymentController', manageMakePaymentController)
          .controller('manageCustomerLoginController', manageCustomerLoginController)
-      .controller('customerPortalthankyouController', customerPortalthankyouController)
+         .controller('customerPortalthankyouController', customerPortalthankyouController)
          .controller('authenticateGuestController', authenticateGuestController)
+         .controller('addEditkycController', addEditkycController)
+
     manageGustCustomerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
     function manageGustCustomerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
@@ -1137,5 +1139,104 @@
             $window.location.assign('#/app/Sendingloop');
         }
     }
+
+    addEditkycController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
+    function addEditkycController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
+        var vm = $scope;
+        vm.CustomerId = 0;
+        vm.CompanyId = 0;
+        vm.CountryId = 0;
+        vm.addresses = { flat_number: " ", building_name: " ", building_number: " ", street: " ", sub_street: "", state: "", town: " ", postcode: " ", country: 0, start_date: " ", end_date: "" }
+        vm.KYCModal = { title: "Mr/Ms/Mrs", first_name: " ", last_name: " ", gender: " ", dob: "", country: 0, addresses: vm.addresses }
+
+        vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
+        if ($localStorage.GustCustomer) {
+            vm.localStorage = $localStorage;
+            if (vm.localStorage.GustCustomer.CustomerId) {
+                vm.CompanyId = vm.localStorage.GustCustomer.CompanyId;
+                vm.CustomerId = vm.localStorage.GustCustomer.CustomerId;
+                vm.KYCModal.country = vm.localStorage.GustCustomer.CountryId;
+                vm.KYCModal.first_name = vm.localStorage.GustCustomer.FirstName;
+                vm.KYCModal.last_name = vm.localStorage.GustCustomer.LastName;
+                vm.KYCModal.dob = vm.localStorage.GustCustomer.DOB;
+                //vm.addresses.flat_number = vm.localStorage.GustCustomer.CustomerId;
+                // vm.addresses.building_name = vm.localStorage.GustCustomer.CustomerId;
+                // vm.addresses.building_number = vm.localStorage.GustCustomer.CustomerId;
+                vm.addresses.street = vm.localStorage.GustCustomer.Address1;
+                vm.addresses.sub_street = vm.localStorage.GustCustomer.Address2;
+                vm.addresses.state = vm.localStorage.GustCustomer.State;
+                vm.addresses.town = vm.localStorage.GustCustomer.City;
+                vm.addresses.postcode = vm.localStorage.GustCustomer.ZipCode;
+                vm.addresses.country = vm.localStorage.GustCustomer.CountryId;
+            }
+        }
+        else {
+            $state.go('app.Login');
+        }
+       
+
+        //Get Country
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getcountrydetails',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .success(function (data) {
+            var idata = data;
+            vm.Countries = idata;
+
+        });
+
+        vm.Create = function () {
+            debugger;
+            var skillsSelect = document.getElementById("CustomerGenger");
+            vm.KYCModal.gender = skillsSelect.options[skillsSelect.selectedIndex].text;
+            //CustomerGenger
+            if (vm.KYCModal) {
+                var accesstoken = 'test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc';
+                var formData = JSON.parse(JSON.stringify(vm.KYCModal));
+                //crossOrigin: true,
+                $.ajax({
+                    url: 'https://api.onfido.com/v2/applicants/',
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    crossDomain: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Token token=test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc',
+                    },
+                })
+                .success(function (data) {
+                    debugger;
+                    var idata = data;
+                    if (idata.id != '')
+                        var UpdateformData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId, "CompanyId": vm.CompanyId, "ApplicantId": idata.id }));
+                    $http({
+                        method: 'POST',
+                        data: UpdateformData,
+                        url: baseUrl + 'saveapplicantkyc',
+                        headers: { 'Content-Type': 'application/json' },
+                        
+                        dataType: "json",
+                    }).success(function (data) {
+                        var idata = data;
+                        if (idata.Result == "Success") {
+
+                        } else {
+                            alert(2, idata.Result);
+                        }
+
+                    });
+                });
+            }
+
+        }
+
+        vm.cancel = function () {
+            $state.go('app.customerPortal');
+        }
+    }
+
 
 })();

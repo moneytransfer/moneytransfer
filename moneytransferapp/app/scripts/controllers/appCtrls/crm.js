@@ -250,7 +250,7 @@
                 vm.Customer.City = idata.City;
                 vm.Customer.State = idata.State;
                 vm.Customer.ZipCode = idata.ZipCode;
-                vm.Customer.Phone = "";
+                vm.Customer.Phone = idata.Phone;
                 vm.Customer.Email = idata.Email;
                 if (idata.Password != null && idata.Password != "") {
                     vm.Customer.Password = idata.Password;
