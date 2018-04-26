@@ -9,6 +9,7 @@
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
                 <li ng-if="IsLogin" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions </a></li>
+                <li class="nav-item" ng-if="IsLogin"><a class="nav-link" ui-sref='app.addKyc'>Profile</a></li>
             </ul>
         </div>
     </div>

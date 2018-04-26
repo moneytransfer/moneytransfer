@@ -1146,7 +1146,7 @@
         vm.CustomerId = 0;
         vm.CompanyId = 0;
         vm.CountryId = 0;
-        vm.addresses = { flat_number: " ", building_name: " ", building_number: " ", street: " ", sub_street: "", state: "", town: " ", postcode: " ", country: 0, start_date: " ", end_date: "" }
+        vm.addresses = { street: " ", sub_street: "", state: "", town: " ", postcode: " ", country: 0, start_date: " ", end_date: "" }
         vm.KYCModal = { title: "Mr/Ms/Mrs", first_name: " ", last_name: " ", gender: " ", dob: "", country: 0, addresses: vm.addresses }
 
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
@@ -1158,10 +1158,11 @@
                 vm.KYCModal.country = vm.localStorage.GustCustomer.CountryId;
                 vm.KYCModal.first_name = vm.localStorage.GustCustomer.FirstName;
                 vm.KYCModal.last_name = vm.localStorage.GustCustomer.LastName;
+
+                vm.KYCModal.Email = vm.localStorage.GustCustomer.Email;
+                vm.KYCModal.Phone =parseInt(vm.localStorage.GustCustomer.Phone);
+
                 vm.KYCModal.dob = vm.localStorage.GustCustomer.DOB;
-                //vm.addresses.flat_number = vm.localStorage.GustCustomer.CustomerId;
-                // vm.addresses.building_name = vm.localStorage.GustCustomer.CustomerId;
-                // vm.addresses.building_number = vm.localStorage.GustCustomer.CustomerId;
                 vm.addresses.street = vm.localStorage.GustCustomer.Address1;
                 vm.addresses.sub_street = vm.localStorage.GustCustomer.Address2;
                 vm.addresses.state = vm.localStorage.GustCustomer.State;
@@ -1208,7 +1209,7 @@
                     },
                 })
                 .success(function (data) {
-                    debugger;
+               
                     var idata = data;
                     if (idata.id != '')
                         var UpdateformData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId, "CompanyId": vm.CompanyId, "ApplicantId": idata.id }));

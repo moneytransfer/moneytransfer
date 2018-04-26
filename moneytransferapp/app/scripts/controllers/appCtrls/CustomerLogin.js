@@ -155,7 +155,7 @@ var authorisedCustomer = [];
 
     CustomerauthenticateController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function CustomerauthenticateController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
-        
+
         if ($window.sessionStorage.authorisedCustomer) {
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             if (!authorisedCustomer.CustomerId) {
@@ -192,7 +192,7 @@ var authorisedCustomer = [];
             if (authorisedCustomer.CustomerId) { CustomerId = authorisedCustomer.CustomerId }
         }
 
-        vm.CustomerModel = { CompanyId: "0", CountryId: "0", FirstName: '', LastName: '', Address1: '', Address2: '', City: '', State: '', ZipCode: '', Phone: '', Email: '', Password: '', DOB: '', ProfileImage: '', ActivationCode: '', };
+        vm.CustomerModel = { CompanyId: "0", CountryId: "0", Title: "0", Gender: "0",Side:"0", FirstName: '', LastName: '', Address1: '', Address2: '', City: '', State: '', ZipCode: '', Phone: '', Email: '', Password: '', DOB: '', ProfileImage: '', ActivationCode: '', };
 
         //Get Country
         $http({
@@ -222,6 +222,9 @@ var authorisedCustomer = [];
                 idata.CountryId = JSON.stringify(CountryId);
                 idata.Phone = parseInt(idata.Phone);
                 idata.DOB = $filter('date')(idata.DOB, "yyyy/MM/dd");
+                idata.Gender = "0";
+                idata.Title = "1";
+                idata.Side = "0";
                 vm.CustomerModel = idata;
             }
 
@@ -249,6 +252,10 @@ var authorisedCustomer = [];
                     Alert(2, "! Invalid Customer details. ");
                 }
             });
+        }
+
+        vm.cancel = function () {
+            $state.go('app.Transaction');
         }
     }
 

@@ -10,6 +10,7 @@
             <ul class="navbar-nav ">
                 <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.sending_loop'>Home</a></li>
                 <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>
+                <li class="nav-item" ng-if="localStorage.GustCustomer !=''"><a class="nav-link" ui-sref='app.addKyc'>Profile</a></li>
             </ul>
         </div>
     </div>

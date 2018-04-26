@@ -57,6 +57,15 @@ public class CustomerDetail {
 	public String CreatedDate;
 	public String DeletedDate;
 	
+	public String Title;
+	public String Gender;
+	public String BuildingNumber;
+	public String Street;
+	public String Town;
+	public String FileName;
+	public String FileType;
+	public String Side;
+	
 	public String Result;
 	public String Error;
 	
@@ -128,6 +137,58 @@ public class CustomerDetail {
 	}	
 	private String getZipCode(){
 		return ZipCode;
+	}
+	
+	
+	
+	private void setTitle(String Title){
+		this.Title = Title;
+	}	
+	private String getTitle(){
+		return Title;
+	}
+	private void setGender(String Gender){
+		this.Gender = Gender;
+	}	
+	private String getGender(){
+		return Gender;
+	}
+	private void setBuildingNumber(String BuildingNumber){
+		this.BuildingNumber = BuildingNumber;
+	}	
+	private String getBuildingNumber(){
+		return BuildingNumber;
+	}
+	private void setStreet(String Street){
+		this.Street = Street;
+	}	
+	private String getStreet(){
+		return Street;
+	}
+	private void setTown(String Town){
+		this.Town = Town;
+	}	
+	private String getTown(){
+		return Town;
+	}
+	
+	private void setFileName(String FileName){
+		this.FileName = FileName;
+	}	
+	private String getFileName(){
+		return FileName;
+	}
+	private void setFileType(String FileType){
+		this.FileType = FileType;
+	}	
+	private String getFileType(){
+		return FileType;
+	}
+	private void setSide(String Side){
+		this.Side = Side;
+	}	
+	private String getSide(){
+		return Side;
 	}
 	
 	private void setCountryId(int CountryId){
@@ -384,7 +445,7 @@ public class CustomerDetail {
 								
 								String sInsertStatement ="UPDATE customer SET 	Company_Id = ?,AccountNumber = ? ,FirstName = ? ,LastName = ? ,Address1 = ? "
 										+ ",Address2 = ?,City = ?,State = ? ,ZipCode = ? ,country_id = ? ,Phone = ? ,Email = ? "
-										+ ",DOB = ?,ProfileImage = ?,IsAccountActivated = ?,IsActive = ?,CreatedDate = ?"+ " WHERE customer_Id = ?";
+										+ ",DOB = ?,ProfileImage = ?,IsAccountActivated = ?,IsActive = ?,CreatedDate = ?,Title= ?,gender=?,building_number= ?,street= ?,town=?,FileName=?,FileType=?,Side=?"+ " WHERE customer_Id = ?";
 								_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
 								_PreparedStatement.setInt(1, _CustomerDetail.CompanyId);							
 								_PreparedStatement.setString(2, _CustomerDetail.AccountNumber);		
@@ -405,7 +466,16 @@ public class CustomerDetail {
 								
 								_PreparedStatement.setBoolean(16, _CustomerDetail.IsActive);
 								_PreparedStatement.setString(17, _CustomerDetail.CreatedDate);
-								_PreparedStatement.setInt(18, _CustomerDetail.CustomerId);
+								
+								_PreparedStatement.setString(18, _CustomerDetail.Title);
+								_PreparedStatement.setString(19, _CustomerDetail.Gender);
+								_PreparedStatement.setString(20, _CustomerDetail.BuildingNumber);
+								_PreparedStatement.setString(21, _CustomerDetail.Street);
+								_PreparedStatement.setString(22, _CustomerDetail.Town);
+								_PreparedStatement.setString(23, _CustomerDetail.FileName);
+								_PreparedStatement.setString(24, _CustomerDetail.FileType);
+								_PreparedStatement.setString(25, _CustomerDetail.Side);
+								_PreparedStatement.setInt(26, _CustomerDetail.CustomerId);
 								_PreparedStatement.executeUpdate();
 								_CustomerDetail.setResult("Sucess");
 								clear(_CustomerDetail);
@@ -502,6 +572,15 @@ public class CustomerDetail {
 							_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 							_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 							_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
+							
+							
+							_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+							_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
+							_CustomerDetail.setStreet(_ResultSet.getString("street"));
+							_CustomerDetail.setTown(_ResultSet.getString("town"));
+							_CustomerDetail.setFileName(_ResultSet.getString("FileName"));
+							_CustomerDetail.setFileType(_ResultSet.getString("FileType"));
+							_CustomerDetail.setSide(_ResultSet.getString("Side"));
 							_CustomerDetail.setResult("Success");
 							_CustomerDetaillist.add(_CustomerDetail);
 							
@@ -540,6 +619,13 @@ public class CustomerDetail {
 						_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
+						_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+						_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
+						_CustomerDetail.setStreet(_ResultSet.getString("street"));
+						_CustomerDetail.setTown(_ResultSet.getString("town"));
+						_CustomerDetail.setFileName(_ResultSet.getString("FileName"));
+						_CustomerDetail.setFileType(_ResultSet.getString("FileType"));
+						_CustomerDetail.setSide(_ResultSet.getString("Side"));
 						_CustomerDetail.setResult("Success");
 						_CustomerDetaillist.add(_CustomerDetail);
 						
@@ -611,6 +697,13 @@ public CustomerDetail getCustomerDetail(CustomerDetail _CustomerDetail) {
 						_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
+						_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+						_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
+						_CustomerDetail.setStreet(_ResultSet.getString("street"));
+						_CustomerDetail.setTown(_ResultSet.getString("town"));
+						_CustomerDetail.setFileName(_ResultSet.getString("FileName"));
+						_CustomerDetail.setFileType(_ResultSet.getString("FileType"));
+						_CustomerDetail.setSide(_ResultSet.getString("Side"));
 						_CustomerDetail.setResult("Sucess");
 						
 					}
@@ -680,6 +773,13 @@ public CustomerDetail loginCustomer(CustomerDetail _CustomerDetail)
 					_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 					_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 					_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
+					_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+					_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
+					_CustomerDetail.setStreet(_ResultSet.getString("street"));
+					_CustomerDetail.setTown(_ResultSet.getString("town"));
+					_CustomerDetail.setFileName(_ResultSet.getString("FileName"));
+					_CustomerDetail.setFileType(_ResultSet.getString("FileType"));
+					_CustomerDetail.setSide(_ResultSet.getString("Side"));
 					_CustomerDetail.setResult("Sucess");
 					_CustomerDetail.setPassword("xxxxxxxxxxxxxxxxxxxxxx");
 				}
@@ -855,6 +955,14 @@ public CustomerDetail deleteCustomer(CustomerDetail _CustomerDetail)
 				  _CustomerDetail.setCreatedDate("");
 				  _CustomerDetail.setCountryId(0);
 				  _CustomerDetail.setCompanyId(0);
+				  _CustomerDetail.setTitle("");
+				  _CustomerDetail.setGender("");
+				  _CustomerDetail.setBuildingNumber("");
+				  _CustomerDetail.setStreet("");
+				  _CustomerDetail.setTown("");
+				  _CustomerDetail.setFileName("");
+				  _CustomerDetail.setFileType("");
+				  _CustomerDetail.setSide("");
 			   return _CustomerDetail;
 			  }
 			  

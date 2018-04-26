@@ -1473,7 +1473,7 @@
             })
 
                .state('app.addKyc', {
-                   url: '/KYC',
+                   url: '/CustomerProfile',
                    templateUrl: 'views/customerPortal/kyc_form.html',
                    resolve: {
                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
