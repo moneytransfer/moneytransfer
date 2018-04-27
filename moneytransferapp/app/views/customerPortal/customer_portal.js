@@ -1146,35 +1146,40 @@
         vm.CustomerId = 0;
         vm.CompanyId = 0;
         vm.CountryId = 0;
-        vm.addresses = { street: " ", sub_street: "", state: "", town: " ", postcode: " ", country: 0, start_date: " ", end_date: "" }
-        vm.KYCModal = { title: "Mr/Ms/Mrs", first_name: " ", last_name: " ", gender: " ", dob: "", country: 0, addresses: vm.addresses }
-
+        vm.ProfileModal = { AccountNumber: "", ActivationCode: "", Address1: "", Address2: "", BuildingNumber: 0, City: "", CompanyId: 0, CountryId: 0, CustomerId: 0, DOB: "", Email: " ", FileName: "", FileType: "", FirstName: "", Gender: "", LastName: "", Password: "", Phone: "", ProfileImage: "", Side: "Front", State: " ", Street: "", Title: "Mr", Town: "", ZipCode: "" }
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
         if ($localStorage.GustCustomer) {
             vm.localStorage = $localStorage;
             if (vm.localStorage.GustCustomer.CustomerId) {
                 vm.CompanyId = vm.localStorage.GustCustomer.CompanyId;
                 vm.CustomerId = vm.localStorage.GustCustomer.CustomerId;
-                vm.KYCModal.country = vm.localStorage.GustCustomer.CountryId;
-                vm.KYCModal.first_name = vm.localStorage.GustCustomer.FirstName;
-                vm.KYCModal.last_name = vm.localStorage.GustCustomer.LastName;
-
-                vm.KYCModal.Email = vm.localStorage.GustCustomer.Email;
-                vm.KYCModal.Phone =parseInt(vm.localStorage.GustCustomer.Phone);
-
-                vm.KYCModal.dob = vm.localStorage.GustCustomer.DOB;
-                vm.addresses.street = vm.localStorage.GustCustomer.Address1;
-                vm.addresses.sub_street = vm.localStorage.GustCustomer.Address2;
-                vm.addresses.state = vm.localStorage.GustCustomer.State;
-                vm.addresses.town = vm.localStorage.GustCustomer.City;
-                vm.addresses.postcode = vm.localStorage.GustCustomer.ZipCode;
-                vm.addresses.country = vm.localStorage.GustCustomer.CountryId;
             }
         }
         else {
             $state.go('app.Login');
         }
-       
+        //Get Customer Details
+        if (vm.CustomerId) {
+
+            var formData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getcustomerdetails',
+                data: formData,
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+             .success(function (data) {
+                 var idata = data;
+                 if (idata) {
+                     idata.Phone = parseInt(idata.Phone);
+                     idata.CountryId = JSON.stringify(idata.CountryId);
+                     vm.ProfileModal = idata;
+                     vm.ProfileModal.Password = "";
+                 }
+             });
+        }
+
 
         //Get Country
         $http({
@@ -1189,46 +1194,44 @@
         });
 
         vm.Create = function () {
-            debugger;
-            var skillsSelect = document.getElementById("CustomerGenger");
-            vm.KYCModal.gender = skillsSelect.options[skillsSelect.selectedIndex].text;
             //CustomerGenger
-            if (vm.KYCModal) {
-                var accesstoken = 'test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc';
-                var formData = JSON.parse(JSON.stringify(vm.KYCModal));
-                //crossOrigin: true,
-                $.ajax({
-                    url: 'https://api.onfido.com/v2/applicants/',
+            if (vm.ProfileModal) {
+                var formData = JSON.parse(JSON.stringify(vm.ProfileModal));
+                $http({
                     method: 'POST',
+                    url: baseUrl + 'savecustomer',
                     data: formData,
-                    dataType: 'json',
-                    crossDomain: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Token token=test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
+                    dataType: "json",
                 })
                 .success(function (data) {
-               
                     var idata = data;
-                    if (idata.id != '')
-                        var UpdateformData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId, "CompanyId": vm.CompanyId, "ApplicantId": idata.id }));
-                    $http({
-                        method: 'POST',
-                        data: UpdateformData,
-                        url: baseUrl + 'saveapplicantkyc',
-                        headers: { 'Content-Type': 'application/json' },
-                        
-                        dataType: "json",
-                    }).success(function (data) {
-                        var idata = data;
-                        if (idata.Result == "Success") {
+                    if (idata && idata.Result == "Sucess") {
+                        AlertKyc(1, "! Profile updated successfully");
+                       
+                    }
+                    else {
+                        AlertKyc(2, idata.User.Message);
+                    }
 
-                        } else {
-                            alert(2, idata.Result);
-                        }
+                    //if (idata.id != '')
+                    //    var UpdateformData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId, "CompanyId": vm.CompanyId, "ApplicantId": idata.id }));
+                    //$http({
+                    //    method: 'POST',
+                    //    data: UpdateformData,
+                    //    url: baseUrl + 'saveapplicantkyc',
+                    //    headers: { 'Content-Type': 'application/json' },
 
-                    });
+                    //    dataType: "json",
+                    //}).success(function (data) {
+                    //    var idata = data;
+                    //    if (idata.Result == "Success") {
+
+                    //    } else {
+                    //        alert(2, idata.Result);
+                    //    }
+
+                    //});
                 });
             }
 

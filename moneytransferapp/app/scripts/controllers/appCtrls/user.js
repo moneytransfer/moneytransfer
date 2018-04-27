@@ -7,9 +7,6 @@
         .controller('manageUsersController', manageUsersController)
         .controller('addEditUserController', addEditUserController)
 
-
-
-
     manageUsersController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate'];
     function manageUsersController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate) {
 

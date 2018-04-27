@@ -1,0 +1,96 @@
+﻿<div class="padding" ng-controller="addEditUserController">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header m-t-1">
+                    <h3>{{header}} User </h3>
+                </div>
+                <div class="box-divider m-a-0"></div>
+                <div class="card-block">
+                    <form role="form" class="ng-pristine ng-valid" name="tblUser" ui-jq="validate">
+                        <div class="form-group row">
+                            <label for="inputName" class="col-sm-3 form-control-label">Company: <b class="text-danger">&nbsp;*</b> </label>
+                            <div class="col-sm-8">
+                                <select name="FamRole" id="ddlCompany" ng-model="UserModel.CompanyId" class="form-control" required>
+                                    <option value="0">-- Select Company --</option>
+                                    <option ng-repeat="Company in Companies" value="{{Company.CompanyId}}">{{Company.CompanyName}}</option>
+                                </select>
+                                <span class="text-danger" ng-show="tblUser.$valid && UserModel.CompanyId == 0">Please select Company.</span>
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <label for="Country" class="col-sm-3 form-control-label">Country : </label>
+                            <div class="col-sm-8">
+                                <select name="FamRole" id="ddlCountry" ng-model="UserModel.CountryId" class="form-control" required>
+                                    <option value="0">-- Select Country --</option>
+                                    <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                                </select>
+                                <span class="text-danger" ng-show="tblUser.$valid && UserModel.CountryId == 0">Please select Country.</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Name" class="col-sm-3 form-control-label">First Name: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="UserModel.FirstName" required maxlength="30">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Name" class="col-sm-3 form-control-label">Last Name: </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="UserModel.LastName" maxlength="30">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Email" class="col-sm-3 form-control-label">Email: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                <input type="text" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="UserModel.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+                                <span class="text-danger" ng-show="tblUser.Email.$error.pattern">Please Enter a valid Email address.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Username" class="col-sm-3 form-control-label">Phone: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-8">
+                                <input type="number" min="10" class="form-control" id="Username" placeholder="Phone" ng-model="UserModel.Phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Username" class="col-sm-3 form-control-label">Profile Image: </label><div class="col-sm-8">
+                                <input type="text" class="form-control" id="ProfileImage" placeholder="Profile" ng-model="UserModel.ProfileImage">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12" ng-show="UserModel.UserId>0">
+                                <div class="box-divider m-a-0"></div>
+                                <h5 class="p-t-1">Update Password</h5>
+                            </div>
+                            <label for="Password" class="col-sm-3 form-control-label">Password: </label>
+                            <div class="col-sm-8">
+                                <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" ng-model="UserModel.Password">
+                            </div>
+                        </div>
+                        <!--<div class="form-group row">
+                            <label for="CnfrmPassword" class="col-sm-3 form-control-label">Confirm Password: </label>
+                            <div class="col-sm-8">
+                                <input type="Password" class="form-control" id="CPassword" name="CPassword" placeholder="Confirm Password" ng-model="UserModel.Password">
+                            </div>
+                        </div>-->
+                        <div class="form-group row">
+                            <label for="IsActive" class="col-sm-3 form-control-label">Is Active:</label>
+                                <div class="col-sm-8 checkbox checkbox-primary form-control-label">
+                                    <input id="IsActive" type="checkbox" ng-model="UserModel.IsActive" ng-init="UserModel.IsActive=false ">
+                                </div>
+                        </div>
+                        <div class="form-group row m-t-md">
+                            <div class="col-sm-9 pull-right">
+                                <button type="submit" class="btn btn-primary" ng-click="tblUser.$valid && Create()">
+                                    {{UserModel.UserId>0?'Update':'Create' }}</button>
+                                <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

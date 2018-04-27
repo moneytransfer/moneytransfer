@@ -27,124 +27,133 @@
         </div>
     </div>
     <!--end master banner-->
+
     <div class="container">
         <section class="transaction-details-wrapper pt-5 pb-5">
             <form role="form" ui-jq="validate" name="tblCustomerKyc">
                 <div class="row">
                     <div class="col-sm-2">
-                        <select name="Gender" id="Select3" ng-model="KYCModal.Title" class="form-control" required ng-init="KYCModal.Title='1'">
-                            <option value="1">Mr.</option>
-                            <option value="2">Mrs.</option>
+                        <select name="Title" id="Title" ng-model="ProfileModal.Title" class="form-control" ng-init="ProfileModal.Title='Mr'" required>
+                            <option value="Mr">Mr.</option>
+                            <option value="Mrs">Mrs.</option>
                         </select>
                     </div>
                     <div class="col-sm-4 form-group">
-                        <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="KYCModal.first_name" maxlength="30" required>
+                        <input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="ProfileModal.FirstName" maxlength="30" required>
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text1" placeholder="Last Name" ng-model="KYCModal.last_name" maxlength="30" required>
+                        <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="ProfileModal.LastName" maxlength="30" required>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text4" placeholder="Date of birth" ng-model="KYCModal.dob" maxlength="30" required>
+                        <input type="text" class="form-control" id="ActivationCode" placeholder="Activation code" ng-model="ProfileModal.ActivationCode" disabled="disabled" required>
                     </div>
-
                     <div class="col-sm-6">
-                        <select name="Gender" id="CustomerGenger" ng-model="KYCModel.gender" class="form-control" ng-init="KYCModel.gender=''" required>
-                            <option value="" disabled="disabled">-- Select Gender --</option>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
+                        <input type="text" class="form-control" id="DOB" placeholder="Date of birth" ng-model="ProfileModal.DOB" maxlength="30" required>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <select name="Gender" id="CustomerGenger" ng-model="ProfileModal.Gender" class="form-control" ng-init="ProfileModal.Gender=''" required>
+                            <option value=" " disabled="disabled">-- Select Gender --</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="KYCModal.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
+                        <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="ProfileModal.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>
                         <span class="text-danger" ng-show="tblUser.Email.$error.pattern">Please Enter a valid Email address.</span>
                     </div>
-                    <div class="col-sm-6">
-                        <input type="number" min="10" class="form-control" id="Number1" placeholder="Phone" ng-model="KYCModal.Phone" required>
-                    </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="Password" class="form-control" id="Password1" name="Password" placeholder="Password" ng-model="KYCModal.Password">
+                        <input type="number" min="10" class="form-control" id="Phone" placeholder="Phone" ng-model="ProfileModal.Phone" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" ng-model="ProfileModal.Password">
                     </div>
                 </div>
-
 
                 <legend>Customer Address:</legend>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Email1" placeholder="Flat Number" ng-model="addresses.flat_number" maxlength="30" required>
+                        <input type="text" class="form-control" id="BuildingNumber" placeholder="Building Name" ng-model="ProfileModal.BuildingNumber" maxlength="30" required>
                     </div>
 
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text5" placeholder="Building Name" ng-model="addresses.building_name" maxlength="30" required>
+                        <input type="text" class="form-control" id="Street" placeholder="Street" ng-model="ProfileModal.Street" maxlength="30" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Email2" placeholder="Building Number" ng-model="addresses.building_number" maxlength="30" required>
+                        <input type="text" class="form-control" id="Address1" placeholder="Address1" ng-model="ProfileModal.Address1" maxlength="30" required>
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text6" placeholder="Street" ng-model="addresses.street" maxlength="30" required>
+                        <input type="text" class="form-control" id="Address2" placeholder="Address2" ng-model="ProfileModal.Address2" maxlength="30" required>
                     </div>
+
                 </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Email3" placeholder="State" ng-model="addresses.state" maxlength="30" required>
+                        <input type="text" class="form-control" id="Town" placeholder="Town" ng-model="ProfileModal.Town" maxlength="30" required>
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text7" placeholder="Town" ng-model="addresses.town" maxlength="30" required>
+                        <input type="text" class="form-control" id="City" placeholder="City" ng-model="ProfileModal.City" maxlength="30" required>
                     </div>
+
                 </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text8" placeholder="Postal Code" ng-model="addresses.postcode" maxlength="30" required>
+                        <input type="text" class="form-control" id="State" placeholder="State" ng-model="ProfileModal.State" maxlength="30" required>
                     </div>
-
                     <div class="col-sm-6">
-                        <select name="Country" id="Select2" ng-model="addresses.country" class="form-control" ng-init="addresses.country=''" required>
-                            <option value=" ">-- Select Country --</option>
+                        <input type="text" class="form-control" id="ZipCode" placeholder="Postal Code" ng-model="ProfileModal.ZipCode" maxlength="30" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <select name="Country" id="CountryId" ng-model="ProfileModal.CountryId" class="form-control" ng-init="ProfileModal.CountryId='0'" required>
+                            <option value="0">-- Select Country --</option>
                             <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
                         </select>
                     </div>
-                </div>
 
+                </div>
 
                 <legend>Documents Details:</legend>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="ProfileImage" placeholder="Profile Image" ng-model="KYCModal.ProfileImage">
+                        <input type="text" class="form-control" id="ProfileImage" placeholder="Profile Image" ng-model="ProfileModal.ProfileImage">
                     </div>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text2" placeholder="Account Number" ng-model="KYCModal.AccountNumber" maxlength="30" required>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text10" placeholder="File Name" ng-model="KYCModal.FileName" required>
-                    </div>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" id="Text9" placeholder="File Type" ng-model="KYCModal.FileType" maxlength="30" required>
+                        <input type="text" class="form-control" id="AccountNumber" placeholder="Account Number" ng-model="ProfileModal.AccountNumber" disabled="disabled" required>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <select name="Gender" id="Select1" ng-model="KYCModal.Side" class="form-control" ng-init="KYCModal.Side='0'" required>
-                            <option value="0" disabled="disabled">-- Select Side --</option>
-                            <option value="1">Front</option>
-                            <option value="2">Back</option>
+                        <input type="text" class="form-control" id="FileName" placeholder="File Name" ng-model="ProfileModal.FileName" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="FileType" placeholder="File Type" ng-model="ProfileModal.FileType" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <select name="Gender" id="Side" ng-model="ProfileModal.Side" class="form-control" ng-init="ProfileModal.Side='Front'" required>
+                            <option value="Front">Front Side</option>
+                            <option value="Back">Back Side</option>
                         </select>
                     </div>
+                    <div class="col-sm-6" id="viewAlert"></div>
                 </div>
 
 
@@ -160,12 +169,6 @@
 
 
         </section>
-
-    </div>
-
-
-
-
 
     <hr>
     <div class="row section-02">
