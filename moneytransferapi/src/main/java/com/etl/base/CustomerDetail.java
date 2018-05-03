@@ -573,8 +573,8 @@ public class CustomerDetail {
 							_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 							_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
 							
-							
-							_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+							_CustomerDetail.setTitle(_ResultSet.getString("Title"));
+							_CustomerDetail.setGender(_ResultSet.getString("gender"));
 							_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
 							_CustomerDetail.setStreet(_ResultSet.getString("street"));
 							_CustomerDetail.setTown(_ResultSet.getString("town"));
@@ -619,7 +619,8 @@ public class CustomerDetail {
 						_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
-						_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+						_CustomerDetail.setTitle(_ResultSet.getString("Title"));
+						_CustomerDetail.setGender(_ResultSet.getString("gender"));
 						_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
 						_CustomerDetail.setStreet(_ResultSet.getString("street"));
 						_CustomerDetail.setTown(_ResultSet.getString("town"));
@@ -697,7 +698,8 @@ public CustomerDetail getCustomerDetail(CustomerDetail _CustomerDetail) {
 						_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 						_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
-						_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+						_CustomerDetail.setTitle(_ResultSet.getString("Title"));
+						_CustomerDetail.setGender(_ResultSet.getString("gender"));
 						_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
 						_CustomerDetail.setStreet(_ResultSet.getString("street"));
 						_CustomerDetail.setTown(_ResultSet.getString("town"));
@@ -773,7 +775,8 @@ public CustomerDetail loginCustomer(CustomerDetail _CustomerDetail)
 					_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 					_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 					_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
-					_CustomerDetail.setTitle(_ResultSet.getString("gender"));
+					_CustomerDetail.setTitle(_ResultSet.getString("Title"));
+					_CustomerDetail.setGender(_ResultSet.getString("gender"));
 					_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
 					_CustomerDetail.setStreet(_ResultSet.getString("street"));
 					_CustomerDetail.setTown(_ResultSet.getString("town"));

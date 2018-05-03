@@ -586,12 +586,12 @@ public class Services {
 		return AuthrozieTranscation.getAuthrozieTranscationDetailsByCompany(_AuthrozieTranscation.CompanyId);
 	}
 	
-	@POST
-	@Path("saveapplicantkyc")
-	@Produces("application/json")
-	public ApplicantKYC saveapplicantkyc(ApplicantKYC _ApplicantKYC) {
-		return new ApplicantKYC().addupdateApplicantKYC(_ApplicantKYC);
-	}
+	//@POST
+	//@Path("saveapplicantkyc")
+	////@Produces("application/json")
+	//public ApplicantKYC saveapplicantkyc(ApplicantKYC _ApplicantKYC) {
+	//	return new ApplicantKYC().addupdateApplicantKYC(_ApplicantKYC);
+	//}
 	@POST
 	@Path("getsaveapplicantkyc")
 	@Produces("application/json")
@@ -604,5 +604,17 @@ public class Services {
 	@Produces("application/json")
 	public ApplicantKYC getapplicantkycById(ApplicantKYC _ApplicantKYC) {
 		return new ApplicantKYC().getApplicantKYCId(_ApplicantKYC.CustomerApplicantKYCId);
+	}
+	@GET
+	@Path("gettest")
+	@Produces("application/json")
+	public ApplicantKYC gettest() {
+		return new ApplicantKYC().test();
+	}
+	@POST
+	@Path("addApplicant")
+	@Produces("application/json")
+	public ApplicantKYC addApplicant(ApplicantKYC _ApplicantKYC) {
+		return new ApplicantKYC().addApplicantKYC(_ApplicantKYC.CustomerId, _ApplicantKYC.CompanyId, _ApplicantKYC.Title, _ApplicantKYC.FirstName, _ApplicantKYC.LastName, _ApplicantKYC.Gender, _ApplicantKYC.DOB, _ApplicantKYC.Country, _ApplicantKYC.FlatNumber, _ApplicantKYC.BuildingName, _ApplicantKYC.BuildingNumber, _ApplicantKYC.Street, _ApplicantKYC.State, _ApplicantKYC.Town, _ApplicantKYC.PostalCode);
 	}
 }
