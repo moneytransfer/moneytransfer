@@ -1140,12 +1140,13 @@
         }
     }
 
-    addEditkycController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
-    function addEditkycController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
+    addEditkycController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams','$filter'];
+    function addEditkycController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $filter) {
         var vm = $scope;
         vm.CustomerId = 0;
         vm.CompanyId = 0;
         vm.CountryId = 0;
+        vm.Result = "";
         vm.ProfileModal = { AccountNumber: "", ActivationCode: "", Address1: "", Address2: "", BuildingNumber: 0, City: "", CompanyId: 0, CountryId: 0, CustomerId: 0, DOB: "", Email: " ", FileName: "", FileType: "", FirstName: "", Gender: "", LastName: "", Password: "", Phone: "", ProfileImage: "", Side: "Front", State: " ", Street: "", Title: "Mr", Town: "", ZipCode: "" }
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
         if ($localStorage.GustCustomer) {
@@ -1175,6 +1176,10 @@
                      idata.Phone = parseInt(idata.Phone);
                      idata.CountryId = JSON.stringify(idata.CountryId);
                      vm.ProfileModal = idata;
+                     if (vm.ProfileModal.Title == null)
+                         vm.ProfileModal.Title = "Mr";
+                     if (vm.ProfileModal.Gender == null)
+                         vm.ProfileModal.Gender = "";
                      vm.ProfileModal.Password = "";
                  }
              });
@@ -1207,31 +1212,38 @@
                 .success(function (data) {
                     var idata = data;
                     if (idata && idata.Result == "Sucess") {
-                        AlertKyc(1, "! Profile updated successfully");
+                        var DataResult = angular.copy(vm.ProfileModal);
+                        var Country = $filter('filter')(vm.Countries, { CountryId: parseInt(vm.ProfileModal.CountryId) }, true
+        );
+                        var data = { CustomerId: vm.ProfileModal.CustomerId, CompanyId: vm.ProfileModal.CompanyId, Title: vm.ProfileModal.Title, FirstName: vm.ProfileModal.FirstName, LastName: vm.ProfileModal.LastName, Gender: vm.ProfileModal.Gender, DOB: vm.ProfileModal.DOB, Country: Country[0].CountryName.substr(0, 3).toUpperCase(), FlatNumber: vm.ProfileModal.Address1, BuildingName: vm.ProfileModal.BuildingNumber, BuildingNumber: vm.ProfileModal.Address2, Street: vm.ProfileModal.Street, State: vm.ProfileModal.State, Town: vm.ProfileModal.Town, PostalCode: vm.ProfileModal.ZipCode };
+                        var formData = JSON.parse(JSON.stringify(data));
+                        $http({
+                            method: 'POST',
+                            url: baseUrl + 'addApplicant',
+                            data: formData,
+                            headers: { 'Content-Type': 'application/json' },
+                            dataType: "json",
+                        })
+                .success(function (data) {
+                    if (data && data.Result == "Sucess") {
                        
+                      
+                        vm.Result = "Thanks for updating your profile details";
+                        setTimeout(function () {
+                            vm.Result = "";
+                            $("#ApiResult").hide();
+                            vm.ProfileModal = DataResult;
+                            //$state.go('app.customerPortal');
+                        }, 1500);
+                       
+                    } else {
+                        Alert(2, data.Error);
+                    }
+                });
                     }
                     else {
-                        AlertKyc(2, idata.User.Message);
+                        Alert(2, idata.User.Message);
                     }
-
-                    //if (idata.id != '')
-                    //    var UpdateformData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId, "CompanyId": vm.CompanyId, "ApplicantId": idata.id }));
-                    //$http({
-                    //    method: 'POST',
-                    //    data: UpdateformData,
-                    //    url: baseUrl + 'saveapplicantkyc',
-                    //    headers: { 'Content-Type': 'application/json' },
-
-                    //    dataType: "json",
-                    //}).success(function (data) {
-                    //    var idata = data;
-                    //    if (idata.Result == "Success") {
-
-                    //    } else {
-                    //        alert(2, idata.Result);
-                    //    }
-
-                    //});
                 });
             }
 
