@@ -55,7 +55,6 @@
                         <div class="col-sm-6">
                             <input type="text" class="form-control" id="DOB" placeholder="Date of birth" ng-model="ProfileModal.DOB" name="dob" required>
                             <span class="text-danger" ng-show="tblCustomerKyc.dob.$error.required">Please Enter Date of birth .</span>
-
                         </div>
                     </div>
 
@@ -168,14 +167,12 @@
                                 <option value="Back">Back Side</option>
                             </select>
                         </div>
-
-                        
-
+                        <div class="col-sm-6" id="viewAlert"></div>
                     </div>
 
-                    <div id="ApiResult" ng-if="Result!=''" class="text-success float-right">
+                   <!-- <div id="ApiResult" ng-if="Result!=''" class="text-success float-right">
                         {{Result}}
-                    </div>
+                    </div>-->
                
                     <div class="form-group row m-t-md">
                         <div class="col-sm-6">

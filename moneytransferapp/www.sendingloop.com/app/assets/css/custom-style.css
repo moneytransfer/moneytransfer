@@ -18,9 +18,10 @@
 
     .master-banner {
     background: url(../image/master-banner.jpg) no-repeat left 0 !important;
-    background-size: 232% !important;
-    height: 272px !important;
+    background-size: 322% !important;
+    height: 325px !important;
     padding-top: 0 !important;
+    min-height: inherit !important;
     }
     
     .pt-5, .py-5 {
@@ -974,11 +975,11 @@ label {
     }
 }
 
-/*.alert {
+.alert {
     position: absolute;
     bottom: 0px;
     right: 0px;
-}*/
+}
 
 /*Send Money*/
 

@@ -19,10 +19,10 @@ function AlertKyc(type, msg) {
     var div = "";
     switch (type) {
         case 1:
-            div = "<div id='alert' class='alert alert-success'><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
+            div = "<div id='alert' class='alert alert-success' style='position: relative;'><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
             break;
         case 2:
-            div = "<div id='alert' class='alert alert-danger'><a class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
+            div = "<div id='alert' class='alert alert-danger' style='position: relative;'><a class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
             break;
     }
     jQuery('#viewAlert').append(div);

@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageGuestCustomerTransactionController">
-        <a class="navbar-brand" ui-sref='app.sending_loop'>
+        <a class="navbar-brand" ui-sref='app.customerPortal'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones"></a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2">
             <li ng-if="localStorage.GustCustomer !=''" class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="" aria-hidden="true"></i>&nbsp;Log out</a></li>
@@ -8,7 +8,7 @@
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
-                <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.sending_loop'>Home</a></li>
+                <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.customerPortal'>Home</a></li>
                 <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>
              <li class="nav-item" ng-if="localStorage.GustCustomer !=''"><a class="nav-link" ui-sref='app.addKyc'>Profile</a></li>
             </ul>
@@ -704,15 +704,15 @@
                 </ul>
             </div>
             <div class="col-md-3 ftr-txt">
-                <h5>SECURITY &amp; PRIVACY</h5>
-                <ul>
-                    <!--                        <li><a target="_blank" ui-sref='app.US_state_lcensing'>U.S. State Licensing</a></li>
-                        <li><a target="_blank" ui-sref='app.International_Licensing'>International Licensing</a></li>-->
-                    <li><a target="_blank" ui-sref='app.Security_Center'>Security Center</a></li>
-                    <li><a target="_blank" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
-                    <li><a target="_blank" ui-sref='app.User_agreement'>User Agreement</a></li>
-                </ul>
-            </div>
+                    <h5>SECURITY &amp; PRIVACY</h5>
+                    <ul>
+                        <li><a target="_self" ui-sref='app.Security_Center'>Security Center</a></li>
+                        <li><a target="_self" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
+                        <li><a target="_self" ui-sref='app.User_agreement'>User Agreement</a></li>
+                        <li><a target="_self" ui-sref='app.return_policy'>Refunds and Returns Policy</a></li>
+                    </ul>
+                    <p style="margin-top: 12px;margin-left: -3px;"><img src="assets/image/credit-card-logo.jpg" width="80%" /></p>
+                </div>
 
         </div>
     </div>

@@ -1,6 +1,6 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" ng-controller="manageCustomerLoginController">
-        <a class="navbar-brand" ui-sref='app.sending_loop'>
+        <a class="navbar-brand" ui-sref='app.customerPortal'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones"></a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">
             <li class="nav-item" ng-click="logoutGustCustomer()"><a class="nav-link"><i class="" aria-hidden="true" ng-click="logoutGustCustomer()"></i>&nbsp;Log out</a></li>
@@ -764,61 +764,19 @@
                 <div class="col-md-3 ftr-txt">
                     <h5>SECURITY &amp; PRIVACY</h5>
                     <ul>
-                        <!--                        <li><a target="_blank" ui-sref='app.US_state_lcensing'>U.S. State Licensing</a></li>
-                        <li><a target="_blank" ui-sref='app.International_Licensing'>International Licensing</a></li>-->
-                        <li><a target="_blank" ui-sref='app.Security_Center'>Security Center</a></li>
-                        <li><a target="_blank" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
-                        <li><a target="_blank" ui-sref='app.User_agreement'>User Agreement</a></li>
+                        <li><a target="_self" ui-sref='app.Security_Center'>Security Center</a></li>
+                        <li><a target="_self" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
+                        <li><a target="_self" ui-sref='app.User_agreement'>User Agreement</a></li>
+                        <li><a target="_self" ui-sref='app.return_policy'>Refunds and Returns Policy</a></li>
+
                     </ul>
+                    <p style="margin-top: 12px;margin-left: -3px;"><img src="assets/image/credit-card-logo.jpg" width="80%" /></p>
                 </div>
 
             </div>
 
         </div>
     </section>
-    <!--<div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-success">
-                    <h4 class="modal-title ">Confirmation !</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-
-                <div class="modal-body">
-                    <h6 class="mb-4">Please click yes to proceed </h6>
-                    <table class="table">
-                        <thead class="thead-default">
-                            <tr>
-                               
-                                <td>Mobile Number</td>
-                                <td>Country</td>
-                                <td>Reloading Amount</td>
-                                <td>Fare Amount</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                 
-                                <td>+{{localStorage.SelectedCountry.internationalCodes}} &nbsp;{{localStorage.GustData}}</td>
-                                <td>
-                                    <span class="flag-icon">
-                                       <img src="images/Flag/{{localStorage.SelectedCountry.countryCode}}.png" alt=""></span>
-                                    <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">{{localStorage.SelectedCountry.currencyCode}}</span>
-                                </td>
-                                <td>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.currencyCode}}</td>
-                                <td>{{localStorage.FareAmmount | number:2}} USD</td>
-                            </tr>
-                        </tbody>
-
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" ng-click="popupYes()">Yes</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </div>
-    </div>-->
 </div>
 
 

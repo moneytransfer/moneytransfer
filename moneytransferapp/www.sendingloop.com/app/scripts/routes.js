@@ -879,6 +879,20 @@
                 },
                 title: 'customerPortal',
             })
+          .state('app.return_policy', {
+                url: '/return_policy',
+                templateUrl: 'views/customerPortal/LinkPage/return-policy.html',
+                resolve: {
+                    deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
+                            //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
+                            return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                        });
+                    }]
+                },
+                title: 'customerPortal',
+            })
+          
                      .state('app.privacy_policy', {
                          url: '/privacy-policy',
                          templateUrl: 'views/customerPortal/LinkPage/privacy-policy.html',

@@ -2,13 +2,28 @@ function Alert(type, msg) {
     var div = "";
     switch (type) {
         case 1:
-            div = "<div id='alert' class='alert alert-success pull-right col-sm-4 '><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
+            div = "<div id='alert' class='alert alert-success pull-right col-sm-4'><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
             break;
         case 2:
-            div = "<div id='alert' class='alert alert-danger'><a class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
+            div = "<div id='alert' class='alert alert-danger pull-right col-sm-4'><a class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
             break;
         case 3:
-            div = "<div id='alert' class='alert alert-success'><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
+            div = "<div id='alert' class='alert alert-success pull-right col-sm-4'><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
+            break;
+    }
+    jQuery('#view').append(div);
+    setTimeout(function () {
+        jQuery('#alert').remove();
+    }, 3500);
+}
+function AlertKyc(type, msg) {
+    var div = "";
+    switch (type) {
+        case 1:
+            div = "<div id='alert' class='alert alert-success' style='position: relative;'><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
+            break;
+        case 2:
+            div = "<div id='alert' class='alert alert-danger' style='position: relative;'><a class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
             break;
     }
     jQuery('#viewAlert').append(div);
@@ -16,7 +31,6 @@ function Alert(type, msg) {
         jQuery('#alert').remove();
     }, 3500);
 }
-
 $(document).ready(function () {
     if (authorisedUser.UserId) {
         $("#appheader").removeClass('hide');

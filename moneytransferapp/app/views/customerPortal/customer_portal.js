@@ -598,6 +598,7 @@
                 var iCustomer = data;
                 if (iCustomer.CustomerId) {
                     var GustCustomer = [];
+                    vm.IsLogin = true;
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
@@ -699,10 +700,13 @@
                         .success(function (data, status, headers, config) {
                             var GustCustomer = data;
                             if (GustCustomer.CustomerId) {
-                                $localStorage.GustData.GustCustomer = JSON.stringify(data);
+                                //$localStorage.GustData.GustCustomer = JSON.stringify(data);
+                                $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
-                                if ($localStorage.GustData.Ammount) {
-                                    $state.go('app.makePayment')
+                                if ($localStorage.GustData !== undefined) {
+                                    if ($localStorage.GustData.Ammount > 0) {
+                                        $state.go('app.makePayment')
+                                    } else { $state.go('app.customerPortal') }
                                     //setTimeout(function () { window.location.reload(); }, 1000);
                                 } else {
                                     //$state.go('app.makepayment');
@@ -1140,7 +1144,7 @@
         }
     }
 
-    addEditkycController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams','$filter'];
+    addEditkycController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$filter'];
     function addEditkycController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $filter) {
         var vm = $scope;
         vm.CustomerId = 0;
@@ -1161,7 +1165,6 @@
         }
         //Get Customer Details
         if (vm.CustomerId) {
-
             var formData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId }));
             $http({
                 method: 'POST',
@@ -1214,8 +1217,8 @@
                     if (idata && idata.Result == "Sucess") {
                         var DataResult = angular.copy(vm.ProfileModal);
                         var Country = $filter('filter')(vm.Countries, { CountryId: parseInt(vm.ProfileModal.CountryId) }, true
-        );
-                        var data = { CustomerId: vm.ProfileModal.CustomerId, CompanyId: vm.ProfileModal.CompanyId, Title: vm.ProfileModal.Title, FirstName: vm.ProfileModal.FirstName, LastName: vm.ProfileModal.LastName, Gender: vm.ProfileModal.Gender, DOB: vm.ProfileModal.DOB, Country: Country[0].CountryName.substr(0, 3).toUpperCase(), FlatNumber: vm.ProfileModal.Address1, BuildingName: vm.ProfileModal.BuildingNumber, BuildingNumber: vm.ProfileModal.Address2, Street: vm.ProfileModal.Street, State: vm.ProfileModal.State, Town: vm.ProfileModal.Town, PostalCode: vm.ProfileModal.ZipCode };
+                        );
+                        var data = { CustomerId: vm.ProfileModal.CustomerId, CompanyId: vm.ProfileModal.CompanyId, Title: vm.ProfileModal.Title, FirstName: vm.ProfileModal.FirstName, LastName: vm.ProfileModal.LastName, Gender: vm.ProfileModal.Gender, DOB: vm.ProfileModal.DOB, Country: Country[0].CountryName.substr(0, 3).toUpperCase(), FlatNumber: vm.ProfileModal.Address1, BuildingName: vm.ProfileModal.BuildingNumber, BuildingNumber: vm.ProfileModal.Address2, Street: vm.ProfileModal.Street, State: vm.ProfileModal.State, Town: vm.ProfileModal.Town, PostalCode: vm.ProfileModal.ZipCode, Phone: vm.ProfileModal.Phone };
                         var formData = JSON.parse(JSON.stringify(data));
                         $http({
                             method: 'POST',
@@ -1224,25 +1227,25 @@
                             headers: { 'Content-Type': 'application/json' },
                             dataType: "json",
                         })
-                .success(function (data) {
-                    if (data && data.Result == "Sucess") {
-                       
-                      
-                        vm.Result = "Thanks for updating your profile details";
-                        setTimeout(function () {
-                            vm.Result = "";
-                            $("#ApiResult").hide();
-                            vm.ProfileModal = DataResult;
-                            //$state.go('app.customerPortal');
-                        }, 1500);
-                       
-                    } else {
-                        Alert(2, data.Error);
-                    }
-                });
+                            .success(function (data) {
+                                if (data && data.Result == "Sucess") {
+
+                                    AlertKyc(1, "Thanks for updating your profile details");
+                                    //vm.Result = "Thanks for updating your profile details";
+                                    setTimeout(function () {
+                                        //vm.Result = "";
+                                        //$("#ApiResult").hide();
+                                        vm.ProfileModal = DataResult;
+                                        //$state.go('app.customerPortal');
+                                    }, 1500);
+
+                                } else {
+                                    AlertKyc(2, data.Error);
+                                }
+                            });
                     }
                     else {
-                        Alert(2, idata.User.Message);
+                        AlertKyc(2, idata.User.Message);
                     }
                 });
             }
