@@ -20,7 +20,7 @@
 
           var p = getParams('layout'),
                l = p ? p + '.' : '',
-               layout = 'views/common/horizontal/layout.html',
+               layout = 'views/common/layout.html',
                dashboard = "";
 
           // For unmatched routes
@@ -751,7 +751,7 @@
                     }]
                 },
                 title: 'customerPortal',
-
+                classes: 'no-padding no-footer layout-static'
             })
 
             .state('app.chooseAmount', {
@@ -765,7 +765,8 @@
                     }]
                 },
                 title: 'customerPortal',
-                params: { numberDetails: 0 }
+                params: { numberDetails: 0 },
+                classes: 'no-padding no-footer layout-static'
                 //controller: "authenticateGuestController"
             })
               .state('app.reviewAmmount', {
@@ -848,7 +849,7 @@
                     }]
                 },
                 title: 'customerPortal',
-                controller: "authenticateGuestController"
+                //controller: "authenticateGuestController"
             })
 
             .state('app.transactionDetails', {
@@ -863,7 +864,7 @@
                     }]
                 },
                 title: 'customerPortal',
-                controller: "authenticateGuestController"
+               // controller: "authenticateGuestController"
             })
 
             .state('app.User_agreement', {

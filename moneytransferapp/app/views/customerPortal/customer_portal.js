@@ -46,8 +46,6 @@
         } else {
             $state.go('app.customerPortal')
         }
-
-
         //Get Country
         $http({
             method: 'GET',
@@ -166,8 +164,9 @@
                         idata.countryCode = idata.countryCode.toLowerCase();
                         vm.FlagModel = idata;
                         var sData = vm.CountryDetails;
-                        if (!vm.DestinationCountry)
+                        if (!vm.DestinationCountry) {
                             var PhoneCode = res[0];
+                        }
                         if (vm.CountryDetails.phonecode != '0') {
                             if (idata.internationalCodes != vm.CountryDetails.phonecode) {
                                 vm.CountryDetails.phonecode = '0';
@@ -566,6 +565,20 @@
         }
         //vm.CustomerStorage = { GustCustomer: '0' };
 
+        if ($localStorage.Ammount) {
+            if (vm.IsLogin) {
+                $window.location.assign('#/app/makePayment');
+            }
+            else {
+                var url = $state.current.url;
+                $window.location.assign('#/app' + url);
+            }
+        }
+        else if (vm.IsLogin) {
+            $window.location.assign('#/app/customerPortal');
+        }
+
+
         //Get Country
         $http({
             method: 'GET',
@@ -602,14 +615,7 @@
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-                    if ($localStorage.Ammount) {
-                        $state.go('app.makePayment')
-                        //setTimeout(function () { window.location.reload(); }, 1000);
-                    } else {
-                        //$state.go('app.makepayment');
-                        $state.go('app.customerPortal')
-                    }
-
+                    setTimeout(function () { window.location.reload(); }, 1000);
                 }
                 else {
                     Alert(2, "! Invalid Customer or password. ");
@@ -700,18 +706,12 @@
                         .success(function (data, status, headers, config) {
                             var GustCustomer = data;
                             if (GustCustomer.CustomerId) {
+                                $window.sessionStorage.IsLogin = true;
                                 //$localStorage.GustData.GustCustomer = JSON.stringify(data);
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
-                                if ($localStorage.GustData !== undefined) {
-                                    if ($localStorage.GustData.Ammount > 0) {
-                                        $state.go('app.makePayment')
-                                    } else { $state.go('app.customerPortal') }
-                                    //setTimeout(function () { window.location.reload(); }, 1000);
-                                } else {
-                                    //$state.go('app.makepayment');
-                                    $state.go('app.customerPortal')
-                                }
+
+                                setTimeout(function () { window.location.reload(); }, 1000);
                             }
                             else {
                                 Alert(2, "! Invalid Customer or password. ");
@@ -729,7 +729,6 @@
         }
 
         vm.logoutGustCustomer = function () {
-
             $localStorage.numberDetails = '';
             $localStorage.GustCustomer = '';
             $localStorage.Ammount = '';
@@ -771,7 +770,6 @@
         else {
             $state.go('app.Login');
         }
-
         vm.PaymentMethods = [];
         //Get Method Details
         var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
@@ -969,7 +967,6 @@
                         dataType: "json",
                     })
                     .success(function (data) {
-
                         var idata = data;
                         if (idata.Result == "Success" && idata.TransactionId > 0) {
                             idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
@@ -978,7 +975,8 @@
                             $state.go('app.ThankuCus');
                         }
                         else {
-                            Alert(2, idata.Error);
+                            AlertKyc(2, idata.Error);
+                            //Alert(2, idata.Error);
                         }
                         vm.PayDetails = idata;
                         $localStorage.ThankyouPageData = vm.PayDetails;
@@ -1035,7 +1033,6 @@
         } else {
             $state.go('app.customerPortal')
         }
-
         //Remove BackDrop
         $('.modal-backdrop').remove();
 
@@ -1115,13 +1112,6 @@
         } else {
             $state.go('app.Login');
         }
-
-
-
-
-
-
-
 
     }
 

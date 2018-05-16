@@ -21,31 +21,28 @@
     <link rel="stylesheet" href="" id="load_styles_before" />
 
     <!-- build:css({.tmp,app}) styles/app.min.css -->
-    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'" href="vendor/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'" href="vendor/pace/themes/blue/pace-theme-minimal.css" />
-    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'" href="vendor/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'" href="vendor/animate.css/animate.css" />
-    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'" href="styles/app.css" />
-    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'" href="styles/app.skins.css" />
-    <link href="styles/bootstrap-datepicker.min.css" ng-if="$state.current.title !='customerPortal'" rel="stylesheet" />
-    <link href="styles/custom-style.css" ng-if="$state.current.title !='customerPortal'" rel="stylesheet" />
-
+    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal' && $state.current.title !='sendMoney'" href="vendor/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'&& $state.current.title !='sendMoney'" href="vendor/pace/themes/blue/pace-theme-minimal.css" />
+    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'&& $state.current.title !='sendMoney'" href="vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'&& $state.current.title !='sendMoney'" href="vendor/animate.css/animate.css" />
+    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'&& $state.current.title !='sendMoney'" href="styles/app.css" />
+    <link rel="stylesheet" ng-if="$state.current.title !='customerPortal'&& $state.current.title !='sendMoney'" href="styles/app.skins.css" />
+    <link href="styles/bootstrap-datepicker.min.css" ng-if="$state.current.title !='customerPortal' && $state.current.title !='sendMoney'" rel="stylesheet" />
+    <link href="styles/custom-style.css" ng-if="$state.current.title !='customerPortal'&& $state.current.title !='sendMoney'" rel="stylesheet" />
+    <link href="styles/bootstrap-datepicker.min.css" rel="stylesheet" />
     <!-- endbuild -->
     
 
     <!-- customerProtal page includes -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" ng-if="$state.current.title == 'customerPortal'" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" ng-if="$state.current.title == 'customerPortal' || $state.current.title =='sendMoney'" rel="stylesheet">
     <!--Font Awesome-->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" ng-if="$state.current.title == 'customerPortal'" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" ng-if="$state.current.title == 'customerPortal' || $state.current.title =='sendMoney'" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- Bootstrap CSS -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" ng-if="$state.current.title == 'customerPortal'" rel="stylesheet">
-    <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal'" href="assets/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" ng-if="$state.current.title == 'customerPortal' || $state.current.title =='sendMoney'" rel="stylesheet">
+    <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal' || $state.current.title =='sendMoney'" href="assets/css/bootstrap.min.css">
     <!--custom css-->
-    <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal'" href="assets/css/custom-style.css">
-
+    <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal' || $state.current.title =='sendMoney'" href="assets/css/custom-style.css">
+    
  
     <!-- /customerProtal page includes -->
     
@@ -87,7 +84,7 @@
     <script src="vendor/angular-animate/angular-animate.js"></script>
     <!--<script src="vendor/ui-jq/jq.js"></script>-->
 
-
+    <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 
     <script src="vendor/ngstorage/ngStorage.js"></script>
@@ -103,8 +100,8 @@
     <script src="vendor/datepicker/bootstrap-datepicker.min.js"></script>
 
     <!-- costomerPortal js files -->
-    <script src="assets/js/bootstrap.bundle.min.js" ng-if="$state.current.title == 'customerPortal'"></script>
-    <script src="assets/js/jquery.payform.min.js" ng-if="$state.current.title == 'customerPortal'"></script>
+    <script src="assets/js/bootstrap.bundle.min.js" ng-if="$state.current.title == 'customerPortal' || $state.current.title =='sendMoney'"></script>
+    <script src="assets/js/jquery.payform.min.js" ng-if="$state.current.title == 'customerPortal' || $state.current.title =='sendMoney'"></script>
 
     <!-- /costomerPortal js files -->
 

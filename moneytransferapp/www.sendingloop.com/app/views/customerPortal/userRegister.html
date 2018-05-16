@@ -1,16 +1,14 @@
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
-    <div class="container flex-column flex-sm-row" >
+    <div class="container flex-column flex-sm-row">
         <a class="navbar-brand" ui-sref='app.customerPortal'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones"></a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2">
-                       <!-- <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true" ng-click="logoutGustCustomer()"></i>&nbsp;Log out</a></li>-->
             <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
                 <li class="nav-item"><a class="nav-link" href="" ui-sref='app.Login'>Log In</a></li>
                 <li class="nav-item"><a class="nav-link" href="" ui-sref='app.userRegister'>Sign Up</a></li>
-               <!-- <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>-->
             </ul>
         </div>
     </div>
@@ -22,15 +20,15 @@
             <div class="row d-flex justify-content-center align-items-center flex-column pl-3 pl-sm-0 pr-3 pr-sm-0">
                 <div class="col-lg-6 col-md-10 p-0">
                     <ul class="nav log-sign-tab">
-                        <li><a href="" ui-sref="app.Login"><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
-                        <li class="active"><a href="" ui-sref="app.userRegister"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign up</a></li>
+                        <li><a ui-sref="app.Login"><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
+                        <li class="active"><a ui-sref="app.userRegister"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign up</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-6 col-md-10 desaturated-blue p-5">
                     <form class="log-sing-form" ui-jq="validate" name="tblCustomerregister">
                         <div class="form-group">
                             <label for="Username">First name</label>
-                            <input type="text" class="form-control cm-input " ng-model="CustomerRegister.FirstName" name="first-name" placeholder="First name">
+                            <input type="text" class="form-control cm-input " ng-model="CustomerRegister.FirstName" name="first-name" placeholder="First name" required>
                         </div>
                         <div class="form-group">
                             <label for="Username">Last name</label>
@@ -38,11 +36,11 @@
                         </div>
                         <div class="form-group">
                             <label for="email">Email address</label>
-                            <input type="text" class="form-control cm-input " ng-model="CustomerRegister.Email" name="email" placeholder="Email address">
+                            <input type="email" class="form-control cm-input " ng-model="CustomerRegister.Email" name="email" placeholder="Email address" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone <b class="text-danger">&nbsp;*</b></label>
-                            <input type="tel" placeholder="Phone" ng-model="CustomerRegister.Phone" name="phone" class="form-control cm-input" autocomplete="false">
+                            <input type="number" placeholder="Phone" ng-model="CustomerRegister.Phone" name="phone" class="form-control cm-input" autocomplete="false" required>
                         </div>
                         <div class="form-group">
                             <label for="sel1">Country:</label>
@@ -53,7 +51,7 @@
                         </div>
                         <div class="form-group">
                             <label for="firstname">Password <b class="text-danger">&nbsp;*</b></label>
-                            <input type="password" placeholder="Password" name="password" ng-model="CustomerRegister.Password" class="form-control cm-input">
+                            <input type="password" placeholder="Password" name="password" ng-model="CustomerRegister.Password" class="form-control cm-input" required>
                         </div>
                         <div class="form-group">
                             <button type="submit" value="" class="btn btn-success custom-form-btn" ng-click="tblCustomerregister.$valid && register()">Register</button>

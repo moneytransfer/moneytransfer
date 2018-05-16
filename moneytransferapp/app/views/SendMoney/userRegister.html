@@ -30,7 +30,7 @@
                     <form class="log-sing-form" ui-jq="validate" name="tblCustomerregister">
                         <div class="form-group">
                             <label for="Username">First name</label>
-                            <input type="text" class="form-control cm-input " ng-model="CustomerRegister.FirstName" name="first-name" placeholder="First name">
+                            <input type="text" class="form-control cm-input " ng-model="CustomerRegister.FirstName" name="first-name" placeholder="First name" required>
                         </div>
                         <div class="form-group">
                             <label for="Username">Last name</label>
@@ -38,11 +38,11 @@
                         </div>
                         <div class="form-group">
                             <label for="email">Email address</label>
-                            <input type="text" class="form-control cm-input " ng-model="CustomerRegister.Email" name="email" placeholder="Email address">
+                            <input type="email" class="form-control cm-input " ng-model="CustomerRegister.Email" name="email" placeholder="Email address" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone <b class="text-danger">&nbsp;*</b></label>
-                            <input type="tel" placeholder="Phone" ng-model="CustomerRegister.Phone" name="phone" class="form-control cm-input" autocomplete="false">
+                            <input type="number" placeholder="Phone" ng-model="CustomerRegister.Phone" name="phone" class="form-control cm-input" autocomplete="false" required>
                         </div>
                         <div class="form-group">
                             <label for="sel1">Country:</label>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group">
                             <label for="firstname">Password <b class="text-danger">&nbsp;*</b></label>
-                            <input type="password" placeholder="Password" name="password" ng-model="CustomerRegister.Password" class="form-control cm-input">
+                            <input type="password" placeholder="Password" name="password" ng-model="CustomerRegister.Password" class="form-control cm-input" required>
                         </div>
                         <div class="form-group">
                             <button type="submit" value="" class="btn btn-success custom-form-btn" ng-click="tblCustomerregister.$valid && register()">Register</button>

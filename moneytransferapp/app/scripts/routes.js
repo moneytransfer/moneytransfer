@@ -1636,7 +1636,7 @@
                           });
                       }]
                   },
-                  title: 'customerPortal',
+                  title: 'sendMoney',
 
               })
                .state('app.SendMoneyUserRegister', {
@@ -1649,7 +1649,7 @@
                            });
                        }]
                    },
-                   title: 'customerPortal',
+                   title: 'sendMoney',
 
                })
 
@@ -1663,7 +1663,7 @@
                           });
                       }]
                   },
-                  title: 'customerPortal',
+                  title: 'sendMoney',
                   //controller: "authenticateSendMoneyController"
               })
 
@@ -1677,7 +1677,7 @@
                           });
                       }]
                   },
-                  title: 'customerPortal',
+                  title: 'sendMoney',
                   controller: "authenticateSendMoneyController"
               })
               .state('app.Payment', {
@@ -1690,7 +1690,7 @@
                           });
                       }]
                   },
-                  title: 'customerPortal',
+                  title: 'sendMoney',
                   controller: "authenticateSendMoneyController"
 
               })
@@ -1705,7 +1705,7 @@
                           });
                       }]
                   },
-                  title: 'customerPortal'
+                  title: 'sendMoney'
               })
 
               .state('app.SendMoney', {
@@ -1719,7 +1719,7 @@
                           });
                       }]
                   },
-                  title: 'customerPortal',
+                  title: 'sendMoney',
 
               })
 
@@ -1734,7 +1734,7 @@
                           });
                       }]
                   },
-                  title: 'customerPortal',
+                  title: 'sendMoney',
                   controller: "authenticateSendMoneyController"
               })
 
@@ -1749,7 +1749,7 @@
                        });
                    }]
                },
-               title: 'customerPortal',
+               title: 'sendMoney',
                controller: "authenticateSendMoneyController"
            })
            .state('app.SendMoneyTransaction', {
@@ -1763,7 +1763,7 @@
                        });
                    }]
                },
-               title: 'customerPortal',
+               title: 'sendMoney',
                controller: "authenticateSendMoneyController"
            })
           .state('app.transaction_Details', {
@@ -1778,7 +1778,7 @@
                       });
                   }]
               },
-              title: 'customerPortal',
+              title: 'sendMoney',
               controller: "authenticateSendMoneyController"
           })
 

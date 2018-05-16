@@ -133,9 +133,8 @@
 
         //GetFirstIndex
         if ($localStorage.Agents) {
-
             var dd = ($localStorage.Agents);
-            var LocationName = (dd[1].AgentFirstName + ' ' + dd[1].AgentLastName + '-' + dd[1].AgentCode);
+            var LocationName = (dd[2].AgentFirstName + ' ' + dd[2].AgentLastName + '-' + dd[2].AgentCode);
         }
 
 
@@ -161,7 +160,7 @@
 
         //Redio Button Changes Event
         vm.checkStuff = function (value) {
-
+         
             vm.validWay = false;
             if (value == "CashPickup") {
 
@@ -416,7 +415,7 @@
 
         //Proceed to next tab
         vm.CashPickUp = function () {
-          
+         
             vm.validWay = false;
             if (vm.PaymentModel.PaymentType == "BankDeposit") {
 
@@ -465,8 +464,6 @@
     }
 
 
-
-
     manageSendMoneyLoginController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function manageSendMoneyLoginController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
@@ -478,7 +475,18 @@
             vm.IsLogin = true;
         }
         //vm.CustomerStorage = { GustCustomer: '0' };
-
+        if ($localStorage.AmountDetails.Amount) {
+            if (vm.IsLogin) {
+                $window.location.assign('#/app/AddBeneficiary');
+            }
+            else {
+                var url = $state.current.url;
+                $window.location.assign('#/app' + url);
+            }
+        }
+        else if (vm.IsLogin) {
+            $window.location.assign('#/app/SendMoney');
+        }
         //Get Country
         $http({
             method: 'GET',
@@ -515,26 +523,7 @@
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-                    if ($localStorage.AmountDetails.Amount) {
-                        $state.go('app.addEditBeneficiary')
-                        //if ($localStorage.AmountDetails.PaymentType == "BankDeposit") {
-
-                        //}
-                        //else if ($localStorage.AmountDetails.PaymentType == "CashPickup") {
-                        //    //$state.go('app.cashPickUpLocation')
-                        //    $state.go('app.addEditBeneficiary')
-                        //}
-                    }
-                    else {
-                        //$state.go('app.makepayment');
-                        $state.go('app.SendMoneyAmount')
-                    }
-                    //setTimeout(function () { window.location.reload(); }, 1000);
-                    //} else {
-                    //    //$state.go('app.makepayment');
-                    //    $state.go('app.SendMoneyAmount')
-                    //}
-
+                    setTimeout(function () { window.location.reload(); }, 1000);
                 }
                 else {
                     Alert(2, "! Invalid Customer or password. ");
@@ -627,16 +616,10 @@
 
                             var GustCustomer = data;
                             if (GustCustomer.CustomerId) {
+                                vm.IsLogin = true;
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
-
-                                if ($localStorage.AmountDetails.Amount) {
-                                    $state.go('app.CashPickUp')
-                                    //setTimeout(function () { window.location.reload(); }, 1000);
-                                } else {
-                                    //$state.go('app.makepayment');
-                                    $state.go('app.SendMoneyAmount');
-                                }
+                                setTimeout(function () { window.location.reload(); }, 1000);
                             }
                             else {
                                 Alert(2, "! Invalid Customer or password. ");
@@ -707,6 +690,7 @@
                 vm.CustomerId = vm.SelectedCustomer.CustomerId;
             }
         }
+        
         var formData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId }));
         $http({
             method: 'POST',
@@ -723,12 +707,12 @@
         if ($localStorage.Agents) {
 
             var dd = ($localStorage.Agents);
-
+            debugger;
             var data123 = $filter('filter')(dd, {
                 AgentId: parseInt($localStorage.CashpickLocationId),
             }, true);
             if (data123.length > 0)
-                var LocationName = (data123[0].AgentFirstName + ' ' + data123[0].AgentLastName + '-' + data123[0].AgentCode);
+                var LocationName = (dd[2].AgentFirstName + ' ' + dd[2].AgentLastName + '-' + dd[2].AgentCode);
         }
         if ($localStorage.BeneficiaryModel) {
             var iBenficiaryId = $localStorage.BeneficiaryModel.BeneficiaryId;
@@ -763,7 +747,7 @@
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
         })
         .success(function (data) {
-            
+
             var idata = data;
             vm.PickUpLocation = idata;
         });
@@ -928,7 +912,7 @@
 
         //Next Page
         vm.CashPickUp = function (Id) {
-            
+
             vm.ValidAcountRoute = false;
             var route = vm.BeneficiaryModel.RoutingNumber;
             var account = vm.BeneficiaryModel.AccountNumber;
@@ -967,6 +951,9 @@
 
                     var theText = $localStorage.CashpickLocation;
                     var index = parseInt($localStorage.CashpickLocationId);
+                    if (index == 0) {
+                        index = 3;
+                    }
                     var dd = document.getElementById('Locationpickup');
 
                     for (var i = 0; i < dd.options.length; i++) {
@@ -976,6 +963,12 @@
                         }
                     }
                 }, 1000);
+                setTimeout(function () {
+                    var skillsSelect = document.getElementById("Locationpickup");
+                    var selectedText = skillsSelect.options[skillsSelect.selectedIndex].text;
+                    $localStorage.CashpickLocation = selectedText;
+                    
+                }, 1200);
             }
         }
 
@@ -998,6 +991,7 @@
 
             }
             else if (document.getElementById('CashPickUpCheck').checked) {
+          
                 //$localStorage.BankLocation = '';
                 $localStorage.AmountDetails.PaymentType = 'CashPickup';
                 $localStorage.CashpickLocation = LocationName;
@@ -1116,6 +1110,7 @@
         }
 
         //str.replace(/.(?=.{4})/g, 'x');
+
         if (vm.AddressData.AmountDetails.PaymentType == 'BankDeposit') {
             document.getElementById("rdBankDeposit").checked = true;
 
@@ -1282,7 +1277,7 @@
                     if (idata.PaymentMethodId == "1") {
                         Method = 'makePayment';
                     }
-                    else if (idata.PaymentMethodId == "12") {
+                    else {
                         Method = 'magicPay';
                         idata.SenderName = vm.SelectedCustomer.FirstName;
                     }
@@ -1298,7 +1293,6 @@
                     })
                     .success(function (data) {
                         var idata = data;
-
                         if (idata && idata.TransactionId > 0) {
                             Alert(1, "! Payment processed successfully");
                             vm.PaymentModel = angular.copy(vm.PaymentModel);
@@ -1442,7 +1436,7 @@
         })
         .success(function (data) {
             var idata = data;
-        
+
             $scope.reverse = true;
             idata = $filter('orderBy')(idata, 'TransactionId', $scope.reverse);
 
@@ -1464,10 +1458,10 @@
                   page * vm.itemsPerPage
                 );
 
-               
+
                 vm.ManageTransaction = pagedData;
 
-                
+
             }
             //}, 100);
         });

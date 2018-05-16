@@ -565,6 +565,13 @@
             vm.IsLogin = true;
         }
         //vm.CustomerStorage = { GustCustomer: '0' };
+        if ($localStorage.Ammount) {
+            $window.location.assign('#/app/makePayment');
+        }
+        if (vm.IsLogin) {
+            $window.location.assign('#/app/customerPortal');
+        }
+
 
         //Get Country
         $http({
@@ -601,13 +608,16 @@
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-                    if ($localStorage.Ammount) {
-                        $state.go('app.makePayment')
-                        //setTimeout(function () { window.location.reload(); }, 1000);
-                    } else {
-                        //$state.go('app.makepayment');
-                        $state.go('app.customerPortal')
-                    }
+
+                    setTimeout(function () { window.location.reload(); }, 1000);
+
+                    //if ($localStorage.Ammount) {
+                    //    $state.go('app.makePayment')
+                    //    //setTimeout(function () { window.location.reload(); }, 1000);
+                    //} else {
+                    //    //$state.go('app.makepayment');
+                    //    $state.go('app.customerPortal')
+                    //}
 
                 }
                 else {
@@ -699,24 +709,10 @@
                         .success(function (data, status, headers, config) {
                             var GustCustomer = data;
                             if (GustCustomer.CustomerId) {
-                                //$localStorage.GustData.GustCustomer = JSON.stringify(data);
-                                //Alert(1, "! Login successful.. ");
-                                //if ($localStorage.GustData.Ammount) {
-                                //    $state.go('app.makePayment')
-                                //    //setTimeout(function () { window.location.reload(); }, 1000);
-                                //} else {
-                                //    //$state.go('app.makepayment');
-                                //    $state.go('app.customerPortal')
-                                //}
+
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
-                                if ($localStorage.GustData !== undefined) {
-                                    if ($localStorage.GustData.Ammount > 0) {
-                                        $state.go('app.makePayment')
-                                    } else { $state.go('app.customerPortal') }
-                                } else {
-                                    $state.go('app.customerPortal')
-                                }
+                                setTimeout(function () { window.location.reload(); }, 1000);
                             }
                             else {
                                 Alert(2, "! Invalid Customer or password. ");
@@ -745,8 +741,8 @@
 
             $localStorage = [];
             setTimeout(function () {
-                //$window.location.reload();
-                $state.go('app.customerPortal');
+                $window.location.reload();
+                //$state.go('app.customerPortal');
             }, 1000);
 
         }
@@ -983,7 +979,7 @@
                             $state.go('app.ThankuCus');
                         }
                         else {
-                            Alert(2, idata.Error);
+                            AlertKyc(2, idata.Error);
                         }
                         vm.PayDetails = idata;
                         $localStorage.ThankyouPageData = vm.PayDetails;

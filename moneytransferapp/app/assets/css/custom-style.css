@@ -2,6 +2,106 @@
    Typography                                            
    ========================================================================== */
 
+@media only screen and (max-device-width: 767px) {
+    .banner-form {
+        padding: 0px 0px;
+    }
+
+    .pt-140 {
+        padding-top: 0 !important;
+    }
+
+    .banner-form .display-4 {
+        font-size: 1.5rem !important;
+        padding-top: 42px;
+    }
+
+    .master-banner {
+        background: url(../image/master-banner.jpg) no-repeat left 0 !important;
+        background-size: 322% !important;
+        height: 325px !important;
+        padding-top: 0 !important;
+        min-height: inherit !important;
+    }
+
+    .pt-5, .py-5 {
+        padding-top: 0rem!important;
+    }
+
+    .phoneReload {
+        height: 140px !important;
+    }
+
+    .flowimg img {
+        width: 100% !important;
+    }
+
+    .section-02, .section-01 {
+        margin-top: 0 !important;
+    }
+
+    .newsletter-bg {
+        height: 29px !important;
+    }
+
+    .footercol.last {
+        margin-bottom: 40px !important;
+    }
+
+    .ftr-txt:last-child {
+        margin-top: 20px;
+    }
+
+    .lock-icon {
+        background-size: 90px;
+    }
+
+    .mb-3, .my-3 {
+        margin-bottom: 0 !important;
+    }
+
+    .country-text-wrap {
+        font-size: 15px !important;
+    }
+
+    .m-t-3 {
+        margin-top: 0 !important;
+    }
+
+    .choose-amt h3 {
+        font-size: 17px;
+        margin-top: 15px;
+    }
+
+    .col-sm-6.col-md-3.ng-scope {
+        width: 50% !important;
+    }
+
+    .choose-amount.mt-5 {
+        margin-top: 0 !important;
+    }
+
+    .custom-banner-breadcrumb > li {
+        float: left;
+        display: inline-block;
+        width: 33%;
+        font-size: 12px !important;
+        padding: 13px 6px 23px 6px !important;
+        text-align: right !important;
+        line-height: 0px !important;
+    }
+
+    .text-black span.col-md-8 {
+        width: 50% !important;
+    }
+
+    .inner-page-banner {
+        background-size: 102% !important;
+        height: 155px !important;
+    }
+}
+
+
 body {
     background-color: #fff;
     color: #333;
@@ -147,6 +247,9 @@ body {
         height: 40px !important;
     }
 
+.error {
+    color: red !important;
+}
 
 /* Highlighted Text */
 
@@ -523,14 +626,10 @@ label {
 
 .master-banner {
     position: relative;
-    /*min-height: 570px;*/
+    min-height: 570px;
     background: url('../image/master-banner.jpg') no-repeat left 100px;
     background-size: 100%;
     padding-top: 50px;
-}
-
-.banner-form {
-    padding: 88px 150px;
 }
 
     .master-banner.inner-page-banner {
@@ -945,15 +1044,16 @@ ul.cm-white-space li {
     border: none;
     border-radius: 0;
 }
-.cm-code{
-display: inline-block;
+
+.cm-code {
+    display: inline-block;
     background: #b99b2a;
     border-radius: 4px;
     text-align: center;
     color: #fff;
     padding: 5px 15px;
 }
- 
+
 
 .cm-select-USD {
     border: none;
@@ -991,7 +1091,7 @@ display: inline-block;
     color: #000;
     margin-right: 48px;
     margin-left: 53px;
-    margin-bottom:0;
+    margin-bottom: 0;
 }
 
 .info-cell {
@@ -1190,7 +1290,7 @@ display: inline-block;
 }
 
 .pay-ui:after {
-     content: "";
+    content: "";
     background: #ccc;
     position: absolute;
     top: 9px;
@@ -1204,32 +1304,39 @@ display: inline-block;
 }
 
 .pl-25 {
-    padding-left:25px;
+    padding-left: 25px;
 }
 
 .mt-6rem {
-    margin-top:6rem;
+    margin-top: 6rem;
 }
 
+.mb-6rem {
+    margin-bottom: 6rem;
+}
 .visibility-hidden {
     visibility: hidden;
 }
 
 .c-black label {
     color: black;
-    font-weight:500;
+    font-weight: 500;
 }
+
 .pl-30px {
     padding-left: 33px;
 }
+
 .bank-icon:before {
     content: url("../../assets/image/bank-icon.png");
-        padding-right: 5px;
+    padding-right: 5px;
 }
+
 .CaskPickup-icon:before {
     content: url("../../assets/image/person-male.png");
-       padding-right: 5px;
+    padding-right: 5px;
 }
+
 .mh-500 {
     min-height: 500px;
 }
@@ -1240,10 +1347,10 @@ display: inline-block;
     cursor: pointer;
 }
 
-.transaction-details-popup .data-label, .transaction-details-popup .data-value{
-    font-size:14px;
-    font-weight:500;
-    color:#333;
+.transaction-details-popup .data-label, .transaction-details-popup .data-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
 }
 
 /*<!--New Portal-->*/
@@ -1251,7 +1358,7 @@ display: inline-block;
 .logo-bg {
     background-image: url("../image/logo.png");
     background-position: top center;
-    background-repeat: no-repeat;    
+    background-repeat: no-repeat;
     height: 72px;
     margin-top: 20px;
 }
@@ -1267,27 +1374,26 @@ display: inline-block;
 
 .svg1 {
     background-image: url(../image/1.jpg);
-
     background-size: contain;
-    padding-top: 220px;    
+    padding-top: 220px;
     background-position: top center;
     background-repeat: no-repeat;
 }
 
 .svg2 {
     background-image: url(../image/2.jpg);
-    background-size:contain;
-    padding-top:220px; 
+    background-size: contain;
+    padding-top: 220px;
     background-position: top center;
-    background-repeat: no-repeat;   
+    background-repeat: no-repeat;
 }
 
 .svg3 {
     background-image: url(../image/3.jpg);
-  background-size:contain;
-    padding-top:220px; 
+    background-size: contain;
+    padding-top: 220px;
     background-position: top center;
-    background-repeat: no-repeat;   
+    background-repeat: no-repeat;
 }
 
 /*.send-money-bg:after{
@@ -1306,26 +1412,26 @@ display: inline-block;
 }*/
 
 .heading-border-bottom {
-    height: 4px;    
+    height: 4px;
     width: 70px;
     background: #17a2b8;
     display: inline-block;
     margin-bottom: 20px;
 }
 
-.fs-24{
+.fs-24 {
     font-size: 24px;
 }
 
-.fs-30{
+.fs-30 {
     font-size: 30px;
 }
 
-.text-light-gray{
-    color:#969696;
+.text-light-gray {
+    color: #969696;
 }
 
-.lock-icon{
+.lock-icon {
     background-image: url(../image/lock.PNG);
     width: 110px;
     height: 110px;
@@ -1333,14 +1439,14 @@ display: inline-block;
     background-repeat: no-repeat;
     margin: 0 auto;
 }
-.security-icon{
+
+.security-icon {
     background-image: url(../image/sec.PNG);
     width: 110px;
     height: 110px;
     display: block;
     background-repeat: no-repeat;
     margin: 0 auto;
-    
 }
 
 .fs-14 {
@@ -1348,20 +1454,22 @@ display: inline-block;
 }
 
 .text-black {
-    color: #000; 
+    color: #000;
 }
 
 
 .pt-140 {
-    padding-top:140px;
+    padding-top: 140px;
 }
 
 .ox-hidden {
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
-.w-width{
-width:230px !important;
+
+.w-width {
+    width: 230px !important;
 }
+
 .line-left {
     border-right: 2px solid !important;
     border-bottom-right-radius: 0px !important;

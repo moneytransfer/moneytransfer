@@ -6,7 +6,6 @@ var authorisedUser = [];
 var authorisedCustomer = [];
 
 
-
 (function () {
     'use strict';
     angular
@@ -204,8 +203,6 @@ var authorisedCustomer = [];
             authorisedCustomer = JSON.parse($window.sessionStorage.authorisedCustomer);
             vm.authorisedCustomer = authorisedCustomer;
         }
-
-
 
 
     };

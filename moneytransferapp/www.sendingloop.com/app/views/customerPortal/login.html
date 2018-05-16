@@ -3,15 +3,12 @@
         <a class="navbar-brand" ui-sref='app.customerPortal'>
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones"></a>
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2">
-                      <!--  <li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Log out</a></li>-->
-
             <li class="nav-item d-sm-block d-md-none"><a class="nav-link" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
         </ul>
         <div class="collapse navbar-collapse justify-content-start justify-content-md-end order-md-1" id="navbarResponsive">
             <ul class="navbar-nav ">
                 <li class="nav-item"><a class="nav-link" href="" ui-sref='app.Login'>Log In</a></li>
                 <li class="nav-item"><a class="nav-link" href="" ui-sref='app.userRegister'>Sign Up</a></li>
-                <!--<li ng-if="localStorage.GustCustomer !=''" class="nav-item"><a class="nav-link" ui-sref='app.transactionDetails'>Transactions</a></li>-->
             </ul>
         </div>
     </div>
@@ -29,13 +26,14 @@
                 </div>
                 <div class="col-lg-6 col-md-10 desaturated-blue p-5">
                     <form ui-jq="validate" name="tblCustomerlogin" class="log-sing-form">
+
                         <div class="form-group">
                             <label for="Username">Username</label>
-                            <input type="text" class="form-control cm-input " ng-model="CustomerModel.Email" placeholder="Username">
+                            <input type="text" class="form-control cm-input " ng-model="CustomerModel.Email" placeholder="Username" required>
                         </div>
                         <div class="form-group">
                             <label for="Password">Password</label>
-                            <input type="password" class="form-control cm-input " name="password" ng-model="CustomerModel.Password" placeholder="Password">
+                            <input type="password" class="form-control cm-input " name="password" ng-model="CustomerModel.Password" placeholder="Password" required>
                         </div>
                         <div class="form-group button-group text-center mt-4">
                             <button type="submit" value="" class="btn btn-success custom-form-btn" ng-click="tblCustomerlogin.$valid && customerlogin()">LOG IN</button>
@@ -74,4 +72,4 @@
             </div>
         </div>
     </div>
-</footer>>
+</footer>

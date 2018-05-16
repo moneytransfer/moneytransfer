@@ -4,21 +4,21 @@
         .module('app')
         .controller('manageIndexController', manageIndexController)
         .controller('manageSendingloopLoginController', manageSendingloopLoginController)
-        
+
     manageIndexController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
     function manageIndexController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log) {
         var vm = $scope;
-       
+
         $state.go('app.sending_loop')
         if ($localStorage.AmountDetails) {
-           
+
         } else {
-            
+
             $state.go('app.sending_loop')
-        }      
+        }
 
         vm.MoveToSendMoney = function () {
-           
+
             $state.go('app.SendMoneyAmount')
         }
     }
@@ -31,6 +31,10 @@
         vm.IsLogin = false;
         if ($localStorage.GustCustomer) {
             vm.IsLogin = true;
+        }
+
+        if (vm.IsLogin) {
+            $window.location.assign('#/app/Sendingloop');
         }
         //vm.CustomerStorage = { GustCustomer: '0' };
 
@@ -69,8 +73,7 @@
                     vm.CustomerID = iCustomer.CustomerId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-                        $state.go('app.sending_loop')
-                        //setTimeout(function () { window.location.reload(); }, 1000);
+                    setTimeout(function () { window.location.reload(); }, 1000);
                 }
                 else {
                     Alert(2, "! Invalid Customer or password. ");
@@ -163,13 +166,7 @@
                             if (GustCustomer.CustomerId) {
                                 $localStorage.GustData.GustCustomer = JSON.stringify(data);
                                 Alert(1, "! Login successful.. ");
-                                if ($localStorage.GustData.Ammount) {
-                                    $state.go('app.sending_loop')
-                                    //setTimeout(function () { window.location.reload(); }, 1000);
-                                } else {
-                                    //$state.go('app.makepayment');
-                                    $state.go('app.sending_loop')
-                                }
+                                setTimeout(function () { window.location.reload(); }, 1000);
                             }
                             else {
                                 Alert(2, "! Invalid Customer or password. ");
@@ -206,5 +203,6 @@
 
 
     }
+
 
 })();

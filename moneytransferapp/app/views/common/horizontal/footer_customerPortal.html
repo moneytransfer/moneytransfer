@@ -1,4 +1,4 @@
-<nav class="footer-left">
+<nav class="footer-left" data-ng-if="$state.current.name!='app.Login' && $state.current.name!='app.userRegister'">
     <section class="payment-section pt-5 pb-5">
         <div class="container">
             <div class="row section-01">
@@ -17,7 +17,7 @@
                             <img src="assets/image/send.jpg" alt="Low cost">
                         </div>
                         <h4>Get on-the-go convenience</h4>
-                        <p>Reload at home or on-the-go. We’ll send it instantly and your Family or Friends will get a text message the moment it arrives.</p>
+                        <p>Reload at home or on-the-go. We'll send it instantly and your Family or Friends will get a text message the moment it arrives.</p>
                     </div>
                 </div>
                 <div class="col-md d-flex">
@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-sm-6 text-center">
                         <span class="lock-icon"></span>
-                        <h4 class="mt-1">We’ve got your back</h4>
+                        <h4 class="mt-1">We've got your back</h4>
                         <p>We are committed to securing your financial information and employ proven technology to protect and secure your personal information.</p>
                     </div>
                     <div class="col-sm-6 text-center">
@@ -56,15 +56,15 @@
             </div>
 
 
-            <!--<link rel="stylesheet" href="./styles/tomsguide.css">
-            <link rel="stylesheet" href="./styles/slider.css">
+            <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal'" href="styles/tomsguide.css">
+            <link rel="stylesheet" ng-if="$state.current.title == 'customerPortal'" href="styles/slider.css">
 
             <hr />
             <section class="page">
                 <section class="page-top-content ">
                     <div class="best-picks-container">
                         <div class="page-content space-b40">
-                            <div class="responsive-table-base-wrcportal.r">
+                            <div class="responsive-table-base-wrapper">
                                 <div id="carousel-multi-css--reponsive-table-150260-" class="responsive-table  responsive-table-normal   nolinks  carousel-multi-css  ff01c5dc0b6539c0250170dc8457729   carousel-multi-css-mini ">
 
                                     <input type="radio" name="carousel-multi-css--reponsive-table-150260--radio" id="cml-reponsive-table-150260-0" class="carousel-multi-css-radio" checked="">
@@ -95,10 +95,10 @@
                                         <label for="cml-reponsive-table-150260-6" id="cml-reponsive-table-150260--label6" class="carousel-multi-css-arrow fa"></label>
 
 
-                                        <ul class="carousel-multi-css-wrcportal.r">
+                                        <ul class="carousel-multi-css-wrapper">
                                             <li id="carousel-multi-css-item0">
                                                 <div class="carousel-multi-css-item-ctn">
-                                                    <div class="carousel-multi-css-item-wrcportal.r">
+                                                    <div class="carousel-multi-css-item-wrapper">
                                                         <div class="dfcaea779c62262ff55ee775f26072">
 
 
@@ -163,7 +163,7 @@
 
                                             <li id="carousel-multi-css-item1">
                                                 <div class="carousel-multi-css-item-ctn">
-                                                    <div class="carousel-multi-css-item-wrcportal.r">
+                                                    <div class="carousel-multi-css-item-wrapper">
                                                         <div class="dfcaea779c62262ff55ee775f26072">
 
 
@@ -228,7 +228,7 @@
 
                                             <li id="carousel-multi-css-item2">
                                                 <div class="carousel-multi-css-item-ctn">
-                                                    <div class="carousel-multi-css-item-wrcportal.r">
+                                                    <div class="carousel-multi-css-item-wrapper">
                                                         <div class="dfcaea779c62262ff55ee775f26072">
 
 
@@ -293,7 +293,7 @@
 
                                             <li id="carousel-multi-css-item3">
                                                 <div class="carousel-multi-css-item-ctn">
-                                                    <div class="carousel-multi-css-item-wrcportal.r">
+                                                    <div class="carousel-multi-css-item-wrapper">
                                                         <div class="dfcaea779c62262ff55ee775f26072">
 
 
@@ -357,7 +357,7 @@
 
                                             <li id="carousel-multi-css-item4">
                                                 <div class="carousel-multi-css-item-ctn">
-                                                    <div class="carousel-multi-css-item-wrcportal.r">
+                                                    <div class="carousel-multi-css-item-wrapper">
                                                         <div class="dfcaea779c62262ff55ee775f26072">
 
 
@@ -406,7 +406,7 @@
                                                                         <li>
                                                                             <dl>
                                                                                 <dt class="unit">Notes</dt>
-                                                                                <dd class="unit-right">Price reflects a $5 discount for autopay enrollemnt; data speeds ccportal.d at 8 Mbps</dd>
+                                                                                <dd class="unit-right">Price reflects a $5 discount for autopay enrollemnt; data speeds capped at 8 Mbps</dd>
                                                                             </dl>
                                                                         </li>
                                                                     </ul>
@@ -421,7 +421,7 @@
 
                                             <li id="carousel-multi-css-item5">
                                                 <div class="carousel-multi-css-item-ctn">
-                                                    <div class="carousel-multi-css-item-wrcportal.r">
+                                                    <div class="carousel-multi-css-item-wrapper">
                                                         <div class="dfcaea779c62262ff55ee775f26072">
 
 
@@ -483,7 +483,7 @@
 
                                             <li id="carousel-multi-css-item6">
                                                 <div class="carousel-multi-css-item-ctn">
-                                                    <div class="carousel-multi-css-item-wrcportal.r">
+                                                    <div class="carousel-multi-css-item-wrapper">
                                                         <div class="dfcaea779c62262ff55ee775f26072">
 
 
@@ -532,7 +532,7 @@
                                                                         <li>
                                                                             <dl>
                                                                                 <dt class="unit">Notes</dt>
-                                                                                <dd class="unit-right">Video resolution is ccportal.d at 480p; requires an iPhone</dd>
+                                                                                <dd class="unit-right">Video resolution is capped at 480p; requires an iPhone</dd>
                                                                             </dl>
                                                                         </li>
                                                                     </ul>
@@ -552,7 +552,8 @@
                         </div>
                     </div>
                 </section>
-            </section>-->
+
+            </section>
 
             <hr />
             <!--End Slider-->
@@ -591,9 +592,8 @@
                         <img src="assets/image/footer-icon04.png" class="" />
                     </div>
                     <div>
-                        <h5>
-                        REGHARGE on cportal./h5>
-                        <p>Just Download our cportal.to get Best Offers</p>
+                        <h5>REGHARGE on app</h5>
+                        <p>Just Download our App to get Best Offers</p>
                     </div>
                 </div>
             </div>
@@ -622,25 +622,25 @@
                 </div>
                 <div class="col-md-3 ftr-txt">
                     <h5>ABOUT US</h5>
-                    <p>FalconLoop’s Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
+                    <p>FalconLoop's Vision is to virtually create a service that delivers greater benefits by being simple, secure, fast, compatible, and reliable. Our mission is to give customers the benefits they expect, where they expect and how they expect to be provided.</p>
                 </div>
                 <div class="col-md-3 ftr-txt">
                     <h5>HELP &amp; SUPPORT</h5>
                     <ul>
-                        <li><a target="_blank" ui-sref='cportal.Contact_us'>Contact</a></li>
-                        <li><a target="_blank" ui-sref='cportal.Supported_Currencies'>Supported Currencies</a></li>
-                        <!--        <li><a target="_blank" ui-sref='cportal.Swift_BIC_Codes'>Swift/BIC Codes</a></li>-->
-                        <li><a target="_blank" ui-sref='cportal.Track_Transfers'>Track Transfers</a></li>
-                        <!-- <li><a target="_blank" ui-sref='cportal.Rate_Alerts'>Rate Alerts</a></li>-->
+                        <li><a target="_blank" ui-sref='app.Contact_us'>Contact</a></li>
+                        <li><a target="_blank" ui-sref='app.Supported_Currencies'>Supported Currencies</a></li>
+                        <!--        <li><a target="_blank" ui-sref='app.Swift_BIC_Codes'>Swift/BIC Codes</a></li>-->
+                        <li><a target="_blank" ui-sref='app.Track_Transfers'>Track Transfers</a></li>
+                        <!-- <li><a target="_blank" ui-sref='app.Rate_Alerts'>Rate Alerts</a></li>-->
                     </ul>
                 </div>
                 <div class="col-md-3 ftr-txt">
                     <h5>SECURITY &amp; PRIVACY</h5>
                     <ul>
-                        <li><a target="_self" ui-sref='cportal.Security_Center'>Security Center</a></li>
-                        <li><a target="_self" ui-sref='cportal.privacy_policy'>Privacy Policy</a></li>
-                        <li><a target="_self" ui-sref='cportal.User_agreement'>User Agreement</a></li>
-                        <li><a target="_self" ui-sref='cportal.return_policy'>Refunds and Returns Policy</a></li>
+                        <li><a target="_self" ui-sref='app.Security_Center'>Security Center</a></li>
+                        <li><a target="_self" ui-sref='app.privacy_policy'>Privacy Policy</a></li>
+                        <li><a target="_self" ui-sref='app.User_agreement'>User Agreement</a></li>
+                        <li><a target="_self" ui-sref='app.return_policy'>Refunds and Returns Policy</a></li>
                     </ul>
                     <p style="margin-top: 12px; margin-left: -3px;">
                         <img src="assets/image/credit-card-logo.jpg" width="80%" />
@@ -650,7 +650,7 @@
             </div>
         </div>
     </section>
-    <footer class="footer-container-wrcportal.r pt-4 pb-2">
+    <footer class="footer-container-wrapper pt-4 pb-2">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
