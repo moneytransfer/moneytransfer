@@ -34,7 +34,7 @@ public class MagicPay {
 	public int CompanyId;
 	public int CustomerId;
 	public String SenderName;
-	public boolean IsLive;	
+	public boolean IsLive;
 	public String Server;
 	public String Port;
 	public String Path;
@@ -127,8 +127,7 @@ public class MagicPay {
 	private String getport() {
 		return Port;
 	}
-	
-	
+
 	private void setpath(String Path) {
 		this.Path = Path;
 	}
@@ -329,7 +328,6 @@ public class MagicPay {
 		return PaymentGatewayResponse;
 	}
 
-	
 	private void setTransactionDetail(String TransactionDetail) {
 		this.TransactionDetail = TransactionDetail;
 	}
@@ -337,8 +335,7 @@ public class MagicPay {
 	private String getTransactionDetail() {
 		return TransactionDetail;
 	}
-	
-	
+
 	public MagicPay addMagicPay(MagicPay __MagicPay) {
 		HashMap retval = new HashMap();
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -355,6 +352,12 @@ public class MagicPay {
 					ResultSet _ResultSetcustomer = _MYSQLHelper.GetResultSet(
 							"SELECT * FROM customer where customer_Id='" + __MagicPay.CustomerId + "'", _Connection);
 					if (_ResultSetcustomer.next()) {
+
+						ResultSet _ResultSetCountry = _MYSQLHelper
+								.GetResultSet("SELECT * FROM country where country_id='"
+										+ _ResultSetcustomer.getString("country_id") + "'", _Connection);
+						if (_ResultSetCountry.next()) {
+						
 						ResultSet _ResultSet = _MYSQLHelper
 								.GetResultSet("SELECT PaymentMethodId FROM paymentmethod where PaymentMethodId='"
 										+ __MagicPay.PaymentMethodId + "'", _Connection);
@@ -390,10 +393,20 @@ public class MagicPay {
 										__MagicPay.setpassword(
 												_ResultSetPaymentSettingDetails.getString("MerchantTransactionKey"));
 										__MagicPay.setpath(_ResultSetPaymentSettingDetails.getString("PaymentUrl"));
-										retval = __MagicPay.paymentProcess(__MagicPay.SendingAmount, __MagicPay.CardNumber,
-												__MagicPay.setExpirationDate, __MagicPay.cvv, __MagicPay.Server,
-												__MagicPay.Port, __MagicPay.Username, __MagicPay.Password,
-												__MagicPay.Path);
+
+										
+
+										retval = __MagicPay.paymentProcess(__MagicPay.SendingAmount,
+												__MagicPay.CardNumber, __MagicPay.setExpirationDate, __MagicPay.cvv,
+												__MagicPay.Server, __MagicPay.Port, __MagicPay.Username,
+												__MagicPay.Password, __MagicPay.Path,
+												_ResultSetcustomer.getString("Address1"),
+												_ResultSetcustomer.getString("City"),
+												_ResultSetcustomer.getString("State"),
+												_ResultSetcustomer.getString("ZipCode"),
+												_ResultSetCountry.getString("country_name"),
+												_ResultSetcustomer.getString("FirstName"),
+												_ResultSetcustomer.getString("LastName"));
 										System.out.println("Success\nTransId: " + retval.get("transactionid") + "\n");
 
 										__MagicPay.setPaymentGatewayTransactionId(retval.get("transactionid"));
@@ -406,8 +419,8 @@ public class MagicPay {
 
 										int lastid = _AuthrozieTranscation.saveDataTranscationDetails(
 												__MagicPay.CompanyId, __MagicPay.CustomerId, __MagicPay.SenderName,
-												__MagicPay.SendingAmount, __MagicPay.Charges, __MagicPay.Fees, __MagicPay.Tax,
-												__MagicPay.CreatedDate, __MagicPay.Status,
+												__MagicPay.SendingAmount, __MagicPay.Charges, __MagicPay.Fees,
+												__MagicPay.Tax, __MagicPay.CreatedDate, __MagicPay.Status,
 												__MagicPay.PaymentGatewayResponse,
 												__MagicPay.PaymentGatewayTransactionId.toString(),
 												__MagicPay.SendingCurrencyId, __MagicPay.ReceivingAmount,
@@ -420,14 +433,15 @@ public class MagicPay {
 
 										__MagicPay.addMagicPayDetails(__MagicPay.CompanyId, __MagicPay.CustomerId,
 												__MagicPay.TransactionId, __MagicPay.PaymentGatewayTransactionId,
-												__MagicPay.SenderName, __MagicPay.SendingAmount,__MagicPay.TransactionDetail, __MagicPay.CreatedDate,
+												__MagicPay.SenderName, __MagicPay.SendingAmount,
+												__MagicPay.TransactionDetail, __MagicPay.CreatedDate,
 												__MagicPay.Status);
 										__MagicPay.setserver("");
 										__MagicPay.setport("");
 										__MagicPay.setusername("");
 										__MagicPay.setpassword("");
 										__MagicPay.setpath("");
-										//clear(__MagicPay);
+										// clear(__MagicPay);
 									} else {
 										// System.out.println("Null Response.");
 										__MagicPay.setResult("failed");
@@ -455,6 +469,12 @@ public class MagicPay {
 							__MagicPay.setError("Invalid Payment Method Id!");
 							clear(__MagicPay);
 						}
+					}
+						else{
+							__MagicPay.setResult("Failed");
+							__MagicPay.setError("Invalid Country!");
+							clear(__MagicPay);
+						}
 					} else {
 						__MagicPay.setResult("Failed");
 						__MagicPay.setError("Invalid Customer Id!");
@@ -474,12 +494,13 @@ public class MagicPay {
 			}
 		}
 
-		return __MagicPay;
+	return __MagicPay;
 
 	}
 
 	public HashMap paymentProcess(double amount, String ccNumber, String ccExp, String cvv, String server, String port,
-			String username, String password, String path) throws Exception {
+			String username, String password, String path, String address1, String city, String state, String zip,
+			String country, String firstname, String lastname) throws Exception {
 		HashMap result = new HashMap();
 		HashMap request = new HashMap();
 
@@ -490,6 +511,13 @@ public class MagicPay {
 		request.put("ccnumber", ccNumber);
 		request.put("ccexp", ccExp);
 		request.put("cvv", cvv);
+		request.put("address1", address1);
+		request.put("city", city);
+		request.put("state", state);
+		request.put("zip", zip);
+		request.put("country", country);
+		request.put("firstname", firstname);
+		request.put("lastname", lastname);
 		String data_out = prepareRequest(request, username, password);
 
 		String error = "";
@@ -607,17 +635,16 @@ public class MagicPay {
 	}
 
 	public void addMagicPayDetails(int CompanyId, int CustomerId, int TransactionId, Object PaymentGatewayTransactionId,
-			String SenderName, double Amount,String TransactionDetail, String CreatedDate, String Status) {
+			String SenderName, double Amount, String TransactionDetail, String CreatedDate, String Status) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		PreparedStatement _PreparedStatement = null;
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		try {
-			
+
 			DecimalFormat _decimalFormat = new DecimalFormat("##.00");
 			String _Amountformate = _decimalFormat.format(Amount);
-			double _Amount = (Double)_decimalFormat.parse(_Amountformate) ;
-			
-			
+			double _Amount = Double.parseDouble(_Amountformate);
+
 			String sInsertStatementMagicTranscation = "INSERT INTO magicpaydetails( CompanyId, CustomerId, TransactionId,PaymentGatewayTransactionId,SenderName,Amount,TransactionDetail,TransactionDate,ResponseCode)";
 			sInsertStatementMagicTranscation = sInsertStatementMagicTranscation + " VALUES(?, ?, ?,?, ?, ?,?,?,?)";
 
@@ -633,7 +660,7 @@ public class MagicPay {
 			_PreparedStatement.setString(9, Status);
 			_PreparedStatement.executeUpdate();
 		} catch (Exception e) {
-
+			System.out.println("error:"+ e.getMessage());
 		}
 
 	}
@@ -656,7 +683,7 @@ public class MagicPay {
 					_MagicPay.setCustomerId(_ResultSet.getInt("CustomerId"));
 					_MagicPay.setTransactionId(_ResultSet.getInt("TransactionId"));
 					_MagicPay.setPaymentGatewayTransactionId(dd.toString());
-					_MagicPay.setSenderName(_ResultSet.getString("SenderName"));					
+					_MagicPay.setSenderName(_ResultSet.getString("SenderName"));
 					_MagicPay.setSendingAmount(_ResultSet.getDouble("Amount"));
 					_MagicPay.setTransactionDetail(_ResultSet.getString("TransactionDetail"));
 					_MagicPay.setCreatedDate(_ResultSet.getString("TransactionDate"));
@@ -728,6 +755,11 @@ public class MagicPay {
 		return _MagicPayDetaillist;
 	}
 
+	
+	
+	
+	
+	
 	public MagicPay clear(MagicPay _MagicPay) {
 		_MagicPay.setSendingAmount(0);
 		_MagicPay.setCardNumber("");

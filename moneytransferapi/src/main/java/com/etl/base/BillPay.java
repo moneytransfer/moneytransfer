@@ -45,6 +45,7 @@ import net.authorize.api.controller.base.ApiOperationBase;
 public class BillPay {
 	public int BillPayId;
 	public int TransactionId;
+	public String PreNationInvoiceNumber;
 	public String InvoiceNumber;
 	public String FaceAmount;
 	public double InvoiceAmount;
@@ -53,8 +54,8 @@ public class BillPay {
 	public int CompanyId;
 	public int CustomerId;
 	public String SenderName;
-	public double Amount;
-	public double Fees;
+	public String Amount;
+	public String Fees;
 	public String MobileNumber;
 	public String ResponseCode;
 	public String TransactionDate;
@@ -69,6 +70,8 @@ public class BillPay {
 	public boolean IsLive;
 	public String Result;
 	public String Error;
+	public String PreNationResponse;
+	public String SKUId;
 
 	private void setTransactionId(int TransactionId) {
 		this.TransactionId = TransactionId;
@@ -84,6 +87,14 @@ public class BillPay {
 
 	private int getBillPayId() {
 		return BillPayId;
+	}
+
+	private void setPreNationInvoiceNumber(String PreNationInvoiceNumber) {
+		this.PreNationInvoiceNumber = PreNationInvoiceNumber;
+	}
+
+	private String getPreNationInvoiceNumber() {
+		return PreNationInvoiceNumber;
 	}
 
 	private void setInvoiceNumber(String InvoiceNumber) {
@@ -133,11 +144,12 @@ public class BillPay {
 	private double getInvoiceAmount() {
 		return InvoiceAmount;
 	}
-	private void setFees(double Fees) {
+
+	private void setFees(String Fees) {
 		this.Fees = Fees;
 	}
 
-	private double getFees() {
+	private String getFees() {
 		return Fees;
 	}
 
@@ -173,11 +185,11 @@ public class BillPay {
 		return TransactionDate;
 	}
 
-	private void setAmount(double Amount) {
+	private void setAmount(String Amount) {
 		this.Amount = Amount;
 	}
 
-	private double getAmount() {
+	private String getAmount() {
 		return Amount;
 	}
 
@@ -277,6 +289,22 @@ public class BillPay {
 		return PaymentGatewayTransactionId;
 	}
 
+	private void setPreNationResponse(String PreNationResponse) {
+		this.PreNationResponse = PreNationResponse;
+	}
+
+	private String getPreNationResponse() {
+		return PreNationResponse;
+	}
+
+	private void setSKUId(String SKUId) {
+		this.SKUId = SKUId;
+	}
+
+	private String getSKUId() {
+		return SKUId;
+	}
+
 	public static String GetRequest(String sUsername, String sPassword, String sVersion, String sSku, double dAmount,
 			String sMobileNumber) {
 		String sRequest = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:pin=\"http://www.pininteract.com\">";
@@ -287,18 +315,35 @@ public class BillPay {
 		sRequest += "</pin:AuthenticationHeader>";
 		sRequest += "</soapenv:Header>";
 		sRequest += "<soapenv:Body>";
-		sRequest += "<pin:BillPay>";
+		sRequest += "<pin:PurchaseRtr2>";
 		sRequest += "<pin:version>" + sVersion + "</pin:version>";
 		sRequest += "<pin:skuId>" + sSku + "</pin:skuId>";
 		sRequest += "<pin:amount>" + dAmount + "</pin:amount>";
-		sRequest += "<pin:accountNumber>?</pin:accountNumber>";
-		sRequest += "<pin:checkDigits>?</pin:checkDigits>";
+		sRequest += "<pin:mobile>" + sMobileNumber + "</pin:mobile>";
 		sRequest += "<pin:correlationId>?</pin:correlationId>";
+		sRequest += "<pin:senderMobile>" + sMobileNumber + "</pin:senderMobile>";
 		sRequest += "<pin:storeId>?</pin:storeId>";
-		sRequest += "<pin:mobileNumber>" + sMobileNumber + "</pin:mobileNumber>";
-		sRequest += "<pin:accountType>?</pin:accountType>";
-		sRequest += "<pin:accountStatus>?</pin:accountStatus>";
-		sRequest += "</pin:BillPay>";
+		sRequest += "</pin:PurchaseRtr2>";
+		sRequest += "</soapenv:Body>";
+		sRequest += "</soapenv:Envelope>";
+
+		return sRequest;
+
+	}
+
+	public static String GetRequestSKU(String sUsername, String sPassword, String sVersion) {
+		String sRequest = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:pin=\"http://www.pininteract.com\">";
+		sRequest += "<soapenv:Header>";
+		sRequest += "<pin:AuthenticationHeader>";
+		sRequest += "<pin:userId>" + sUsername + "</pin:userId>";
+		sRequest += "<pin:password>" + sPassword + "</pin:password>";
+		sRequest += "</pin:AuthenticationHeader>";
+		sRequest += "</soapenv:Header>";
+		sRequest += "<soapenv:Body>";
+		sRequest += "<pin:GetSkuList>";
+		sRequest += "<pin:version>" + sVersion + "</pin:version>";
+
+		sRequest += "</pin:GetSkuList>";
 		sRequest += "</soapenv:Body>";
 		sRequest += "</soapenv:Envelope>";
 
@@ -392,15 +437,15 @@ public class BillPay {
 									// "https://valuetopup.com/posaservice/servicemanager.asmx";
 									String strURL = "https://qa.valuetopup.com/posaservice/servicemanager.asmx";
 									String strSoapAction = "http://www.pininteract.com/BillPay";
-
+									double sAmount = Double.parseDouble(_BillPay.Amount);
 									PostMethod post = new PostMethod(strURL);
-									String sRequest = GetRequest("Falcontest", "Hello@123", "1.0", "1560",
-											_BillPay.Amount, _BillPay.MobileNumber);
+									String sRequest = GetRequest("Falcontest", "Hello@123", "1.0", _BillPay.SKUId,
+											sAmount, _BillPay.MobileNumber);
 									RequestEntity entity = new StringRequestEntity(sRequest);
 
 									post.setRequestEntity(entity);
 									post.setRequestHeader("SOAPAction", strSoapAction);
-									post.setRequestHeader("Content-Type", "text/xml; charset=ISO-8859-1");
+									post.setRequestHeader("Content-Type", "text/xml; StandardCharsets.UTF_8");
 									HttpClient httpclient = new HttpClient();
 
 									try {
@@ -504,12 +549,14 @@ public class BillPay {
 																	_BillPay.setResponseCode("000");
 
 																	AuthrozieTranscation _AuthrozieTranscation = new AuthrozieTranscation();
+																	double sFees = Double.parseDouble(_BillPay.Fees);
+
 																	int lastid = _AuthrozieTranscation
 																			.saveDataTranscationDetails(
 																					_BillPay.CompanyId,
 																					_BillPay.CustomerId,
 																					_BillPay.SenderName,
-																					_BillPay.InvoiceAmount, 0.00, _BillPay.Fees,
+																					_BillPay.InvoiceAmount, 0.00, sFees,
 																					0.00, _BillPay.TransactionDate,
 																					_BillPay.Status,
 																					_BillPay.PaymentGatewayResponse,
@@ -521,20 +568,19 @@ public class BillPay {
 																					"0", _BillPay.CreatedDate);
 																	_BillPay.setTransactionId(lastid);
 
-																	_BillPay.setSkuId("1560");
 																	_BillPay.setVersionNo("1.0");
 																	int Resultlastid = _BillPay.addbillPayDetails(
 																			_BillPay.CompanyId, _BillPay.CustomerId,
 																			_BillPay.TransactionId, _BillPay.SenderName,
 																			_BillPay.MobileNumber, _BillPay.VersionNo,
-																			_BillPay.SkuId, _BillPay.InvoiceNumber,
+																			_BillPay.SKUId, _BillPay.InvoiceNumber,
 																			_BillPay.TransactionDate,
 																			_BillPay.InvoiceAmount, _BillPay.FaceAmount,
 																			_BillPay.ResponseCode);
 
 																	_BillPay.setResult("Success");
 																	_BillPay.setBillPayId(Resultlastid);
-																	//clear(_BillPay);
+																	// clear(_BillPay);
 
 																}
 
@@ -620,65 +666,91 @@ public class BillPay {
 							_BillPay.setError("Invalid transaction Key!");
 							clear(_BillPay);
 						}
-					} else if (PaymentMethod.contains("Visa Credit Card") || PaymentMethod.contains("MasterCard Credit Card")||PaymentMethod.contains("Visa Debit Card")||PaymentMethod.contains("MasterCard Debit Card")||PaymentMethod.contains("Bank Debit (ACH)")) {
+					} else if (PaymentMethod.contains("Visa Credit Card")
+							|| PaymentMethod.contains("MasterCard Credit Card")
+							|| PaymentMethod.contains("Visa Debit Card")
+							|| PaymentMethod.contains("MasterCard Debit Card")
+							|| PaymentMethod.contains("Bank Debit (ACH)")) {
 						MagicPay _MagicPay = new MagicPay();
-						
-						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						Calendar cal = Calendar.getInstance();
-						String date = format.format(cal.getTime());
-						_BillPay.setCreatedDate(date);
-						_BillPay.setTransactionDate(date);
-						_MagicPay.PaymentMethodId = _BillPay.PaymentMethodId;
-						_MagicPay.CompanyId = _BillPay.CompanyId;
-						_MagicPay.CustomerId = _BillPay.CustomerId;
-						_MagicPay.SenderName = _BillPay.SenderName;
-						_MagicPay.SendingAmount = _BillPay.Amount;
-						_MagicPay.Charges = 0.00;						
-						_MagicPay.Tax = 0.00;
-						_MagicPay.SendingCurrencyId = 3;
-						_MagicPay.ReceivingAmount = 0;
-						_MagicPay.ReceivingCurrencytId = 3;
-						_MagicPay.BeneficiaryId = 0;
-						_MagicPay.TransferPurpose = "Bill Payment";
-						_MagicPay.ExchangeRate = 0;
-						_MagicPay.DeliveryType = "0";
-						_MagicPay.CardNumber = _BillPay.CardNumber;
-						_MagicPay.setExpirationDate = _BillPay.setExpirationDate;
-						_MagicPay.cvv = _BillPay.cvv;
-					
 
-						_MagicPay.addMagicPay(_MagicPay);
-						if(_MagicPay.Result=="Success")
-						{
-							_BillPay.setSkuId("1560");
-							_BillPay.setVersionNo("1.0");
-							_BillPay.setFaceAmount("0.00");
-							_BillPay.setResponseCode("000");
-							_BillPay.setInvoiceNumber("");
-							System.out.println(_BillPay.InvoiceNumber);
-							_BillPay.TransactionId=_MagicPay.TransactionId;
-							int Resultlastid = _BillPay.addbillPayDetails(
-									_BillPay.CompanyId, _BillPay.CustomerId,
-									_BillPay.TransactionId, _BillPay.SenderName,
-									_BillPay.MobileNumber, _BillPay.VersionNo,
-									_BillPay.SkuId, _BillPay.InvoiceNumber,
-									_BillPay.TransactionDate,
-									_BillPay.Amount, _BillPay.FaceAmount,
-									_BillPay.ResponseCode);
+						try {
+							int resultpay = 0;
 
-							_BillPay.setResult("Success");
-							_BillPay.setBillPayId(Resultlastid);
-							String dPaymentGatewayTransactionId=_MagicPay.PaymentGatewayTransactionId.toString();
-							_BillPay.setPaymentGatewayTransactionId(dPaymentGatewayTransactionId);
-							//clear(_BillPay);
-						}
-						else
-						{
-							_BillPay.setResult(_MagicPay.Result);
-							_BillPay.setError(_MagicPay.Error);
+							try {
+
+								double sAmounts = Double.parseDouble(_BillPay.Amount);
+								SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+								Calendar cal = Calendar.getInstance();
+								String date = format.format(cal.getTime());
+								_BillPay.setCreatedDate(date);
+								_BillPay.setTransactionDate(date);
+								_MagicPay.PaymentMethodId = _BillPay.PaymentMethodId;
+								_MagicPay.CompanyId = _BillPay.CompanyId;
+								_MagicPay.CustomerId = _BillPay.CustomerId;
+								_MagicPay.SenderName = _BillPay.SenderName;
+								_MagicPay.SendingAmount = sAmounts;
+								_MagicPay.Charges = 0.00;
+								_MagicPay.Tax = 0.00;
+								_MagicPay.SendingCurrencyId = 3;
+								_MagicPay.ReceivingAmount = 0;
+								_MagicPay.ReceivingCurrencytId = 3;
+								_MagicPay.BeneficiaryId = 0;
+								_MagicPay.TransferPurpose = "Bill Payment";
+								_MagicPay.ExchangeRate = 0;
+								_MagicPay.DeliveryType = "0";
+								_MagicPay.CardNumber = _BillPay.CardNumber;
+								_MagicPay.setExpirationDate = _BillPay.setExpirationDate;
+								_MagicPay.cvv = _BillPay.cvv;
+
+								_MagicPay.addMagicPay(_MagicPay);
+								if (_MagicPay.Result == "Success") {
+
+									_BillPay.setVersionNo("1.0");
+									_BillPay.setFaceAmount("0.00");
+									_BillPay.setResponseCode("000");
+									// _BillPay.setInvoiceNumber(_BillPay.PreNationInvoiceNumber);
+
+									_BillPay.TransactionId = _MagicPay.TransactionId;
+									double sAmountss = Double.parseDouble(_BillPay.Amount);
+									int Resultlastid = _BillPay.addbillPayDetails(_BillPay.CompanyId,
+											_BillPay.CustomerId, _BillPay.TransactionId, _BillPay.SenderName,
+											_BillPay.MobileNumber, _BillPay.VersionNo, _BillPay.SKUId,
+											_BillPay.InvoiceNumber, _BillPay.TransactionDate, sAmountss,
+											_BillPay.FaceAmount, _BillPay.ResponseCode);
+
+									_BillPay.setResult("Success");
+									_BillPay.setBillPayId(Resultlastid);
+									String dPaymentGatewayTransactionId = _MagicPay.PaymentGatewayTransactionId
+											.toString();
+									_BillPay.setPaymentGatewayTransactionId(dPaymentGatewayTransactionId);
+
+									
+									_BillPay.Prenation(_BillPay);
+									
+									
+									// clear(_BillPay);
+								} else {
+									_BillPay.setResult(_MagicPay.Result);
+									_BillPay.setError(_MagicPay.Error);
+									clear(_BillPay);
+								}
+
+							} catch (Exception e) {
+
+								clear(_BillPay);
+								_BillPay.setResult("Failed");
+								_BillPay.setError(
+										"Your transaction could not be completed due to some issue, please contact administrator.");
+								clear(_BillPay);
+							}
+						} catch (Exception e) {
+
+							clear(_BillPay);
+							_BillPay.setResult("Failed");
+							_BillPay.setError(
+									"Your transaction could not be completed due to some issue, please contact administrator.");
 							clear(_BillPay);
 						}
-					
 					}
 
 				} else {
@@ -691,7 +763,8 @@ public class BillPay {
 			} else {
 				// System.out.println("Null Response.");
 				_BillPay.setResult("failed");
-				_BillPay.setError("Payment settings are not available for this Payment Method, please contact to system administrator!");
+				_BillPay.setError(
+						"Payment settings are not available for this Payment Method, please contact to system administrator!");
 				clear(_BillPay);
 			}
 
@@ -710,8 +783,8 @@ public class BillPay {
 		Connection _Connection = MYSQLConnection.GetConnection();
 		try {
 			DecimalFormat _decimalFormat = new DecimalFormat("##.00");
-			//String _formate = _decimalFormat.format(InvoiceAmount);
-			double _invoiceAmount = (Double)InvoiceAmount;
+			// String _formate = _decimalFormat.format(InvoiceAmount);
+			double _invoiceAmount = (Double) InvoiceAmount;
 			PreparedStatement _PreparedStatement = null;
 			MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 			String sInsertStatement = "INSERT INTO billpaydetails( CompanyId, CustomerId,TransactionId,SenderName,MobileNumber, Version,SkuId,InvoiceNumber,TransactionDate,InvoiceAmount,FaceValueAmount,ResponseCode)";
@@ -739,7 +812,7 @@ public class BillPay {
 
 			}
 		} catch (Exception e) {
-
+			System.out.println("error:" + e.getMessage());
 		}
 
 		return Result;
@@ -769,7 +842,7 @@ public class BillPay {
 					_BillPay.setTransactionDate(_ResultSet.getString("TransactionDate"));
 					_BillPay.setInvoiceAmount(_ResultSet.getDouble("InvoiceAmount"));
 					_BillPay.setFaceAmount(_ResultSet.getString("FaceValueAmount"));
-					_BillPay.setAmount(_ResultSet.getDouble("FaceValueAmount"));
+					_BillPay.setAmount(_ResultSet.getString("FaceValueAmount"));
 					_BillPay.setResponseCode(_ResultSet.getString("ResponseCode"));
 					_BillPay.setResult("Success");
 					_BillPayDetaillist.add(_BillPay);
@@ -793,16 +866,117 @@ public class BillPay {
 		return _BillPayDetaillist;
 	}
 
+	public BillPay Prenation(BillPay _BillPay) {
+		
+
+		// String strURL =
+		
+		String strURL = "https://valuetopup.com/posaservice/servicemanager.asmx";
+		//String strURL = "https://qa.valuetopup.com/posaservice/servicemanager.asmx";
+		String strSoapAction = "http://www.pininteract.com/PurchaseRtr2";
+		double sAmount = Double.parseDouble(_BillPay.Amount);
+		PostMethod post = new PostMethod(strURL);
+		
+		String sRequest = GetRequest("Falconclk", "Ah2yinI37Dfi80cx7", "1.0", _BillPay.SKUId, sAmount,
+				_BillPay.MobileNumber);
+		//String sRequest = GetRequest("Falcontest", "Hello@123", "1.0", _BillPay.SKUId, sAmount,
+			//	_BillPay.MobileNumber);
+		RequestEntity entity = new StringRequestEntity(sRequest);
+
+		post.setRequestEntity(entity);
+		post.setRequestHeader("SOAPAction", strSoapAction);
+		// post.setRequestHeader("Content-Type", "text/xml;
+		// charset=ISO-8859-1");
+		post.setRequestHeader("Content-Type", "text/xml; StandardCharsets.UTF_8");
+		HttpClient httpclient = new HttpClient();
+
+		try {
+
+			int resultpay = 0;
+			try {
+				resultpay = httpclient.executeMethod(post);
+			} catch (HttpException e) {
+				_BillPay.setResult("Failed");
+				_BillPay.setError(
+						"Your transaction could not be completed due to some issue, please contact administrator.");
+				clear(_BillPay);
+
+			} catch (IOException e) {
+
+				_BillPay.setResult("Failed");
+				_BillPay.setError(
+						"Your transaction could not be completed due to some issue, please contact administrator.");
+				clear(_BillPay);
+			}
+
+			try {
+				DocumentBuilderFactory _DocumentBuilderFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder _DocumentBuilder = _DocumentBuilderFactory.newDocumentBuilder();
+				Document _Document = _DocumentBuilder
+						.parse(new StringBufferInputStream(post.getResponseBodyAsString()));
+				_Document.getDocumentElement().normalize();
+				NodeList _NodeList = _Document.getElementsByTagName("orderResponse");
+
+				System.out.println("aya:" + post.getResponseBodyAsString());
+				_BillPay.setPreNationResponse(post.getResponseBodyAsString());
+				NodeList _tNodeList = _Document.getElementsByTagName("invoice");
+
+				if (_tNodeList.getLength() > 0) {
+					Node _tNode = _tNodeList.item(0);
+					if (_tNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element _tElement = (Element) _tNode;
+						// System.out.println(_tElement.getAttribute("invoiceNumber"));
+						// System.out.println(_tElement.getAttribute("transactionDateTime"));
+						_BillPay.setPreNationInvoiceNumber(_tElement.getAttribute("invoiceNumber"));
+						_BillPay.setInvoiceNumber(_tElement.getAttribute("invoiceNumber"));
+						System.out.println(post.getResponseBodyAsString());
+						if (resultpay == 200) {
+							MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+							Connection _Connection = MYSQLConnection.GetConnection();
+							 PreparedStatement _PreparedStatement = null;
+							String sInsertStatement ="UPDATE billpaydetails SET InvoiceNumber = ?"+ " WHERE BillPayId = ?";
+							_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+							_PreparedStatement.setString(1, _BillPay.InvoiceNumber);							
+							_PreparedStatement.setInt(2, _BillPay.BillPayId);
+							_PreparedStatement.executeUpdate();
+							_BillPay.setResult("Success");
+						}
+					}
+
+				} else {
+					_BillPay.setResult("Failed");
+					_BillPay.setError(
+							"Your transaction could not be completed due to some issue, please contact administrator.");
+					clear(_BillPay);
+				}
+
+			} catch (IOException e) {
+
+				clear(_BillPay);
+				_BillPay.setResult("Failed");
+				_BillPay.setError(
+						"Your transaction could not be completed due to some issue, please contact administrator.");
+				clear(_BillPay);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+
+			post.releaseConnection();
+		}
+		return _BillPay;
+	}
+
 	public BillPay clear(BillPay _BillPay) {
 		_BillPay.setCompanyId(0);
 		_BillPay.setCustomerId(0);
-		 _BillPay.setInvoiceNumber("");
+		_BillPay.setInvoiceNumber("");
 		_BillPay.setFaceAmount("");
-		 _BillPay.setInvoiceAmount(0);
+		_BillPay.setInvoiceAmount(0);
 		_BillPay.setVersionNo("");
 		_BillPay.setSkuId("");
 		_BillPay.setSenderName("");
-		_BillPay.setAmount(0);
+		_BillPay.setAmount("");
 		_BillPay.setMobileNumber("");
 		_BillPay.setResponseCode("");
 		_BillPay.setCardNumber("");
@@ -811,7 +985,7 @@ public class BillPay {
 		_BillPay.setPaymentMethodId(0);
 		_BillPay.setTransactionDate("");
 		_BillPay.setCreatedDate("");
-		_BillPay.setFees(0);
+		_BillPay.setFees("");
 		return _BillPay;
 	}
 

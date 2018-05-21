@@ -1,7 +1,7 @@
 <!--<div class="header-inner" ng-class="{'search-focus': main.searchFocus, 'search-focus-active': !main.app.search}">-->
 <header class="navbar navbar-expand-md flex-column flex-sm-row header-container-wrapper pt-0 pb-0 pl-md-0 pr-md-0">
     <div class="container flex-column flex-sm-row" data-ng-controller="manageCustomerLoginController">
-        <a class="navbar-brand" data-ui-sref='app.customerPortal'>
+        <a class="navbar-brand" ng-click="ReloadGustCustomer()">
             <img src="images/sending-loop-logo.png" alt="Recharge Mobile Phones">
         </a> 
         <ul class="navbar-nav navbar-user-panel d-flex flex-row justify-content-sm-end order-md-2" ng-if="IsLogin">

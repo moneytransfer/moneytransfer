@@ -5,6 +5,7 @@ com\etl\base\MagicPay.class
 com\etl\base\BillPay.class
 com\pininteract\Sku.class
 com\pininteract\www\ServiceManager.class
+com\etl\base\Email.class
 com\moneytransfer\Services.class
 com\etl\util\MYSQLConnection.class
 com\etl\base\AuthrozieTranscation.class
@@ -19,6 +20,7 @@ com\pininteract\SimActivation.class
 com\pininteract\www\SkuListResponse.class
 com\etl\base\AgentDetails.class
 com\pininteract\Pin.class
+com\etl\base\minepay$1.class
 com\etl\base\StripeTest.class
 com\etl\util\MYSQLHelper.class
 com\etl\base\UserDetail.class
@@ -43,15 +45,18 @@ com\pininteract\CarrierListResponse.class
 com\pininteract\Promotion.class
 com\pininteract\www\ServiceManagerLocator.class
 com\etl\base\ApplicantKYC.class
+com\etl\base\PhotoUploadResponseHandler.class
 com\pininteract\PromotionsResponse.class
 com\etl\base\Currency.class
 com\etl\base\BeneficiaryType.class
 com\etl\base\MagicPay$1.class
 com\etl\base\StringHelper.class
+com\etl\base\minepay.class
 com\etl\base\XMLHelper.class
 com\etl\base\PaymentType.class
 com\pininteract\AccountInfo.class
 com\pininteract\www\ServiceManagerSoapStub.class
+com\etl\base\Email$1.class
 com\etl\base\CarrierInfoByMobileNumber.class
 com\etl\base\CustomerDetail.class
 com\pininteract\www\Carrier.class

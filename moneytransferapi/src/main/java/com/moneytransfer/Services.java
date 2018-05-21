@@ -21,6 +21,7 @@ import com.etl.base.CountryDeatils;
 import com.etl.base.Currency;
 import com.etl.base.CurrencyConversion;
 import com.etl.base.CustomerDetail;
+import com.etl.base.Email;
 import com.etl.base.FeesCategory;
 import com.etl.base.GlobalExchangeRate;
 import com.etl.base.MagicPay;
@@ -30,6 +31,8 @@ import com.etl.base.PaymentMethod;
 import com.etl.base.PaymentType;
 import com.etl.base.TransactionFeeSharing;
 import com.etl.base.UserDetail;
+import com.etl.base.minepay;
+
 
 @Path("/")
 public class Services {
@@ -615,6 +618,29 @@ public class Services {
 	@Path("addApplicant")
 	@Produces("application/json")
 	public ApplicantKYC addApplicant(ApplicantKYC _ApplicantKYC) {
-		return new ApplicantKYC().addApplicantKYC(_ApplicantKYC.CustomerId, _ApplicantKYC.CompanyId, _ApplicantKYC.Title, _ApplicantKYC.FirstName, _ApplicantKYC.LastName, _ApplicantKYC.Gender, _ApplicantKYC.DOB, _ApplicantKYC.Country, _ApplicantKYC.FlatNumber, _ApplicantKYC.BuildingName, _ApplicantKYC.BuildingNumber, _ApplicantKYC.Street, _ApplicantKYC.State, _ApplicantKYC.Town, _ApplicantKYC.PostalCode);
+		return new ApplicantKYC().addApplicantKYC(_ApplicantKYC.CustomerId, _ApplicantKYC.CompanyId, _ApplicantKYC.Title, _ApplicantKYC.FirstName, _ApplicantKYC.LastName, _ApplicantKYC.Gender, _ApplicantKYC.DOB, _ApplicantKYC.Country, _ApplicantKYC.FlatNumber, _ApplicantKYC.BuildingName, _ApplicantKYC.BuildingNumber, _ApplicantKYC.Street, _ApplicantKYC.State, _ApplicantKYC.Town, _ApplicantKYC.PostalCode,_ApplicantKYC.Phone);
 	}
+	
+	@GET
+	@Path("upload")
+	@Produces("application/json")
+	public ApplicantKYC upload() {
+		return new ApplicantKYC().TestBaba();
+	}
+	
+	@POST
+	@Path("testmagic")
+	@Produces("application/json")
+	public minepay hi(minepay _minepay) {
+		return new minepay().addpay(_minepay.CardNumber, _minepay.exp, _minepay.cvv);
+	}
+	
+	@POST
+	@Path("email")
+	@Produces("application/json")
+	public Email email(Email _Email) {
+		return new Email().go(_Email.CustomerId);
+	}
+	
+	
 }

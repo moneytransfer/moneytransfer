@@ -352,8 +352,11 @@ public class CustomerDetail {
 								_PreparedStatement = _Connection.prepareStatement(sUpdateStatement);
 								_PreparedStatement.setString(1, _code);
 								_PreparedStatement.setInt(2, _CustomerDetail.CustomerId);								
-								_PreparedStatement.executeUpdate();								
+								_PreparedStatement.executeUpdate();																
 								clear(_CustomerDetail);
+								
+								Email _Email=new Email();	
+								_Email.go(_CustomerDetail.CustomerId);
 						}
 						else{
 							_CustomerDetail.setResult("Failed");

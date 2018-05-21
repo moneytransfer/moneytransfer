@@ -17,4 +17,13 @@ public class MYSQLConfiguration {
 	{
 		return ProviderBase.readConfigurationFile().getProperty("jdbc.password").toString();
 	}
+	
+	public static String getsmtpuser()
+	{
+		return ProviderBase.readConfigurationFile().getProperty("jdbc.smtpUserName").toString();
+	}
+	public static String getsmtppwd()
+	{
+		return ProviderBase.readConfigurationFile().getProperty("jdbc.smtppassword").toString();
+	}
 }

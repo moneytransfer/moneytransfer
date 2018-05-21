@@ -44,7 +44,11 @@
                 }
             }
         } else {
-            $state.go('app.customerPortal')
+            if (vm.localStorage.SelectedCountry) {
+                $localStorage.SelectedCountry = [];
+                $state.go('app.customerPortal')
+            }
+            else { $state.go('app.customerPortal') }
         }
 
 
@@ -140,7 +144,7 @@
                     headers: { 'Content-Type': 'application/json; charset=utf-8' }
                 })
                 .success(function (data) {
-
+               
                     var idata = data;
                     if (idata.countryCode != null) {
                         var SelectedCountry = [];
@@ -167,7 +171,15 @@
                         vm.FlagModel = idata;
                         var sData = vm.CountryDetails;
                         if (!vm.DestinationCountry)
-                            var PhoneCode = res[0];
+                            
+                            var PhoneCode = '';
+                        if (idata.currencyCode == "MXN") {
+                            PhoneCode = res[0];
+                        }
+                        else {
+                            PhoneCode = idata.internationalCodes;
+                        }
+                        //var PhoneCode = '';
                         if (vm.CountryDetails.phonecode != '0') {
                             if (idata.internationalCodes != vm.CountryDetails.phonecode) {
                                 vm.CountryDetails.phonecode = '0';
@@ -193,13 +205,17 @@
                                 vm.CountryDetails.phonecode = idata.internationalCodes;
                             }//vm.CountryDetails = sData;
                         }
+
+                        $localStorage.SelectedCountry = idata;
+
                         if (idata.currencyCode == "USD") {
                             $localStorage.SelectedCountry.ConvertAmount = 1.00;
+                            $localStorage.SelectedCountry.GlobalExchangesRate = 1.00;
                             $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
                         }
                         else { ConvertMoney(idata.currencyCode); }
 
-                        $localStorage.SelectedCountry = idata;
+                       
                         if (!vm.DestinationCountry) {
                             var iCountryId = parseInt(PhoneCode);
                             var data1 = $filter('filter')(vm.Countries, {
@@ -209,7 +225,7 @@
 
                         }
                         $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
-
+                        setAmountArray();
 
                     }
                     else {
@@ -331,13 +347,17 @@
 
 
         vm.proceed = function () {
+          
             vm.accessAmount = false;
+            vm.validAmount = false;
             if ($("#from_id").valid()) {
                 if ($localStorage.Ammount) {
                     var fareAmmount = 0;
                     //fareAmmount = parseFloat($localStorage.Ammount * $localStorage.SelectedCountry.ConvertAmount);
+                    var minAmount = parseInt($localStorage.SelectedCountry.minAmount);
+                    var maxAmount = parseInt($localStorage.SelectedCountry.maxAmount);
                     fareAmmount = parseFloat($localStorage.Ammount);
-                    if (fareAmmount <= 100) {
+                    if (fareAmmount <= maxAmount && fareAmmount >= minAmount) {
                         $localStorage.FareAmmount = fareAmmount;
                         $localStorage.Fees = vm.Fee;
                         setTimeout(function () {
@@ -349,7 +369,14 @@
                     }
 
                 }
+                else {
+
+                    vm.validAmount = true;
+                    return 0;
+                }
             } else {
+              
+                vm.validAmount = true;
                 return 0;
             }
 
@@ -367,23 +394,63 @@
             }
         }
 
+        if ($localStorage.Ammount) {
+          
+            var dAmount = parseFloat($localStorage.Ammount).toFixed(2)
+            $('#amountfeild').val(dAmount);
+           
+        }
+
+        vm.BackChooseamount = function () {
+            if ($localStorage.Ammount) {
+                $localStorage.Ammount = '';
+                $state.go('app.chooseAmount');
+            }
+            else { $state.go('app.chooseAmount'); }
+
+        }
+
         //With Exchange rate
-        vm.PayAmountWithExchange = [{ AmountId: '1', Amount: '1.00' }, { AmountId: '2', Amount: '2.00' },
-                        { AmountId: '3', Amount: '3.00' }, { AmountId: '4', Amount: '4.00' },
-                        { AmountId: '5', Amount: '5.00' }, { AmountId: '6', Amount: '6.00' },
-                        { AmountId: '7', Amount: '7.00' }, { AmountId: '8', Amount: '8.00' },
-                        { AmountId: '9', Amount: '9.00' }, { AmountId: '10', Amount: '10.00' },
-                        { AmountId: '11', Amount: '11.00' }, { AmountId: '12', Amount: '12.00' }]
+        vm.PayAmountWithExchange = [{ AmountId: '1', Amount: '1.00' }, { AmountId: '2', Amount: '2.00' },{ AmountId: '3', Amount: '3.00' }, { AmountId: '4', Amount: '4.00' },{ AmountId: '5', Amount: '5.00' }, { AmountId: '6', Amount: '6.00' }, { AmountId: '7', Amount: '7.00' }, { AmountId: '8', Amount: '8.00' }, { AmountId: '9', Amount: '9.00' }, { AmountId: '10', Amount: '10.00' }, { AmountId: '11', Amount: '11.00' }, { AmountId: '12', Amount: '12.00' }];
 
         //Without exchange rate
-        vm.PayAmount = [{ AmountId: '1', Amount: '10.00' }, { AmountId: '2', Amount: '20.00' },
-                        { AmountId: '3', Amount: '30.00' }, { AmountId: '4', Amount: '40.00' },
-                        { AmountId: '5', Amount: '50.00' }, { AmountId: '6', Amount: '60.00' },
-                        { AmountId: '7', Amount: '70.00' }, { AmountId: '8', Amount: '80.00' },
-                        { AmountId: '9', Amount: '90.00' }, { AmountId: '10', Amount: '100.00' },
-                        { AmountId: '11', Amount: '110.00' }, { AmountId: '12', Amount: '120.00' },
-                        { AmountId: '13', Amount: '130.00' }, { AmountId: '14', Amount: '140.00' },
-                        { AmountId: '15', Amount: '150.00' }, { AmountId: '16', Amount: '160.00' }];
+       
+        //vm.PayAmount = $localStorage.SelectedCountry.AmountList;
+        //vm.PayAmount = [{ AmountId: '1', Amount: '10.00' }, { AmountId: '2', Amount: '20.00' },
+        //                { AmountId: '3', Amount: '30.00' }, { AmountId: '4', Amount: '40.00' },
+        //                { AmountId: '5', Amount: '50.00' }, { AmountId: '6', Amount: '60.00' },
+        //                { AmountId: '7', Amount: '70.00' }, { AmountId: '8', Amount: '80.00' },
+        //                { AmountId: '9', Amount: '90.00' }, { AmountId: '10', Amount: '100.00' },
+        //                { AmountId: '11', Amount: '110.00' }, { AmountId: '12', Amount: '120.00' },
+        //                { AmountId: '13', Amount: '130.00' }, { AmountId: '14', Amount: '140.00' },
+        //                { AmountId: '15', Amount: '150.00' }, { AmountId: '16', Amount: '160.00' }];
+
+        //----------------Set amount Array--------------------//
+        function setAmountArray() {
+          
+            if ($localStorage.SelectedCountry.minAmount == $localStorage.SelectedCountry.maxAmount) {
+                vm.PayAmountList = [{ AmountId: '1', Amount: $localStorage.SelectedCountry.minAmount }];
+            }
+            else {
+                var iAmount = 0;
+                vm.PayAmountList = [];
+                var j = 0;
+                var amt = parseInt($localStorage.SelectedCountry.minAmount);
+                var i = parseInt($localStorage.SelectedCountry.minAmount);
+                var Total = parseInt($localStorage.SelectedCountry.maxAmount);
+                for (i; i <= Total; i += 5) {
+                    if (i == parseInt($localStorage.SelectedCountry.minAmount)) {
+                        vm.PayAmountList.push({ AmountId: 0, Amount: parseInt($localStorage.SelectedCountry.minAmount) });
+                    }
+                    else {
+                        amt += 5;
+                        vm.PayAmountList.push({ AmountId: j += 1, Amount: amt });
+                    }
+
+                }
+            }
+            $localStorage.AmountList = vm.PayAmountList;
+        }
 
         vm.goBack = function () {
             vm.localStorage.Ammount = '';
@@ -393,6 +460,7 @@
             vm.localStorage.MobileNumber = '';
             vm.localStorage.SelectedCountry = '';
             $localStorage.ThankyouPageData = '';
+            $localStorage.AmountList = '';
             $state.go('app.customerPortal');
         }
 
@@ -404,6 +472,7 @@
             vm.localStorage.MobileNumber = '';
             vm.localStorage.SelectedCountry = '';
             $localStorage.ThankyouPageData = '';
+            $localStorage.AmountList = '';
             $state.go('app.customerPortal');
         }
 
@@ -420,6 +489,7 @@
                 $localStorage.GustData = '';
                 $localStorage.GustCustomer = '';
                 $localStorage.ThankyouPageData = '';
+                $localStorage.AmountList = '';
                 $localStorage = [];
                 setTimeout(function () {
                     //$state.go('app.customerPortal');
@@ -473,6 +543,7 @@
 
 
         function UpdateglobalExchange(code) {
+         
             //$localStorage.SelectedCountry.ConvertAmount = 0;
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
@@ -486,7 +557,7 @@
                     if (idata.currency[0].value > 0) {
                         var value = parseFloat(idata.currency[0].value).toFixed(2)
                         //var newvalu = value
-
+                      
                         var DestinationCountryId = "";
                         var SellSpotPrice = value;
                         var data1 = $filter('filter')(vm.Countries, {
@@ -565,12 +636,28 @@
             vm.IsLogin = true;
         }
         //vm.CustomerStorage = { GustCustomer: '0' };
+        //if ($localStorage.Ammount) {
+        //    $window.location.assign('#/app/makePayment');
+        //}
+        //if (vm.IsLogin) {
+        //    $window.location.assign('#/app/customerPortal');
+        //}
+
         if ($localStorage.Ammount) {
-            $window.location.assign('#/app/makePayment');
+          
+            if (vm.IsLogin) {
+                $window.location.assign('#/app/makePayment');
+            }
+            else {
+                var url = $state.current.url;
+                $window.location.assign('#/app' + url);
+            }
         }
-        if (vm.IsLogin) {
+        else if (vm.IsLogin) {
             $window.location.assign('#/app/customerPortal');
         }
+        else { $window.location.assign('#/app/customerPortal'); }
+
 
 
         //Get Country
@@ -674,6 +761,7 @@
             vm.localStorage.GustData = '';
             vm.localStorage.MobileNumber = '';
             vm.localStorage.SelectedCountry = '';
+            $localStorage.AmountList = '';
             $state.go('app.customerPortal');
         }
 
@@ -729,8 +817,23 @@
             })
         }
 
-        vm.logoutGustCustomer = function () {
+        vm.ReloadGustCustomer = function () {
+            $localStorage.numberDetails = '';
+            $localStorage.Ammount = '';
+            $localStorage.GustData = '';
+            $localStorage.MobileNumber = '';
+            $localStorage.SelectedCountry = '';
+            $localStorage.AmountList = '';
+            $localStorage = [];
+            setTimeout(function () {
+                $window.location.reload();
+                //$state.go('app.customerPortal');
+            }, 1000);
 
+        }
+
+
+        vm.logoutGustCustomer = function () {
             $localStorage.numberDetails = '';
             $localStorage.GustCustomer = '';
             $localStorage.Ammount = '';
@@ -738,7 +841,7 @@
             $localStorage.MobileNumber = '';
             $localStorage.SelectedCountry = '';
             $localStorage.GustCustomer = '';
-
+            $localStorage.AmountList = '';
             $localStorage = [];
             setTimeout(function () {
                 $window.location.reload();
