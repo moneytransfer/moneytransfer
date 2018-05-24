@@ -338,6 +338,9 @@ public class MagicTest {
 	}
 	
 	
+	
+	
+	
 	public MagicTest atest(MagicTest __MagicPay) {
 		HashMap retval = new HashMap();
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -486,6 +489,63 @@ public class MagicTest {
 		return result;
 	}
 
+	public MagicTest voidtt(MagicTest __MagicPay) {
+		String server = "secure.magicpaygateway.com";
+		String port = "443";
+		String path = "https://secure.magicpaygateway.com/api/transact.php";
+		String username = "falconengineer";
+		String password = "falcon@999";
+		HashMap retval = new HashMap();
+		try{
+		retval = __MagicPay.voidpaymentProcess(__MagicPay.PaymentGatewayTransactionId, __MagicPay.ReceivingAmount, server, port, username, password, path);
+		System.out.println("Success\nTransId: " + retval.get("transactionid") + "\n");
+		System.out.println("Success\nTransIdResponse: " + retval.get("responsetext") + "\n");
+		}
+		catch (Exception e) {
+			System.out.println("error: " + e.getMessage());
+		}
+		return __MagicPay;
+	}
+	
+	
+	
+	
+	
+	public HashMap voidpaymentProcess(Object transactionid,double amount, String server, String port,
+			String username, String password, String path) throws Exception {
+		HashMap result = new HashMap();
+		HashMap request = new HashMap();
+		MagicTest __MagicPay=new MagicTest();
+		DecimalFormat form = new DecimalFormat("#.00");
+
+		request.put("amount", form.format(amount));
+		request.put("type", "refund");			
+		request.put("transactionid", transactionid);
+		String data_out = prepareRequest(request, username, password);
+
+		String error = "";
+		String data_in = "";
+		boolean success = true;
+		try {
+			//path="https://secure.magicpaygateway.com/merchants/customervault.php";
+			HashMap retval = postRequestForm(data_out, server, port, path);
+			data_in = (String) retval.get("response");
+			System.out.println("Success\nTransId: " + retval.get("customer_vault_id") + "\n");
+			result.put("customer_vault_id", retval.get("customer_vault_id"));
+			__MagicPay.setPaymentGatewayTransactionId(retval.get("customer_vault_id"));
+			__MagicPay.setResult("Success");
+		} catch (Exception ex) {
+			success = false;
+			error = ex.getMessage();
+			 System.out.println("Error: " + ex.getMessage());
+			 __MagicPay.setError(ex.getMessage());
+		}
+		if (!success) {
+			throw new Exception(error);
+		}
+
+		return result;
+	}
 	public String prepareRequest(HashMap request, String username, String password) {
 
 		// server = "secure.magicpaygateway.com";

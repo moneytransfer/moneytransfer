@@ -63,6 +63,10 @@ public class MagicPay {
 	public String Status;
 	public String Result;
 	public String Error;
+	public boolean IsRefunded;
+	public String RefundedDate;
+	public String RefundedBy;
+	public Object RefundResult;
 
 	private void setTransactionId(int TransactionId) {
 		this.TransactionId = TransactionId;
@@ -336,6 +340,38 @@ public class MagicPay {
 		return TransactionDetail;
 	}
 
+	private void setIsRefunded(boolean IsRefunded) {
+		this.IsRefunded = IsRefunded;
+	}
+
+	private boolean getIsRefunded() {
+		return IsRefunded;
+	}
+
+	private void setRefundedDate(String RefundedDate) {
+		this.RefundedDate = RefundedDate;
+	}
+
+	private String getRefundedDate() {
+		return RefundedDate;
+	}
+
+	private void setRefundedBy(String RefundedBy) {
+		this.RefundedBy = RefundedBy;
+	}
+
+	private String getRefundedBy() {
+		return RefundedBy;
+	}
+
+	private void setRefundResult(Object RefundResult) {
+		this.RefundResult = RefundResult;
+	}
+
+	private Object getRefundResult() {
+		return RefundResult;
+	}
+
 	public MagicPay addMagicPay(MagicPay __MagicPay) {
 		HashMap retval = new HashMap();
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -357,120 +393,120 @@ public class MagicPay {
 								.GetResultSet("SELECT * FROM country where country_id='"
 										+ _ResultSetcustomer.getString("country_id") + "'", _Connection);
 						if (_ResultSetCountry.next()) {
-						
-						ResultSet _ResultSet = _MYSQLHelper
-								.GetResultSet("SELECT PaymentMethodId FROM paymentmethod where PaymentMethodId='"
-										+ __MagicPay.PaymentMethodId + "'", _Connection);
-						if (_ResultSet.next()) {
-							ResultSet _ResultSetPaymentSettingDetails = _MYSQLHelper
-									.GetResultSet("SELECT * FROM authorizepaymentsettings where PaymentMethodId='"
+
+							ResultSet _ResultSet = _MYSQLHelper
+									.GetResultSet("SELECT PaymentMethodId FROM paymentmethod where PaymentMethodId='"
 											+ __MagicPay.PaymentMethodId + "'", _Connection);
-							if (_ResultSetPaymentSettingDetails.next()) {
+							if (_ResultSet.next()) {
+								ResultSet _ResultSetPaymentSettingDetails = _MYSQLHelper
+										.GetResultSet("SELECT * FROM authorizepaymentsettings where PaymentMethodId='"
+												+ __MagicPay.PaymentMethodId + "'", _Connection);
+								if (_ResultSetPaymentSettingDetails.next()) {
 
-								ResultSet _ResultSetSourceCountry = _MYSQLHelper
-										.GetResultSet("SELECT * FROM currency where CurrencyId='"
-												+ __MagicPay.SendingCurrencyId + "'", _Connection);
-								if (_ResultSetSourceCountry.next()) {
-
-									int SourceCountryId = (_ResultSetSourceCountry.getInt("country_id"));
-									__MagicPay.setSourceCountryId(SourceCountryId);
-
-									ResultSet _ResultSetDestinationCountry = _MYSQLHelper
+									ResultSet _ResultSetSourceCountry = _MYSQLHelper
 											.GetResultSet("SELECT * FROM currency where CurrencyId='"
-													+ __MagicPay.ReceivingCurrencytId + "'", _Connection);
-									if (_ResultSetDestinationCountry.next()) {
-										int DestinationCountryId = (_ResultSetDestinationCountry.getInt("country_id"));
-										__MagicPay.setDestinationCountryId(DestinationCountryId);
+													+ __MagicPay.SendingCurrencyId + "'", _Connection);
+									if (_ResultSetSourceCountry.next()) {
 
-										SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-										Calendar cal = Calendar.getInstance();
-										String date = format.format(cal.getTime());
-										__MagicPay.setCreatedDate(date);
-										__MagicPay.setserver(_ResultSetPaymentSettingDetails.getString("Server"));
-										__MagicPay.setport(_ResultSetPaymentSettingDetails.getString("Port"));
-										__MagicPay.setusername(
-												_ResultSetPaymentSettingDetails.getString("MerchantLoginId"));
-										__MagicPay.setpassword(
-												_ResultSetPaymentSettingDetails.getString("MerchantTransactionKey"));
-										__MagicPay.setpath(_ResultSetPaymentSettingDetails.getString("PaymentUrl"));
+										int SourceCountryId = (_ResultSetSourceCountry.getInt("country_id"));
+										__MagicPay.setSourceCountryId(SourceCountryId);
 
-										
+										ResultSet _ResultSetDestinationCountry = _MYSQLHelper
+												.GetResultSet("SELECT * FROM currency where CurrencyId='"
+														+ __MagicPay.ReceivingCurrencytId + "'", _Connection);
+										if (_ResultSetDestinationCountry.next()) {
+											int DestinationCountryId = (_ResultSetDestinationCountry
+													.getInt("country_id"));
+											__MagicPay.setDestinationCountryId(DestinationCountryId);
 
-										retval = __MagicPay.paymentProcess(__MagicPay.SendingAmount,
-												__MagicPay.CardNumber, __MagicPay.setExpirationDate, __MagicPay.cvv,
-												__MagicPay.Server, __MagicPay.Port, __MagicPay.Username,
-												__MagicPay.Password, __MagicPay.Path,
-												_ResultSetcustomer.getString("Address1"),
-												_ResultSetcustomer.getString("City"),
-												_ResultSetcustomer.getString("State"),
-												_ResultSetcustomer.getString("ZipCode"),
-												_ResultSetCountry.getString("country_name"),
-												_ResultSetcustomer.getString("FirstName"),
-												_ResultSetcustomer.getString("LastName"));
-										System.out.println("Success\nTransId: " + retval.get("transactionid") + "\n");
+											SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+											Calendar cal = Calendar.getInstance();
+											String date = format.format(cal.getTime());
+											__MagicPay.setCreatedDate(date);
+											__MagicPay.setserver(_ResultSetPaymentSettingDetails.getString("Server"));
+											__MagicPay.setport(_ResultSetPaymentSettingDetails.getString("Port"));
+											__MagicPay.setusername(
+													_ResultSetPaymentSettingDetails.getString("MerchantLoginId"));
+											__MagicPay.setpassword(_ResultSetPaymentSettingDetails
+													.getString("MerchantTransactionKey"));
+											__MagicPay.setpath(_ResultSetPaymentSettingDetails.getString("PaymentUrl"));
 
-										__MagicPay.setPaymentGatewayTransactionId(retval.get("transactionid"));
-										__MagicPay.setResult("Success");
-										__MagicPay.setStatus("Success");
-										__MagicPay.setIsLive(false);
-										__MagicPay.setPaymentGatewayResponse("1");
+											retval = __MagicPay.paymentProcess(__MagicPay.SendingAmount,
+													__MagicPay.CardNumber, __MagicPay.setExpirationDate, __MagicPay.cvv,
+													__MagicPay.Server, __MagicPay.Port, __MagicPay.Username,
+													__MagicPay.Password, __MagicPay.Path,
+													_ResultSetcustomer.getString("Address1"),
+													_ResultSetcustomer.getString("City"),
+													_ResultSetcustomer.getString("State"),
+													_ResultSetcustomer.getString("ZipCode"),
+													_ResultSetCountry.getString("country_name"),
+													_ResultSetcustomer.getString("FirstName"),
+													_ResultSetcustomer.getString("LastName"));
+											System.out
+													.println("Success\nTransId: " + retval.get("transactionid") + "\n");
 
-										AuthrozieTranscation _AuthrozieTranscation = new AuthrozieTranscation();
+											__MagicPay.setPaymentGatewayTransactionId(retval.get("transactionid"));
+											__MagicPay.setResult("Success");
+											__MagicPay.setStatus("Success");
+											__MagicPay.setIsLive(false);
+											__MagicPay.setPaymentGatewayResponse("1");
 
-										int lastid = _AuthrozieTranscation.saveDataTranscationDetails(
-												__MagicPay.CompanyId, __MagicPay.CustomerId, __MagicPay.SenderName,
-												__MagicPay.SendingAmount, __MagicPay.Charges, __MagicPay.Fees,
-												__MagicPay.Tax, __MagicPay.CreatedDate, __MagicPay.Status,
-												__MagicPay.PaymentGatewayResponse,
-												__MagicPay.PaymentGatewayTransactionId.toString(),
-												__MagicPay.SendingCurrencyId, __MagicPay.ReceivingAmount,
-												__MagicPay.ReceivingCurrencytId, __MagicPay.BeneficiaryId,
-												__MagicPay.PaymentMethodId, __MagicPay.DestinationCountryId,
-												__MagicPay.SourceCountryId, __MagicPay.IsLive,
-												__MagicPay.TransferPurpose, __MagicPay.ExchangeRate,
-												__MagicPay.DeliveryType, __MagicPay.CreatedDate);
-										__MagicPay.setTransactionId(lastid);
+											AuthrozieTranscation _AuthrozieTranscation = new AuthrozieTranscation();
 
-										__MagicPay.addMagicPayDetails(__MagicPay.CompanyId, __MagicPay.CustomerId,
-												__MagicPay.TransactionId, __MagicPay.PaymentGatewayTransactionId,
-												__MagicPay.SenderName, __MagicPay.SendingAmount,
-												__MagicPay.TransactionDetail, __MagicPay.CreatedDate,
-												__MagicPay.Status);
-										__MagicPay.setserver("");
-										__MagicPay.setport("");
-										__MagicPay.setusername("");
-										__MagicPay.setpassword("");
-										__MagicPay.setpath("");
-										// clear(__MagicPay);
+											int lastid = _AuthrozieTranscation.saveDataTranscationDetails(
+													__MagicPay.CompanyId, __MagicPay.CustomerId, __MagicPay.SenderName,
+													__MagicPay.SendingAmount, __MagicPay.Charges, __MagicPay.Fees,
+													__MagicPay.Tax, __MagicPay.CreatedDate, __MagicPay.Status,
+													__MagicPay.PaymentGatewayResponse,
+													__MagicPay.PaymentGatewayTransactionId.toString(),
+													__MagicPay.SendingCurrencyId, __MagicPay.ReceivingAmount,
+													__MagicPay.ReceivingCurrencytId, __MagicPay.BeneficiaryId,
+													__MagicPay.PaymentMethodId, __MagicPay.DestinationCountryId,
+													__MagicPay.SourceCountryId, __MagicPay.IsLive,
+													__MagicPay.TransferPurpose, __MagicPay.ExchangeRate,
+													__MagicPay.DeliveryType, __MagicPay.CreatedDate);
+											__MagicPay.setTransactionId(lastid);
+
+											__MagicPay.addMagicPayDetails(__MagicPay.CompanyId, __MagicPay.CustomerId,
+													__MagicPay.TransactionId, __MagicPay.PaymentGatewayTransactionId,
+													__MagicPay.SenderName, __MagicPay.SendingAmount,
+													__MagicPay.TransactionDetail, __MagicPay.CreatedDate,
+													__MagicPay.Status);
+											__MagicPay.setserver("");
+											__MagicPay.setport("");
+											__MagicPay.setusername("");
+											__MagicPay.setpassword("");
+											__MagicPay.setpath("");
+											// clear(__MagicPay);
+										} else {
+											// System.out.println("Null
+											// Response.");
+											__MagicPay.setResult("failed");
+											__MagicPay.setError("Invalid Destination Country Id!");
+											clear(__MagicPay);
+										}
+
 									} else {
 										// System.out.println("Null Response.");
 										__MagicPay.setResult("failed");
-										__MagicPay.setError("Invalid Destination Country Id!");
+										__MagicPay.setError("Invalid Source Country Id!");
 										clear(__MagicPay);
 									}
 
-								} else {
-									// System.out.println("Null Response.");
-									__MagicPay.setResult("failed");
-									__MagicPay.setError("Invalid Source Country Id!");
+								}
+
+								else {
+									__MagicPay.setResult("Failed");
+									__MagicPay.setError("Invalid Payment Setting Id!");
 									clear(__MagicPay);
 								}
 
-							}
-
-							else {
+							} else {
 								__MagicPay.setResult("Failed");
-								__MagicPay.setError("Invalid Payment Setting Id!");
+								__MagicPay.setError("Invalid Payment Method Id!");
 								clear(__MagicPay);
 							}
-
 						} else {
-							__MagicPay.setResult("Failed");
-							__MagicPay.setError("Invalid Payment Method Id!");
-							clear(__MagicPay);
-						}
-					}
-						else{
 							__MagicPay.setResult("Failed");
 							__MagicPay.setError("Invalid Country!");
 							clear(__MagicPay);
@@ -494,7 +530,7 @@ public class MagicPay {
 			}
 		}
 
-	return __MagicPay;
+		return __MagicPay;
 
 	}
 
@@ -660,7 +696,7 @@ public class MagicPay {
 			_PreparedStatement.setString(9, Status);
 			_PreparedStatement.executeUpdate();
 		} catch (Exception e) {
-			System.out.println("error:"+ e.getMessage());
+			System.out.println("error:" + e.getMessage());
 		}
 
 	}
@@ -755,11 +791,151 @@ public class MagicPay {
 		return _MagicPayDetaillist;
 	}
 
-	
-	
-	
-	
-	
+	// Refund Transaction
+	public MagicPay voidrefundTransaction(MagicPay _MagicPay) {
+		/*
+		 * String server = "secure.magicpaygateway.com"; String port = "443";
+		 * String path = "https://secure.magicpaygateway.com/api/transact.php";
+		 * String username = "falconengineer"; String password = "falcon@999";
+		 */
+		HashMap retval = new HashMap();
+		Connection _Connection = MYSQLConnection.GetConnection();
+		PreparedStatement _PreparedStatement = null;
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		try {
+
+			if (_Connection != null) {
+
+				ResultSet _ResultSetIsRefunded = _MYSQLHelper.GetResultSet(
+						"SELECT * FROM transactiondetails where IsRefunded= 1 and PaymentGatewayTransactionId='"
+								+ _MagicPay.PaymentGatewayTransactionId + "'",
+						_Connection);
+				if (!_ResultSetIsRefunded.next()) {
+
+					ResultSet _ResultSetcompany = _MYSQLHelper.GetResultSet(
+							"SELECT * FROM transactiondetails where CompanyId='" + _MagicPay.CompanyId + "'",
+							_Connection);
+					if (_ResultSetcompany.next()) {
+
+						ResultSet _ResultSetTrans = _MYSQLHelper
+								.GetResultSet("SELECT * FROM transactiondetails where PaymentGatewayTransactionId='"
+										+ _MagicPay.PaymentGatewayTransactionId + "'", _Connection);
+						if (_ResultSetTrans.next()) {
+
+							ResultSet _ResultSetTransAmount = _MYSQLHelper
+									.GetResultSet("SELECT * FROM transactiondetails where SendingAmount='"
+											+ _MagicPay.SendingAmount + "' and PaymentGatewayTransactionId='"
+											+ _MagicPay.PaymentGatewayTransactionId + "'", _Connection);
+							if (_ResultSetTransAmount.next()) {
+								try {
+									ResultSet _ResultSetPaymentSettingDetails = _MYSQLHelper.GetResultSet(
+											"SELECT * FROM authorizepaymentsettings where PaymentMethodId='"
+													+ _MagicPay.PaymentMethodId + "'",
+											_Connection);
+									if (_ResultSetPaymentSettingDetails.next()) {
+										_MagicPay.setserver(_ResultSetPaymentSettingDetails.getString("Server"));
+										_MagicPay.setport(_ResultSetPaymentSettingDetails.getString("Port"));
+										_MagicPay.setusername(
+												_ResultSetPaymentSettingDetails.getString("MerchantLoginId"));
+										_MagicPay.setpassword(
+												_ResultSetPaymentSettingDetails.getString("MerchantTransactionKey"));
+										_MagicPay.setpath(_ResultSetPaymentSettingDetails.getString("PaymentUrl"));
+
+										retval = _MagicPay.refundPaymentProcess(_MagicPay.PaymentGatewayTransactionId,
+												_MagicPay.SendingAmount, _MagicPay.Server, _MagicPay.Port,
+												_MagicPay.Username, _MagicPay.Password, _MagicPay.Path);
+										System.out.println("Success\nTransId: " + retval.get("transactionid") + "\n");
+										System.out.println(
+												"Success\nTransIdResponse: " + retval.get("responsetext") + "\n");
+
+										_MagicPay.setRefundResult(retval.get("responsetext"));
+										SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+										Calendar cal = Calendar.getInstance();
+										String date = format.format(cal.getTime());
+										_MagicPay.setRefundedDate(date);
+										_MagicPay.setIsRefunded(true);
+										String sInsertStatement = "UPDATE transactiondetails SET IsRefunded = ?,RefundedDate = ?,RefundedBy = ?"
+												+ " WHERE PaymentGatewayTransactionId = ?";
+										_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+										_PreparedStatement.setBoolean(1, _MagicPay.IsRefunded);
+										_PreparedStatement.setString(2, _MagicPay.RefundedDate);
+										_PreparedStatement.setString(3, _MagicPay.RefundedBy);
+										_PreparedStatement.setObject(4, _MagicPay.PaymentGatewayTransactionId);
+										_PreparedStatement.executeUpdate();
+										_MagicPay.setResult("Success");
+										clear(_MagicPay);
+									}
+								} catch (Exception e) {
+									System.out.println("error: " + e.getMessage());
+									clear(_MagicPay);
+								}
+
+							} else {
+								_MagicPay.setResult("failed!");
+								_MagicPay.setError("Invalid amount!");
+								clear(_MagicPay);
+							}
+						} else {
+							_MagicPay.setResult("failed!");
+							_MagicPay.setError("Invalid Payment Gateway Transaction Id!");
+							clear(_MagicPay);
+						}
+					} else {
+						_MagicPay.setResult("failed!");
+						_MagicPay.setError("Invalid Company Id!");
+						clear(_MagicPay);
+					}
+				}
+				else{
+					_MagicPay.setResult("Failed!");
+					_MagicPay.setError("Transaction is already refunded!");
+					clear(_MagicPay);
+				}
+			} else {
+				_MagicPay.setResult("Failed!");
+				_MagicPay.setError("Error in api backend connectivity !");
+				clear(_MagicPay);
+			}
+		} catch (Exception e) {
+			clear(_MagicPay);
+		}
+		return _MagicPay;
+	}
+
+	public HashMap refundPaymentProcess(Object transactionid, double amount, String server, String port,
+			String username, String password, String path) throws Exception {
+		MagicPay __MagicPay = new MagicPay();
+		HashMap result = new HashMap();
+		HashMap request = new HashMap();
+
+		DecimalFormat form = new DecimalFormat("#.00");
+		request.put("amount", form.format(amount));
+		request.put("type", "refund");
+		request.put("transactionid", transactionid);
+		String data_out = prepareRequest(request, username, password);
+		String error = "";
+		String data_in = "";
+		boolean success = true;
+		try {
+
+			HashMap retval = postRequestForm(data_out, server, port, path);
+			data_in = (String) retval.get("response");
+			System.out.println("Success\nTransId: " + retval.get("transactionid") + "\n");
+			System.out.println("Success\nTransId Response: " + retval.get("responsetext") + "\n");
+
+		} catch (Exception ex) {
+			success = false;
+			error = ex.getMessage();
+			System.out.println("Error: " + ex.getMessage());
+			__MagicPay.setError(ex.getMessage());
+			__MagicPay.setResult("failed!");
+		}
+		if (!success) {
+			throw new Exception(error);
+		}
+		return result;
+	}
+
 	public MagicPay clear(MagicPay _MagicPay) {
 		_MagicPay.setSendingAmount(0);
 		_MagicPay.setCardNumber("");
@@ -775,7 +951,12 @@ public class MagicPay {
 		_MagicPay.setSenderName("");
 		_MagicPay.setCompanyId(0);
 		_MagicPay.setCustomerId(0);
-
+		_MagicPay.setRefundedBy("");
+		_MagicPay.setRefundedDate("");
+		_MagicPay.setserver("");
+		_MagicPay.setpath("");
+		_MagicPay.setusername("");
+		_MagicPay.setpassword("");
 		return _MagicPay;
 
 	}

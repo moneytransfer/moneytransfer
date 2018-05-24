@@ -203,13 +203,13 @@ public class CarrierInfoByMobileNumber {
 	}
 	public CarrierInfoByMobileNumber getCarrierInfoByMobileNumber(CarrierInfoByMobileNumber _CarrierInfoByMobileNumber) {
 		
-		//String strURL = "https://valuetopup.com/posaservice/servicemanager.asmx";
-		String strURL = "https://qa.valuetopup.com/posaservice/servicemanager.asmx";
+		String strURL = "https://valuetopup.com/posaservice/servicemanager.asmx";
+		//String strURL = "https://qa.valuetopup.com/posaservice/servicemanager.asmx";
 		 String strSoapAction = "http://www.pininteract.com/GetCarrierInfoByMobileNumber";
 
 		 PostMethod post = new PostMethod(strURL);
-		//String sRequest = GetRequest("Falconclk", "Ah2yinI37Dfi80cx7", _CarrierInfoByMobileNumber.MobileNumber);
-		 String sRequest = GetRequest("Falcontest", "Hello@123", _CarrierInfoByMobileNumber.MobileNumber);
+		String sRequest = GetRequest("Falconclk", "Ah2yinI37Dfi80cx7", _CarrierInfoByMobileNumber.MobileNumber);
+		// String sRequest = GetRequest("Falcontest", "Hello@123", _CarrierInfoByMobileNumber.MobileNumber);
 		 RequestEntity entity = new StringRequestEntity(sRequest);
 		 post.setRequestEntity(entity);
 	        post.setRequestHeader("SOAPAction", strSoapAction);

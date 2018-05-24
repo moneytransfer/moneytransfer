@@ -78,18 +78,19 @@ public class minepay {
 	String username = "falconengineer";
 	String password = "falcon@999";
 
-	String firstname = "John";
-	String lastname = "Smith";
-	String address1 = "1234 Main St.";
-	String city = "Chicago";
-	String state = "IL";
-	String zip = "60193";
+	String firstname = "ishu";
+	String lastname = "kumar";
+	String address1 = "rajouri.";
+	String city = "delhi";
+	String state = "Delhi";
+	String zip = "110027";
 
 	public minepay addpay(String ccNumber, String ccExp, String cvv) {
 		minepay _minepay = new minepay();
 		try {
 			HashMap retval = new HashMap();
-			doSale(1, ccNumber, ccExp, cvv, address1, city, state, zip, "USA", firstname, lastname);
+			retval=	doSale(1, ccNumber, ccExp, cvv, address1, city, state, zip, "USA", firstname, lastname,server, port,
+					username, password, path);
 			System.out.println("Success\nTransId: " + retval.get("transactionid") + "\n");
 			_minepay.setResult("Success");
 			_minepay.setTransactionId(retval.get("transactionid"));
@@ -102,7 +103,8 @@ public class minepay {
 	}
 
 	public HashMap doSale(double amount, String ccNumber, String ccExp, String cvv, String address1, String city,
-			String state, String zip, String country, String firstname, String lastname) throws Exception {
+			String state, String zip, String country, String firstname, String lastname,String server, String port,
+			String username, String password, String path) throws Exception {
 		HashMap result = new HashMap();
 		HashMap request = new HashMap();
 
@@ -204,7 +206,7 @@ public class minepay {
 		in.close();
 
 		String response = buffer.toString();
-
+		System.out.println("my response: " + response);
 		result.put("response", response);
 
 		// Parse Result

@@ -620,14 +620,17 @@ public class Services {
 	public ApplicantKYC addApplicant(ApplicantKYC _ApplicantKYC) {
 		return new ApplicantKYC().addApplicantKYC(_ApplicantKYC.CustomerId, _ApplicantKYC.CompanyId, _ApplicantKYC.Title, _ApplicantKYC.FirstName, _ApplicantKYC.LastName, _ApplicantKYC.Gender, _ApplicantKYC.DOB, _ApplicantKYC.Country, _ApplicantKYC.FlatNumber, _ApplicantKYC.BuildingName, _ApplicantKYC.BuildingNumber, _ApplicantKYC.Street, _ApplicantKYC.State, _ApplicantKYC.Town, _ApplicantKYC.PostalCode,_ApplicantKYC.Phone);
 	}
-	
-	@GET
+	/*
+	@POST
 	@Path("upload")
-	@Produces("application/json")
-	public ApplicantKYC upload() {
-		return new ApplicantKYC().TestBaba();
-	}
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public ApplicantKYC upload( @FormDataParam("file") InputStream fileInputStream, 
+		    @FormDataParam("file") FormDataContentDisposition disposition) {
+
 	
+		return new ApplicantKYC().checkimg(fileInputStream);
+	}
+	*/
 	@POST
 	@Path("testmagic")
 	@Produces("application/json")
@@ -635,12 +638,23 @@ public class Services {
 		return new minepay().addpay(_minepay.CardNumber, _minepay.exp, _minepay.cvv);
 	}
 	
+	
 	@POST
 	@Path("email")
 	@Produces("application/json")
 	public Email email(Email _Email) {
 		return new Email().go(_Email.CustomerId);
 	}
-	
-	
+	@POST
+	@Path("pay")
+	@Produces("application/json")
+	public MagicTest pay(MagicTest _MagicTest) {
+		return new MagicTest().voidtt(_MagicTest);
+	}
+	@POST
+	@Path("refundTransaction")
+	@Produces("application/json")
+	public MagicPay refundTransaction(MagicPay _MagicPay) {
+		return new MagicPay().voidrefundTransaction(_MagicPay);
+	}
 }
