@@ -25,6 +25,10 @@
                         <td><small><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{Transaction.ReceivingAmount | number:2  }}</small></td>
                         <td><small>{{Transaction.Status}}</small></td>
                         <td><small ng-click="GetDetails(Transaction.TransactionId)" class="btn-link pointer"><a>Details</a></small></td>
+                        <td>
+                            <button type="submit" ng-click="RefundConfrimation(Transaction)" class="btn btn-sm {{Transaction.IsRefunded==true ?'btn-danger':'btn-success'}}">Refund</button>
+
+                        </td>
 
                     </tr>
                 </tbody>
@@ -162,7 +166,7 @@
                             </div>
                         </div>
 
-                       <!-- <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <div class="col-sm-6">
                                 <label for="inputName" class="col-sm-6 form-control-label bold">Exchange rate: </label>
                                 <div class="col-sm-6 bold">
@@ -170,8 +174,29 @@
                                 </div>
                             </div>
                         </div>-->
-                   
-                         </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Confrimation Modal-->
+    <div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="confirmrefund">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-danger">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title ">!Confirmation  </h4>
+                </div>
+
+                <div class="modal-body">
+                    <h6 class="modal-title">Do you want to proceed to refund this 'Transaction'? </h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="RefundConfirm()">Yes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
                 </div>
             </div>
         </div>

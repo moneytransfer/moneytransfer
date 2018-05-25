@@ -208,6 +208,46 @@
              });
 
         }
+
+        vm.RefundModal = { "CompanyId": 0, "PaymentGatewayTransactionId": 0, "SendingAmount": 0, "PaymentMethodId": 0, "RefundedBy": "" }
+
+        vm.RefundConfrimation = function (objTransaction) {
+            if (!objTransaction.IsRefunded) {
+                vm.RefundModal.CompanyId = objTransaction.CompanyId;
+                vm.RefundModal.PaymentGatewayTransactionId = objTransaction.PaymentGatewayTransactionId;
+                vm.RefundModal.SendingAmount = objTransaction.SendingAmount;
+                vm.RefundModal.PaymentMethodId = objTransaction.PaymentMethodId;
+                vm.RefundModal.RefundedBy = authorisedUser.FirstName + " " + authorisedUser.LastName;
+                $('#confirmrefund').modal('toggle');
+            }
+            else {
+                Alert(2, "! Refund request already processed for this transaction");
+            }
+
+        }
+
+        vm.RefundConfirm = function () {
+
+            $('#confirmrefund').modal('toggle');
+            var formData = JSON.parse(JSON.stringify(vm.RefundModal));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'refundTransaction',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+                var sdata = data;
+                if (sdata.Result == "Success") {
+                    Alert(1, "! Refund request processed successfully");
+                    setTimeout(function () {
+                        location.reload(true);
+                    }, 1000);
+                }
+                else { Alert(2, sdata.Error); }
+            });
+
+        }
     }
 
 })();
