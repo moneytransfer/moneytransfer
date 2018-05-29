@@ -60,7 +60,9 @@ public class AuthrozieTranscation {
 	public String CreatedDate;
 	public String Result;
 	public String Error;
-
+	public boolean IsRefunded;
+	public String RefundedDate;
+	public String RefundedBy;
 	private void setTransactionId(int TransactionId) {
 		this.TransactionId = TransactionId;
 	}
@@ -293,6 +295,30 @@ public class AuthrozieTranscation {
 		return Error;
 	}
 
+	
+	private void setIsRefunded(Boolean IsRefunded) {
+		this.IsRefunded = IsRefunded;
+	}
+
+	private Boolean getIsRefunded() {
+		return IsRefunded;
+	}
+	private void setRefundedDate(String RefundedDate) {
+		this.RefundedDate = RefundedDate;
+	}
+
+	private String getRefundedDate() {
+		return RefundedDate;
+	}
+	private void setRefundedBy(String RefundedBy) {
+		this.RefundedBy = RefundedBy;
+	}
+
+	private String getRefundedBy() {
+		return RefundedBy;
+	}
+	
+	
 	public AuthrozieTranscation addTranscation(AuthrozieTranscation _AuthrozieTranscation) {
 
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -648,6 +674,9 @@ public class AuthrozieTranscation {
 					_AuthrozieTranscation.setExchangeRate(_ResultSet.getDouble("ExchangeRate"));
 					_AuthrozieTranscation.setDeliveryType(_ResultSet.getString("DeliveryType"));
 					_AuthrozieTranscation.setCreatedDate(_ResultSet.getString("CreatedDate"));
+					_AuthrozieTranscation.setIsRefunded(_ResultSet.getBoolean("IsRefunded"));
+					_AuthrozieTranscation.setRefundedDate(_ResultSet.getString("RefundedDate"));
+					_AuthrozieTranscation.setRefundedBy(_ResultSet.getString("RefundedBy"));
 					_AuthrozieTranscation.setResult("Success");
 					_AuthrozieTranscationDetaillist.add(_AuthrozieTranscation);
 
@@ -717,6 +746,9 @@ public class AuthrozieTranscation {
 					_AuthrozieTranscation.setExchangeRate(_ResultSet.getDouble("ExchangeRate"));
 					_AuthrozieTranscation.setDeliveryType(_ResultSet.getString("DeliveryType"));
 					_AuthrozieTranscation.setCreatedDate(_ResultSet.getString("CreatedDate"));
+					_AuthrozieTranscation.setIsRefunded(_ResultSet.getBoolean("IsRefunded"));
+					_AuthrozieTranscation.setRefundedDate(_ResultSet.getString("RefundedDate"));
+					_AuthrozieTranscation.setRefundedBy(_ResultSet.getString("RefundedBy"));
 					_AuthrozieTranscation.setResult("Success");
 					_AuthrozieTranscationDetaillist.add(_AuthrozieTranscation);
 
@@ -785,6 +817,9 @@ public class AuthrozieTranscation {
 					_AuthrozieTranscation.setExchangeRate(_ResultSet.getDouble("ExchangeRate"));
 					_AuthrozieTranscation.setDeliveryType(_ResultSet.getString("DeliveryType"));
 					_AuthrozieTranscation.setCreatedDate(_ResultSet.getString("CreatedDate"));
+					_AuthrozieTranscation.setIsRefunded(_ResultSet.getBoolean("IsRefunded"));
+					_AuthrozieTranscation.setRefundedDate(_ResultSet.getString("RefundedDate"));
+					_AuthrozieTranscation.setRefundedBy(_ResultSet.getString("RefundedBy"));
 					_AuthrozieTranscation.setResult("Success");
 					_AuthrozieTranscationDetaillist.add(_AuthrozieTranscation);
 

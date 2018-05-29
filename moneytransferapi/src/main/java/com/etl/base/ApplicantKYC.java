@@ -43,12 +43,14 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.sun.jersey.core.util.Base64;
 
 public class ApplicantKYC {
 	public int CustomerApplicantKYCId;
 	public int CustomerId;
 	public int CompanyId;
 	public String ApplicantId;
+	public String DocumentId;
 	public String Phone;
 	public String Title;
 	public String FirstName;
@@ -64,9 +66,14 @@ public class ApplicantKYC {
 	public String State;
 	public String Town;
 	public String PostalCode;
-
+	public String ImageString;
+	public String ImageName;
+	public String ImageExt;
+	public String Type;
+	public String Side;
 	public boolean IsDocumentUpload;
 	public String CreatedDate;
+	public String DocumentUploadedDate;
 	public String Result;
 	public String Error;
 	public String id;
@@ -110,6 +117,14 @@ public class ApplicantKYC {
 
 	private String getApplicantId() {
 		return ApplicantId;
+	}
+
+	private void setDocumentId(String DocumentId) {
+		this.DocumentId = DocumentId;
+	}
+
+	private String getDocumentId() {
+		return DocumentId;
 	}
 
 	private void setPhone(String Phone) {
@@ -270,6 +285,54 @@ public class ApplicantKYC {
 
 	private String getid() {
 		return id;
+	}
+
+	private void setImageString(String ImageString) {
+		this.ImageString = ImageString;
+	}
+
+	private String getImageString() {
+		return ImageString;
+	}
+
+	private void setImageName(String ImageName) {
+		this.ImageName = ImageName;
+	}
+
+	private String getImageName() {
+		return ImageName;
+	}
+
+	private void setImageExt(String ImageExt) {
+		this.ImageExt = ImageExt;
+	}
+
+	private String getImageExt() {
+		return ImageExt;
+	}
+
+	private void setType(String Type) {
+		this.Type = Type;
+	}
+
+	private String getType() {
+		return Type;
+	}
+
+	private void setSide(String Side) {
+		this.Side = Side;
+	}
+
+	private String getSide() {
+		return Side;
+	}
+
+	private void setDocumentUploadedDate(String DocumentUploadedDate) {
+		this.DocumentUploadedDate = DocumentUploadedDate;
+	}
+
+	private String getDocumentUploadedDate() {
+		return DocumentUploadedDate;
 	}
 
 	public ApplicantKYC addApplicantKYC(int CustomerId, int CompanyId, String Title, String FirstName, String LastName,
@@ -709,10 +772,10 @@ public class ApplicantKYC {
 			String filePath = folderPath + fileName;
 			try {
 				saveFile(_InputStream, filePath);
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
-				
+
 			}
 
 			/*
@@ -752,35 +815,102 @@ public class ApplicantKYC {
 		}
 	}
 
-	public ApplicantKYC kycup() {
-
+	public ApplicantKYC upishu(String img, String imgName, String imgExt) {
 		ApplicantKYC _ApplicantKYC = new ApplicantKYC();
 
 		try {
+			byte[] data = Base64.decode(img);
+			String FullPath = this.getClass().getClassLoader().getResource("/").getPath();
+			String folderPath = FullPath.replace("/WEB-INF/classes/", "") + "/images/";
+
+			String fileName = imgName + imgExt;
+			FileOutputStream fos = new FileOutputStream(new File(folderPath + fileName));
+			fos.write(data);
+			fos.close();
+			System.out.println("Result:" + "Success");
+		} catch (Exception e) {
+			System.out.println("Error:" + e.getMessage());
+		}
+		return _ApplicantKYC;
+	}
+
+	public ApplicantKYC kycup(String _applicantId, String _type, String _side, String img, String imgName,
+			String imgExt) {
+
+		Connection _Connection = MYSQLConnection.GetConnection();
+		ApplicantKYC _ApplicantKYC = new ApplicantKYC();
+		PreparedStatement _PreparedStatement = null;
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		try {
 			ApiClient defaultClient = Configuration.getDefaultApiClient();
 
-			// Configure API key authorization: Token
 			ApiKeyAuth Token = (ApiKeyAuth) defaultClient.getAuthentication("Token");
 			Token.setApiKey("token=" + "test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc");
 			Token.setApiKeyPrefix("Token");
-
 			DefaultApi apiInstance = new DefaultApi();
-			String applicantId = "22dd12a3-e4e0-4011-9605-5a96262fd293"; // String
-																			// |
-			String type = "passport"; // String |
-			String side = "front"; // String |
-			File file = new File("D:/rajeev/Money_Transfer/src/Documents/Jellyfish.jpg"); // File
-																							// |
-			try {
-				Document result = apiInstance.uploadDocument(applicantId, type, side, file);
+			// String applicantId = "22dd12a3-e4e0-4011-9605-5a96262fd293";
+			String applicantId = _applicantId;
+			String type = _type;
+			String side = _side;
 
-				System.out.println(result);
+			byte[] data = Base64.decode(img);
+			String FullPath = this.getClass().getClassLoader().getResource("/").getPath();
+			String folderPath = FullPath.replace("/WEB-INF/classes/", "") + "/images/";
+
+			String fileName = imgName + imgExt;
+			FileOutputStream fos = new FileOutputStream(new File(folderPath + fileName));
+			fos.write(data);
+			fos.close();
+			File file = new File(folderPath + fileName);
+			// File file = new
+			// File("D:/rajeev/Money_Transfer/src/Documents/Jellyfish.jpg");
+			// |
+			try {
+				ResultSet _ResultSetapplicantId = _MYSQLHelper.GetResultSet(
+						"SELECT * FROM customer_applicant_kyc where ApplicantId='" + _applicantId + "'", _Connection);
+				if (_ResultSetapplicantId.next()) {
+					Document result = apiInstance.uploadDocument(applicantId, type, side, file);
+					String _DocumentResult = result.getId();
+
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Calendar cal = Calendar.getInstance();
+					String date = format.format(cal.getTime());
+					_ApplicantKYC.setDocumentUploadedDate(date);
+
+					if (_DocumentResult != null && _DocumentResult != "") {
+
+						String sInsertStatement = "UPDATE customer_applicant_kyc SET	Documentid = ?,DocumentUploadedDate = ?,IsDocumentUpload = ?"
+								+ " WHERE ApplicantId = ?";
+						_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+						_PreparedStatement.setString(1, result.getId());
+						_PreparedStatement.setObject(2, _ApplicantKYC.DocumentUploadedDate);
+						_PreparedStatement.setBoolean(3, true);
+						_PreparedStatement.setString(4, _applicantId);
+						_PreparedStatement.executeUpdate();
+						System.out.println(result);
+						_ApplicantKYC.setApplicantId(_applicantId);
+						_ApplicantKYC.setDocumentId(result.getId());
+						_ApplicantKYC.setResult("Sucess");
+
+					} else {
+						_ApplicantKYC.setResult("failed!");
+						_ApplicantKYC.setError("failed to upload docment!");
+					}
+				} else {
+					_ApplicantKYC.setResult("failed!");
+					_ApplicantKYC.setError("Invalid Applicant Id!");
+				}
 			} catch (Exception e) {
+
+				_ApplicantKYC.setResult("failed!");
+				_ApplicantKYC.setError(e.getMessage());
 				System.err.println("Exception when calling DefaultApi#uploadDocument");
 				System.err.println(e.getMessage());
 			}
 
 		} catch (Exception e) {
+			_ApplicantKYC.setResult("failed!");
+			_ApplicantKYC.setError(e.getMessage());
 			System.out.println("Error:" + e.getMessage());
 		}
 		return _ApplicantKYC;

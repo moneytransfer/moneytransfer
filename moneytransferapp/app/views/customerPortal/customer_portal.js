@@ -164,9 +164,10 @@
                         idata.countryCode = idata.countryCode.toLowerCase();
                         vm.FlagModel = idata;
                         var sData = vm.CountryDetails;
-                        if (!vm.DestinationCountry) {
-                            var PhoneCode = res[0];
-                        }
+                        //if (!vm.DestinationCountry) 
+                            //var PhoneCode = res[0];
+                        var PhoneCode = '';
+
                         if (vm.CountryDetails.phonecode != '0') {
                             if (idata.internationalCodes != vm.CountryDetails.phonecode) {
                                 vm.CountryDetails.phonecode = '0';
@@ -439,7 +440,7 @@
 
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
-                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: code, to: "USD", amount: "1" }),
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: code, amount: "1" }),
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 dataType: "json",
@@ -831,7 +832,16 @@
 
         }
 
-
+        function validate(evt) {
+         var theEvent = evt || window.event;
+         var key = theEvent.keyCode || theEvent.which;
+         key = String.fromCharCode( key );
+         var regex = /[0-9]|\./;
+             if( !regex.test(key) ) {
+             theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+         }
+       }
 
         var cardNumber = $('#CardNumber');
         var cardNumberField = $('#card-number-field');
@@ -945,6 +955,7 @@
                     idata.CompanyId = vm.localStorage.GustCustomer.CompanyId;
                     idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
                     idata.SenderName = vm.localStorage.GustCustomer.FirstName;
+                    idata.SKUId=vm.localStorage.SelectedCountry.skuId;
                     idata.Fees = vm.localStorage.Fees;
                     var sMonth = parseInt(vm.ExpireModel.ExpireMonth);
                     if (sMonth < 10) {
@@ -955,7 +966,7 @@
                     var sYear = vm.ExpireModel.ExpireYear;
                     var expiremonth = sMonth + '' + sYear;
                     idata.setExpirationDate = expiremonth;
-
+                    
                     var formData = JSON.stringify(idata);
                     $http({
                         method: 'POST',
@@ -1134,13 +1145,12 @@
         }
     }
 
-    addEditkycController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$filter'];
-    function addEditkycController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $filter) {
+    addEditkycController.$inject = ['$scope', '$q', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$filter'];
+    function addEditkycController($scope, $q, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $filter) {
         var vm = $scope;
         vm.CustomerId = 0;
         vm.CompanyId = 0;
         vm.CountryId = 0;
-        vm.Result = "";
         vm.ProfileModal = { AccountNumber: "", ActivationCode: "", Address1: "", Address2: "", BuildingNumber: 0, City: "", CompanyId: 0, CountryId: 0, CustomerId: 0, DOB: "", Email: " ", FileName: "", FileType: "", FirstName: "", Gender: "", LastName: "", Password: "", Phone: "", ProfileImage: "", Side: "Front", State: " ", Street: "", Title: "Mr", Town: "", ZipCode: "" }
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
         if ($localStorage.GustCustomer) {
@@ -1155,6 +1165,7 @@
         }
         //Get Customer Details
         if (vm.CustomerId) {
+
             var formData = JSON.parse(JSON.stringify({ "CustomerId": vm.CustomerId }));
             $http({
                 method: 'POST',
@@ -1169,10 +1180,17 @@
                      idata.Phone = parseInt(idata.Phone);
                      idata.CountryId = JSON.stringify(idata.CountryId);
                      vm.ProfileModal = idata;
+                     if (vm.ProfileModal.IsDocumentUpload) {
+                         $('#submitkycbutton').prop('disabled', false);
+                     }
                      if (vm.ProfileModal.Title == null)
                          vm.ProfileModal.Title = "Mr";
                      if (vm.ProfileModal.Gender == null)
                          vm.ProfileModal.Gender = "";
+                     if (vm.ProfileModal.FileName == null)
+                         vm.ProfileModal.FileName = "passport";
+                     if (vm.ProfileModal.Side == null)
+                         vm.ProfileModal.Side = "front";
                      vm.ProfileModal.Password = "";
                  }
              });
@@ -1191,8 +1209,53 @@
 
         });
 
+
+        //------------------Image Uploader-----------------//
+
+        $("#upload").change(function ($event) {
+            $('#submitkycbutton').prop('disabled', true);
+            var fileReader = new FileReader();
+            var file = $event.target.files[0];
+            fileReader.readAsDataURL(file);
+            setTimeout(function () {
+                var filename = file.name;
+                var extn = filename.split(".").pop();
+                var strToReplace = fileReader.result;
+                var strImage = strToReplace.replace(/^data:image\/[a-z]+;base64,/, "");
+                vm.FileName = filename.replace("." + extn, "");
+                vm.FileExt = extn;
+                vm.imageData = strImage;
+                if (vm.imageData != "") {
+                    if ((extn == "jpg" || extn == "jpeg") || (extn == "png" || extn == "PNG")) {
+                        move();
+                    }
+                }
+            }, 2000);
+        });
+
+
+        function move() {
+            var elem = document.getElementById("myBar");
+            var width = 2;
+            var id = setInterval(frame, 100);
+
+            function frame() {
+                if (width >= 100) {
+                    clearInterval(id);
+                    $('#submitkycbutton').prop('disabled', false);
+                }
+                else {
+                    width++;
+                    elem.style.width = width + '%';
+                    elem.innerHTML = width * 1 + '%';
+                }
+            }
+        }
+        //------------Image Reader-------------//
+
         vm.Create = function () {
             //CustomerGenger
+            // var file = document.getElementById('upload').files[0];
             if (vm.ProfileModal) {
                 var formData = JSON.parse(JSON.stringify(vm.ProfileModal));
                 $http({
@@ -1218,24 +1281,33 @@
                             dataType: "json",
                         })
                             .success(function (data) {
-                                if (data && data.Result == "Sucess") {
-
-                                    AlertKyc(1, "Thanks for updating your profile details");
-                                    //vm.Result = "Thanks for updating your profile details";
-                                    setTimeout(function () {
-                                        //vm.Result = "";
-                                        //$("#ApiResult").hide();
-                                        vm.ProfileModal = DataResult;
-                                        //$state.go('app.customerPortal');
-                                    }, 1500);
-
-                                } else {
-                                    AlertKyc(2, data.Error);
+                                if (data.ApplicantId != "") {
+                                    if (vm.imageData !== undefined && vm.imageData != "") {
+                                        var formdata = { "ApplicantId": data.ApplicantId, "Type": vm.ProfileModal.FileName, "Side": vm.ProfileModal.Side, "ImageName": vm.FileName, "ImageExt": "." + vm.FileExt, "ImageString": vm.imageData }
+                                        $http({
+                                            method: 'POST',
+                                            url: baseUrl + 'uploadDocumentKYC',
+                                            data: formdata,
+                                            headers: { 'Content-Type': 'application/json' },
+                                            dataType: "json",
+                                        })
+                                         .success(function (data) {
+                                             if (data.Result == "Sucess") {
+                                                 AlertKyc(1, "Thanks for updating your KYC document");
+                                             }
+                                             else {
+                                                 AlertKyc(2, data.Error);
+                                             }
+                                         });
+                                    }
+                                    else { AlertKyc(1, "Thanks for updating your KYC details"); }
                                 }
+                                else { AlertKyc(2, data.Error); }
+
                             });
                     }
                     else {
-                        AlertKyc(2, idata.User.Message);
+                        AlertKyc(2, idata.Error);
                     }
                 });
             }

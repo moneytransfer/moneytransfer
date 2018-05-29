@@ -1473,6 +1473,23 @@ ul.cm-white-space li {
     border-bottom-right-radius: 0px !important;
     border-top-right-radius: 0px !important;
 }
+
+/*==================Loader=========================*/
+ #myProgress {
+            width: 100%;
+            background-color: #ddd;
+        }
+
+        #myBar {
+            width: 6%;
+            height: 12px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 10px;
+            color: white;
+        }
+
+
 /*
 .send-money-bg h2, .send-money-bg p, .send-money-bg a{
     color: #fff;

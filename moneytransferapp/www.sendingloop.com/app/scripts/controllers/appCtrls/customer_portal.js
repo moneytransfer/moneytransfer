@@ -151,9 +151,9 @@
                         vm.PaybillModel.MobileNumber = iNumber;
                         if (!iCountryCode) {
                             if (idata.currencyCode == "MXN") {
-                                var res = idata.internationalCodes.split(" ");
-                                var codelength = res[0].length;
-                                idata.internationalCodes = res[0];
+                                var res = idata.internationalCodes;
+                                var codelength = res;
+                                idata.internationalCodes = res;
                                 $localStorage.GustData = idata.MobileNumber.replace(/\D/g, '').substr(codelength);
                                 vm.PaybillModel.MobileNumber = $localStorage.GustData;
                             }
@@ -174,7 +174,7 @@
                             
                             var PhoneCode = '';
                         if (idata.currencyCode == "MXN") {
-                            PhoneCode = res[0];
+                            PhoneCode = res;
                         }
                         else {
                             PhoneCode = idata.internationalCodes;
@@ -185,10 +185,10 @@
                                 vm.CountryDetails.phonecode = '0';
                             }
                             if (idata.currencyCode == "MXN") {
-                                var res = idata.internationalCodes.split(" ");
-                                vm.CountryDetails.phonecode = res[0];
+                                var res = idata.internationalCodes;
+                                vm.CountryDetails.phonecode = res;
 
-                                idata.internationalCodes = res[0];
+                                idata.internationalCodes = res;
                             }
                             else {
                                 vm.CountryDetails.phonecode = idata.internationalCodes;
@@ -197,9 +197,9 @@
 
                         else {
                             if (idata.currencyCode == "MXN") {
-                                var res = idata.internationalCodes.split(" ");
-                                vm.CountryDetails.phonecode = res[0];
-                                idata.internationalCodes = res[0];
+                                var res = idata.internationalCodes;
+                                vm.CountryDetails.phonecode = res;
+                                idata.internationalCodes = res;
                             }
                             else {
                                 vm.CountryDetails.phonecode = idata.internationalCodes;
@@ -510,7 +510,7 @@
 
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
-                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: code, to: "USD", amount: "1" }),
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: "USD", to: code, amount: "1" }),
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 dataType: "json",
@@ -656,7 +656,8 @@
         else if (vm.IsLogin) {
             $window.location.assign('#/app/customerPortal');
         }
-        else { $window.location.assign('#/app/customerPortal'); }
+        else {  var url = $state.current.url;
+                $window.location.assign('#/app' + url);}
 
 
 
@@ -937,7 +938,16 @@
 
         }
 
-
+        function validate(evt) {
+         var theEvent = evt || window.event;
+         var key = theEvent.keyCode || theEvent.which;
+         key = String.fromCharCode( key );
+         var regex = /[0-9]|\./;
+             if( !regex.test(key) ) {
+             theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+         }
+       }
 
         var cardNumber = $('#CardNumber');
         var cardNumberField = $('#card-number-field');
@@ -1052,6 +1062,7 @@
                     idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
                     idata.SenderName = vm.localStorage.GustCustomer.FirstName;
                     idata.Fees = vm.localStorage.Fees;
+                     idata.SKUId=vm.localStorage.SelectedCountry.skuId;
                     var sMonth = parseInt(vm.ExpireModel.ExpireMonth);
                     if (sMonth < 10) {
                         sMonth = '0' + sMonth
@@ -1248,8 +1259,8 @@
         }
     }
 
-    addEditkycController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$filter'];
-    function addEditkycController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $filter) {
+    addEditkycController.$inject = ['$scope', '$q', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$filter'];
+    function addEditkycController($scope, $q, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $filter) {
         var vm = $scope;
         vm.CustomerId = 0;
         vm.CompanyId = 0;
@@ -1283,6 +1294,17 @@
                      idata.Phone = parseInt(idata.Phone);
                      idata.CountryId = JSON.stringify(idata.CountryId);
                      vm.ProfileModal = idata;
+                     if (vm.ProfileModal.IsDocumentUpload) {
+                         $('#submitkycbutton').prop('disabled', false);
+                     }
+                     if (vm.ProfileModal.Title == null)
+                         vm.ProfileModal.Title = "Mr";
+                     if (vm.ProfileModal.Gender == null)
+                         vm.ProfileModal.Gender = "";
+                     if (vm.ProfileModal.FileName == null)
+                         vm.ProfileModal.FileName = "passport";
+                     if (vm.ProfileModal.Side == null)
+                         vm.ProfileModal.Side = "front";
                      vm.ProfileModal.Password = "";
                  }
              });
@@ -1301,8 +1323,53 @@
 
         });
 
+
+        //------------------Image Uploader-----------------//
+
+        $("#upload").change(function ($event) {
+            $('#submitkycbutton').prop('disabled', true);
+            var fileReader = new FileReader();
+            var file = $event.target.files[0];
+            fileReader.readAsDataURL(file);
+            setTimeout(function () {
+                var filename = file.name;
+                var extn = filename.split(".").pop();
+                var strToReplace = fileReader.result;
+                var strImage = strToReplace.replace(/^data:image\/[a-z]+;base64,/, "");
+                vm.FileName = filename.replace("." + extn, "");
+                vm.FileExt = extn;
+                vm.imageData = strImage;
+                if (vm.imageData != "") {
+                    if ((extn == "jpg" || extn == "jpeg") || (extn == "png" || extn == "PNG")) {
+                        move();
+                    }
+                }
+            }, 2000);
+        });
+
+
+        function move() {
+            var elem = document.getElementById("myBar");
+            var width = 2;
+            var id = setInterval(frame, 100);
+
+            function frame() {
+                if (width >= 100) {
+                    clearInterval(id);
+                    $('#submitkycbutton').prop('disabled', false);
+                }
+                else {
+                    width++;
+                    elem.style.width = width + '%';
+                    elem.innerHTML = width * 1 + '%';
+                }
+            }
+        }
+        //------------Image Reader-------------//
+
         vm.Create = function () {
             //CustomerGenger
+            // var file = document.getElementById('upload').files[0];
             if (vm.ProfileModal) {
                 var formData = JSON.parse(JSON.stringify(vm.ProfileModal));
                 $http({
@@ -1328,19 +1395,33 @@
                             dataType: "json",
                         })
                             .success(function (data) {
-                                if (data && data.Result == "Sucess") {
-                                    AlertKyc(1, "Thanks for updating your profile details");
-                                    setTimeout(function () {
-                                        vm.ProfileModal = DataResult;
-                                    }, 1500);
-
-                                } else {
-                                    AlertKyc(2, data.Error);
+                                if (data.ApplicantId != "") {
+                                    if (vm.imageData !== undefined && vm.imageData != "") {
+                                        var formdata = { "ApplicantId": data.ApplicantId, "Type": vm.ProfileModal.FileName, "Side": vm.ProfileModal.Side, "ImageName": vm.FileName, "ImageExt": "." + vm.FileExt, "ImageString": vm.imageData }
+                                        $http({
+                                            method: 'POST',
+                                            url: baseUrl + 'uploadDocumentKYC',
+                                            data: formdata,
+                                            headers: { 'Content-Type': 'application/json' },
+                                            dataType: "json",
+                                        })
+                                         .success(function (data) {
+                                             if (data.Result == "Sucess") {
+                                                 AlertKyc(1, "Thanks for updating your KYC document");
+                                             }
+                                             else {
+                                                 AlertKyc(2, data.Error);
+                                             }
+                                         });
+                                    }
+                                    else { AlertKyc(1, "Thanks for updating your KYC details"); }
                                 }
+                                else { AlertKyc(2, data.Error); }
+
                             });
                     }
                     else {
-                        AlertKyc(2, idata.User.Message);
+                        AlertKyc(2, idata.Error);
                     }
                 });
             }

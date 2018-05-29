@@ -657,4 +657,20 @@ public class Services {
 	public MagicPay refundTransaction(MagicPay _MagicPay) {
 		return new MagicPay().voidrefundTransaction(_MagicPay);
 	}
+	
+	@POST
+	@Path("uploadDocumentKYC")
+	@Produces("application/json")
+	public ApplicantKYC refundTransaction(ApplicantKYC _ApplicantKYC) {
+		return new ApplicantKYC().kycup(_ApplicantKYC.ApplicantId, _ApplicantKYC.Type, _ApplicantKYC.Side, _ApplicantKYC.ImageString, _ApplicantKYC.ImageName, _ApplicantKYC.ImageExt);
+	}
+	
+	
+	/*@POST
+	@Path("ii")
+	@Produces("application/json")
+	public ApplicantKYC ii(ApplicantKYC _ApplicantKYC) {
+		return new ApplicantKYC().upishu(_ApplicantKYC.Error);
+	}
+	*/
 }

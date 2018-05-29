@@ -707,7 +707,7 @@
         if ($localStorage.Agents) {
 
             var dd = ($localStorage.Agents);
-            debugger;
+           
             var data123 = $filter('filter')(dd, {
                 AgentId: parseInt($localStorage.CashpickLocationId),
             }, true);
@@ -1220,6 +1220,20 @@
             $('#Payconfirm').modal('toggle');
             vm.alert = false;
         }
+
+
+        function validate(evt) {
+         var theEvent = evt || window.event;
+         var key = theEvent.keyCode || theEvent.which;
+         key = String.fromCharCode( key );
+         var regex = /[0-9]|\./;
+             if( !regex.test(key) ) {
+             theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+         }
+       }
+
+
 
 
         vm.Create = function () {

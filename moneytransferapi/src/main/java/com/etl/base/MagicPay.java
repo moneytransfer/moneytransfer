@@ -866,7 +866,8 @@ public class MagicPay {
 										clear(_MagicPay);
 									}
 								} catch (Exception e) {
-									System.out.println("error: " + e.getMessage());
+									_MagicPay.setResult("Failed!");
+									_MagicPay.setError(e.getMessage());
 									clear(_MagicPay);
 								}
 
@@ -897,6 +898,8 @@ public class MagicPay {
 				clear(_MagicPay);
 			}
 		} catch (Exception e) {
+			_MagicPay.setResult("Failed!");
+			_MagicPay.setError(e.getMessage());
 			clear(_MagicPay);
 		}
 		return _MagicPay;
@@ -931,6 +934,8 @@ public class MagicPay {
 			__MagicPay.setResult("failed!");
 		}
 		if (!success) {
+			__MagicPay.setResult("failed!");
+			__MagicPay.setError(error);
 			throw new Exception(error);
 		}
 		return result;

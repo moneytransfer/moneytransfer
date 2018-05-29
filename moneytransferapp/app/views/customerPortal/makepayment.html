@@ -108,7 +108,7 @@
                                     </div>
 
                                     <div class="col-sm-4" id="field-cvv">
-                                        <input type="number" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="PaybillModel.cvv" onkeypress="if(this.value.length==4) return false;" required>
+                                        <input type="text" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="PaybillModel.cvv" onkeypress="if(this.value.length==4) return false;" onkeypress="validate(event)"required/>
                                     </div>
                                 </div>
                             </div>

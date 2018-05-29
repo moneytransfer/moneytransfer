@@ -102,15 +102,15 @@
                                     <div class="form-group row mt-3">
                                         <div class="col-sm-12" id="card-number-field">
                                             <label for="CardNumber" class="col-sm-10 form-control-label">Card Number: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-10 form-group" id="Div1">
-                                                <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="ModelData.CardNumber" onkeypress="if(this.value.length==16) return false;" required>
+                                                <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="ModelData.CardNumber" onkeypress="if(this.value.length==16) return false;" required/>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 m-t-1">
                                             <label for="ExpireDate" class="col-sm-10 form-control-label">Expire Date: <b class="text-danger">&nbsp;*</b></label><div class="col-sm-5">
-                                                <input type="number" class="form-control cm-input float-left" id="Expiremonth" placeholder="mm" ng-model="ExpireModel.ExpireMonth" onkeypress="if(this.value.length==2) return false;" required>
+                                                <input type="number" class="form-control cm-input float-left" id="Expiremonth" placeholder="mm" ng-model="ExpireModel.ExpireMonth" onkeypress="if(this.value.length==2) return false;" required/>
                                             </div>
                                             <div class="col-sm-5 float-left">
-                                                <input type="number" class="form-control cm-input float-left" id="Year" placeholder="yy" ng-model="ExpireModel.ExpireYear" onkeypress="if(this.value.length==2) return false;" ng-change="CheckYear(ExpireModel.ExpireYear)" required>
+                                                <input type="number" class="form-control cm-input float-left" id="Year" placeholder="yy" ng-model="ExpireModel.ExpireYear" onkeypress="if(this.value.length==2) return false;" ng-change="CheckYear(ExpireModel.ExpireYear)" required/>
                                             </div>
                                         </div>
 
@@ -118,7 +118,7 @@
                                         <div class="col-sm-12 m-t-1">
                                             <label for="CVV" class="col-sm-3 form-control-label">CVV: <b class="text-danger">&nbsp;*</b></label>
                                             <div id="cvv-Field" class="col-sm-10">
-                                                <input type="number" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="ModelData.cvv" onkeypress="if(this.value.length == 4) return false;" required>
+                                                <input type="text" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="ModelData.cvv" onkeypress="if(this.value.length == 4) return false;" onkeypress="validate(event)" required/>
                                             </div>
                                         </div>
 
