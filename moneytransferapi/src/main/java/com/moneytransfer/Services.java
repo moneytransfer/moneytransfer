@@ -1,6 +1,7 @@
 
 package com.moneytransfer;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.ws.rs.GET;
@@ -665,6 +666,18 @@ public class Services {
 		return new ApplicantKYC().kycup(_ApplicantKYC.ApplicantId, _ApplicantKYC.Type, _ApplicantKYC.Side, _ApplicantKYC.ImageString, _ApplicantKYC.ImageName, _ApplicantKYC.ImageExt);
 	}
 	
+	@POST
+	@Path("createApplicantCheck")
+	@Produces("application/json")
+	public ApplicantKYC createApplicantCheck(ApplicantKYC _ApplicantKYC) throws SQLException {
+		return new ApplicantKYC().kycCheck(_ApplicantKYC.ApplicantId);
+	}
+	@POST
+	@Path("getApplicantCheck")
+	@Produces("application/json")
+	public ApplicantKYC getApplicantCheck(ApplicantKYC _ApplicantKYC) throws SQLException {
+		return new ApplicantKYC()._getApplicantCheck(_ApplicantKYC.ApplicantId, _ApplicantKYC.ApplicantCheckId);
+	}
 	
 	/*@POST
 	@Path("ii")

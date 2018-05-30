@@ -65,7 +65,7 @@ public class CustomerDetail {
 	public String FileName;
 	public String FileType;
 	public String Side;
-	
+	public boolean IsDocumentUpload;
 	public String Result;
 	public String Error;
 	
@@ -282,6 +282,14 @@ public class CustomerDetail {
 	}	
 	private String getError(){
 		return Error;
+	}
+	
+	private void setIsDocumentUpload(Boolean IsDocumentUpload) {
+		this.IsDocumentUpload = IsDocumentUpload;
+	}
+
+	private Boolean getIsDocumentUpload() {
+		return IsDocumentUpload;
 	}
 	
 	
@@ -575,7 +583,7 @@ public class CustomerDetail {
 							_CustomerDetail.setIsDeleted(_ResultSet.getBoolean("IsDeleted"));
 							_CustomerDetail.setCreatedDate(_ResultSet.getString("CreatedDate"));
 							_CustomerDetail.setDeletedDate(_ResultSet.getString("DeletedDate"));
-							
+							_CustomerDetail.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
 							_CustomerDetail.setTitle(_ResultSet.getString("Title"));
 							_CustomerDetail.setGender(_ResultSet.getString("gender"));
 							_CustomerDetail.setBuildingNumber(_ResultSet.getString("building_number"));
@@ -630,6 +638,7 @@ public class CustomerDetail {
 						_CustomerDetail.setFileName(_ResultSet.getString("FileName"));
 						_CustomerDetail.setFileType(_ResultSet.getString("FileType"));
 						_CustomerDetail.setSide(_ResultSet.getString("Side"));
+						_CustomerDetail.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
 						_CustomerDetail.setResult("Success");
 						_CustomerDetaillist.add(_CustomerDetail);
 						
@@ -690,7 +699,7 @@ public CustomerDetail getCustomerDetail(CustomerDetail _CustomerDetail) {
 						_CustomerDetail.setState(_ResultSet.getString("State"));
 						_CustomerDetail.setZipCode(_ResultSet.getString("ZipCode"));
 						_CustomerDetail.setCountryId(_ResultSet.getInt("country_id"));						
-						
+						_CustomerDetail.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
 						_CustomerDetail.setPhone(_ResultSet.getString("Phone"));
 						_CustomerDetail.setEmail(_ResultSet.getString("Email"));
 						_CustomerDetail.setDOB(_ResultSet.getString("DOB"));
@@ -767,7 +776,7 @@ public CustomerDetail loginCustomer(CustomerDetail _CustomerDetail)
 					_CustomerDetail.setState(_ResultSet.getString("State"));
 					_CustomerDetail.setZipCode(_ResultSet.getString("ZipCode"));
 					_CustomerDetail.setCountryId(_ResultSet.getInt("country_id"));						
-					
+					_CustomerDetail.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
 					_CustomerDetail.setPhone(_ResultSet.getString("Phone"));
 					_CustomerDetail.setEmail(_ResultSet.getString("Email"));
 					_CustomerDetail.setDOB(_ResultSet.getString("DOB"));

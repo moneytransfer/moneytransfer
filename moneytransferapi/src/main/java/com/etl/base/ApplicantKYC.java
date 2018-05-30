@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.apache.commons.httpclient.HttpVersion;
 import org.apache.http.HttpEntity;
@@ -35,10 +36,14 @@ import org.json.JSONObject;
 import com.etl.util.MYSQLConnection;
 import com.etl.util.MYSQLHelper;
 import com.onfido.ApiClient;
+import com.onfido.ApiException;
 import com.onfido.Configuration;
 import com.onfido.api.DefaultApi;
 import com.onfido.auth.ApiKeyAuth;
+import com.onfido.models.Check;
+import com.onfido.models.CheckCreationRequest;
 import com.onfido.models.Document;
+import com.onfido.models.Report;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -78,6 +83,9 @@ public class ApplicantKYC {
 	public String Error;
 	public String id;
 	public StringBuffer doc;
+	public String ApplicantCheckId;
+	public String Status;
+	public String ApplicantCheckDate;
 
 	private void setdoc(StringBuffer Doc) {
 		this.doc = Doc;
@@ -335,6 +343,30 @@ public class ApplicantKYC {
 		return DocumentUploadedDate;
 	}
 
+	private void setApplicantCheckId(String ApplicantCheckId) {
+		this.ApplicantCheckId = ApplicantCheckId;
+	}
+
+	private String getApplicantCheckId() {
+		return ApplicantCheckId;
+	}
+
+	private void setStatus(String Status) {
+		this.Status = Status;
+	}
+
+	private String getStatus() {
+		return Status;
+	}
+
+	private void setApplicantCheckDate(String ApplicantCheckDate) {
+		this.ApplicantCheckDate = ApplicantCheckDate;
+	}
+
+	private String getApplicantCheckDate() {
+		return ApplicantCheckDate;
+	}
+
 	public ApplicantKYC addApplicantKYC(int CustomerId, int CompanyId, String Title, String FirstName, String LastName,
 			String Gender, String DOB, String Country, String FlatNumber, String BuildingName, String BuildingNumber,
 			String Street, String State, String Town, String PostalCode, String phone) {
@@ -395,6 +427,7 @@ public class ApplicantKYC {
 							_ApplicantKYC.setCompanyId(CompanyId);
 							_ApplicantKYC.addupdateApplicantKYC(CustomerId, CompanyId, _ApplicantKYC.ApplicantId);
 							_ApplicantKYC.setResult("Sucess");
+							clear(_ApplicantKYC);
 						}
 						br.close();
 						connection.disconnect();
@@ -451,6 +484,7 @@ public class ApplicantKYC {
 							_ApplicantKYC.setCompanyId(CompanyId);
 							_ApplicantKYC.addupdateApplicantKYC(CustomerId, CompanyId, _ApplicantKYC.ApplicantId);
 							_ApplicantKYC.setResult("Sucess");
+							clear(_ApplicantKYC);
 						}
 						br.close();
 						connection.disconnect();
@@ -657,6 +691,7 @@ public class ApplicantKYC {
 						_ApplicantKYC.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
 						_ApplicantKYC.setResult("Success");
 						_ApplicantKYCDetaillist.add(_ApplicantKYC);
+
 					}
 					_ResultSet.close();
 
@@ -750,7 +785,32 @@ public class ApplicantKYC {
 		_ApplicantKYC.setCompanyId(0);
 		_ApplicantKYC.setCustomerId(0);
 		_ApplicantKYC.setCreatedDate("");
-		_ApplicantKYC.setApplicantId("");
+		
+		_ApplicantKYC.setDocumentId("");
+		_ApplicantKYC.setPhone("");
+		_ApplicantKYC.setTitle("");
+		_ApplicantKYC.setTitle("");
+		_ApplicantKYC.setLastName("");
+		_ApplicantKYC.setGender("");
+		_ApplicantKYC.setDOB("");
+		_ApplicantKYC.setCountry("");
+		_ApplicantKYC.setFlatNumber("");
+		_ApplicantKYC.setBuildingName("");
+		_ApplicantKYC.setBuildingNumber("");
+		_ApplicantKYC.setStreet("");
+		_ApplicantKYC.setSubStreet("");
+		_ApplicantKYC.setState("");
+		_ApplicantKYC.setTown("");
+		_ApplicantKYC.setPostalCode("");
+		_ApplicantKYC.setImageString("");
+		_ApplicantKYC.setImageName("");
+		_ApplicantKYC.setImageExt("");
+		_ApplicantKYC.setType("");
+		_ApplicantKYC.setSide("");
+		_ApplicantKYC.setCreatedDate("");
+		_ApplicantKYC.setDocumentUploadedDate("");
+		_ApplicantKYC.setApplicantCheckDate("");
+
 		return _ApplicantKYC;
 	}
 
@@ -890,15 +950,24 @@ public class ApplicantKYC {
 						System.out.println(result);
 						_ApplicantKYC.setApplicantId(_applicantId);
 						_ApplicantKYC.setDocumentId(result.getId());
+
+						String sUpdateStatement = "UPDATE customer SET IsDocumentUpload = ?" + " WHERE customer_Id = ?";
+						_PreparedStatement = _Connection.prepareStatement(sUpdateStatement);
+						_PreparedStatement.setBoolean(1, true);
+						_PreparedStatement.setInt(2, _ResultSetapplicantId.getInt("CustomerId"));
+						_PreparedStatement.executeUpdate();
 						_ApplicantKYC.setResult("Sucess");
+						clear(_ApplicantKYC);
 
 					} else {
 						_ApplicantKYC.setResult("failed!");
 						_ApplicantKYC.setError("failed to upload docment!");
+						clear(_ApplicantKYC);
 					}
 				} else {
 					_ApplicantKYC.setResult("failed!");
 					_ApplicantKYC.setError("Invalid Applicant Id!");
+					clear(_ApplicantKYC);
 				}
 			} catch (Exception e) {
 
@@ -906,12 +975,131 @@ public class ApplicantKYC {
 				_ApplicantKYC.setError(e.getMessage());
 				System.err.println("Exception when calling DefaultApi#uploadDocument");
 				System.err.println(e.getMessage());
+				clear(_ApplicantKYC);
 			}
 
 		} catch (Exception e) {
 			_ApplicantKYC.setResult("failed!");
 			_ApplicantKYC.setError(e.getMessage());
 			System.out.println("Error:" + e.getMessage());
+			clear(_ApplicantKYC);
+		}
+		return _ApplicantKYC;
+	}
+
+	public ApplicantKYC kycCheck(String _applicantId) throws SQLException {
+		ApplicantKYC _ApplicantKYC = new ApplicantKYC();
+		try {
+			Connection _Connection = MYSQLConnection.GetConnection();
+			MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+			PreparedStatement _PreparedStatement = null;
+			ResultSet _ResultSetapplicantId = _MYSQLHelper.GetResultSet(
+					"SELECT * FROM customer_applicant_kyc where ApplicantId='" + _applicantId + "'", _Connection);
+			if (_ResultSetapplicantId.next()) {
+				
+				
+				ApiClient defaultClient = Configuration.getDefaultApiClient();
+				ApiKeyAuth Token = (ApiKeyAuth) defaultClient.getAuthentication("Token");
+				Token.setApiKey("token=" + "test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc");
+				Token.setApiKeyPrefix("Token");
+
+				DefaultApi apiInstance = new DefaultApi();
+				// String applicantId = _ApplicantKYC.ApplicantId; // String
+				// |
+				CheckCreationRequest data = new CheckCreationRequest();
+				data.setType("standard");
+
+				List<Report> reports = new ArrayList<Report>();
+				Report report = new Report();
+				report.setName("document");
+				reports.add(report);
+
+				data.setReports(reports);
+
+				Check result = apiInstance.createCheck(_applicantId, data);
+				_ApplicantKYC.setApplicantCheckId(result.getId());
+				_ApplicantKYC.setStatus(result.getStatus());
+
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Calendar cal = Calendar.getInstance();
+				String date = format.format(cal.getTime());
+				_ApplicantKYC.setApplicantCheckDate(date);
+				_ApplicantKYC.setApplicantId(_applicantId);
+				String sInsertStatement = "UPDATE customer_applicant_kyc SET ApplicantCheckId = ?,Status = ?,ApplicantCheckDate = ?"
+						+ " WHERE ApplicantId = ?";
+				_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+				_PreparedStatement.setString(1, _ApplicantKYC.ApplicantCheckId);
+				_PreparedStatement.setObject(2, _ApplicantKYC.Status);
+				_PreparedStatement.setString(3, _ApplicantKYC.ApplicantCheckDate);
+				_PreparedStatement.setString(4, _ApplicantKYC.ApplicantId);
+				_PreparedStatement.executeUpdate();
+				_ApplicantKYC.setResult("Success");
+				clear(_ApplicantKYC);
+			} else {
+				_ApplicantKYC.setResult("failed");
+				_ApplicantKYC.setError("Invalid applicant Id!");
+				clear(_ApplicantKYC);
+			}
+			// System.out.println(result);
+		} catch (ApiException e) {
+
+			_ApplicantKYC.setResult("failed");
+			_ApplicantKYC.setError(e.getMessage());
+			clear(_ApplicantKYC);
+			// System.err.println("Exception when calling
+			// DefaultApi#createCheck");
+			// System.err.println(e.getResponseBody());
+		}
+
+		return _ApplicantKYC;
+	}
+
+	public ApplicantKYC _getApplicantCheck(String _applicantId, String _checkId) throws SQLException {
+		ApplicantKYC _ApplicantKYC = new ApplicantKYC();
+		try {
+			Connection _Connection = MYSQLConnection.GetConnection();
+			MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+			PreparedStatement _PreparedStatement = null;
+			ResultSet _ResultSetapplicantId = _MYSQLHelper.GetResultSet(
+					"SELECT * FROM customer_applicant_kyc where ApplicantId='" + _applicantId + "'", _Connection);
+			if (_ResultSetapplicantId.next()) {
+				ApiClient defaultClient = Configuration.getDefaultApiClient();
+				// Configure API key authorization: Token
+				ApiKeyAuth Token = (ApiKeyAuth) defaultClient.getAuthentication("Token");
+				Token.setApiKey("token=" + "test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc");
+				Token.setApiKeyPrefix("Token");
+
+				DefaultApi apiInstance = new DefaultApi();
+				String applicantId = _applicantId; // String |
+				String checkId = _checkId; // String |
+
+				Check result = apiInstance.findCheck(applicantId, checkId);
+				_ApplicantKYC.setApplicantId(_applicantId);
+				_ApplicantKYC.setApplicantCheckId(result.getId());
+				_ApplicantKYC.setStatus(result.getStatus());
+				String sInsertStatement = "UPDATE customer_applicant_kyc SET Status = ?"
+						+ " WHERE ApplicantId = ?";
+				_PreparedStatement = _Connection.prepareStatement(sInsertStatement);				
+				_PreparedStatement.setObject(1, _ApplicantKYC.Status);			
+				_PreparedStatement.setString(2, _ApplicantKYC.ApplicantId);
+				_PreparedStatement.executeUpdate();				
+				_ApplicantKYC.setResult("Success");
+				clear(_ApplicantKYC);
+				// System.out.println(result);
+
+			}
+			else{
+				_ApplicantKYC.setResult("failed");
+				_ApplicantKYC.setError("Invalid applicant Id!");
+				clear(_ApplicantKYC);
+			}
+		} catch (ApiException e) {
+			_ApplicantKYC.setResult("failed");
+			_ApplicantKYC.setError(e.getMessage());
+			clear(_ApplicantKYC);
+			// System.err.println("Exception when calling
+			// DefaultApi#findCheck");
+			// System.err.println(e.getResponseBody());
 		}
 		return _ApplicantKYC;
 	}

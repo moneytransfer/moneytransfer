@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 18, 2018 at 01:50 PM
--- Server version: 5.7.19-0ubuntu0.16.04.1
--- PHP Version: 7.0.22-0ubuntu0.16.04.1
+-- Generation Time: May 30, 2018 at 09:43 AM
+-- Server version: 5.7.22-0ubuntu0.16.04.1
+-- PHP Version: 7.0.30-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -101,9 +101,9 @@ CREATE TABLE `authorizepaymentsettings` (
 --
 
 INSERT INTO `authorizepaymentsettings` (`AuthorizePaymentSettingsId`, `PaymentMethodId`, `Mode`, `PaymentUrl`, `MerchantLoginId`, `MerchantTransactionKey`, `Server`, `Port`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 1, 'TEST', 'https://test.authorize.net/gateway/transact.dll', '6cUR4e9b', '8Q6338wTVa647Rfe', NULL, NULL, 0, 0, '2018-02-05', NULL),
-(5, 12, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
-(6, 15, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
+(1, 1, 'TEST', 'https://test.authorize.net/gateway/transact.dll', 'falconengineer', '8Q6338wTVa647Rfe', NULL, NULL, 0, 0, '2018-02-05', NULL),
+(5, 12, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'falconengineer', 'falcon@999', 'secure.magicpaygateway.com', '443', 1, 0, '2018-05-10', NULL),
+(6, 15, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'falconengineer', 'falcon@999', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
 (7, 21, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
 (8, 22, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
 (9, 23, 'TEST', 'https://secure.magicpaygateway.com/api/transact.php', 'magicpay', 'magicpay123', 'secure.magicpaygateway.com', '443', 1, 0, '2018-04-09', NULL),
@@ -197,7 +197,7 @@ CREATE TABLE `billpaydetails` (
   `MobileNumber` varchar(50) NOT NULL,
   `Version` varchar(50) NOT NULL,
   `SkuId` varchar(250) NOT NULL,
-  `InvoiceNumber` varchar(200) NOT NULL,
+  `InvoiceNumber` varchar(200) DEFAULT NULL,
   `TransactionDate` datetime NOT NULL,
   `InvoiceAmount` decimal(18,2) NOT NULL,
   `FaceValueAmount` decimal(18,2) NOT NULL,
@@ -209,71 +209,17 @@ CREATE TABLE `billpaydetails` (
 --
 
 INSERT INTO `billpaydetails` (`BillPayId`, `CompanyId`, `CustomerId`, `TransactionId`, `SenderName`, `MobileNumber`, `Version`, `SkuId`, `InvoiceNumber`, `TransactionDate`, `InvoiceAmount`, `FaceValueAmount`, `ResponseCode`) VALUES
-(1, 17, 8, 1, 'swag', '456465465456456', '1.0', '1560', '', '2018-02-23 10:08:26', '24.99', '0.00', '000'),
-(2, 17, 8, 2, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-23 10:10:12', '6.99', '0.00', '000'),
-(3, 17, 8, 4, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-23 14:45:30', '11.48', '0.00', '000'),
-(4, 17, 8, 5, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-26 18:04:52', '13.48', '0.00', '000'),
-(5, 17, 8, 6, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-27 07:08:33', '11.48', '0.00', '000'),
-(6, 17, 8, 8, 'zolly', '521234567890', '1.0', '1560', '', '2018-02-28 10:27:58', '11.98', '0.00', '000'),
-(7, 17, 8, 9, 'zolly', '521234567890', '1.0', '1560', '', '2018-03-01 09:17:15', '11.48', '0.00', '000'),
-(8, 17, 8, 10, 'zolly', '52645655465464560', '1.0', '1560', '', '2018-03-01 12:25:06', '16.47', '0.00', '000'),
-(9, 17, 8, 11, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:32:11', '19.97', '0.00', '000'),
-(10, 17, 8, 12, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:33:32', '19.97', '0.00', '000'),
-(11, 17, 8, 13, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:35:52', '19.97', '0.00', '000'),
-(12, 17, 8, 14, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:36:51', '14.98', '0.00', '000'),
-(13, 17, 8, 15, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 12:55:10', '10.98', '0.00', '000'),
-(14, 17, 8, 16, 'zolly', '525929825696', '1.0', '1560', '', '2018-03-01 12:59:19', '11.98', '0.00', '000'),
-(15, 17, 8, 17, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 13:05:35', '14.98', '0.00', '000'),
-(16, 17, 8, 18, 'zolly', '52521234567890', '1.0', '1560', '', '2018-03-01 13:27:22', '11.48', '0.00', '000'),
-(17, 17, 8, 23, 'zolly', '52521298979789', '1.0', '1560', '', '2018-03-05 09:40:58', '104.99', '0.00', '000'),
-(18, 17, 8, 25, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-05 10:37:34', '12.48', '0.00', '000'),
-(19, 17, 8, 27, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-05 11:42:52', '8.48', '0.00', '000'),
-(20, 17, 8, 34, 'zolly', '521234567890', '1.0', '1560', '', '2018-03-07 08:14:22', '10.99', '0.00', '000'),
-(21, 17, 8, 35, 'ram ranjana kumari', '9599902190', '1.0', '1560', '18495095', '2018-03-07 03:17:54', '14.99', '9.00', '000'),
-(22, 17, 8, 36, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-07 09:36:55', '6.99', '0.00', '000'),
-(23, 17, 8, 37, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-07 10:35:35', '11.99', '0.00', '000'),
-(24, 17, 8, 38, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-07 10:37:56', '27.99', '0.00', '000'),
-(25, 17, 8, 40, 'zolly', '521234567890', '1.0', '1560', '', '2018-03-14 14:39:58', '8.99', '0.00', '000'),
-(26, 17, 8, 44, 'zolly', '52521298979789', '1.0', '1560', '', '2018-03-19 10:43:33', '5.49', '0.00', '000'),
-(27, 17, 8, 45, 'zolly', '52521202588555', '1.0', '1560', '', '2018-03-19 10:49:40', '4.99', '0.00', '000'),
-(28, 17, 8, 46, 'zolly', '521298979789', '1.0', '1560', '', '2018-03-19 11:20:21', '7.99', '0.00', '000'),
-(29, 17, 8, 49, 'zolly', '52129897978945', '1.0', '1560', '', '2018-03-19 11:29:29', '7.99', '0.00', '000'),
-(30, 17, 8, 50, 'zolly', '521298979789435', '1.0', '1560', '', '2018-03-19 11:31:04', '103.99', '0.00', '000'),
-(31, 17, 8, 51, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-02 07:07:36', '2.99', '0.00', '000'),
-(32, 17, 8, 52, 'zolly', '527974756456', '1.0', '1560', '', '2018-04-02 07:29:38', '9.99', '0.00', '000'),
-(33, 17, 8, 53, 'zolly', '52551515165156170', '1.0', '1560', '', '2018-04-02 12:14:03', '5.89', '0.00', '000'),
-(34, 17, 8, 54, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-02 13:15:02', '3.99', '0.00', '000'),
-(35, 17, 8, 55, 'zolly', '5212345678', '1.0', '1560', '', '2018-04-04 07:44:08', '11.59', '0.00', '000'),
-(36, 17, 8, 56, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-04 15:33:04', '3.49', '0.00', '000'),
-(37, 17, 8, 57, 'zolly', '525553423453', '1.0', '1560', '', '2018-04-06 03:38:59', '11.69', '0.00', '000'),
-(38, 17, 8, 58, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 06:52:32', '8.00', '0.00', '000'),
-(39, 17, 8, 59, 'zolly', '521247410258', '1.0', '1560', '', '2018-04-09 07:17:44', '1.00', '0.00', '000'),
-(40, 17, 8, 60, 'zolly', '521247410258', '1.0', '1560', '', '2018-04-09 07:18:20', '7.00', '0.00', '000'),
-(41, 17, 8, 61, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:28:55', '4.10', '0.00', '000'),
-(42, 17, 8, 62, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:30:24', '7.00', '0.00', '000'),
-(43, 17, 8, 63, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:30:48', '3.00', '0.00', '000'),
-(44, 17, 8, 64, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:31:27', '2.00', '0.00', '000'),
-(45, 17, 8, 65, 'zolly', '521234567890', '1.0', '1560', '', '2018-04-09 07:32:20', '12.69', '0.00', '000'),
-(46, 17, 8, 66, 'zolly', '52147956514444', '1.0', '1560', '', '2018-04-09 07:34:16', '11.69', '0.00', '000'),
-(47, 17, 8, 67, 'zolly', '5212021020125', '1.0', '1560', '', '2018-04-09 07:44:00', '8.00', '0.00', '000'),
-(48, 17, 8, 68, 'zolly', '5214795852252', '1.0', '1560', '', '2018-04-09 07:56:41', '3.00', '0.00', '000'),
-(49, 17, 8, 69, 'zolly', '5212345678', '1.0', '1560', '', '2018-04-09 07:57:54', '1.00', '0.00', '000'),
-(50, 17, 8, 70, 'zolly', '52147899666', '1.0', '1560', '', '2018-04-09 07:59:59', '3.00', '0.00', '000'),
-(51, 17, 8, 71, 'ram ranjana kumari', '9599902190', '1.0', '1560', '18795827', '2018-04-09 03:01:59', '10.00', '9.00', '000'),
-(52, 17, 8, 72, 'zolly', '521478969633366', '1.0', '1560', '', '2018-04-09 08:03:14', '1.00', '0.00', '000'),
-(53, 17, 8, 73, 'zolly', '5212459874102', '1.0', '1560', '', '2018-04-09 13:34:01', '4.00', '0.00', '000'),
-(54, 17, 8, 74, 'zolly', '5212459874102', '1.0', '1560', '', '2018-04-09 13:34:51', '22.00', '0.00', '000'),
-(55, 17, 8, 75, 'zolly', '521477889999', '1.0', '1560', '', '2018-04-13 15:08:40', '4.00', '0.00', '000'),
-(56, 17, 8, 76, 'zolly', '5212345678', '1.0', '1560', '', '2018-04-13 15:25:10', '8.00', '0.00', '000'),
-(57, 17, 8, 77, 'zolly', '5214789852552', '1.0', '1560', '', '2018-04-13 15:36:51', '7.00', '0.00', '000'),
-(58, 17, 8, 78, 'zolly', '521255525255', '1.0', '1560', '', '2018-04-16 05:54:30', '3.00', '0.00', '000'),
-(59, 17, 8, 79, 'zolly', '521477441100', '1.0', '1560', '', '2018-04-16 05:55:14', '8.00', '0.00', '000'),
-(60, 17, 8, 80, 'zolly', '521452255555555', '1.0', '1560', '', '2018-04-16 13:09:23', '3.00', '0.00', '000'),
-(61, 17, 8, 81, 'zolly', '5214441110000', '1.0', '1560', '', '2018-04-16 13:10:26', '1.00', '0.00', '000'),
-(62, 17, 8, 82, 'zolly', '52127896541023', '1.0', '1560', '', '2018-04-16 13:14:44', '6.00', '0.00', '000'),
-(63, 17, 8, 83, 'zolly', '52025887755255', '1.0', '1560', '', '2018-04-16 13:15:35', '6.00', '0.00', '000'),
-(64, 17, 8, 84, 'zolly', '5214788555', '1.0', '1560', '', '2018-04-16 13:16:14', '12.00', '0.00', '000'),
-(65, 17, 8, 85, 'zolly', '5212345678023', '1.0', '1560', '', '2018-04-17 17:23:11', '2.00', '0.00', '000');
+(1, 17, 8, 1, 'zolly', '521245987410', '1.0', '1560', '', '2018-05-16 08:42:51', '1.00', '0.00', '000'),
+(2, 17, 8, 2, 'zolly', '5214789652014', '1.0', '1560', '', '2018-05-16 09:24:39', '1.00', '0.00', '000'),
+(3, 17, 8, 5, 'zolly', '918010276833', '1.0', '1560', '', '2018-05-18 07:35:59', '1.00', '0.00', '000'),
+(4, 17, 8, 6, 'ram ranjana kumari', '9599902190', '1.0', '1560', '', '2018-05-18 09:45:16', '1.00', '0.00', '000'),
+(5, 17, 8, 8, 'zolly', '918010276833', '1.0', '1211', '80509071', '2018-05-21 07:56:48', '1.49', '0.00', '000'),
+(6, 17, 8, 13, 'zolly', '5213123123', '1.0', '213', '19188219', '2018-05-21 15:47:21', '4.49', '0.00', '000'),
+(7, 17, 8, 14, 'zolly', '50329696969', '1.0', '217', '19188220', '2018-05-21 15:48:48', '1.49', '0.00', '000'),
+(8, 17, 8, 15, 'zolly', '919971748159', '1.0', '1128', NULL, '2018-05-21 16:15:56', '10.00', '0.00', '000'),
+(9, 17, 8, 16, 'zolly', '919990360164', '1.0', '1161', '80517447', '2018-05-21 16:34:35', '10.00', '0.00', '000'),
+(10, 17, 8, 17, 'zolly', '12096030382', '1.0', '322', NULL, '2018-05-21 17:54:48', '10.00', '0.00', '000'),
+(11, 17, 8, 18, 'zolly', '523318017417', '1.0', '1142', '80520584', '2018-05-21 18:15:27', '10.00', '0.00', '000');
 
 -- --------------------------------------------------------
 
@@ -879,6 +825,7 @@ CREATE TABLE `customer` (
   `customer_Id` int(11) NOT NULL,
   `Company_Id` int(11) NOT NULL,
   `AccountNumber` varchar(50) DEFAULT NULL,
+  `Title` varchar(10) DEFAULT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) DEFAULT NULL,
   `Address1` varchar(100) DEFAULT NULL,
@@ -894,43 +841,120 @@ CREATE TABLE `customer` (
   `ProfileImage` varchar(50) DEFAULT NULL,
   `ActivationCode` varchar(100) DEFAULT NULL,
   `IsAccountActivated` tinyint(1) NOT NULL,
+  `gender` varchar(20) DEFAULT NULL,
+  `building_number` varchar(50) DEFAULT NULL,
+  `street` varchar(50) DEFAULT NULL,
+  `town` varchar(50) DEFAULT NULL,
+  `FileName` varchar(50) DEFAULT NULL,
+  `FileType` varchar(200) DEFAULT NULL,
+  `Side` varchar(50) DEFAULT NULL,
   `IsActive` tinyint(1) NOT NULL,
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `CreatedDate` datetime NOT NULL,
-  `DeletedDate` datetime DEFAULT NULL
+  `DeletedDate` datetime DEFAULT NULL,
+  `IsDocumentUpload` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `FirstName`, `LastName`, `Address1`, `Address2`, `City`, `State`, `ZipCode`, `country_id`, `Phone`, `Email`, `Password`, `DOB`, `ProfileImage`, `ActivationCode`, `IsAccountActivated`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`) VALUES
-(1, 17, '123456789', 'ishu', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'u@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-05 00:00:00', NULL),
-(2, 17, '123456789', 'ff', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'ffu@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-02 00:00:00', NULL),
-(3, 17, '123456789', 'cc', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'cc@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:06:08', NULL),
-(4, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:09:40', NULL),
-(5, 17, '123456789', 'dd', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'dd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-14 19:14:46', NULL),
-(6, 17, '123456789', 'hh', 'Kumar', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'hh@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 1, '2017-10-14 19:17:02', '2017-10-19 00:00:00'),
-(8, 17, '123456789', 'zolly', 'mbbs', 'aaa', 'bbb', 'www', 'fl', '12345', 226, '123456789', 'zolly@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-16 11:13:12', NULL),
-(9, 17, '123456789', 'Oppo', 'chinese', 'china', 'test', 'china', 'CH', '12345', 226, '123456789', 'oppo@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', '1234567890', 1, 1, 0, '2017-10-25 11:42:21', NULL),
-(10, 17, '35434', 'test', 'test', 'test', 'test', 'test', 'trst', 'tres', 226, '2345324523', 'testre@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '34534', 1, 1, 0, '2017-10-27 11:25:23', NULL),
-(11, 17, '25432', 'Girish', 'test', 'Delhi', 'test', 'City', 'State', '110033', 226, '968545868', 'Girishtest@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '32432', 1, 1, 0, '2017-10-27 11:28:05', NULL),
-(12, 17, '985458', 'Ishu Test', 'test', 'address', 'Address2', 'City', 'State', '854854', 226, '8545859654', 'ishutest@gamil.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', '95848', 1, 1, 0, '2017-10-30 06:27:55', NULL),
-(13, 17, '', 'Customer', 'test', '', '', '', '', '', 226, '123456789', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-10-30 09:27:09', NULL),
-(14, 17, NULL, 'Rajeev', 'Verma', '', '', '', '', '', 99, '384293232', 'rajeevdesizn@gmail.com', '7110EDA4D09E062AA5E4A390B0A572AC0D2C0220', '', '', '', 0, 0, 0, '2017-12-05 17:41:17', NULL),
-(15, 17, NULL, 'adam', 'smith', '', '', '', '', '', 99, '9876543210', 'asmith@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2017-12-08 08:35:48', NULL),
-(16, 17, NULL, 'rajeev', 'verma', '', '', '', '', '', 99, '9732321283', 'ronniedesizn@gmail.com', 'AAFDC23870ECBCD3D557B6423A8982134E17927E', '', '', '', 0, 0, 0, '2018-01-18 15:55:06', NULL),
-(17, 17, NULL, 'Lhuui', 'Castroe', '', '', '', '', '', 226, '2094704318', 'Rey0825@gmail.com', '171344B753E1D6AFAF7640AD8664E6BF9E2382CC', '', '', '', 0, 0, 0, '2018-01-22 15:23:36', NULL),
-(18, 17, NULL, 'gdfg', 'dgffg', '', '', '', '', '', 1, '12345667777', 'you@gmail.com', '7C4A8D09CA3762AF61E59520943DC26494F8941B', '', '', '', 0, 0, 0, '2018-01-22 15:33:36', NULL),
-(19, 17, NULL, 'Rishi', 'kumar', '', '', '', '', '', 99, '123456789', 'rishi@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 06:06:12', NULL),
-(20, 17, NULL, 'ishu', 'xyz', '', '', '', '', '', 2, '8889888784', 'i@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:39:36', NULL),
-(21, 17, NULL, 'sDFfa', 'dffg', '', '', '', '', '', 14, '565464564654', 's@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:41:02', NULL),
-(22, 17, NULL, 'wadfsd', 'dsfggf', '', '', '', '', '', 2, '86972522422', 'y@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:42:09', NULL),
-(23, 17, NULL, 'dfsfzsdg', 'gdfg', '', '', '', '', '', 16, '7887874444', 'deepak@acapteam.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-23 14:44:43', NULL),
-(24, 17, NULL, 'gjg', 'gjkg', '', '', '', '', '', 1, '65756756567567', 't@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-24 06:07:01', NULL),
-(25, 17, NULL, 'rrt', 'rtert', '', '', '', '', '', 1, '54564654654', 'r@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-24 06:38:25', NULL),
-(26, 17, NULL, 'dfsfs', 'fsfs', '', '', '', '', '', 1, '12365145225', 'h@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-01-24 14:36:46', NULL),
-(27, 17, NULL, 'Manju', 'kumar', '', '', '', '', '', 98, '111111111', 'manju@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', '', 0, 0, 0, '2018-04-18 13:47:59', NULL);
+INSERT INTO `customer` (`customer_Id`, `Company_Id`, `AccountNumber`, `Title`, `FirstName`, `LastName`, `Address1`, `Address2`, `City`, `State`, `ZipCode`, `country_id`, `Phone`, `Email`, `Password`, `DOB`, `ProfileImage`, `ActivationCode`, `IsAccountActivated`, `gender`, `building_number`, `street`, `town`, `FileName`, `FileType`, `Side`, `IsActive`, `IsDeleted`, `CreatedDate`, `DeletedDate`, `IsDocumentUpload`) VALUES
+(1, 17, '123456789', 'Mr', 'Ishu', 'Kumar', 'china', 'test', 'china', 'CH', '12345', 99, '123456789', 'oppo@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10', 'fff', 'FALCON01', 1, 'Male', '420', 'pani wla', 'subhash', 'Passport', '', 'front', 1, 1, '2018-04-26 09:59:58', '2018-04-20 09:32:57', 0),
+(8, 17, '123456789', 'Mr', 'zolly', 'Singh', 'Rajouri Garden', 'Test by Rajeev', 'test', 'USA', '111111', 98, '8010276833', 'zolly@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10', 'fffa', 'FALCON02', 1, 'Male', 'New York Madison Square', 'RJ/7', 'Model town', 'passport', 'test', 'back', 1, 0, '2018-05-29 18:08:40', NULL, 1),
+(9, 17, NULL, NULL, 'Oppo', 'chinese', 'china', 'test', 'china', 'CH', '12345', 226, '6594585215', 'oppo@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10 ', 'fff', 'FALCON03', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-04-27 09:29:59', NULL, 0),
+(10, 17, '35434', NULL, 'test', 'test', 'test', 'test', 'test', 'trst', 'tres', 226, '2345324523', 'testre@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', 'FALCON04', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, '2017-10-27 11:25:23', '2018-04-20 09:48:17', 0),
+(11, 17, '25432', 'Mr', 'Girish', 'test', 'Delhi', 'test', 'tetet', 'etttet', '110033', 98, '968545868', 'Girishtest@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '02/23/1910', 'test', 'FALCON05', 1, 'Male', '1022', 'etetet', 'New delhi', 'passport', 'test', 'front', 1, 1, '2018-05-29 08:49:10', '2018-04-20 11:08:39', 1),
+(12, 17, '985458', NULL, 'Ishu Test', 'test', 'address', 'Address2', 'City', 'State', '854854', 226, '8545859654', 'ishutest@gamil.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1990-10-10 ', 'test', 'FALCON06', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2017-10-30 06:27:55', NULL, 0),
+(13, 17, NULL, NULL, 'Customer Test', 'test', '', '', '', '', '', 226, '', 'customer@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON07', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2018-04-23 02:35:34', '2018-04-23 02:35:42', 0),
+(14, 17, NULL, NULL, 'Rajeev', 'Verma', 'fdgfd', 'fdgd', 'fdg', 'fdgfd', 'fdgfd', 14, '384293232', 'rajeevdesizn@gmail.com', 'FBB9D4006064889A67EE1D9CAE7EDE26CDE1056C', '', '', 'FALCON08', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-04-19 12:42:22', NULL, 0),
+(15, 17, NULL, 'Mr', 'adam', 'smith', 'sdfdsfds', 'dfsdfsd', 'sdfds', 'sdf', 'sdf', 180, '54543534534534', 'asmith@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1911-12-15', '', 'FALCON09', 0, 'Male', 'Delhi', '53', 'New delhi', 'passport', 'test', 'front', 0, 0, '2018-05-29 09:44:19', NULL, 1),
+(16, 17, NULL, NULL, 'rajeev', 'verma', '', '', '', '', '', 99, '9732321283', 'ronniedesizn@gmail.com', 'AAFDC23870ECBCD3D557B6423A8982134E17927E', '', '', 'FALCON10', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-01-18 15:55:06', NULL, 0),
+(17, 17, NULL, NULL, 'Lhuui', 'Castroe', '', '', '', '', '', 226, '2094704318', 'Rey0825@gmail.com', '171344B753E1D6AFAF7640AD8664E6BF9E2382CC', '', '', 'FALCON11', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-01-22 15:23:36', NULL, 0),
+(19, 17, NULL, 'Mr', 'Rishi', 'kumar', 'sdfdsfds', 'jamli', 'Delhi', 'HP', '123456', 99, '123456789', 'rishi@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '12/5/1995', '', 'FALCON12', 0, 'Male', 'Ansal Clisque tower', 'RJ/7', 'town', NULL, NULL, NULL, 0, 0, '2018-05-04 16:13:26', NULL, 0),
+(27, 17, NULL, NULL, 'Manju', 'kumar', '', '', '', '', '', 98, '111111111', 'manju@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON13', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-04-18 13:47:59', NULL, 0),
+(28, 17, NULL, NULL, 'Amit', 'Singhgania', '', '', '', '', '', 98, '1025874102', 'amit@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-04-19 06:00:54', NULL, 0),
+(29, 17, NULL, NULL, '', '', '', '', '', '', '', 10, '', '', 'DA39A3EE5E6B4B0D3255BFEF95601890AFD80709', '', '', 'FALCON29', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2018-04-19 11:44:36', '2018-04-19 15:30:34', 0),
+(30, 0, NULL, NULL, 'ttfn', 'tln', 'tadrss', 'tadrss2', 'tcity', 'ustate', '453458', 10, '55555', 't@gamil.com', 'B232FFF599430EBA22685C9E25CE9E43A4C966BB', '6/6/97', 'rtrt', 'FALCON30', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2018-04-19 11:46:07', '2018-04-19 13:19:37', 0),
+(31, 17, NULL, NULL, 'ggg', 'gg', 'tryr fggdf', 'fdgfd dfgfd', 'fdgfd', 'fgd', '56546', 10, '666666666', 'ggg', '98BA9C557D54E3B62C85A878CA13C9B3C9F7DA04', '5/6/66', '', 'FALCON31', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2018-04-19 12:03:40', '2018-04-19 13:21:31', 0),
+(32, 17, NULL, NULL, 'Test by', 'ss', 'ss', 'ss', 'ss', 'ss', '2233', 91, '', 'testby@gmail.com', '2BE88CA4242C76E8253AC62474851065032D6833', '', 'ss', 'FALCON32', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2018-04-20 09:10:29', '2018-04-20 09:10:41', 0),
+(33, 17, '', NULL, 'ishul', '', '', '', '', 'rtyrtey', '', 13, '', '', '2BE88CA4242C76E8253AC62474851065032D6833', '', '', 'FALCON33', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, '2018-04-20 06:06:40', '2018-04-20 05:54:00', 0),
+(34, 17, NULL, NULL, 'testing', 'to', 'sfsa', 'xvcxz', 'zcxz', 'zcxzc', 'zcxzc', 9, '513454354', 'test@gmail.com', 'DA39A3EE5E6B4B0D3255BFEF95601890AFD80709', '12-04-2019', '', 'FALCON34', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2018-04-19 14:47:28', '2018-04-19 14:55:43', 0),
+(35, 17, NULL, NULL, 'IshuUber', '', '', '', '', '', '', 12, '', '', '2BE88CA4242C76E8253AC62474851065032D6833', '', '', 'FALCON35', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, '2018-04-20 06:36:56', '2018-04-20 09:19:03', 0),
+(36, 17, '123456789', NULL, 'Oppo', 'chinese', 'china', 'test', 'china', 'CH', '12345', 99, '000011452', 'oppo@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2017-10-10', 'fff', 'FALCON36', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2018-04-25 07:14:44', NULL, 0),
+(37, 17, NULL, NULL, 'rajeev', 'cscs testredretretretretretret', 'sfsdsf', 'sdfssdf', 'asasa', 'saas', '221022', 98, '', 'dsfkaska@sajjasdas.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '21/06/1983', '', 'FALCON37', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-04-25 06:39:19', NULL, 0),
+(38, 17, NULL, NULL, 'Rajeev', 'Verma', '', '', '', '', '', 230, '123456', 'abc@abcd.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON38', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-04 16:51:13', NULL, 0),
+(39, 17, NULL, NULL, 'Rajeev', 'Verma', '', '', '', '', '', 230, '123456', 'abc@abcdsd.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON39', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-04 16:51:33', NULL, 0),
+(40, 17, NULL, NULL, 'temp', 'temp', '', '', '', '', '', 98, '1456465465456', 'temp@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON40', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 06:07:57', NULL, 0),
+(41, 17, NULL, NULL, 'temp', 'temp', '', '', '', '', '', 98, '1456465465456', 'temp11@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON41', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 06:08:55', NULL, 0),
+(42, 17, NULL, NULL, 'monday', 'monday', '', '', '', '', '', 98, '1222222', 'monday@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON42', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 06:22:23', NULL, 0),
+(43, 17, NULL, NULL, 'dd', 'dd', '', '', '', '', '', 98, '111111', 'd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON43', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 06:23:33', NULL, 0),
+(44, 17, NULL, NULL, 'Test customer', 'Monday', '', '', '', '', '', 98, '965845858', 'mon@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON44', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 07:29:35', NULL, 0),
+(45, 17, NULL, NULL, 'test2', 'Proto', '', '', '', '', '', 98, '8965845854', 'proto@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON45', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 07:32:55', NULL, 0),
+(46, 17, NULL, NULL, 'test3', 'Test3', '', '', '', '', '', 98, '9685485684', 'pingu@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON46', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 07:37:48', NULL, 0),
+(47, 17, NULL, NULL, 'test3', 'test3last', '', '', '', '', '', 98, '965845845', 'last@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON47', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 07:47:14', NULL, 0),
+(48, 17, NULL, NULL, 'last', 'Name', '', '', '', '', '', 98, '9685485458', 'name@gmail.com', '7110EDA4D09E062AA5E4A390B0A572AC0D2C0220', '', '', 'FALCON48', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 07:49:55', NULL, 0),
+(49, 17, NULL, NULL, 'test4By', 'testTo', '', '', '', '', '', 98, '965845854', 'BYTO@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON49', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-07 08:02:43', NULL, 0),
+(50, 17, NULL, 'Mr', 'ishu', 'Ishu kumar', 'aa', 'aaa', 'aaa', 'UK', '11002', 98, '8010276833', 'name11@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2018-01-01', '', 'FALCON50', 0, 'Male', 'aaa', 'aaa', 'aaa', NULL, NULL, NULL, 0, 0, '2018-05-08 08:15:19', NULL, 0),
+(51, 17, NULL, NULL, 'vvv', 'vv', '', '', '', '', '', 98, '1236564646', 'v@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON51', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 06:30:26', NULL, 0),
+(52, 17, NULL, NULL, 'vvv00', 'vv', '', '', '', '', '', 98, '1236564646', 'v0@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON52', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 06:31:13', NULL, 0),
+(53, 17, NULL, NULL, 'nn', 'n', '', '', '', '', '', 98, '343432432432', 'n@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON53', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 06:34:53', NULL, 0),
+(54, 17, NULL, NULL, 'ggg', 'g', '', '', '', '', '', 98, '212121', 'g@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON54', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 06:46:03', NULL, 0),
+(55, 17, NULL, NULL, 'M', 'm', '', '', '', '', '', 98, '7765656580', 'm@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON55', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 06:47:52', NULL, 0),
+(56, 17, NULL, NULL, 'ts', 'st', '', '', '', '', '', 98, '8545875848', 'tsst@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON56', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 06:53:01', NULL, 0),
+(57, 17, NULL, NULL, 'p', 'p', '', '', '', '', '', 98, '121212', 'p@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON57', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 07:14:09', NULL, 0),
+(58, 17, NULL, NULL, 'zzx', 'xxxx', '', '', '', '', '', 98, '121456456', 'x@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON58', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 15:27:17', NULL, 0),
+(59, 17, NULL, NULL, 'Testing', 'User', '', '', '', '', '', 58, '1234567', 'reste@abc.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON59', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-09 16:08:48', NULL, 0),
+(60, 17, NULL, NULL, 'rara', 'vdsds', '', '', '', '', '', 98, '93223423423', 'radnc1@gmail.com', '7C4A8D09CA3762AF61E59520943DC26494F8941B', '', '', 'FALCON60', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 08:38:44', NULL, 0),
+(61, 17, NULL, NULL, 'my', 'my test', '', '', '', '', '', 98, 'dssdfsdfsdf', 'my@gmail.com', 'DA39A3EE5E6B4B0D3255BFEF95601890AFD80709', '', '', 'FALCON61', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 09:15:58', NULL, 0),
+(62, 17, NULL, NULL, 'ggg', 'g', '', '', '', '', '', 98, 'fddfgdfgd', 'g', 'DA39A3EE5E6B4B0D3255BFEF95601890AFD80709', '', '', 'FALCON62', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 09:19:20', NULL, 0),
+(63, 17, NULL, NULL, 'n', 'n', '', '', '', '', '', 98, 'n', 'n', 'DA39A3EE5E6B4B0D3255BFEF95601890AFD80709', '', '', 'FALCON63', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 09:19:43', NULL, 0),
+(64, 17, NULL, NULL, 'test', 'tr', '', '', '', '', '', 2, '52534645646', 'testG@gmiail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON64', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 10:39:58', NULL, 0),
+(65, 17, NULL, NULL, 'v', '', '', '', '', '', '', 98, 'eeee', 'ff', 'DA39A3EE5E6B4B0D3255BFEF95601890AFD80709', '', '', 'FALCON65', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 11:39:48', NULL, 0),
+(66, 17, NULL, NULL, 'me', 'test', '', '', '', '', '', 98, '4545345353453535000', 'gg@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON66', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 11:41:12', NULL, 0),
+(67, 17, NULL, NULL, 'rishi', 'rich', '', '', '', '', '', 230, '1234567890', 'rich@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON67', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 12:16:31', NULL, 0),
+(68, 17, NULL, NULL, 'dgdf', 'dgf', '', '', '', '', '', 98, '2114454', 'fg@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON68', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 12:16:56', NULL, 0),
+(69, 17, NULL, NULL, 'hgj', 'ghj', '', '', '', '', '', 98, '676767867867', 'hj@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON69', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 14:45:33', NULL, 0),
+(70, 17, NULL, NULL, 'hh', 'h', '', '', '', '', '', 98, '12121212121', 'hh@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON70', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-15 14:50:15', NULL, 0),
+(71, 17, NULL, NULL, 'moh', 'kumr', '', '', '', '', '', 98, '12121332123123', 'mohd@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '', '', 'FALCON71', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-16 08:56:10', NULL, 0),
+(72, 17, NULL, NULL, 'Babangida', 'Adamu', '', '', '', '', '', 158, '8155400096', 'ibnsalih112@gmail.com', 'A3F2539B873F1A4CF5E0A152B3F75D8D878B24D3', '', '', 'FALCON72', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2018-05-28 15:50:42', NULL, 0),
+(73, 17, NULL, 'Mr', 'shiva', 'test', 'Delhi', 'test', 'test', 'test state', '263621', 98, '7579052252', 'shiva.b@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '1907-04-14', '', 'FALCON73', 0, 'Male', 'test', '2525', 'test', 'passport', 'test', 'front', 0, 0, '2018-05-29 09:37:33', NULL, 1),
+(74, 17, NULL, 'Mr', 'manav', 'kumar', 'Noops', 'online', 'Noida', 'FL', '1269874', 139, '1233233', 'manav@gmail.com', '40BD001563085FC35165329EA1FF5C5ECBDBBEEF', '2018-05-10', '', 'FALCON74', 0, 'Female', '54', 'sfsfsdf', 'marshal', 'passport', 'Mine test', 'front', 0, 0, '2018-05-29 09:58:05', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_applicant_kyc`
+--
+
+CREATE TABLE `customer_applicant_kyc` (
+  `CustomerApplicantKYCId` int(11) NOT NULL,
+  `ApplicantId` varchar(50) NOT NULL,
+  `CustomerId` int(11) NOT NULL,
+  `CompanyId` int(11) NOT NULL,
+  `IsDocumentUpload` tinyint(1) NOT NULL DEFAULT '0',
+  `CreatedDate` datetime NOT NULL,
+  `Documentid` varchar(100) DEFAULT NULL,
+  `DocumentUploadedDate` datetime DEFAULT NULL,
+  `ApplicantCheckId` varchar(50) DEFAULT NULL,
+  `Status` varchar(30) DEFAULT NULL,
+  `ApplicantCheckDate` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer_applicant_kyc`
+--
+
+INSERT INTO `customer_applicant_kyc` (`CustomerApplicantKYCId`, `ApplicantId`, `CustomerId`, `CompanyId`, `IsDocumentUpload`, `CreatedDate`, `Documentid`, `DocumentUploadedDate`, `ApplicantCheckId`, `Status`, `ApplicantCheckDate`) VALUES
+(7, '19fe20cc-f3c5-473d-bb2c-2a92141d0abb', 8, 17, 1, '2018-05-29 18:08:41', '8ac2bbe2-4267-4bbc-8532-12d350da3720', '2018-05-29 18:08:43', NULL, NULL, NULL),
+(8, '22dd12a3-e4e0-4011-9605-5a96262fd293', 19, 17, 0, '2018-05-04 14:07:13', NULL, NULL, NULL, NULL, NULL),
+(9, 'bf73898b-fea0-4207-a799-3932df38db2d', 9, 17, 1, '2018-05-07 08:57:48', '59348a96-bed1-46df-bc20-5fbde8e33007', '2018-05-28 14:16:00', NULL, NULL, NULL),
+(10, '7fe6ba40-2b6c-4936-b6a7-784baea2114e', 12, 17, 0, '2018-05-07 09:30:32', NULL, NULL, NULL, NULL, NULL),
+(11, 'bc66059d-1d43-4264-a8ca-6bb5aba2351c', 50, 17, 0, '2018-05-08 08:15:20', NULL, NULL, NULL, NULL, NULL),
+(12, '28d39caf-7d56-4f06-bf3f-b64eec935400', 11, 17, 1, '2018-05-29 08:00:56', 'cff4050e-a4d6-41d9-8325-e56e3f1c9112', '2018-05-29 08:00:58', 'ac2cf847-bb66-410b-8c07-92b9bed576c3', 'awaiting_applicant', '2018-05-30 09:17:57'),
+(13, '954cd0f0-0e9c-40dc-a427-7f827e4ffb64', 73, 17, 1, '2018-05-29 09:37:34', '0da8adf5-56b6-4606-943f-1c5c4dce84e0', '2018-05-29 09:37:35', NULL, NULL, NULL),
+(14, '157b6af5-d6f7-45db-a4d2-2d538960ed45', 15, 17, 1, '2018-05-29 09:44:19', 'c1826aca-28fb-4886-8455-7203bccbf680', '2018-05-29 09:44:01', NULL, NULL, NULL),
+(15, '4aef5832-7b05-4ae7-8487-bd4897118246', 74, 17, 1, '2018-05-29 09:58:06', '264f14d0-c7f5-4e2f-8905-71ebbf33e9a6', '2018-05-29 09:58:10', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -999,23 +1023,23 @@ CREATE TABLE `globalexchangerate` (
 --
 
 INSERT INTO `globalexchangerate` (`GlobalExchangeId`, `PaymentMethodId`, `SourceCountryId`, `DestinationCountryId`, `SpotPrice`, `AutoFees`, `SellSpotPrice`, `SellingExchangeRate`, `GlobalExchangeRate`, `IsActive`, `CreatedDate`, `Code`, `SpotMarginBaseCurrency`, `SpotMarginUSDCurrency`, `IsDeleted`, `DeletedDate`) VALUES
-(1, 12, 230, 139, 'USD', '2.99', '18.06', '-0.03', '18.05', 1, '2018-04-18', 'FLUTSFUSD1', '0.01', '0.00', 1, '2018-04-02'),
-(2, 12, 230, 139, 'USD', '2.99', '18.06', '-0.09', '18.04', 1, '2018-04-18', 'FLUTSFUSD2', '0.02', '0.00', 0, NULL),
-(3, 13, 230, 139, 'USD', '0.49', '18.06', '1.10', '18.26', 1, '2018-04-18', 'FLUTSFUSD3', '0.20', '0.01', 0, NULL),
-(4, 14, 230, 38, 'USD', '4.99', '1.26', '1.00', '1.27', 1, '2018-04-16', 'FLUTSFUSD4', '0.01', '0.01', 0, NULL),
-(5, 12, 230, 139, 'USD', '0.69', '18.06', '1.00', '18.24', 1, '2018-04-18', 'FLUTSFUSD5', '0.18', '0.01', 0, NULL),
-(6, 13, 230, 139, 'USD', '0.49', '18.06', '-0.10', '18.04', 1, '2018-04-18', 'FLUTSFUSD6', '0.02', '0.00', 0, NULL),
-(7, 12, 230, 139, 'USD', '5.99', '18.06', '-0.09', '18.04', 1, '2018-04-18', 'FLUTSFUSD7', '0.02', '0.00', 0, NULL),
-(8, 12, 230, 139, 'USD', '5.99', '18.06', '-0.08', '18.05', 1, '2018-04-18', 'FLUTSFUSD8', '0.01', '0.00', 0, NULL),
-(9, 12, 230, 139, 'USD', '5.99', '18.06', '-0.01', '18.06', 1, '2018-04-18', 'FLUTSFUSD9', '0.00', '0.00', 0, NULL),
-(10, 12, 230, 139, 'USD', '2.99', '18.06', '0.00', '18.06', 1, '2018-04-18', 'FLUTSFUSD10', '0.00', '0.00', 0, NULL),
-(11, 12, 230, 139, 'USD', '2.99', '18.06', '0.00', '18.06', 1, '2018-04-18', 'FLUTSFUSD11', '0.00', '0.00', 1, '2018-04-06'),
-(12, 12, 230, 139, 'USD', '0.69', '18.06', '0.10', '18.08', 1, '2018-04-18', 'FLUTSFUSD12', '0.02', '0.00', 0, NULL),
-(13, 12, 230, 38, 'USD', '0.00', '1.26', '0.00', '1.26', 1, '2018-04-16', 'FLUTSFUSD13', '0.00', '0.00', 1, '2018-04-06'),
-(14, 12, 230, 38, 'USD', '0.00', '1.26', '0.20', '1.26', 1, '2018-04-16', 'FLUTSFUSD14', '0.00', '0.00', 0, NULL),
-(15, 13, 230, 38, 'USD', '0.00', '1.26', '0.20', '1.26', 1, '2018-04-16', 'FLUTSFUSD15', '0.00', '0.00', 0, NULL),
-(16, 12, 230, 107, 'USD', '0.00', '107.33', '0.00', '107.33', 1, '2018-04-16', 'FLUTSFUSD16', '0.00', '0.00', 0, NULL),
-(17, 25, 230, 43, 'USD', '0.00', '594.71', '0.00', '594.71', 1, '2018-04-16', 'FLUTSFUSD17', '0.00', '0.00', 0, NULL);
+(1, 12, 230, 139, 'USD', '2.99', '19.58', '-0.03', '19.57', 1, '2018-05-28', 'FLUTSFUSD1', '0.01', '0.00', 1, '2018-04-02'),
+(2, 12, 230, 139, 'USD', '2.99', '19.58', '-0.09', '19.56', 1, '2018-05-28', 'FLUTSFUSD2', '0.02', '0.00', 0, NULL),
+(3, 13, 230, 139, 'USD', '0.49', '19.58', '1.10', '19.80', 1, '2018-05-28', 'FLUTSFUSD3', '0.20', '0.01', 0, NULL),
+(4, 14, 230, 38, 'USD', '4.99', '1.29', '1.00', '1.30', 1, '2018-05-24', 'FLUTSFUSD4', '0.01', '0.01', 0, NULL),
+(5, 12, 230, 139, 'USD', '0.69', '19.58', '1.00', '19.78', 1, '2018-05-28', 'FLUTSFUSD5', '0.18', '0.01', 0, NULL),
+(6, 13, 230, 139, 'USD', '0.49', '19.58', '-0.10', '19.56', 1, '2018-05-28', 'FLUTSFUSD6', '0.02', '0.00', 0, NULL),
+(7, 12, 230, 139, 'USD', '5.99', '19.58', '-0.09', '19.56', 1, '2018-05-28', 'FLUTSFUSD7', '0.02', '0.00', 0, NULL),
+(8, 12, 230, 139, 'USD', '5.99', '19.58', '-0.08', '19.56', 1, '2018-05-28', 'FLUTSFUSD8', '0.01', '0.00', 0, NULL),
+(9, 12, 230, 139, 'USD', '5.99', '19.58', '-0.01', '19.58', 1, '2018-05-28', 'FLUTSFUSD9', '0.00', '0.00', 0, NULL),
+(10, 12, 230, 139, 'USD', '2.99', '19.58', '0.00', '19.58', 1, '2018-05-28', 'FLUTSFUSD10', '0.00', '0.00', 0, NULL),
+(11, 12, 230, 139, 'USD', '2.99', '19.58', '0.00', '19.58', 1, '2018-05-28', 'FLUTSFUSD11', '0.00', '0.00', 1, '2018-04-06'),
+(12, 12, 230, 139, 'USD', '0.69', '19.58', '0.10', '19.60', 1, '2018-05-28', 'FLUTSFUSD12', '0.02', '0.00', 0, NULL),
+(13, 12, 230, 38, 'USD', '0.00', '1.29', '0.00', '1.29', 1, '2018-05-24', 'FLUTSFUSD13', '0.00', '0.00', 1, '2018-04-06'),
+(14, 12, 230, 38, 'USD', '0.00', '1.29', '0.20', '1.29', 1, '2018-05-24', 'FLUTSFUSD14', '0.00', '0.00', 0, NULL),
+(15, 13, 230, 38, 'USD', '0.00', '1.29', '0.20', '1.29', 1, '2018-05-24', 'FLUTSFUSD15', '0.00', '0.00', 0, NULL),
+(16, 12, 230, 107, 'USD', '0.00', '109.68', '0.00', '109.68', 1, '2018-05-24', 'FLUTSFUSD16', '0.00', '0.00', 0, NULL),
+(17, 25, 230, 43, 'USD', '0.00', '623.00', '0.00', '623.00', 1, '2018-05-24', 'FLUTSFUSD17', '0.00', '0.00', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1041,58 +1065,19 @@ CREATE TABLE `magicpaydetails` (
 --
 
 INSERT INTO `magicpaydetails` (`MagicPayId`, `CompanyId`, `CustomerId`, `TransactionId`, `PaymentGatewayTransactionId`, `SenderName`, `Amount`, `TransactionDetail`, `TransactionDate`, `ResponseCode`) VALUES
-(1, 17, 8, 3, '4001055666', 'zolly', '104.99', 'BankDeposit', '2018-02-23 14:04:36', 'Success'),
-(2, 17, 8, 4, '4001129337', 'zolly', '6.49', NULL, '2018-02-23 14:45:30', 'Success'),
-(3, 17, 8, 5, '4004757144', 'zolly', '8.49', NULL, '2018-02-26 18:04:52', 'Success'),
-(4, 17, 8, 6, '4005491069', 'zolly', '6.49', NULL, '2018-02-27 07:08:33', 'Success'),
-(5, 17, 8, 7, '4006262347', 'zolly', '104.99', 'BankDeposit', '2018-02-27 19:31:26', 'Success'),
-(6, 17, 8, 8, '4007152385', 'zolly', '6.99', NULL, '2018-02-28 10:27:58', 'Success'),
-(7, 17, 8, 9, '4009059159', 'zolly', '6.49', NULL, '2018-03-01 09:17:15', 'Success'),
-(8, 17, 8, 10, '4009375424', 'zolly', '11.48', NULL, '2018-03-01 12:25:06', 'Success'),
-(9, 17, 8, 11, '4009391491', 'zolly', '14.98', NULL, '2018-03-01 12:32:11', 'Success'),
-(10, 17, 8, 12, '4009394933', 'zolly', '14.98', NULL, '2018-03-01 12:33:32', 'Success'),
-(11, 17, 8, 13, '4009401068', 'zolly', '14.98', NULL, '2018-03-01 12:35:52', 'Success'),
-(12, 17, 8, 14, '4009403392', 'zolly', '9.99', NULL, '2018-03-01 12:36:51', 'Success'),
-(13, 17, 8, 15, '4009445003', 'zolly', '5.99', NULL, '2018-03-01 12:55:10', 'Success'),
-(14, 17, 8, 16, '4009454842', 'zolly', '6.99', NULL, '2018-03-01 12:59:19', 'Success'),
-(15, 17, 8, 17, '4009470575', 'zolly', '9.99', NULL, '2018-03-01 13:05:35', 'Success'),
-(16, 17, 8, 18, '4009516289', 'zolly', '6.49', NULL, '2018-03-01 13:27:22', 'Success'),
-(17, 17, 8, 19, '4014954395', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:19:53', 'Success'),
-(18, 17, 8, 20, '4014960259', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:23:42', 'Success'),
-(19, 17, 8, 21, '4014966871', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:26:46', 'Success'),
-(20, 17, 8, 22, '4014980826', 'zolly', '14.99', 'BankDeposit', '2018-03-05 09:33:00', 'Success'),
-(21, 17, 8, 24, '4015027711', 'zolly', '44.99', 'BankDeposit', '2018-03-05 10:35:36', 'Success'),
-(22, 17, 8, 25, '4015029695', 'zolly', '7.49', NULL, '2018-03-05 10:37:34', 'Success'),
-(23, 17, 8, 26, '4015082696', 'zolly', '14.99', 'BankDeposit', '2018-03-05 11:41:16', 'Success'),
-(24, 17, 8, 27, '4015083679', 'zolly', '3.49', NULL, '2018-03-05 11:42:52', 'Success'),
-(25, 17, 8, 28, '4015575573', 'zolly', '104.99', 'BankDeposit', '2018-03-05 17:47:43', 'Success'),
-(26, 17, 8, 29, '4017774668', 'zolly', '24.99', 'CashPickup', '2018-03-07 06:29:01', 'Success'),
-(27, 17, 8, 31, '4017780390', 'zolly', '16.99', 'BankDeposit', '2018-03-07 06:43:47', 'Success'),
-(28, 17, 8, 33, '4017798379', 'zolly', '11.99', 'BankDeposit', '2018-03-07 07:02:34', 'Success'),
-(29, 17, 8, 36, '4017956457', 'zolly', '6.99', NULL, '2018-03-07 09:36:55', 'Success'),
-(30, 17, 8, 37, '4017992734', 'zolly', '11.99', NULL, '2018-03-07 10:35:36', 'Success'),
-(31, 17, 8, 38, '4017994874', 'zolly', '27.99', NULL, '2018-03-07 10:37:56', 'Success'),
-(32, 17, 8, 39, '4027050829', 'zolly', '103.99', 'BankDeposit', '2018-03-14 14:35:04', 'Success'),
-(33, 17, 8, 40, '4027057565', 'zolly', '8.99', NULL, '2018-03-14 14:39:58', 'Success'),
-(34, 17, 8, 41, '4033223634', 'zolly', '43.99', 'BankDeposit', '2018-03-19 09:22:35', 'Success'),
-(35, 17, 8, 42, '4033224872', 'zolly', '13.99', 'BankDeposit', '2018-03-19 09:24:27', 'Success'),
-(36, 17, 8, 43, '4033232745', 'zolly', '43.99', 'CashPickup', '2018-03-19 09:33:38', 'Success'),
-(37, 17, 8, 44, '4033284959', 'zolly', '5.49', NULL, '2018-03-19 10:43:33', 'Success'),
-(38, 17, 8, 45, '4033288008', 'zolly', '4.99', NULL, '2018-03-19 10:49:40', 'Success'),
-(39, 17, 8, 46, '4033307543', 'zolly', '7.99', NULL, '2018-03-19 11:20:21', 'Success'),
-(40, 17, 8, 47, '4033312048', 'zolly', '101.99', 'BankDeposit', '2018-03-19 11:28:37', 'Success'),
-(41, 17, 8, 49, '4033312508', 'zolly', '7.99', NULL, '2018-03-19 11:29:29', 'Success'),
-(42, 17, 8, 50, '4033313393', 'zolly', '103.99', NULL, '2018-03-19 11:31:04', 'Success'),
-(43, 17, 8, 51, '4053209270', 'zolly', '2.99', NULL, '2018-04-02 07:07:36', 'Success'),
-(44, 17, 8, 52, '4053254986', 'zolly', '9.99', NULL, '2018-04-02 07:29:38', 'Success'),
-(45, 17, 8, 53, '4053566939', 'zolly', '5.89', NULL, '2018-04-02 12:14:03', 'Success'),
-(46, 17, 8, 54, '4053638570', 'zolly', '3.99', NULL, '2018-04-02 13:15:02', 'Success'),
-(47, 17, 8, 55, '4056712960', 'zolly', '11.59', NULL, '2018-04-04 07:44:08', 'Success'),
-(48, 17, 8, 56, '4057549432', 'zolly', '3.49', NULL, '2018-04-04 15:33:04', 'Success'),
-(49, 17, 8, 57, '4059776141', 'zolly', '11.69', NULL, '2018-04-06 03:38:59', 'Success'),
-(50, 17, 8, 61, '4063393123', 'zolly', '4.10', NULL, '2018-04-09 07:28:55', 'Success'),
-(51, 17, 8, 65, '4063396337', 'zolly', '12.69', NULL, '2018-04-09 07:32:20', 'Success'),
-(52, 17, 8, 66, '4063398853', 'zolly', '11.69', NULL, '2018-04-09 07:34:16', 'Success');
+(1, 17, 8, 3, '4114163537', 'zolly', '1.10', 'CashPickup', '2018-05-16 09:27:12', 'Success'),
+(2, 17, 8, 4, '4116768322', 'zolly', '1.10', 'BankDeposit', '2018-05-18 07:25:24', 'Success'),
+(3, 17, 8, 8, '4120411250', 'zolly', '1.49', NULL, '2018-05-21 07:56:48', 'Success'),
+(4, 17, 8, 9, '4120935964', 'zolly', '11.00', NULL, '2018-05-21 15:40:04', 'Success'),
+(5, 17, 8, 10, '4120937557', 'zolly', '3.49', NULL, '2018-05-21 15:41:18', 'Success'),
+(6, 17, 8, 11, '4120938990', 'zolly', '3.49', NULL, '2018-05-21 15:42:24', 'Success'),
+(7, 17, 8, 12, '4120940735', 'zolly', '2.49', NULL, '2018-05-21 15:43:43', 'Success'),
+(8, 17, 8, 13, '4120946201', 'zolly', '4.49', NULL, '2018-05-21 15:47:21', 'Success'),
+(9, 17, 8, 14, '4120949290', 'zolly', '1.49', NULL, '2018-05-21 15:48:48', 'Success'),
+(10, 17, 8, 15, '4121037837', 'zolly', '10.00', NULL, '2018-05-21 16:15:56', 'Success'),
+(11, 17, 8, 16, '4121103465', 'zolly', '10.00', NULL, '2018-05-21 16:34:35', 'Success'),
+(12, 17, 8, 17, '4121314833', 'zolly', '10.00', NULL, '2018-05-21 17:54:48', 'Success'),
+(13, 17, 8, 18, '4121341406', 'zolly', '10.00', NULL, '2018-05-21 18:15:27', 'Success');
 
 -- --------------------------------------------------------
 
@@ -1133,14 +1118,16 @@ INSERT INTO `paymentfees` (`PaymentFessId`, `CompanyId`, `PaymentMethodId`, `Sou
 (1, 17, 12, 230, 139, 2, 2, 1, 3, 1, '0.99', '9.99', 1, '0.49', 'FLATUPS1', 'FLUTSFUSD2', 'FLUTSF15', 1, NULL, '2018-04-03', 1, '2018-04-05'),
 (2, 17, 12, 230, 139, 2, 1, 0, 3, 0, '10.00', '19.99', 1, '0.59', 'FLATUPS2', 'FLUTSFUSD6', '', 1, NULL, '2018-04-02', 1, '2018-04-05'),
 (3, 17, 13, 230, 139, 2, -1, 1, -1, 1, '20.00', '29.99', 1, '0.69', 'FLATUPS3', 'FLUTSFUSD5', '', 1, NULL, '2018-04-02', 1, '2018-04-05'),
-(7, 17, 12, 230, 139, 1, -1, 1, -1, 1, '9.99', '99.99', 1, '0.49', 'FLRTS7', 'FLUTSFUSD2', 'FLUTSF15', 1, NULL, '2018-04-06', 0, NULL),
+(7, 17, 12, 230, 139, 1, -1, 1, -1, 1, '9.99', '99.99', 1, '0.49', 'FLRTS7', 'FLUTSFUSD2', 'FLUTSF15', 1, NULL, '2018-05-24', 0, NULL),
 (8, 20, 12, 230, 139, 1, 0, 1, 0, 1, '100.00', '299.99', 1, '2.99', 'FLRTS8', NULL, 'FLUTSF18', 1, NULL, '2018-04-03', 0, NULL),
 (13, 17, 12, 230, 139, 2, 2, 1, 3, 1, '20.00', '30.00', 1, '5.99', 'FLATUPS13', NULL, '', 0, NULL, '2018-04-03', 1, '2018-04-05'),
 (15, 17, 13, 230, 139, 2, -1, 1, -1, 1, '31.00', '35.00', 1, '6.99', 'FLATUPS15', NULL, '', 0, NULL, '2018-04-03', 1, '2018-04-05'),
 (16, 17, 13, 230, 139, 2, -1, 0, -1, 0, '30.00', '32.00', 1, '100.00', 'FLATUPS16', NULL, '', 0, NULL, '2018-04-03', 1, '2018-04-05'),
 (17, 17, 13, 230, 139, 3, -1, 1, -1, 1, '1.00', '10.00', 1, '2.99', 'FLUBPS17', NULL, '', 1, NULL, '2018-04-03', 0, NULL),
 (18, 17, 12, 230, 139, 2, 5, 0, 5, 0, '10.00', '20.00', 1, '0.69', 'FLATUPS18', NULL, 'FLUTSF18', 1, NULL, '2018-04-06', 0, NULL),
-(19, 17, 13, 230, 139, 2, -1, 0, -1, 0, '10.00', '20.00', 1, '0.10', 'FLATUPS19', NULL, '', 1, NULL, '2018-04-06', 0, NULL);
+(19, 17, 13, 230, 139, 2, -1, 0, -1, 0, '10.00', '20.00', 1, '0.10', 'FLATUPS19', NULL, '', 1, NULL, '2018-04-06', 0, NULL),
+(20, 17, 21, 230, 139, 2, 0, 0, 0, 0, '1.00', '9.99', 1, '0.49', 'FLATUPS20', NULL, NULL, 1, NULL, '2018-05-18', 0, NULL),
+(21, 17, 12, 230, 139, 2, 0, 1, 0, 1, '1.00', '9.99', 1, '0.00', 'FLATUPS21', NULL, NULL, 1, NULL, '2018-05-24', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1168,7 +1155,7 @@ INSERT INTO `paymentmethod` (`PaymentMethodId`, `PaymentTypeId`, `CompanyId`, `T
 (0, 1, 17, 'All', 'all', 1, 1, '2018-03-01', NULL),
 (1, 1, 17, 'Authorize', 'my custom method', 0, 1, '2018-02-05', '2018-02-28'),
 (11, 3, 17, 'test', 'test ishu', 0, 1, '2018-01-15', '2018-01-16'),
-(12, 3, 17, 'Visa Credit Card', 'MagicPay Payment Gateway', 1, 0, '2018-04-09', NULL),
+(12, 3, 17, 'Visa Credit Card', 'MagicPay Payment Gateway', 1, 0, '2018-05-10', NULL),
 (13, 4, 17, 'Bank Transfer', 'Bank Transfer', 1, 0, '2018-03-28', NULL),
 (14, 5, 17, 'Cash-Pickup', 'Cash-Pickup', 1, 0, '2018-03-28', NULL),
 (15, 6, 17, 'Bank Debit (ACH)', 'Bank Debit (ACH)', 1, 0, '2018-04-09', NULL),
@@ -1252,99 +1239,37 @@ CREATE TABLE `transactiondetails` (
   `TransferPurpose` varchar(100) NOT NULL,
   `ExchangeRate` decimal(10,0) NOT NULL,
   `DeliveryType` varchar(50) NOT NULL,
-  `CreatedDate` datetime NOT NULL
+  `CreatedDate` datetime NOT NULL,
+  `IsRefunded` tinyint(1) NOT NULL DEFAULT '0',
+  `RefundedDate` datetime DEFAULT NULL,
+  `RefundedBy` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transactiondetails`
 --
 
-INSERT INTO `transactiondetails` (`TransactionId`, `CompanyId`, `CustomerId`, `TransactionDetail`, `SendingAmount`, `Charges`, `Fees`, `Tax`, `TransactionDate`, `Status`, `PaymentGatewayResponse`, `PaymentGatewayTransactionId`, `SendingCurrencyId`, `ReceivingAmount`, `ReceivingCurrencytId`, `BeneficiaryId`, `PaymentMethodId`, `DestinationCountryId`, `SourceCountryId`, `IsLive`, `TransferPurpose`, `ExchangeRate`, `DeliveryType`, `CreatedDate`) VALUES
-(1, 17, 8, 'swag', '24.99', '0.00', '5.00', '0.00', '2018-02-23 10:08:26', 'Success', '1', '4000853486', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-23 10:08:26'),
-(2, 17, 8, 'zolly', '6.99', '0.00', '5.00', '0.00', '2018-02-23 10:10:12', 'Success', '1', '4000854952', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-23 10:10:12'),
-(3, 17, 8, 'zolly', '104.99', '0.00', '0.00', '0.00', '2018-02-23 14:04:36', 'Success', '1', '4001055666', 1, '1855.00', 3, 1, 12, 138, 226, 0, 'BankDeposit', '19', 'BankDeposit', '2018-02-23 14:04:36'),
-(4, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-02-23 14:45:30', 'Success', '1', '4001129337', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-23 14:45:30'),
-(5, 17, 8, 'zolly', '13.48', '0.00', '5.00', '0.00', '2018-02-26 18:04:52', 'Success', '1', '4004757144', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-26 18:04:52'),
-(6, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-02-27 07:08:33', 'Success', '1', '4005491069', 3, '0.00', 3, 0, 12, 138, 138, 0, 'Bill Payment', '0', '0', '2018-02-27 07:08:33'),
-(7, 17, 8, 'zolly', '104.99', '0.00', '0.00', '0.00', '2018-02-27 19:31:26', 'Success', '1', '4006262347', 1, '1879.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-02-27 19:31:26'),
-(8, 17, 8, 'zolly', '11.98', '0.00', '5.00', '0.00', '2018-02-28 10:27:58', 'Success', '1', '4007152385', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-02-28 10:27:58'),
-(9, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-03-01 09:17:15', 'Success', '1', '4009059159', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 09:17:15'),
-(10, 17, 8, 'zolly', '16.47', '0.00', '5.00', '0.00', '2018-03-01 12:25:06', 'Success', '1', '4009375424', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:25:06'),
-(11, 17, 8, 'zolly', '19.97', '0.00', '5.00', '0.00', '2018-03-01 12:32:11', 'Success', '1', '4009391491', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:32:11'),
-(12, 17, 8, 'zolly', '19.97', '0.00', '5.00', '0.00', '2018-03-01 12:33:32', 'Success', '1', '4009394933', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:33:32'),
-(13, 17, 8, 'zolly', '19.97', '0.00', '5.00', '0.00', '2018-03-01 12:35:52', 'Success', '1', '4009401068', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:35:52'),
-(14, 17, 8, 'zolly', '14.98', '0.00', '5.00', '0.00', '2018-03-01 12:36:51', 'Success', '1', '4009403392', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:36:51'),
-(15, 17, 8, 'zolly', '10.98', '0.00', '5.00', '0.00', '2018-03-01 12:55:10', 'Success', '1', '4009445003', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:55:10'),
-(16, 17, 8, 'zolly', '11.98', '0.00', '5.00', '0.00', '2018-03-01 12:59:19', 'Success', '1', '4009454842', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 12:59:19'),
-(17, 17, 8, 'zolly', '14.98', '0.00', '5.00', '0.00', '2018-03-01 13:05:35', 'Success', '1', '4009470575', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 13:05:35'),
-(18, 17, 8, 'zolly', '11.48', '0.00', '5.00', '0.00', '2018-03-01 13:27:22', 'Success', '1', '4009516289', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-01 13:27:22'),
-(19, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:19:53', 'Success', '1', '4014954395', 1, '189.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:19:53'),
-(20, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:23:42', 'Success', '1', '4014960259', 1, '189.00', 3, 2, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:23:42'),
-(21, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:26:46', 'Success', '1', '4014966871', 1, '189.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:26:46'),
-(22, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 09:33:00', 'Success', '1', '4014980826', 1, '189.00', 3, 2, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 09:33:00'),
-(23, 17, 8, 'zolly', '100.00', '0.00', '5.00', '0.00', '2018-03-05 09:40:58', 'Success', '1', '4014994890', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-05 09:40:58'),
-(24, 17, 8, 'zolly', '44.99', '0.00', '0.00', '0.00', '2018-03-05 10:35:36', 'Success', '1', '4015027711', 1, '754.40', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 10:35:36'),
-(25, 17, 8, 'zolly', '7.49', '0.00', '5.00', '0.00', '2018-03-05 10:37:34', 'Success', '1', '4015029695', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-05 10:37:34'),
-(26, 17, 8, 'zolly', '14.99', '0.00', '0.00', '0.00', '2018-03-05 11:41:16', 'Success', '1', '4015082696', 1, '188.80', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 11:41:16'),
-(27, 17, 8, 'zolly', '3.49', '0.00', '5.00', '0.00', '2018-03-05 11:42:52', 'Success', '1', '4015083679', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-05 11:42:52'),
-(28, 17, 8, 'zolly', '104.99', '0.00', '0.00', '0.00', '2018-03-05 17:47:43', 'Success', '1', '4015575573', 1, '1888.00', 3, 2, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-05 17:47:43'),
-(29, 17, 8, 'zolly', '24.99', '0.00', '0.00', '0.00', '2018-03-07 06:29:01', 'Success', '1', '4017774668', 1, '377.00', 3, 1, 12, 139, 230, 0, 'CashPickup', '19', 'CashPickup', '2018-03-07 06:29:01'),
-(30, 17, 8, 'guru', '200.00', '0.00', '2.00', '0.00', '2018-03-07 06:36:37', 'Success', '1', '4017777786', 1, '0.00', 2, 1, 12, 98, 230, 0, 'peronal', '0', '0', '2018-03-07 06:36:37'),
-(31, 17, 8, 'zolly', '16.99', '0.00', '0.00', '0.00', '2018-03-07 06:43:47', 'Success', '1', '4017780390', 1, '226.32', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-07 06:43:47'),
-(32, 17, 8, 'zolly', '10.00', '0.00', '2.00', '0.00', '2018-03-07 06:56:49', 'Success', '1', '4017791467', 1, '188.60', 3, 13, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-07 06:56:49'),
-(33, 17, 8, 'zolly', '11.99', '0.00', '1.99', '0.00', '2018-03-07 07:02:34', 'Success', '1', '4017798379', 1, '188.30', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-07 07:02:34'),
-(34, 17, 8, 'zolly', '6.00', '0.00', '4.99', '0.00', '2018-03-07 08:14:22', 'Success', '1', '4017880311', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 08:14:22'),
-(35, 17, 8, 'ram ranjana kumari', '10.00', '0.00', '1.00', '0.00', '2018-03-07 03:17:54', 'Success', '1', '40010920240', 3, '3.00', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2018-03-07 09:17:52'),
-(36, 17, 8, 'zolly', '6.99', '0.00', '4.99', '0.00', '2018-03-07 09:36:55', 'Success', '1', '4017956457', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 09:36:55'),
-(37, 17, 8, 'zolly', '11.99', '0.00', '4.99', '0.00', '2018-03-07 10:35:36', 'Success', '1', '4017992734', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 10:35:36'),
-(38, 17, 8, 'zolly', '27.99', '0.00', '4.99', '0.00', '2018-03-07 10:37:56', 'Success', '1', '4017994874', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-07 10:37:56'),
-(39, 17, 8, 'zolly', '103.99', '0.00', '3.99', '0.00', '2018-03-14 14:35:04', 'Success', '1', '4027050829', 1, '1859.00', 3, 14, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-14 14:35:04'),
-(40, 17, 8, 'zolly', '8.99', '0.00', '4.99', '0.00', '2018-03-14 14:39:58', 'Success', '1', '4027057565', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-14 14:39:58'),
-(41, 17, 8, 'zolly', '43.99', '0.00', '3.99', '0.00', '2018-03-19 09:22:35', 'Success', '1', '4033223634', 1, '752.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-19 09:22:35'),
-(42, 17, 8, 'zolly', '13.99', '0.00', '3.99', '0.00', '2018-03-19 09:24:27', 'Success', '1', '4033224872', 1, '188.00', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-19 09:24:27'),
-(43, 17, 8, 'zolly', '43.99', '0.00', '3.99', '0.00', '2018-03-19 09:33:38', 'Success', '1', '4033232745', 1, '751.60', 3, 1, 12, 139, 230, 0, 'CashPickup', '19', 'CashPickup', '2018-03-19 09:33:38'),
-(44, 17, 8, 'zolly', '5.49', '0.00', '4.99', '0.00', '2018-03-19 10:43:33', 'Success', '1', '4033284959', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 10:43:33'),
-(45, 17, 8, 'zolly', '4.99', '0.00', '4.99', '0.00', '2018-03-19 10:49:40', 'Success', '1', '4033288008', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 10:49:40'),
-(46, 17, 8, 'zolly', '7.99', '0.00', '4.99', '0.00', '2018-03-19 11:20:21', 'Success', '1', '4033307543', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 11:20:21'),
-(47, 17, 8, 'zolly', '101.99', '0.00', '3.99', '0.00', '2018-03-19 11:28:37', 'Success', '1', '4033312048', 1, '1843.38', 3, 1, 12, 139, 230, 0, 'BankDeposit', '19', 'BankDeposit', '2018-03-19 11:28:37'),
-(48, 17, 8, 'zolly', '22.00', '0.00', '0.00', '0.00', '2018-03-19 11:29:07', 'Success', '1', '4033312309', 1, '1421.20', 2, 2, 12, 98, 230, 0, 'wq', '65', 'wqe', '2018-03-19 11:29:07'),
-(49, 17, 8, 'zolly', '7.99', '0.00', '4.99', '0.00', '2018-03-19 11:29:29', 'Success', '1', '4033312508', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 11:29:29'),
-(50, 17, 8, 'zolly', '103.99', '0.00', '4.99', '0.00', '2018-03-19 11:31:04', 'Success', '1', '4033313393', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-03-19 11:31:04'),
-(51, 17, 8, 'zolly', '2.99', '0.00', '4.99', '0.00', '2018-04-02 07:07:36', 'Success', '1', '4053209270', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 07:07:36'),
-(52, 17, 8, 'zolly', '9.99', '0.00', '4.99', '0.00', '2018-04-02 07:29:38', 'Success', '1', '4053254986', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 07:29:38'),
-(53, 17, 8, 'zolly', '5.89', '0.00', '4.99', '0.00', '2018-04-02 12:14:03', 'Success', '1', '4053566939', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 12:14:03'),
-(54, 17, 8, 'zolly', '3.99', '0.00', '4.99', '0.00', '2018-04-02 13:15:02', 'Success', '1', '4053638570', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-02 13:15:02'),
-(55, 17, 8, 'zolly', '11.59', '0.00', '4.99', '0.00', '2018-04-04 07:44:08', 'Success', '1', '4056712960', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-04 07:44:08'),
-(56, 17, 8, 'zolly', '3.49', '0.00', '4.99', '0.00', '2018-04-04 15:33:04', 'Success', '1', '4057549432', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-04 15:33:04'),
-(57, 17, 8, 'zolly', '11.69', '0.00', '4.99', '0.00', '2018-04-06 03:38:59', 'Success', '1', '4059776141', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-06 03:38:59'),
-(58, 17, 8, 'zolly', '8.00', '0.00', '4.99', '0.00', '2018-04-09 06:52:32', 'Success', '1', '4063367614', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 06:52:32'),
-(59, 17, 8, 'zolly', '1.00', '0.00', '4.99', '0.00', '2018-04-09 07:17:44', 'Success', '1', '4063384751', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:17:44'),
-(60, 17, 8, 'zolly', '7.00', '0.00', '4.99', '0.00', '2018-04-09 07:18:20', 'Success', '1', '4063385389', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:18:20'),
-(61, 17, 8, 'zolly', '4.10', '0.00', '4.99', '0.00', '2018-04-09 07:28:55', 'Success', '1', '4063393123', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:28:55'),
-(62, 17, 8, 'zolly', '7.00', '0.00', '4.99', '0.00', '2018-04-09 07:30:24', 'Success', '1', '4063393945', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:30:24'),
-(63, 17, 8, 'zolly', '3.00', '0.00', '4.99', '0.00', '2018-04-09 07:30:48', 'Success', '1', '4063394217', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:30:48'),
-(64, 17, 8, 'zolly', '2.00', '0.00', '4.99', '0.00', '2018-04-09 07:31:27', 'Success', '1', '4063395104', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:31:27'),
-(65, 17, 8, 'zolly', '12.69', '0.00', '4.99', '0.00', '2018-04-09 07:32:20', 'Success', '1', '4063396337', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:32:20'),
-(66, 17, 8, 'zolly', '11.69', '0.00', '4.99', '0.00', '2018-04-09 07:34:16', 'Success', '1', '4063398853', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:34:16'),
-(67, 17, 8, 'zolly', '8.00', '0.00', '0.00', '0.00', '2018-04-09 07:44:00', 'Success', '1', '4063408499', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:44:00'),
-(68, 17, 8, 'zolly', '3.00', '0.00', '0.00', '0.00', '2018-04-09 07:56:41', 'Success', '1', '4063417395', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:56:41'),
-(69, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-04-09 07:57:54', 'Success', '1', '4063418163', 3, '0.00', 3, 0, 15, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:57:54'),
-(70, 17, 8, 'zolly', '3.00', '0.00', '0.00', '0.00', '2018-04-09 07:59:59', 'Success', '1', '4063419455', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 07:59:59'),
-(71, 17, 8, 'ram ranjana kumari', '10.00', '0.00', '0.00', '0.00', '2018-04-09 03:01:59', 'Success', '1', '40012510724', 3, '3.00', 3, 0, 1, 226, 226, 0, 'Bill Payment', '0', '0', '2018-04-09 08:01:57'),
-(72, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-04-09 08:03:14', 'Success', '1', '4063423887', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 08:03:14'),
-(73, 17, 8, 'zolly', '4.00', '0.00', '0.00', '0.00', '2018-04-09 13:34:01', 'Success', '1', '4063689546', 3, '0.00', 3, 0, 15, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 13:34:01'),
-(74, 17, 8, 'zolly', '22.00', '0.00', '0.00', '0.00', '2018-04-09 13:34:51', 'Success', '1', '4063690431', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-09 13:34:51'),
-(75, 17, 8, 'zolly', '4.00', '0.00', '0.00', '0.00', '2018-04-13 15:08:40', 'Success', '1', '4069283770', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-13 15:08:40'),
-(76, 17, 8, 'zolly', '8.00', '0.00', '0.00', '0.00', '2018-04-13 15:25:10', 'Success', '1', '4069319846', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-13 15:25:10'),
-(77, 17, 8, 'zolly', '7.00', '0.00', '0.00', '0.00', '2018-04-13 15:36:51', 'Success', '1', '4069337126', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-13 15:36:51'),
-(78, 17, 8, 'zolly', '3.00', '0.00', '0.00', '0.00', '2018-04-16 05:54:30', 'Success', '1', '4072173343', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-16 05:54:30'),
-(79, 17, 8, 'zolly', '8.00', '0.00', '0.00', '0.00', '2018-04-16 05:55:14', 'Success', '1', '4072173505', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-16 05:55:14'),
-(80, 17, 8, 'zolly', '3.00', '0.00', '0.00', '0.00', '2018-04-16 13:09:23', 'Success', '1', '4072534409', 3, '0.00', 3, 0, 22, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-16 13:09:23'),
-(81, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-04-16 13:10:26', 'Success', '1', '4072535765', 3, '0.00', 3, 0, 23, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-16 13:10:26'),
-(82, 17, 8, 'zolly', '6.00', '0.00', '0.00', '0.00', '2018-04-16 13:14:44', 'Success', '1', '4072541328', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-16 13:14:44'),
-(83, 17, 8, 'zolly', '6.00', '0.00', '0.00', '0.00', '2018-04-16 13:15:35', 'Success', '1', '4072542483', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-16 13:15:35'),
-(84, 17, 8, 'zolly', '12.00', '0.00', '0.00', '0.00', '2018-04-16 13:16:14', 'Success', '1', '4072543363', 3, '0.00', 3, 0, 22, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-16 13:16:14'),
-(85, 17, 8, 'zolly', '2.00', '0.00', '0.00', '0.00', '2018-04-17 17:23:11', 'Success', '1', '4074318586', 3, '0.00', 3, 0, 21, 139, 139, 0, 'Bill Payment', '0', '0', '2018-04-17 17:23:11');
+INSERT INTO `transactiondetails` (`TransactionId`, `CompanyId`, `CustomerId`, `TransactionDetail`, `SendingAmount`, `Charges`, `Fees`, `Tax`, `TransactionDate`, `Status`, `PaymentGatewayResponse`, `PaymentGatewayTransactionId`, `SendingCurrencyId`, `ReceivingAmount`, `ReceivingCurrencytId`, `BeneficiaryId`, `PaymentMethodId`, `DestinationCountryId`, `SourceCountryId`, `IsLive`, `TransferPurpose`, `ExchangeRate`, `DeliveryType`, `CreatedDate`, `IsRefunded`, `RefundedDate`, `RefundedBy`) VALUES
+(1, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-05-16 08:42:51', 'Success', '1', '4114078556', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-16 08:42:51', 1, NULL, NULL),
+(2, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-05-16 09:24:39', 'Success', '1', '4114157803', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-16 09:24:39', 1, NULL, NULL),
+(3, 17, 8, 'zolly', '1.10', '0.00', '0.10', '0.00', '2018-05-16 09:27:12', 'Success', '1', '4114163537', 1, '0.05', 3, 1, 12, 139, 230, 0, 'CashPickup', '0', 'CashPickup', '2018-05-16 09:27:12', 1, NULL, NULL),
+(4, 17, 8, 'zolly', '1.10', '0.00', '0.10', '0.00', '2018-05-18 07:25:24', 'Success', '1', '4116768322', 1, '0.05', 3, 14, 12, 139, 230, 0, 'BankDeposit', '0', 'BankDeposit', '2018-05-18 07:25:24', 1, NULL, NULL),
+(5, 17, 8, 'zolly', '1.00', '0.00', '0.00', '0.00', '2018-05-18 07:35:59', 'Success', '1', '4116778015', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-18 07:35:59', 1, NULL, NULL),
+(6, 17, 8, 'ram ranjana kumari', '1.00', '0.00', '0.00', '0.00', '2018-05-18 09:45:16', 'Success', '1', '4116955781', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-18 09:45:16', 1, NULL, NULL),
+(7, 17, 8, 'zolly', '2.00', '0.00', '0.00', '0.00', '2018-05-18 09:59:19', 'Success', '1', '4116964759', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-18 09:59:19', 1, NULL, NULL),
+(8, 17, 8, 'zolly', '1.49', '0.00', '0.00', '0.00', '2018-05-21 07:56:48', 'Success', '1', '4120411250', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 07:56:48', 1, NULL, NULL),
+(9, 17, 8, 'zolly', '11.00', '0.00', '0.00', '0.00', '2018-05-21 15:40:04', 'Success', '1', '4120935964', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 15:40:04', 1, NULL, NULL),
+(10, 17, 8, 'zolly', '3.49', '0.00', '0.00', '0.00', '2018-05-21 15:41:18', 'Success', '1', '4120937557', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 15:41:18', 1, NULL, NULL),
+(11, 17, 8, 'zolly', '3.49', '0.00', '0.00', '0.00', '2018-05-21 15:42:24', 'Success', '1', '4120938990', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 15:42:24', 1, NULL, NULL),
+(12, 17, 8, 'zolly', '2.49', '0.00', '0.00', '0.00', '2018-05-21 15:43:43', 'Success', '1', '4120940735', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 15:43:43', 1, NULL, NULL),
+(13, 17, 8, 'zolly', '4.49', '0.00', '0.00', '0.00', '2018-05-21 15:47:21', 'Success', '1', '4120946201', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 15:47:21', 1, NULL, NULL),
+(14, 17, 8, 'zolly', '1.49', '0.00', '0.00', '0.00', '2018-05-21 15:48:48', 'Success', '1', '4120949290', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 15:48:48', 1, NULL, NULL),
+(15, 17, 8, 'zolly', '10.00', '0.00', '0.00', '0.00', '2018-05-21 16:15:56', 'Success', '1', '4121037837', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 16:15:56', 1, NULL, NULL),
+(16, 17, 8, 'zolly', '10.00', '0.00', '0.00', '0.00', '2018-05-21 16:34:35', 'Success', '1', '4121103465', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 16:34:35', 1, NULL, NULL),
+(17, 17, 8, 'zolly', '10.00', '0.00', '0.00', '0.00', '2018-05-21 17:54:48', 'Success', '1', '4121314833', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 17:54:48', 1, NULL, NULL),
+(18, 17, 8, 'zolly', '10.00', '0.00', '0.00', '0.00', '2018-05-21 18:15:27', 'Success', '1', '4121341406', 3, '0.00', 3, 0, 12, 139, 139, 0, 'Bill Payment', '0', '0', '2018-05-21 18:15:27', 1, NULL, NULL),
+(19, 17, 8, 'Test By ishu', '1.00', '0.00', '0.00', '0.00', '2018-05-24 00:00:00', 'Success', '1', '4125047990', 3, '0.00', 3, 0, 12, 3, 3, 0, 'Test', '0', '', '2018-05-24 00:00:00', 1, '2018-05-24 14:48:34', 'Ishu kumar'),
+(20, 17, 8, 'Test For Rajeev', '1.00', '0.00', '0.00', '0.00', '2018-05-25 00:00:00', 'Success', '1', '4126396506', 3, '1.00', 3, 0, 12, 3, 3, 0, 'Testing', '0', '', '2018-05-25 00:00:00', 1, '2018-05-25 12:54:30', 'admin user');
 
 -- --------------------------------------------------------
 
@@ -1382,7 +1307,8 @@ INSERT INTO `transactionfeesharing` (`TransactionFeeSharingId`, `CompanyId`, `Tr
 (17, 17, 'specific', 21, 98, 98, '50', 5, '30', 5, '20', 'FLUTSF17', NULL, '2018-04-10', 1, 0, NULL),
 (18, 17, 'Universal', 0, 139, 139, '50', 0, '30', 0, '20', 'FLUTSF18', '0.69', '2018-04-11', 0, 0, NULL),
 (19, 17, 'Universal', 0, 98, 98, '50', 0, '0', 0, '50', 'FLUTSF19', NULL, '2018-04-10', 1, 0, NULL),
-(20, 17, 'specific', 12, 98, 98, '50', 9, '30', 5, '20', 'FLUTSF20', NULL, '2018-04-10', 1, 0, NULL);
+(20, 17, 'specific', 12, 98, 98, '50', 9, '30', 5, '20', 'FLUTSF20', NULL, '2018-04-10', 1, 0, NULL),
+(21, 17, 'specific', 12, 230, 139, '100', -1, '0', -1, '0', 'FLUTSF21', NULL, '2018-05-18', 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1492,6 +1418,12 @@ ALTER TABLE `customer`
   ADD KEY `country_id` (`country_id`);
 
 --
+-- Indexes for table `customer_applicant_kyc`
+--
+ALTER TABLE `customer_applicant_kyc`
+  ADD PRIMARY KEY (`CustomerApplicantKYCId`);
+
+--
 -- Indexes for table `feescategory`
 --
 ALTER TABLE `feescategory`
@@ -1512,8 +1444,7 @@ ALTER TABLE `globalexchangerate`
 ALTER TABLE `magicpaydetails`
   ADD PRIMARY KEY (`MagicPayId`),
   ADD KEY `CustomerId` (`CustomerId`),
-  ADD KEY `CompanyId` (`CompanyId`),
-  ADD KEY `TransactionId` (`TransactionId`);
+  ADD KEY `CompanyId` (`CompanyId`);
 
 --
 -- Indexes for table `paymentfees`
@@ -1582,7 +1513,7 @@ ALTER TABLE `agent`
 -- AUTO_INCREMENT for table `authorizepaymentsettings`
 --
 ALTER TABLE `authorizepaymentsettings`
-  MODIFY `AuthorizePaymentSettingsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `AuthorizePaymentSettingsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `beneficiary`
 --
@@ -1597,7 +1528,7 @@ ALTER TABLE `beneficiarytype`
 -- AUTO_INCREMENT for table `billpaydetails`
 --
 ALTER TABLE `billpaydetails`
-  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `BillPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `company`
 --
@@ -1622,7 +1553,12 @@ ALTER TABLE `currency`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `customer_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+--
+-- AUTO_INCREMENT for table `customer_applicant_kyc`
+--
+ALTER TABLE `customer_applicant_kyc`
+  MODIFY `CustomerApplicantKYCId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `feescategory`
 --
@@ -1637,12 +1573,12 @@ ALTER TABLE `globalexchangerate`
 -- AUTO_INCREMENT for table `magicpaydetails`
 --
 ALTER TABLE `magicpaydetails`
-  MODIFY `MagicPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `MagicPayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `paymentfees`
 --
 ALTER TABLE `paymentfees`
-  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `PaymentFessId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `paymentmethod`
 --
@@ -1657,12 +1593,12 @@ ALTER TABLE `paymenttype`
 -- AUTO_INCREMENT for table `transactiondetails`
 --
 ALTER TABLE `transactiondetails`
-  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `TransactionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `transactionfeesharing`
 --
 ALTER TABLE `transactionfeesharing`
-  MODIFY `TransactionFeeSharingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `TransactionFeeSharingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -1691,8 +1627,7 @@ ALTER TABLE `globalexchangerate`
 --
 ALTER TABLE `magicpaydetails`
   ADD CONSTRAINT `magicpaydetails_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `customer` (`customer_Id`),
-  ADD CONSTRAINT `magicpaydetails_ibfk_2` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`),
-  ADD CONSTRAINT `magicpaydetails_ibfk_3` FOREIGN KEY (`TransactionId`) REFERENCES `transactiondetails` (`TransactionId`);
+  ADD CONSTRAINT `magicpaydetails_ibfk_2` FOREIGN KEY (`CompanyId`) REFERENCES `company` (`Company_Id`);
 
 --
 -- Constraints for table `paymentfees`
