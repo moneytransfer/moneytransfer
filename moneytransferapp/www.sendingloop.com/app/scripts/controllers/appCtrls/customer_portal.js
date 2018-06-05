@@ -8,7 +8,7 @@
          .controller('manageCustomerLoginController', manageCustomerLoginController)
          .controller('customerPortalthankyouController', customerPortalthankyouController)
          .controller('authenticateGuestController', authenticateGuestController)
-             .controller('addEditkycController', addEditkycController)
+         .controller('addEditkycController', addEditkycController)
 
     manageGustCustomerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
     function manageGustCustomerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
@@ -51,6 +51,11 @@
             else { $state.go('app.customerPortal') }
         }
 
+        if ($localStorage.GustCustomer) {
+            vm.CustomerID = $localStorage.GustCustomer.CustomerId;
+            vm.CompanyId = $localStorage.GustCustomer.CompanyId;
+            GetCustomerTransactionDetails(vm.CustomerID, vm.CompanyId);
+        }
 
         //Get Country
         $http({
@@ -144,7 +149,7 @@
                     headers: { 'Content-Type': 'application/json; charset=utf-8' }
                 })
                 .success(function (data) {
-               
+
                     var idata = data;
                     if (idata.countryCode != null) {
                         var SelectedCountry = [];
@@ -171,7 +176,7 @@
                         vm.FlagModel = idata;
                         var sData = vm.CountryDetails;
                         if (!vm.DestinationCountry)
-                            
+
                             var PhoneCode = '';
                         if (idata.currencyCode == "MXN") {
                             PhoneCode = res;
@@ -215,7 +220,7 @@
                         }
                         else { ConvertMoney(idata.currencyCode); }
 
-                       
+
                         if (!vm.DestinationCountry) {
                             var iCountryId = parseInt(PhoneCode);
                             var data1 = $filter('filter')(vm.Countries, {
@@ -291,6 +296,7 @@
 
 
         vm.selectAmmount = function (ammount) {
+
             var dAmount = parseFloat(ammount).toFixed(2)
             //amountfeild
             $('#amountfeild').val(dAmount);
@@ -347,7 +353,7 @@
 
 
         vm.proceed = function () {
-          
+
             vm.accessAmount = false;
             vm.validAmount = false;
             if ($("#from_id").valid()) {
@@ -375,7 +381,7 @@
                     return 0;
                 }
             } else {
-              
+
                 vm.validAmount = true;
                 return 0;
             }
@@ -389,16 +395,59 @@
             if (!$localStorage.GustCustomer) {
                 $state.go('app.Login');
             } else {
-                $window.location.assign('#/app/makePayment');
-                //$state.go('app.makePayment');
+
+                if (!$localStorage.GustCustomer.IsDocumentUpload) {
+                    vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+                    if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
+
+                    if (parseFloat(vm.TotalPaidAmt) + parseFloat(vm.localStorage.FareAmmount) < 100) {
+                        $('#KycConfrimation').modal('toggle');
+                    }
+                    else { $window.location.assign('#/app/makePayment'); }
+                }
+                else {
+
+                    //vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+                    //if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
+
+                    //if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) < 100) {
+                    //    $window.location.assign('#/app/makePayment');
+                    //}
+                    //else {
+                    //    vm.KYCStatus = $localStorage.GustCustomer.KYCStatus;
+                    //    if (vm.KYCStatus == "Success") {
+                    //        $window.location.assign('#/app/makePayment');
+                    //    }
+                    //    else {
+
+                    //        Alert(2, "Once KYC deatils are approved than you are able to recharge mobile.");
+                    //        setTimeout(function () {
+                    //            var url = $state.current.url;
+                    //            $window.location.assign('#/app' + url);
+                    //        }, 1000);
+                    //    }
+                    //}
+
+                    $window.location.assign('#/app/makePayment');
+                    //$state.go('app.makePayment');
+                }
             }
         }
 
+
+        vm.YesKyc = function () {
+            $('#KycConfrimation').modal('toggle');
+            $('.modal-backdrop').remove();
+            setTimeout(function () {
+                $state.go('app.addKyc');
+            }, 500);
+        }
+
         if ($localStorage.Ammount) {
-          
+
             var dAmount = parseFloat($localStorage.Ammount).toFixed(2)
             $('#amountfeild').val(dAmount);
-           
+
         }
 
         vm.BackChooseamount = function () {
@@ -411,10 +460,10 @@
         }
 
         //With Exchange rate
-        vm.PayAmountWithExchange = [{ AmountId: '1', Amount: '1.00' }, { AmountId: '2', Amount: '2.00' },{ AmountId: '3', Amount: '3.00' }, { AmountId: '4', Amount: '4.00' },{ AmountId: '5', Amount: '5.00' }, { AmountId: '6', Amount: '6.00' }, { AmountId: '7', Amount: '7.00' }, { AmountId: '8', Amount: '8.00' }, { AmountId: '9', Amount: '9.00' }, { AmountId: '10', Amount: '10.00' }, { AmountId: '11', Amount: '11.00' }, { AmountId: '12', Amount: '12.00' }];
+        vm.PayAmountWithExchange = [{ AmountId: '1', Amount: '1.00' }, { AmountId: '2', Amount: '2.00' }, { AmountId: '3', Amount: '3.00' }, { AmountId: '4', Amount: '4.00' }, { AmountId: '5', Amount: '5.00' }, { AmountId: '6', Amount: '6.00' }, { AmountId: '7', Amount: '7.00' }, { AmountId: '8', Amount: '8.00' }, { AmountId: '9', Amount: '9.00' }, { AmountId: '10', Amount: '10.00' }, { AmountId: '11', Amount: '11.00' }, { AmountId: '12', Amount: '12.00' }];
 
         //Without exchange rate
-       
+
         //vm.PayAmount = $localStorage.SelectedCountry.AmountList;
         //vm.PayAmount = [{ AmountId: '1', Amount: '10.00' }, { AmountId: '2', Amount: '20.00' },
         //                { AmountId: '3', Amount: '30.00' }, { AmountId: '4', Amount: '40.00' },
@@ -427,7 +476,7 @@
 
         //----------------Set amount Array--------------------//
         function setAmountArray() {
-          
+
             if ($localStorage.SelectedCountry.minAmount == $localStorage.SelectedCountry.maxAmount) {
                 vm.PayAmountList = [{ AmountId: '1', Amount: $localStorage.SelectedCountry.minAmount }];
             }
@@ -461,7 +510,12 @@
             vm.localStorage.SelectedCountry = '';
             $localStorage.ThankyouPageData = '';
             $localStorage.AmountList = '';
-            $state.go('app.customerPortal');
+            // $state.go('app.customerPortal');
+
+            setTimeout(function () {
+                $window.location.reload();
+                //$state.go('app.customerPortal');
+            }, 1000);
         }
 
         vm.cancel = function () {
@@ -543,7 +597,7 @@
 
 
         function UpdateglobalExchange(code) {
-         
+
             //$localStorage.SelectedCountry.ConvertAmount = 0;
             var accesstoken = 'rxv51rk8b4y1kjhasvww';
             $http({
@@ -557,7 +611,7 @@
                     if (idata.currency[0].value > 0) {
                         var value = parseFloat(idata.currency[0].value).toFixed(2)
                         //var newvalu = value
-                      
+
                         var DestinationCountryId = "";
                         var SellSpotPrice = value;
                         var data1 = $filter('filter')(vm.Countries, {
@@ -623,6 +677,42 @@
             }
         }
 
+        function GetCustomerTransactionDetails(CustomerId, CompanyId) {
+            vm.CustomerID = CustomerId;
+            var formData = JSON.parse(JSON.stringify({ "CustomerId": CustomerId, "CompanyId": CompanyId }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'getCustomerTransaction ',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata.CustomerId > 0) {
+                    $localStorage.GustCustomer.TotalTransactionsAmt = idata.SendingAmount;
+                    GetApplicantCheckStatus(vm.CustomerID)
+                }
+                //setTimeout(function () { window.location.reload(); }, 1000);
+            });
+        }
+
+        function GetApplicantCheckStatus(CustomerId) {
+            var data = { "CustomerId": CustomerId, "CompanyId": "0", "ApplicantId": "" }
+            var formData = JSON.parse(JSON.stringify(data));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getsaveapplicantkyc',
+                data: formData,
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+             .success(function (data) {
+                 var idata = data[0];
+                 if (idata.ApplicantCheckId) {
+                     $localStorage.GustCustomer.KYCStatus = idata.Status;
+                 }
+             });
+        }
     }
 
     manageCustomerLoginController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log'];
@@ -635,29 +725,51 @@
         if ($localStorage.GustCustomer) {
             vm.IsLogin = true;
         }
-        //vm.CustomerStorage = { GustCustomer: '0' };
-        //if ($localStorage.Ammount) {
-        //    $window.location.assign('#/app/makePayment');
-        //}
-        //if (vm.IsLogin) {
-        //    $window.location.assign('#/app/customerPortal');
-        //}
 
         if ($localStorage.Ammount) {
-          
+
             if (vm.IsLogin) {
-                $window.location.assign('#/app/makePayment');
+
+                if (!$localStorage.GustCustomer.IsDocumentUpload) {
+                    vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+                    if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
+
+                    if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) > 100) {
+                        $('#KycConfrimation').modal('toggle');
+                    }
+                    else { $window.location.assign('#/app/makePayment'); }
+                }
+                else {
+
+                    //vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+                    //if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
+
+                    //if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) < 100) {
+                    //    $window.location.assign('#/app/makePayment');
+                    //}
+                    //else {
+                    //vm.KYCStatus = $localStorage.GustCustomer.KYCStatus;
+                    //if (vm.KYCStatus == "Success") { $window.location.assign('#/app/makePayment'); }
+                    //else {
+                    $window.location.assign('#/app/makePayment');
+
+                }
             }
             else {
                 var url = $state.current.url;
                 $window.location.assign('#/app' + url);
+
             }
         }
+
         else if (vm.IsLogin) {
             $window.location.assign('#/app/customerPortal');
         }
-        else {  var url = $state.current.url;
-                $window.location.assign('#/app' + url);}
+        else {
+            var url = $state.current.url;
+            $window.location.assign('#/app' + url);
+        }
+
 
 
 
@@ -694,19 +806,11 @@
                 if (iCustomer.CustomerId) {
                     var GustCustomer = [];
                     vm.CustomerID = iCustomer.CustomerId;
+                    vm.CompanyId = iCustomer.CompanyId;
                     $localStorage.GustCustomer = iCustomer;
                     Alert(1, "! Login successful.. ");
-
-                    setTimeout(function () { window.location.reload(); }, 1000);
-
-                    //if ($localStorage.Ammount) {
-                    //    $state.go('app.makePayment')
-                    //    //setTimeout(function () { window.location.reload(); }, 1000);
-                    //} else {
-                    //    //$state.go('app.makepayment');
-                    //    $state.go('app.customerPortal')
-                    //}
-
+                    GetCustomerTransactionDetails(vm.CustomerID, vm.CompanyId);
+                    // setTimeout(function () { window.location.reload(); }, 1000);
                 }
                 else {
                     Alert(2, "! Invalid Customer or password. ");
@@ -758,12 +862,17 @@
         }
 
         vm.goBack = function () {
-            vm.localStorage.Ammount = '';
-            vm.localStorage.GustData = '';
-            vm.localStorage.MobileNumber = '';
-            vm.localStorage.SelectedCountry = '';
+            $localStorage.numberDetails = '';
+            $localStorage.Ammount = '';
+            $localStorage.GustData = '';
+            $localStorage.MobileNumber = '';
+            $localStorage.SelectedCountry = '';
+            $localStorage.GustCustomer = '';
             $localStorage.AmountList = '';
-            $state.go('app.customerPortal');
+            setTimeout(function () {
+                // $state.go('app.customerPortal');
+                $window.location.reload();
+            }, 500);
         }
 
 
@@ -801,6 +910,10 @@
 
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
+
+                                //vm.CustomerID = GustCustomer.CustomerId;
+                                //vm.CompanyId = GustCustomer.CompanyId;
+                                //GetCustomerTransactionDetails(vm.CustomerID, vm.CompanyId);
                                 setTimeout(function () { window.location.reload(); }, 1000);
                             }
                             else {
@@ -827,8 +940,8 @@
             $localStorage.AmountList = '';
             $localStorage = [];
             setTimeout(function () {
-                $window.location.reload();
-                //$state.go('app.customerPortal');
+                //$window.location.reload();
+                $state.go('app.customerPortal');
             }, 1000);
 
         }
@@ -851,7 +964,52 @@
 
         }
 
+        vm.YesKyc = function () {
+            $('#KycConfrimation').modal('toggle');
+            $('.modal-backdrop').remove();
+            setTimeout(function () {
+                $state.go('app.Kyc');
+            }, 500);
+        }
 
+
+        function GetApplicantCheckStatus(CustomerId) {
+            var data = { "CustomerId": CustomerId, "CompanyId": "0", "ApplicantId": "" }
+            var formData = JSON.parse(JSON.stringify(data));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'getsaveapplicantkyc',
+                data: formData,
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+             .success(function (data) {
+                 var idata = data[0];
+                 if (idata.ApplicantCheckId) {
+                     $localStorage.GustCustomer.KYCStatus = idata.Status;
+                 }
+             });
+        }
+
+
+        function GetCustomerTransactionDetails(CustomerId, CompanyId) {
+            vm.CustomerID = CustomerId;
+            var formData = JSON.parse(JSON.stringify({ "CustomerId": CustomerId, "CompanyId": CompanyId }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'getCustomerTransaction ',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata.CustomerId > 0) {
+                    $localStorage.GustCustomer.TotalTransactionsAmt = idata.SendingAmount;
+                    GetApplicantCheckStatus(vm.CustomerID)
+                }
+                setTimeout(function () { window.location.reload(); }, 1000);
+            });
+        }
     }
 
 
@@ -860,10 +1018,12 @@
         var vm = $scope;
         vm.CompanyId = 0;
         vm.CustomerId = 0;
+        vm.TotalPaidAmt = 0;
         vm.CustomerName = '';
         vm.localStorage = [{ GustData: '', GustCustomer: 0, SelectedCountry: '' }];
         vm.PayDetails = { SenderName: '', FaceAmount: '', InvoiceAmount: '', MobileNumber: '', InvoiceNumber: '' };
         vm.PaybillModel = { CompanyId: 0, CustomerId: 0, SenderName: '', PaymentMethodId: '0', Amount: '0.00', MobileNumber: '' }
+
         if ($localStorage.GustCustomer) {
             vm.localStorage = $localStorage;
             if (vm.localStorage.GustCustomer.CustomerId) {
@@ -871,31 +1031,53 @@
                 vm.CustomerId = vm.localStorage.GustCustomer.CustomerId;
                 vm.CustomerName = vm.localStorage.GustCustomer.FirstName;
                 vm.PaybillModel.Amount = vm.localStorage.Ammount;
+                vm.TotalPaidAmt = vm.localStorage.GustCustomer.TotalTransactionsAmt;
             }
         }
         else {
             $state.go('app.Login');
         }
+        vm.StatusApproved = false;
+        if ($localStorage.GustCustomer) {
+            vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+            if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
 
-        vm.PaymentMethods = [];
-        //Get Method Details
-        var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
-        $http({
-            method: 'POST',
-            data: formData,
-            url: baseUrl + 'getpaymentmethodbycompanyid ',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' }
-        })
-        .success(function (data) {
-            var idata = data;
-            vm.PaymentMethods = idata;
-            if (vm.PaymentMethods[0].PaymentMethodId == 0)
-                vm.PaymentMethods.splice(0, 1);
-            setTimeout(function () {
-                vm.selectedMethod(vm.PaymentMethods[0].PaymentMethodId);
-            }, 500);
+            if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) < 100) {
+                LoadPaymentMethods();
+            }
+            else {
+                vm.KYCStatus = $localStorage.GustCustomer.KYCStatus;
+                if (vm.KYCStatus == "Success") {
+                    //Get Method Details
+                    LoadPaymentMethods();
+                }
+                else {
+                    vm.StatusApproved = true;
+                }
+            }
+        }
 
-        });
+        function LoadPaymentMethods() {
+            vm.StatusApproved = false;
+            vm.PaymentMethods = [];
+            var formData = JSON.parse(JSON.stringify({ "CompanyId": vm.CompanyId }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'getpaymentmethodbycompanyid ',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+                var idata = data;
+                vm.PaymentMethods = idata;
+                if (vm.PaymentMethods[0].PaymentMethodId == 0)
+                    vm.PaymentMethods.splice(0, 1);
+                setTimeout(function () {
+                    vm.selectedMethod(vm.PaymentMethods[0].PaymentMethodId);
+                }, 500);
+
+            });
+        }
 
         vm.selectedMethod = function (PaymentId) {
             if (PaymentId > 0) {
@@ -926,9 +1108,6 @@
             }
         }
 
-
-
-
         vm.Paynow = function () {
             $('#Payconfirm').modal('toggle');
 
@@ -939,15 +1118,15 @@
         }
 
         function validate(evt) {
-         var theEvent = evt || window.event;
-         var key = theEvent.keyCode || theEvent.which;
-         key = String.fromCharCode( key );
-         var regex = /[0-9]|\./;
-             if( !regex.test(key) ) {
-             theEvent.returnValue = false;
-            if(theEvent.preventDefault) theEvent.preventDefault();
-         }
-       }
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            var regex = /[0-9]|\./;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
 
         var cardNumber = $('#CardNumber');
         var cardNumberField = $('#card-number-field');
@@ -1062,7 +1241,7 @@
                     idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
                     idata.SenderName = vm.localStorage.GustCustomer.FirstName;
                     idata.Fees = vm.localStorage.Fees;
-                     idata.SKUId=vm.localStorage.SelectedCountry.skuId;
+                    idata.SKUId = vm.localStorage.SelectedCountry.skuId;
                     var sMonth = parseInt(vm.ExpireModel.ExpireMonth);
                     if (sMonth < 10) {
                         sMonth = '0' + sMonth
@@ -1134,6 +1313,9 @@
             vm.localStorage.SelectedCountry = '';
             $state.go('app.customerPortal');
         }
+
+
+
     }
 
 
@@ -1326,11 +1508,14 @@
 
         //------------------Image Uploader-----------------//
 
+
         $("#upload").change(function ($event) {
+
             $('#submitkycbutton').prop('disabled', true);
             var fileReader = new FileReader();
             var file = $event.target.files[0];
             fileReader.readAsDataURL(file);
+
             setTimeout(function () {
                 var filename = file.name;
                 var extn = filename.split(".").pop();
@@ -1396,7 +1581,8 @@
                         })
                             .success(function (data) {
                                 if (data.ApplicantId != "") {
-                                    if (vm.imageData !== undefined && vm.imageData != "") {
+                                    vm.ApplicantId = data.ApplicantId;
+                                    if (vm.imageData !== undefined && vm.imageData != "" && vm.ApplicantId != '') {
                                         var formdata = { "ApplicantId": data.ApplicantId, "Type": vm.ProfileModal.FileName, "Side": vm.ProfileModal.Side, "ImageName": vm.FileName, "ImageExt": "." + vm.FileExt, "ImageString": vm.imageData }
                                         $http({
                                             method: 'POST',
@@ -1407,7 +1593,30 @@
                                         })
                                          .success(function (data) {
                                              if (data.Result == "Sucess") {
-                                                 AlertKyc(1, "Thanks for updating your KYC document");
+                                                 ///AlertKyc(1, "Thanks for updating your KYC document");
+                                                 if (data.ApplicantId != "") {
+                                                     var formdata = { "ApplicantId": vm.ApplicantId }
+                                                     $http({
+                                                         method: 'POST',
+                                                         url: baseUrl + 'createApplicantCheck',
+                                                         data: formdata,
+                                                         headers: { 'Content-Type': 'application/json' },
+                                                         dataType: "json",
+                                                     })
+                                                      .success(function (data) {
+                                                          if (data.ApplicantCheckId != '') {
+                                                              AlertKyc(1, "Thanks for updating your KYC document");
+                                                              setTimeout(function () {
+                                                                  $state.go('app.customerPortal');
+                                                              }, 500);
+                                                              // GetApplicantCheckStatus(data.ApplicantCheckId);
+                                                          }
+                                                          else {
+                                                              AlertKyc(2, data.Error);
+
+                                                          }
+                                                      });
+                                                 }
                                              }
                                              else {
                                                  AlertKyc(2, data.Error);
@@ -1425,12 +1634,13 @@
                     }
                 });
             }
-
         }
 
         vm.cancel = function () {
             $state.go('app.customerPortal');
         }
     }
+
+
 
 })();

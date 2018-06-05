@@ -123,57 +123,56 @@
                         </div>
 
                     </div>
-                    <legend>Documents Details:</legend>
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <!--<input type="text" class="form-control" id="ProfileImage" placeholder="Profile Image" ng-model="ProfileModal.ProfileImage">-->
-                            <!-- <label class="custom-file" style="width: 100%">
-                                <input class="custom-file-input" type="file" file-model="imageData" ng-model="ProfileModal.ProfileImage" nv-file-select="fileSelected($event)" uploader="upload.uploader" ng-change="fileSelected($event)">
-                                <span class="custom-file-control"></span>
-                            </label>-->
-                            <span class="btn btn-xs info btn-file">Choose a file
+                    <div ng-show="!localStorage.GustCustomer.IsDocumentUpload">
+
+                        <div class="form-group row">
+                            <legend>Documents Details:</legend>
+                            <div class="col-sm-6">
+                                <span class="btn btn-xs info btn-file">Choose a file
                             <input type="file" id="upload" accept="image/*" ng-model="imageData" ng-change="fileSelected($event)" />
-                            </span>
-                            <div id="myProgress">
-                                <div id="myBar">1%</div>
+                                </span>
+                                <div id="myProgress">
+                                    <div id="myBar">1%</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="AccountNumber" placeholder="Account Number" ng-model="ProfileModal.AccountNumber" disabled="disabled" />
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="AccountNumber" placeholder="Account Number" ng-model="ProfileModal.AccountNumber" disabled="disabled" />
-                        </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <!--  <input type="text" class="form-control" id="FileName" placeholder="File Name" ng-model="ProfileModal.FileName" required>-->
-                            <select id="FileName" name="FileName" ng-model="ProfileModal.FileName" class="form-control" ng-init="ProfileModal.FileName='passport'" required>
-                                <option value="passport">Passport</option>
-                                <option value="voter_id">INE</option>
-                                <option value="tax_id">PAN</option>
-                                <option value="national_identity_card">Aadhaar</option>
-                                <option value="driving_licence">Driving Licence</option>
-                            </select>
-                            <span class="text-danger" ng-show="tblCustomerKyc.FileName.$error.required">Please enter File Name!</span>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <!--  <input type="text" class="form-control" id="FileName" placeholder="File Name" ng-model="ProfileModal.FileName" required>-->
+                                <select id="FileName" name="FileName" ng-model="ProfileModal.FileName" class="form-control" ng-init="ProfileModal.FileName='passport'" required>
+                                    <option value="passport">Passport</option>
+                                    <option value="voter_id">INE</option>
+                                    <option value="tax_id">PAN</option>
+                                    <option value="national_identity_card">Aadhaar</option>
+                                    <option value="driving_licence">Driving Licence</option>
+                                </select>
+                                <span class="text-danger" ng-show="tblCustomerKyc.FileName.$error.required">Please enter File Name!</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="FileType" id="FileType" placeholder="File Type" ng-model="ProfileModal.FileType" required />
+                                <span class="text-danger" ng-show="tblCustomerKyc.FileType.$error.required">Please enter File Type!</span>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" name="FileType" id="FileType" placeholder="File Type" ng-model="ProfileModal.FileType" required />
-                            <span class="text-danger" ng-show="tblCustomerKyc.FileType.$error.required">Please enter File Type!</span>
-                        </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <select name="Gender" id="Side" ng-model="ProfileModal.Side" class="form-control" ng-init="ProfileModal.Side='front'" required>
-                                <option value="front">Front Side</option>
-                                <option value="back">Back Side</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6" id="viewAlert"></div>
-                    </div>
 
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <select name="Gender" id="Side" ng-model="ProfileModal.Side" class="form-control" ng-init="ProfileModal.Side='front'" required>
+                                    <option value="front">Front Side</option>
+                                    <option value="back">Back Side</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6" id="viewAlert"></div>
+                        </div>
+                  
+                      </div>
 
                     <div class="form-group row m-t-md">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 text-right">
                             <button type="submit" class="btn btn-primary pull-right" id="submitkycbutton" ng-click="tblCustomerKyc.$valid && Create()" disabled="true">Save</button>
                         </div>
                         <div class="col-sm-6">

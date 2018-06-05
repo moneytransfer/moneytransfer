@@ -702,6 +702,47 @@ public class AuthrozieTranscation {
 		return _AuthrozieTranscationDetaillist;
 	}
 
+	public AuthrozieTranscation getCustomerTransaction(int _customerId, int _companyId) {
+		AuthrozieTranscation _AuthrozieTranscation= new AuthrozieTranscation();
+		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
+		Connection _Connection = MYSQLConnection.GetConnection();
+		try {
+			if (_Connection != null)
+			{
+				ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
+						"SELECT * from transactiondetails where CustomerId='" + _customerId + "' and CompanyId='" + _companyId + "'", _Connection);
+				if(_ResultSet.next())
+				{
+					//String ss="select COALESCE(SUM(SendingAmount),0) as SendingAmount from transactiondetails where CustomerId='" + _customerId + "' and CompanyId='" + _companyId + "'";
+					ResultSet _ResultSetTransactionAmount =_MYSQLHelper.GetResultSet("select COALESCE(SUM(SendingAmount),0) as SendingAmount from transactiondetails where CustomerId='" + _customerId + "' and CompanyId='" + _companyId + "'", _Connection);
+					if(_ResultSetTransactionAmount.next())
+					{
+						_AuthrozieTranscation.setCustomerId(_customerId);
+						_AuthrozieTranscation.setCompanyId(_companyId);
+						_AuthrozieTranscation.setSendingAmount(_ResultSetTransactionAmount.getDouble("SendingAmount"));
+						_AuthrozieTranscation.setResult("Success");
+					}
+				}
+				else
+				{
+					_AuthrozieTranscation.setResult("failed!");
+					_AuthrozieTranscation.setError("Invaid Customer and Company!");
+					clear(_AuthrozieTranscation);
+				}
+			}
+			else{
+				_AuthrozieTranscation.setResult("Failed");
+				_AuthrozieTranscation.setError("Error in api backend connectivity !");
+				clear(_AuthrozieTranscation);
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return _AuthrozieTranscation;
+	}
+	
 	
 	public static ArrayList<AuthrozieTranscation> getAuthrozieTranscationDetailsByCompany(int CompanyId) {
 		Connection _Connection = MYSQLConnection.GetConnection();

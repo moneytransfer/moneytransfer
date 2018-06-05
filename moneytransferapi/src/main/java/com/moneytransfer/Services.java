@@ -679,6 +679,14 @@ public class Services {
 		return new ApplicantKYC()._getApplicantCheck(_ApplicantKYC.ApplicantId, _ApplicantKYC.ApplicantCheckId);
 	}
 	
+	@POST
+	@Path("getCustomerTransaction")
+	@Produces("application/json")
+	public AuthrozieTranscation getCustomerTransaction(AuthrozieTranscation _AuthrozieTranscation)  {
+		return new AuthrozieTranscation().getCustomerTransaction(_AuthrozieTranscation.CustomerId, _AuthrozieTranscation.CompanyId);
+	}
+	
+	
 	/*@POST
 	@Path("ii")
 	@Produces("application/json")

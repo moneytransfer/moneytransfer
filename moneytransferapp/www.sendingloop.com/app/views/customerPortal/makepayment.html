@@ -16,7 +16,7 @@
     <!--end master banner-->
     <div class="container" ui-view>
         <section class="payment-amount-wrapper amount-wrap pt-5 pb-5" ng-controller="manageMakePaymentController">
-           
+
             <div class="httpprocess" id="Processbar" ng-show="process">
                 <img src="./assets/image/spinner.gif" />
             </div>
@@ -37,7 +37,7 @@
                                 <a class="background-white custom-payment-amount new-payment text-sm-center">{{localStorage.FareAmmount | number:2}}&nbsp;&nbsp;USD &nbsp;&nbsp;<span>&nbsp;&nbsp;({{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate | number:2}}&nbsp;&nbsp;{{localStorage.SelectedCountry.currencyCode}})</span></a>
                             </div>
                         </div>
-                        <div class="row mt-2">
+                        <div class="row mt-2" ng-if="!StatusApproved">
                             <div class="col-sm-12">
                                 <h6>Choose your payment method</h6>
                             </div>
@@ -50,6 +50,11 @@
                         <div class="alert alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
                             <span>You are not able to make Payment, please contact with administrator.</span>
                         </div>
+
+                        <div class="alert alert-danger text-left position-static" id="Div1" ng-if="StatusApproved">
+                            <span>Once KYC deatils are approved than you are able to recharge mobile.</span>
+                        </div>
+
                         <div class="row" id="showPaymentForm" ng-show="PaybillModel.PaymentMethodId>0">
                             <div class="col-md-6 form-group" id="card-number-field">
                                 <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="PaybillModel.CardNumber" onkeypress="if(this.value.length==16) return false;" required>
@@ -118,7 +123,7 @@
                         <div ng-if="alert" id="alertDiv" class="alert alert-danger text-left position-static">
                             <span id="PaymentAlertText"></span>
                         </div>
-                         <div class="col-sm-12" id="viewAlert"></div>
+                        <div class="col-sm-12" id="viewAlert"></div>
                         <div class="row mt-3">
                             <div class="col col-sm-6 text-right">
                                 <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
@@ -200,5 +205,6 @@
 
         </section>
     </div>
+
 </div>
 

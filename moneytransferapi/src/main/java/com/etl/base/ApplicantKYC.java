@@ -997,44 +997,52 @@ public class ApplicantKYC {
 					"SELECT * FROM customer_applicant_kyc where ApplicantId='" + _applicantId + "'", _Connection);
 			if (_ResultSetapplicantId.next()) {
 				
+				if(_ResultSetapplicantId.getString("ApplicantCheckId")==null && _ResultSetapplicantId.getString("ApplicantCheckId")=="" )
+				{
+					ApiClient defaultClient = Configuration.getDefaultApiClient();
+					ApiKeyAuth Token = (ApiKeyAuth) defaultClient.getAuthentication("Token");
+					Token.setApiKey("token=" + "test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc");
+					Token.setApiKeyPrefix("Token");
+
+					DefaultApi apiInstance = new DefaultApi();
+					// String applicantId = _ApplicantKYC.ApplicantId; // String
+					// |
+					CheckCreationRequest data = new CheckCreationRequest();
+					data.setType("standard");
+
+					List<Report> reports = new ArrayList<Report>();
+					Report report = new Report();
+					report.setName("document");
+					reports.add(report);
+
+					data.setReports(reports);
+
+					Check result = apiInstance.createCheck(_applicantId, data);
+					_ApplicantKYC.setApplicantCheckId(result.getId());
+					_ApplicantKYC.setStatus(result.getStatus());
+
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Calendar cal = Calendar.getInstance();
+					String date = format.format(cal.getTime());
+					_ApplicantKYC.setApplicantCheckDate(date);
+					_ApplicantKYC.setApplicantId(_applicantId);
+					String sInsertStatement = "UPDATE customer_applicant_kyc SET ApplicantCheckId = ?,Status = ?,ApplicantCheckDate = ?"
+							+ " WHERE ApplicantId = ?";
+					_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
+					_PreparedStatement.setString(1, _ApplicantKYC.ApplicantCheckId);
+					_PreparedStatement.setObject(2, _ApplicantKYC.Status);
+					_PreparedStatement.setString(3, _ApplicantKYC.ApplicantCheckDate);
+					_PreparedStatement.setString(4, _ApplicantKYC.ApplicantId);
+					_PreparedStatement.executeUpdate();
+					_ApplicantKYC.setResult("Success");
+					//_ApplicantKYC._getApplicantCheck(_ApplicantKYC.ApplicantId, _ApplicantKYC.ApplicantCheckId);
+					clear(_ApplicantKYC);
+				}
+				else{
+					String _checkId=_ResultSetapplicantId.getString("ApplicantCheckId");
+					_ApplicantKYC._getApplicantCheck(_ApplicantKYC.ApplicantId, _checkId);
+				}
 				
-				ApiClient defaultClient = Configuration.getDefaultApiClient();
-				ApiKeyAuth Token = (ApiKeyAuth) defaultClient.getAuthentication("Token");
-				Token.setApiKey("token=" + "test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc");
-				Token.setApiKeyPrefix("Token");
-
-				DefaultApi apiInstance = new DefaultApi();
-				// String applicantId = _ApplicantKYC.ApplicantId; // String
-				// |
-				CheckCreationRequest data = new CheckCreationRequest();
-				data.setType("standard");
-
-				List<Report> reports = new ArrayList<Report>();
-				Report report = new Report();
-				report.setName("document");
-				reports.add(report);
-
-				data.setReports(reports);
-
-				Check result = apiInstance.createCheck(_applicantId, data);
-				_ApplicantKYC.setApplicantCheckId(result.getId());
-				_ApplicantKYC.setStatus(result.getStatus());
-
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Calendar cal = Calendar.getInstance();
-				String date = format.format(cal.getTime());
-				_ApplicantKYC.setApplicantCheckDate(date);
-				_ApplicantKYC.setApplicantId(_applicantId);
-				String sInsertStatement = "UPDATE customer_applicant_kyc SET ApplicantCheckId = ?,Status = ?,ApplicantCheckDate = ?"
-						+ " WHERE ApplicantId = ?";
-				_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
-				_PreparedStatement.setString(1, _ApplicantKYC.ApplicantCheckId);
-				_PreparedStatement.setObject(2, _ApplicantKYC.Status);
-				_PreparedStatement.setString(3, _ApplicantKYC.ApplicantCheckDate);
-				_PreparedStatement.setString(4, _ApplicantKYC.ApplicantId);
-				_PreparedStatement.executeUpdate();
-				_ApplicantKYC.setResult("Success");
-				clear(_ApplicantKYC);
 			} else {
 				_ApplicantKYC.setResult("failed");
 				_ApplicantKYC.setError("Invalid applicant Id!");
