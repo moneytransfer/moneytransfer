@@ -649,7 +649,15 @@ public class ApplicantKYC {
 					_ApplicantKYC.setCustomerApplicantKYCId(_ResultSet.getInt("CustomerApplicantKYCId"));
 					_ApplicantKYC.setCreatedDate(_ResultSet.getString("CreatedDate"));
 					_ApplicantKYC.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
+					_ApplicantKYC.setDocumentId(_ResultSet.getString("Documentid"));
+					
+					_ApplicantKYC.setDocumentUploadedDate(_ResultSet.getString("DocumentUploadedDate"));
+					_ApplicantKYC.setApplicantCheckId(_ResultSet.getString("ApplicantCheckId"));
+					_ApplicantKYC.setStatus(_ResultSet.getString("Status"));
+					_ApplicantKYC.setApplicantCheckDate(_ResultSet.getString("ApplicantCheckDate"));
 					_ApplicantKYC.setResult("Success");
+					
+					
 				} else {
 					_ApplicantKYC.setResult("Failed");
 					_ApplicantKYC.setError("Invalid Customer ApplicantKYC Id!");
@@ -689,6 +697,11 @@ public class ApplicantKYC {
 						_ApplicantKYC.setCustomerApplicantKYCId(_ResultSet.getInt("CustomerApplicantKYCId"));
 						_ApplicantKYC.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_ApplicantKYC.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
+						_ApplicantKYC.setDocumentId(_ResultSet.getString("Documentid"));						
+						_ApplicantKYC.setDocumentUploadedDate(_ResultSet.getString("DocumentUploadedDate"));
+						_ApplicantKYC.setApplicantCheckId(_ResultSet.getString("ApplicantCheckId"));
+						_ApplicantKYC.setStatus(_ResultSet.getString("Status"));
+						_ApplicantKYC.setApplicantCheckDate(_ResultSet.getString("ApplicantCheckDate"));
 						_ApplicantKYC.setResult("Success");
 						_ApplicantKYCDetaillist.add(_ApplicantKYC);
 
@@ -707,6 +720,12 @@ public class ApplicantKYC {
 						_ApplicantKYC.setCustomerApplicantKYCId(_ResultSet.getInt("CustomerApplicantKYCId"));
 						_ApplicantKYC.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_ApplicantKYC.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
+						_ApplicantKYC.setDocumentId(_ResultSet.getString("Documentid"));
+						
+						_ApplicantKYC.setDocumentUploadedDate(_ResultSet.getString("DocumentUploadedDate"));
+						_ApplicantKYC.setApplicantCheckId(_ResultSet.getString("ApplicantCheckId"));
+						_ApplicantKYC.setStatus(_ResultSet.getString("Status"));
+						_ApplicantKYC.setApplicantCheckDate(_ResultSet.getString("ApplicantCheckDate"));
 						_ApplicantKYC.setResult("Success");
 						_ApplicantKYCDetaillist.add(_ApplicantKYC);
 					}
@@ -724,6 +743,12 @@ public class ApplicantKYC {
 						_ApplicantKYC.setCustomerApplicantKYCId(_ResultSet.getInt("CustomerApplicantKYCId"));
 						_ApplicantKYC.setCreatedDate(_ResultSet.getString("CreatedDate"));
 						_ApplicantKYC.setIsDocumentUpload(_ResultSet.getBoolean("IsDocumentUpload"));
+						_ApplicantKYC.setDocumentId(_ResultSet.getString("Documentid"));
+						
+						_ApplicantKYC.setDocumentUploadedDate(_ResultSet.getString("DocumentUploadedDate"));
+						_ApplicantKYC.setApplicantCheckId(_ResultSet.getString("ApplicantCheckId"));
+						_ApplicantKYC.setStatus(_ResultSet.getString("Status"));
+						_ApplicantKYC.setApplicantCheckDate(_ResultSet.getString("ApplicantCheckDate"));
 						_ApplicantKYC.setResult("Success");
 						_ApplicantKYCDetaillist.add(_ApplicantKYC);
 					}
@@ -997,7 +1022,7 @@ public class ApplicantKYC {
 					"SELECT * FROM customer_applicant_kyc where ApplicantId='" + _applicantId + "'", _Connection);
 			if (_ResultSetapplicantId.next()) {
 				
-				if(_ResultSetapplicantId.getString("ApplicantCheckId")==null && _ResultSetapplicantId.getString("ApplicantCheckId")=="" )
+				if(_ResultSetapplicantId.getString("ApplicantCheckId")==null )
 				{
 					ApiClient defaultClient = Configuration.getDefaultApiClient();
 					ApiKeyAuth Token = (ApiKeyAuth) defaultClient.getAuthentication("Token");

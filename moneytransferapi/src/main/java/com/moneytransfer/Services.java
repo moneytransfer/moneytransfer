@@ -30,6 +30,7 @@ import com.etl.base.MagicTest;
 import com.etl.base.PaymentFees;
 import com.etl.base.PaymentMethod;
 import com.etl.base.PaymentType;
+import com.etl.base.SendEmailTLS;
 import com.etl.base.TransactionFeeSharing;
 import com.etl.base.UserDetail;
 import com.etl.base.minepay;
@@ -669,7 +670,7 @@ public class Services {
 	@POST
 	@Path("createApplicantCheck")
 	@Produces("application/json")
-	public ApplicantKYC createApplicantCheck(ApplicantKYC _ApplicantKYC) throws SQLException {
+	public ApplicantKYC createApplicantCheck(ApplicantKYC _ApplicantKYC)throws SQLException {
 		return new ApplicantKYC().kycCheck(_ApplicantKYC.ApplicantId);
 	}
 	@POST
@@ -694,4 +695,11 @@ public class Services {
 		return new ApplicantKYC().upishu(_ApplicantKYC.Error);
 	}
 	*/
+	@POST
+	@Path("getSendEmailTLS")
+	@Produces("application/json")
+	public SendEmailTLS getSendEmailTLS(SendEmailTLS _SendEmailTLS)  {
+		return new SendEmailTLS().addSendEmailTLS(_SendEmailTLS.Name, _SendEmailTLS.Email, _SendEmailTLS.ReceivingCountry, _SendEmailTLS.FalconLoopTransactionNumber, _SendEmailTLS.Subject, _SendEmailTLS.Question);
+	}
+	
 }

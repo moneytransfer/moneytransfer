@@ -928,7 +928,7 @@
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                              return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                              return $ocLazyLoad.load('scripts/controllers/appCtrls/contactUs.js');
                           });
                       }]
                   },

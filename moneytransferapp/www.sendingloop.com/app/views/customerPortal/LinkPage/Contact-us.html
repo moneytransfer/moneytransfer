@@ -57,26 +57,139 @@
             </ul>
         </li>
     </ul>
-
     <h3>Email Us</h3>
-    <p>Email Address (Use your FalconLoop account if applicable)</p>
+    <div ng-controller="manageContectUsController">
+        <div class="m-t">
+            <form role="form" ui-jq="validate" name="tblContactUs">
+                <div class="form-group row">
+                    <label class="col-sm-3" for="email"><b>Email Address</b></label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control cm-input " ng-model="ContactUsModal.Email" name="email" required>
+                        <p>(Use your FalconLoop account if applicable)</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3" for="Username"><b>Name</b></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control cm-input " ng-model="ContactUsModal.Name" name="first-name" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3" for="sel1"><b>Receiving Country</b></label>
+                    <div class="col-sm-8">
+                        <select name="CustomerRegister" id="Select1" ng-model="ContactUsModal.ReceivingCountry" class="form-control cm-input" required>
+                            <option value="0">-- Select Country --</option>
+                            <option ng-repeat="Country in Countries" value="{{Country.CountryName}}">{{Country.CountryName}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3" for="phone"><b>FalconLoop Transaction Number</b> </label>
+                    <div class="col-sm-8">
+                        <input type="text" ng-model="ContactUsModal.FalconLoopTransactionNumber" name="phone" class="form-control cm-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3" for="Subject"><b>Subject</b> </label>
+                    <div class="col-sm-8">
+                        <input type="text" ng-model="ContactUsModal.Subject" class="form-control cm-input" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3" for="Question"><b>Question</b> </label>
+                    <div class="col-sm-8">
+                        <textarea name="password" ng-model="ContactUsModal.Question" class="form-control cm-input" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 text-right">
+                        <button type="submit" class="btn btn-success custom-form-btn" ng-click="tblContactUs.$valid && Create(1)">Submit</button>
+                    </div>
+                    <div class="col-sm-5">
+                        <button type="button" class="btn btn-default custom-form-btn" ng-click="CancelEmail()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- <p>Email Address (Use your FalconLoop account if applicable)</p>
 
     <p>Name</p>
     <p>Receiving Country</p>
     <p>--Select a Country--</p>
     <p>FalconLoop Transaction Number</p>
     <p>Subject</p>
-    <p>Question</p>
+    <p>Question</p>-->
 
 
-     <h3>Request Refund Online:</h3>
+        <h3 class="m-t">Request Refund Online:</h3>
+        <div class="m-t">
+            <form role="form" ui-jq="validate" name="tblRequestRefund">
+                <div class="form-group row">
+                    <label class="col-sm-3" for="email"><b>Email Address</b></label>
+                    <div class="col-sm-8">
+                        <input type="email" class="form-control cm-input " ng-model="RequestRefundModal.Email" name="email" required>
+                        <p>(Use your FalconLoop account if applicable)</p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3" for="Username"><b>Name</b></label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control cm-input " ng-model="RequestRefundModal.Name" name="first-name" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3" for="sel1"><b>Receiving Country</b></label>
+                    <div class="col-sm-8">
+                        <select name="CustomerRegister" id="Select2" ng-model="RequestRefundModal.ReceivingCountry" class="form-control cm-input" required>
+                            <option value="0">-- Select Country --</option>
+                            <option ng-repeat="Country in Countries" value="{{Country.CountryName}}">{{Country.CountryName}}</option>
+                        </select>
+                    </div>
+                </div>
 
-     <p>Name</p>
+                <div class="form-group row">
+                    <label class="col-sm-3" for="phone"><b>FalconLoop Transaction Number</b> </label>
+                    <div class="col-sm-8">
+                        <input type="text" ng-model="RequestRefundModal.FalconLoopTransactionNumber" name="phone" class="form-control cm-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3" for="Subject"><b>Subject</b> </label>
+                    <div class="col-sm-8">
+                        <input type="text" ng-model="RequestRefundModal.Subject" class="form-control cm-input" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3" for="Question"><b>Error and Problem Details</b> </label>
+                    <div class="col-sm-8">
+                        <textarea name="password" ng-model="RequestRefundModal.Question" class="form-control cm-input" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 text-right">
+                        <button type="submit" class="btn btn-success custom-form-btn" ng-click="tblRequestRefund.$valid && Create(2)">Submit</button>
+                    </div>
+                    <div class="col-sm-5">
+                        <button type="button" class="btn btn-default custom-form-btn" ng-click="CancelRequest()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!--    <p>Name</p>
     <p>Receiving Country</p>
     <p>--Select a Country--</p>
     <p>FalconLoop Transaction Number</p>
     <p>Subject: Refund</p>
-    <p>Error and Problem Details </p>
+    <p>Error and Problem Details </p>-->
 
 
     <ul>
@@ -87,7 +200,7 @@
             </ul>
         </li>
 
-        
+
     </ul>
 
     <!--<h3>U.S. State Licensing</h3>-->

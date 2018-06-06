@@ -400,34 +400,12 @@
                     vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
                     if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
 
-                    if (parseFloat(vm.TotalPaidAmt) + parseFloat(vm.localStorage.FareAmmount) < 100) {
+                    if ((parseFloat(vm.TotalPaidAmt) + parseFloat(vm.localStorage.FareAmmount)) > 100) {
                         $('#KycConfrimation').modal('toggle');
                     }
                     else { $window.location.assign('#/app/makePayment'); }
                 }
                 else {
-
-                    //vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
-                    //if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
-
-                    //if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) < 100) {
-                    //    $window.location.assign('#/app/makePayment');
-                    //}
-                    //else {
-                    //    vm.KYCStatus = $localStorage.GustCustomer.KYCStatus;
-                    //    if (vm.KYCStatus == "Success") {
-                    //        $window.location.assign('#/app/makePayment');
-                    //    }
-                    //    else {
-
-                    //        Alert(2, "Once KYC deatils are approved than you are able to recharge mobile.");
-                    //        setTimeout(function () {
-                    //            var url = $state.current.url;
-                    //            $window.location.assign('#/app' + url);
-                    //        }, 1000);
-                    //    }
-                    //}
-
                     $window.location.assign('#/app/makePayment');
                     //$state.go('app.makePayment');
                 }
@@ -734,7 +712,7 @@
                     vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
                     if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
 
-                    if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) > 100) {
+                    if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
                         $('#KycConfrimation').modal('toggle');
                     }
                     else { $window.location.assign('#/app/makePayment'); }

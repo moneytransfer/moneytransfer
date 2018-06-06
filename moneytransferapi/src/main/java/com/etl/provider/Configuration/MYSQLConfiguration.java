@@ -26,4 +26,20 @@ public class MYSQLConfiguration {
 	{
 		return ProviderBase.readConfigurationFile().getProperty("jdbc.smtppassword").toString();
 	}
+	
+	
+	public static String getemailuser()
+	{
+		return ProviderBase.readConfigurationFile().getProperty("jdbc.emailUserName").toString();
+	}
+	public static String getemailppwd()
+	{
+		return ProviderBase.readConfigurationFile().getProperty("jdbc.emailpassword").toString();
+	}
+	
+	
+	public static String emailUserName2()
+	{
+		return ProviderBase.readConfigurationFile().getProperty("jdbc.emailUserName2").toString();
+	}
 }

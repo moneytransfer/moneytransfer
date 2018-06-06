@@ -39,6 +39,7 @@ com\pininteract\www\Sku.class
 com\pininteract\PromotionsProduct.class
 com\etl\base\PaymentFees.class
 com\pininteract\PromotionMinMaxRange.class
+com\etl\base\SendEmailTLS$1.class
 com\etl\base\ProviderBase.class
 com\pininteract\Card.class
 com\pininteract\CarrierListResponse.class
@@ -62,4 +63,5 @@ com\etl\base\CustomerDetail.class
 com\pininteract\www\Carrier.class
 com\pininteract\www\ServiceManagerSoap.class
 com\etl\base\MagicTest$1.class
+com\etl\base\SendEmailTLS.class
 com\pininteract\TopUp.class
