@@ -63,6 +63,9 @@ public class AuthrozieTranscation {
 	public boolean IsRefunded;
 	public String RefundedDate;
 	public String RefundedBy;
+	public String WeekTransactionCount;
+	public String MonthTransactionCount;
+
 	private void setTransactionId(int TransactionId) {
 		this.TransactionId = TransactionId;
 	}
@@ -295,7 +298,6 @@ public class AuthrozieTranscation {
 		return Error;
 	}
 
-	
 	private void setIsRefunded(Boolean IsRefunded) {
 		this.IsRefunded = IsRefunded;
 	}
@@ -303,6 +305,7 @@ public class AuthrozieTranscation {
 	private Boolean getIsRefunded() {
 		return IsRefunded;
 	}
+
 	private void setRefundedDate(String RefundedDate) {
 		this.RefundedDate = RefundedDate;
 	}
@@ -310,6 +313,7 @@ public class AuthrozieTranscation {
 	private String getRefundedDate() {
 		return RefundedDate;
 	}
+
 	private void setRefundedBy(String RefundedBy) {
 		this.RefundedBy = RefundedBy;
 	}
@@ -317,8 +321,23 @@ public class AuthrozieTranscation {
 	private String getRefundedBy() {
 		return RefundedBy;
 	}
-	
-	
+
+	private void setWeekCount(String WeekTransactionCount) {
+		this.WeekTransactionCount = WeekTransactionCount;
+	}
+
+	private String getWeekCount() {
+		return WeekTransactionCount;
+	}
+
+	private void setMonthsCount(String MonthTransactionCount) {
+		this.MonthTransactionCount = MonthTransactionCount;
+	}
+
+	private String getMonthsCount() {
+		return MonthTransactionCount;
+	}
+
 	public AuthrozieTranscation addTranscation(AuthrozieTranscation _AuthrozieTranscation) {
 
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -439,46 +458,91 @@ public class AuthrozieTranscation {
 
 											_AuthrozieTranscation.setTransactionId(lastid);
 
-											/*String sInsertStatement = "INSERT INTO transactiondetails( CompanyId, CustomerId, TransactionDetail,SendingAmount,Charges,Fees,Tax, TransactionDate, Status,PaymentGatewayResponse,PaymentGatewayTransactionId,SendingCurrencyId,ReceivingAmount,ReceivingCurrencytId,BeneficiaryId,PaymentMethodId, DestinationCountryId, SourceCountryId,IsLive,TransferPurpose,ExchangeRate,DeliveryType,CreatedDate)";
-											sInsertStatement = sInsertStatement
-													+ " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?)";
-											_PreparedStatement = _Connection.prepareStatement(sInsertStatement);
-											_PreparedStatement.setInt(1, _AuthrozieTranscation.CompanyId);
-											_PreparedStatement.setInt(2, _AuthrozieTranscation.CustomerId);
-											_PreparedStatement.setString(3, _AuthrozieTranscation.TransactionDetail);
-											_PreparedStatement.setDouble(4, _AuthrozieTranscation.SendingAmount);
-											_PreparedStatement.setDouble(5, _AuthrozieTranscation.Charges);
-											_PreparedStatement.setDouble(6, _AuthrozieTranscation.Fees);
-											_PreparedStatement.setDouble(7, _AuthrozieTranscation.Tax);
-											_PreparedStatement.setString(8, _AuthrozieTranscation.TransactionDate);
-											_PreparedStatement.setString(9, _AuthrozieTranscation.Status);
-											_PreparedStatement.setString(10,
-													_AuthrozieTranscation.PaymentGatewayResponse);
-											_PreparedStatement.setString(11,
-													_AuthrozieTranscation.PaymentGatewayTransactionId);
-											_PreparedStatement.setInt(12, _AuthrozieTranscation.SendingCurrencyId);
-											_PreparedStatement.setDouble(13, _AuthrozieTranscation.ReceivingAmount);
-											_PreparedStatement.setInt(14, _AuthrozieTranscation.ReceivingCurrencytId);
-											_PreparedStatement.setInt(15, _AuthrozieTranscation.BeneficiaryId);
-											_PreparedStatement.setInt(16, _AuthrozieTranscation.PaymentMethodId);
-											_PreparedStatement.setInt(17, _AuthrozieTranscation.DestinationCountryId);
-											_PreparedStatement.setInt(18, _AuthrozieTranscation.SourceCountryId);
-											_PreparedStatement.setBoolean(19, _AuthrozieTranscation.IsLive);
-											_PreparedStatement.setString(20, _AuthrozieTranscation.TransferPurpose);
-											_PreparedStatement.setDouble(21, _AuthrozieTranscation.ExchangeRate);
-											_PreparedStatement.setString(22, _AuthrozieTranscation.DeliveryType);
-											_PreparedStatement.setString(23, _AuthrozieTranscation.CreatedDate);
-											_PreparedStatement.executeUpdate();
-											_AuthrozieTranscation.setResult("Sucess");
-											ResultSet _ResultSetld = _MYSQLHelper.GetResultSet(
-													"SELECT MAX(TransactionId) AS TransactionId FROM transactiondetails",
-													_Connection);
-											if (_ResultSetld.next()) {
-												int lastid = _ResultSetld.getInt("TransactionId");
-												_AuthrozieTranscation.setTransactionId(lastid);
-											}
-											clear(_AuthrozieTranscation);
-											*/
+											/*
+											 * String sInsertStatement =
+											 * "INSERT INTO transactiondetails( CompanyId, CustomerId, TransactionDetail,SendingAmount,Charges,Fees,Tax, TransactionDate, Status,PaymentGatewayResponse,PaymentGatewayTransactionId,SendingCurrencyId,ReceivingAmount,ReceivingCurrencytId,BeneficiaryId,PaymentMethodId, DestinationCountryId, SourceCountryId,IsLive,TransferPurpose,ExchangeRate,DeliveryType,CreatedDate)"
+											 * ; sInsertStatement =
+											 * sInsertStatement +
+											 * " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?)"
+											 * ; _PreparedStatement =
+											 * _Connection.prepareStatement(
+											 * sInsertStatement);
+											 * _PreparedStatement.setInt(1,
+											 * _AuthrozieTranscation.CompanyId);
+											 * _PreparedStatement.setInt(2,
+											 * _AuthrozieTranscation.CustomerId)
+											 * ; _PreparedStatement.setString(3,
+											 * _AuthrozieTranscation.
+											 * TransactionDetail);
+											 * _PreparedStatement.setDouble(4,
+											 * _AuthrozieTranscation.
+											 * SendingAmount);
+											 * _PreparedStatement.setDouble(5,
+											 * _AuthrozieTranscation.Charges);
+											 * _PreparedStatement.setDouble(6,
+											 * _AuthrozieTranscation.Fees);
+											 * _PreparedStatement.setDouble(7,
+											 * _AuthrozieTranscation.Tax);
+											 * _PreparedStatement.setString(8,
+											 * _AuthrozieTranscation.
+											 * TransactionDate);
+											 * _PreparedStatement.setString(9,
+											 * _AuthrozieTranscation.Status);
+											 * _PreparedStatement.setString(10,
+											 * _AuthrozieTranscation.
+											 * PaymentGatewayResponse);
+											 * _PreparedStatement.setString(11,
+											 * _AuthrozieTranscation.
+											 * PaymentGatewayTransactionId);
+											 * _PreparedStatement.setInt(12,
+											 * _AuthrozieTranscation.
+											 * SendingCurrencyId);
+											 * _PreparedStatement.setDouble(13,
+											 * _AuthrozieTranscation.
+											 * ReceivingAmount);
+											 * _PreparedStatement.setInt(14,
+											 * _AuthrozieTranscation.
+											 * ReceivingCurrencytId);
+											 * _PreparedStatement.setInt(15,
+											 * _AuthrozieTranscation.
+											 * BeneficiaryId);
+											 * _PreparedStatement.setInt(16,
+											 * _AuthrozieTranscation.
+											 * PaymentMethodId);
+											 * _PreparedStatement.setInt(17,
+											 * _AuthrozieTranscation.
+											 * DestinationCountryId);
+											 * _PreparedStatement.setInt(18,
+											 * _AuthrozieTranscation.
+											 * SourceCountryId);
+											 * _PreparedStatement.setBoolean(19,
+											 * _AuthrozieTranscation.IsLive);
+											 * _PreparedStatement.setString(20,
+											 * _AuthrozieTranscation.
+											 * TransferPurpose);
+											 * _PreparedStatement.setDouble(21,
+											 * _AuthrozieTranscation.
+											 * ExchangeRate);
+											 * _PreparedStatement.setString(22,
+											 * _AuthrozieTranscation.
+											 * DeliveryType);
+											 * _PreparedStatement.setString(23,
+											 * _AuthrozieTranscation.CreatedDate
+											 * );
+											 * _PreparedStatement.executeUpdate(
+											 * );
+											 * _AuthrozieTranscation.setResult(
+											 * "Sucess"); ResultSet _ResultSetld
+											 * = _MYSQLHelper.GetResultSet(
+											 * "SELECT MAX(TransactionId) AS TransactionId FROM transactiondetails"
+											 * , _Connection); if
+											 * (_ResultSetld.next()) { int
+											 * lastid = _ResultSetld.getInt(
+											 * "TransactionId");
+											 * _AuthrozieTranscation.
+											 * setTransactionId(lastid); }
+											 * clear(_AuthrozieTranscation);
+											 */
 										} else {
 											// System.out.println("Failed
 											// Transaction.");
@@ -582,12 +646,16 @@ public class AuthrozieTranscation {
 			PreparedStatement _PreparedStatement = null;
 			// AuthrozieTranscation _AuthrozieTranscation = new
 			// AuthrozieTranscation();
-			//DecimalFormat _decimalFormat = new DecimalFormat("##.00");
-			//String _SendingAmountformate = _decimalFormat.format(SendingAmount);
-			//String _ReceivingAmountformate = _decimalFormat.format(ReceivingAmount);
-			//double _SendingAmount = (Double)_decimalFormat.parse(_SendingAmountformate) ;
-			//double _receivingAmount = (Double)_decimalFormat.parse(_ReceivingAmountformate) ;
-			
+			// DecimalFormat _decimalFormat = new DecimalFormat("##.00");
+			// String _SendingAmountformate =
+			// _decimalFormat.format(SendingAmount);
+			// String _ReceivingAmountformate =
+			// _decimalFormat.format(ReceivingAmount);
+			// double _SendingAmount =
+			// (Double)_decimalFormat.parse(_SendingAmountformate) ;
+			// double _receivingAmount =
+			// (Double)_decimalFormat.parse(_ReceivingAmountformate) ;
+
 			String sInsertStatement = "INSERT INTO transactiondetails( CompanyId, CustomerId, TransactionDetail,SendingAmount,Charges,Fees,Tax, TransactionDate, Status,PaymentGatewayResponse,PaymentGatewayTransactionId,SendingCurrencyId,ReceivingAmount,ReceivingCurrencytId,BeneficiaryId,PaymentMethodId, DestinationCountryId, SourceCountryId,IsLive,TransferPurpose,ExchangeRate,DeliveryType,CreatedDate)";
 			sInsertStatement = sInsertStatement
 					+ " VALUES(?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?, ?,?, ?)";
@@ -703,47 +771,64 @@ public class AuthrozieTranscation {
 	}
 
 	public AuthrozieTranscation getCustomerTransaction(int _customerId, int _companyId) {
-		AuthrozieTranscation _AuthrozieTranscation= new AuthrozieTranscation();
+		AuthrozieTranscation _AuthrozieTranscation = new AuthrozieTranscation();
 		MYSQLHelper _MYSQLHelper = new MYSQLHelper();
 		Connection _Connection = MYSQLConnection.GetConnection();
 		try {
-			if (_Connection != null)
-			{
-				ResultSet _ResultSet = _MYSQLHelper.GetResultSet(
-						"SELECT * from transactiondetails where CustomerId='" + _customerId + "' and CompanyId='" + _companyId + "'", _Connection);
-				if(_ResultSet.next())
-				{
-					//String ss="select COALESCE(SUM(SendingAmount),0) as SendingAmount from transactiondetails where CustomerId='" + _customerId + "' and CompanyId='" + _companyId + "'";
-					ResultSet _ResultSetTransactionAmount =_MYSQLHelper.GetResultSet("select COALESCE(SUM(SendingAmount),0) as SendingAmount from transactiondetails where CustomerId='" + _customerId + "' and CompanyId='" + _companyId + "'", _Connection);
-					if(_ResultSetTransactionAmount.next())
-					{
+			if (_Connection != null) {
+				ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * from transactiondetails where CustomerId='"
+						+ _customerId + "' and CompanyId='" + _companyId + "'", _Connection);
+				if (_ResultSet.next()) {
+					// String ss="select COALESCE(SUM(SendingAmount),0) as
+					// SendingAmount from transactiondetails where CustomerId='"
+					// + _customerId + "' and CompanyId='" + _companyId + "'";
+					ResultSet _ResultSetTransactionAmount = _MYSQLHelper.GetResultSet(
+							"select COALESCE(SUM(SendingAmount),0) as SendingAmount from transactiondetails where CustomerId='"
+									+ _customerId + "' and CompanyId='" + _companyId + "'",
+							_Connection);
+					if (_ResultSetTransactionAmount.next()) {
+						String TransactionDate = _ResultSet.getString("TransactionDate");
+
+						ResultSet _ResultSetweek = _MYSQLHelper
+								.GetResultSet("SELECT COUNT(*) as WeekCount from transactiondetails where CustomerId='"
+										+ _customerId + "' and CompanyId='" + _companyId
+										+ "' and WEEKOFYEAR(TransactionDate)=WEEKOFYEAR(NOW())", _Connection);
+						if (_ResultSetweek.next()) {
+							_AuthrozieTranscation.setWeekCount(_ResultSetweek.getString("WeekCount"));
+						}
+						String ss="SELECT COUNT(*) as MonthCount from transactiondetails where CustomerId='"
+								+ _customerId + "' and CompanyId='" + _companyId
+								+ "' and TransactionDate >=(CURDATE()-INTERVAL 3 MONTH)";
+						ResultSet _ResultSetMonth = _MYSQLHelper
+								.GetResultSet("SELECT COUNT(*) as MonthCount from transactiondetails where CustomerId='"
+										+ _customerId + "' and CompanyId='" + _companyId
+										+ "' and TransactionDate >=(CURDATE()-INTERVAL 3 MONTH)", _Connection);
+						if (_ResultSetMonth.next()){
+							_AuthrozieTranscation.setMonthsCount(_ResultSetMonth.getString("MonthCount"));
+						}
 						_AuthrozieTranscation.setCustomerId(_customerId);
 						_AuthrozieTranscation.setCompanyId(_companyId);
 						_AuthrozieTranscation.setSendingAmount(_ResultSetTransactionAmount.getDouble("SendingAmount"));
 						_AuthrozieTranscation.setResult("Success");
 					}
-				}
-				else
-				{
+				} else {
 					_AuthrozieTranscation.setResult("failed!");
 					_AuthrozieTranscation.setError("Invaid Customer and Company!");
 					clear(_AuthrozieTranscation);
 				}
-			}
-			else{
+			} else {
 				_AuthrozieTranscation.setResult("Failed");
 				_AuthrozieTranscation.setError("Error in api backend connectivity !");
 				clear(_AuthrozieTranscation);
 			}
+		} catch (Exception e) {
+			_AuthrozieTranscation.setResult("Failed");
+			_AuthrozieTranscation.setError(e.getMessage());
 		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-		
+
 		return _AuthrozieTranscation;
 	}
-	
-	
+
 	public static ArrayList<AuthrozieTranscation> getAuthrozieTranscationDetailsByCompany(int CompanyId) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 
@@ -814,8 +899,7 @@ public class AuthrozieTranscation {
 
 		return _AuthrozieTranscationDetaillist;
 	}
-	
-	
+
 	public static ArrayList<AuthrozieTranscation> getAuthrozieTranscationById(int TransactionId) {
 		Connection _Connection = MYSQLConnection.GetConnection();
 
@@ -845,7 +929,8 @@ public class AuthrozieTranscation {
 
 					_AuthrozieTranscation.setStatus(_ResultSet.getString("Status"));
 					_AuthrozieTranscation.setPaymentGatewayResponse(_ResultSet.getString("PaymentGatewayResponse"));
-					_AuthrozieTranscation.setPaymentGatewayTransactionId(_ResultSet.getString("PaymentGatewayTransactionId"));
+					_AuthrozieTranscation
+							.setPaymentGatewayTransactionId(_ResultSet.getString("PaymentGatewayTransactionId"));
 					_AuthrozieTranscation.setSendingCurrencyId(_ResultSet.getInt("SendingCurrencyId"));
 					_AuthrozieTranscation.setReceivingAmount(_ResultSet.getDouble("ReceivingAmount"));
 					_AuthrozieTranscation.setReceivingCurrencytId(_ResultSet.getInt("ReceivingCurrencytId"));

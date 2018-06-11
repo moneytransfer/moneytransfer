@@ -8,13 +8,9 @@
     manageContectUsController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
     function manageContectUsController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
-
+     
         vm.CompanyId = 0;
         vm.CustomerId = 0;
-
-        if ($localStorage.GustCustomer) {
-
-        }
 
         vm.ContactUsModal = { "Name": " ", "Email": "", "ReceivingCountry": "0", "FalconLoopTransactionNumber": " ", "Subject": "", "Question": "" };
 
@@ -51,17 +47,19 @@
                 var idata = data;
                 if (idata.Result == "Success") {
                     if (vm.Request == 1) {
-                        Alert(1, "Thanks for contact us we will get back to you soon");
+                        vm.ContactUsModal = { "ReceivingCountry": "0" }
+                        AlertKyc(1, "Thanks for contact us we will get back to you soon");
                     }
                     else {
-                        Alert(1, "Your Request Refund processed successfully");
+                        vm.RequestRefundModal = { "ReceivingCountry": "0" }
+                        AlertContact(1, "Your Request Refund processed successfully");
                     }
-                    setTimeout(function () {
-                        vm.ContactUsModal = { "ReceivingCountry": "0" };
-                    }, 500);
                 }
                 else {
-                    Alert(2, idata.Error);
+                    if (vm.Request == 1) {
+                        AlertKyc(2, idata.Error);
+                    }
+                    else { AlertContact(1, idata.Error); }
                 }
             });
         }

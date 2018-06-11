@@ -395,13 +395,20 @@
             if (!$localStorage.GustCustomer) {
                 $state.go('app.Login');
             } else {
-
+               
                 if (!$localStorage.GustCustomer.IsDocumentUpload) {
                     vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+                    vm.MonthsTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                    vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
                     if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
-
-                    if ((parseFloat(vm.TotalPaidAmt) + parseFloat(vm.localStorage.FareAmmount)) > 100) {
-                        $('#KycConfrimation').modal('toggle');
+                    if (vm.MonthsTransactions < 3) {
+                        if (vm.WeekTransactions < 3) {
+                            if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
+                                $('#KycConfrimation').modal('toggle');
+                            }
+                            else { $window.location.assign('#/app/makePayment'); }
+                        }
+                        else { $window.location.assign('#/app/makePayment'); }
                     }
                     else { $window.location.assign('#/app/makePayment'); }
                 }
@@ -668,6 +675,9 @@
                 var idata = data;
                 if (idata.CustomerId > 0) {
                     $localStorage.GustCustomer.TotalTransactionsAmt = idata.SendingAmount;
+                    $localStorage.GustCustomer.TotalTransactionsInMonth = idata.MonthTransactionCount;
+                    $localStorage.GustCustomer.TotalTransactionsInWeek = idata.WeekTransactionCount;
+
                     GetApplicantCheckStatus(vm.CustomerID)
                 }
                 //setTimeout(function () { window.location.reload(); }, 1000);
@@ -704,53 +714,6 @@
             vm.IsLogin = true;
         }
 
-        if ($localStorage.Ammount) {
-
-            if (vm.IsLogin) {
-
-                if (!$localStorage.GustCustomer.IsDocumentUpload) {
-                    vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
-                    if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
-
-                    if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
-                        $('#KycConfrimation').modal('toggle');
-                    }
-                    else { $window.location.assign('#/app/makePayment'); }
-                }
-                else {
-
-                    //vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
-                    //if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
-
-                    //if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) < 100) {
-                    //    $window.location.assign('#/app/makePayment');
-                    //}
-                    //else {
-                    //vm.KYCStatus = $localStorage.GustCustomer.KYCStatus;
-                    //if (vm.KYCStatus == "Success") { $window.location.assign('#/app/makePayment'); }
-                    //else {
-                    $window.location.assign('#/app/makePayment');
-
-                }
-            }
-            else {
-                var url = $state.current.url;
-                $window.location.assign('#/app' + url);
-
-            }
-        }
-
-        else if (vm.IsLogin) {
-            $window.location.assign('#/app/customerPortal');
-        }
-        else {
-            var url = $state.current.url;
-            $window.location.assign('#/app' + url);
-        }
-
-
-
-
         //Get Country
         $http({
             method: 'GET',
@@ -786,6 +749,7 @@
                     vm.CustomerID = iCustomer.CustomerId;
                     vm.CompanyId = iCustomer.CompanyId;
                     $localStorage.GustCustomer = iCustomer;
+                    vm.IsLogin = true;
                     Alert(1, "! Login successful.. ");
                     GetCustomerTransactionDetails(vm.CustomerID, vm.CompanyId);
                     // setTimeout(function () { window.location.reload(); }, 1000);
@@ -885,14 +849,16 @@
                         .success(function (data, status, headers, config) {
                             var GustCustomer = data;
                             if (GustCustomer.CustomerId) {
-
+                                vm.IsLogin = true;
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
-
-                                //vm.CustomerID = GustCustomer.CustomerId;
-                                //vm.CompanyId = GustCustomer.CompanyId;
-                                //GetCustomerTransactionDetails(vm.CustomerID, vm.CompanyId);
-                                setTimeout(function () { window.location.reload(); }, 1000);
+                                if ($localStorage.Ammount) {
+                                    $window.location.assign('#/app/makePayment');
+                                }
+                                else {
+                                    $window.location.assign('#/app/customerPortal');
+                                }
+                                //setTimeout(function () { window.location.reload(); }, 1000);
                             }
                             else {
                                 Alert(2, "! Invalid Customer or password. ");
@@ -966,6 +932,35 @@
                  if (idata.ApplicantCheckId) {
                      $localStorage.GustCustomer.KYCStatus = idata.Status;
                  }
+                 if ($localStorage.Ammount) {
+                     if (!$localStorage.GustCustomer.IsDocumentUpload) {
+                         vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+                         vm.MonthsTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                         vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                         if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
+                         if (vm.MonthsTransactions < 3) {
+                             if (vm.WeekTransactions < 3) {
+                                 if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
+                                     $('#KycConfrimation').modal('toggle');
+                                 }
+                                 else { $window.location.assign('#/app/makePayment'); }
+                             }
+                             else { $window.location.assign('#/app/makePayment'); }
+                         }
+                         else { $window.location.assign('#/app/makePayment'); }
+                     }
+                     else {
+                         $window.location.assign('#/app/makePayment');
+                     }
+                 }
+                 else if (vm.IsLogin) {
+                     //    debugger;
+                     $window.location.assign('#/app/customerPortal');
+                 }
+                 else {
+                     var url = $state.current.url;
+                     $window.location.assign('#/app' + url);
+                 }
              });
         }
 
@@ -981,11 +976,43 @@
             })
             .success(function (data) {
                 var idata = data;
-                if (idata.CustomerId > 0) {
+                if (idata.CustomerId != null && idata.CustomerId > 0) {
                     $localStorage.GustCustomer.TotalTransactionsAmt = idata.SendingAmount;
+                    $localStorage.GustCustomer.TotalTransactionsInMonth = idata.MonthTransactionCount;
+                    $localStorage.GustCustomer.TotalTransactionsInWeek = idata.WeekTransactionCount;
                     GetApplicantCheckStatus(vm.CustomerID)
                 }
-                setTimeout(function () { window.location.reload(); }, 1000);
+                else {
+                    if ($localStorage.Ammount) {
+                        if (!$localStorage.GustCustomer.IsDocumentUpload) {
+                            vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+                            vm.MonthsTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                            vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                            if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
+                            if (vm.MonthsTransactions < 3) {
+                                if (vm.WeekTransactions < 3) {
+                                    if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
+                                        $('#KycConfrimation').modal('toggle');
+                                    }
+                                    else { $window.location.assign('#/app/makePayment'); }
+                                }
+                                else { $window.location.assign('#/app/makePayment'); }
+                            }
+                            else { $window.location.assign('#/app/makePayment'); }
+                        }
+                        else {
+                            $window.location.assign('#/app/makePayment');
+                        }
+                    }
+                    else if (vm.IsLogin) {
+                        $window.location.assign('#/app/customerPortal');
+                    }
+                    else {
+                        var url = $state.current.url;
+                        $window.location.assign('#/app' + url);
+                    }
+                }
+                //setTimeout(function () { window.location.reload(); }, 1000);
             });
         }
     }
@@ -1015,6 +1042,7 @@
         else {
             $state.go('app.Login');
         }
+        
         vm.StatusApproved = false;
         if ($localStorage.GustCustomer) {
             vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
@@ -1403,6 +1431,7 @@
     authenticateGuestController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams'];
     function authenticateGuestController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams) {
         var vm = $scope;
+
         if ($localStorage.GustCustomer) {
             vm.localStorage = $localStorage.GustCustomer;
 
@@ -1618,7 +1647,5 @@
             $state.go('app.customerPortal');
         }
     }
-
-
 
 })();

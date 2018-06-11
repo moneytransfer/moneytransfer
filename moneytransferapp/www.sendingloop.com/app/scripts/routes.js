@@ -874,7 +874,7 @@
                     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                         return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                             //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                            return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                            //return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                         });
                     }]
                 },
@@ -887,7 +887,7 @@
                     deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                         return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                             //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                            return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                            //return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                         });
                     }]
                 },
@@ -901,7 +901,7 @@
                              deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                  return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                                      //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                                     return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                                     //return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                                  });
                              }]
                          },
@@ -914,7 +914,7 @@
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                                     //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                                    return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                                   // return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                                 });
                             }]
                         },
@@ -923,6 +923,7 @@
 
               .state('app.Contact_us', {
                   url: '/Contact_us',
+                  abstract: false,
                   templateUrl: 'views/customerPortal/LinkPage/Contact-us.html',
                   resolve: {
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -932,7 +933,8 @@
                           });
                       }]
                   },
-                  title: 'customerPortal',
+                  title: 'customerPortal'
+                  
               })
 
                 .state('app.Supported_Currencies', {
@@ -942,7 +944,7 @@
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                                 //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                                return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                               // return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                             });
                         }]
                     },
@@ -956,7 +958,7 @@
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                              return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                             // return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                           });
                       }]
                   },
@@ -970,7 +972,7 @@
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                              return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                             // return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                           });
                       }]
                   },
@@ -985,7 +987,7 @@
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                              return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                             // return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                           });
                       }]
                   },
@@ -999,7 +1001,7 @@
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                              return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                             // return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                           });
                       }]
                   },
@@ -1013,7 +1015,7 @@
                       deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                           return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                               //return $ocLazyLoad.load('scripts/controllers/appCtrls/PayBill.js');
-                              return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
+                             // return $ocLazyLoad.load('scripts/controllers/appCtrls/customer_portal.js');
                           });
                       }]
                   },

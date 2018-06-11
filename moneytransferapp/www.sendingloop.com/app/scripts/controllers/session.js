@@ -32,6 +32,23 @@ function AlertKyc(type, msg) {
         jQuery('#alert').remove();
     }, 3500);
 }
+
+function AlertContact(type, msg) {
+    var div = "";
+    switch (type) {
+        case 1:
+            div = "<div id='alert' class='alert alert-success' style='position: relative;'><a class='close' data-dismiss='alert'>&times;</a><strong>Well done! </strong> " + msg + "</div>";
+            break;
+        case 2:
+            div = "<div id='alert' class='alert alert-danger' style='position: relative;'><a class='close' data-dismiss='alert'>&times;</a><strong>Warning! </strong> " + msg + "</div>";
+            break;
+    }
+    jQuery('#viewContact').append(div);
+    setTimeout(function () {
+        jQuery('#alert').remove();
+    }, 3500);
+}
+
 $(document).ready(function () {
     if (authorisedUser.UserId) {
         $("#appheader").removeClass('hide');
