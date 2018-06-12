@@ -1,6 +1,7 @@
 com\etl\base\GlobalExchangeRate.class
 com\pininteract\Carrier.class
 com\etl\base\BeneficiaryDetails.class
+com\etl\base\usersdetails.class
 com\etl\base\MagicPay.class
 com\etl\base\BillPay.class
 com\pininteract\Sku.class
@@ -23,6 +24,7 @@ com\pininteract\Pin.class
 com\etl\base\minepay$1.class
 com\etl\base\StripeTest.class
 com\etl\util\MYSQLHelper.class
+com\etl\base\GiftCard.class
 com\etl\base\UserDetail.class
 com\pininteract\www\CarrierResponse.class
 com\pininteract\www\SimPortInStatusResponse.class
@@ -36,6 +38,7 @@ com\pininteract\www\ServiceManagerSoapProxy.class
 com\etl\base\MagicTest.class
 com\pininteract\AccountLookupResponse.class
 com\pininteract\www\Sku.class
+com\etl\base\companydetails.class
 com\pininteract\PromotionsProduct.class
 com\etl\base\PaymentFees.class
 com\pininteract\PromotionMinMaxRange.class

@@ -1,5 +1,4 @@
 package com.etl.base;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,22 +18,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.httpclient.HttpVersion;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-
-import com.etl.util.MYSQLConnection;
-import com.etl.util.MYSQLHelper;
 import com.onfido.ApiClient;
 import com.onfido.ApiException;
 import com.onfido.Configuration;
@@ -44,11 +33,10 @@ import com.onfido.models.Check;
 import com.onfido.models.CheckCreationRequest;
 import com.onfido.models.Document;
 import com.onfido.models.Report;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.sun.jersey.core.util.Base64;
+
+import com.etl.util.MYSQLConnection;
+import com.etl.util.MYSQLHelper;
 
 public class ApplicantKYC {
 	public int CustomerApplicantKYCId;
@@ -761,49 +749,6 @@ public class ApplicantKYC {
 		}
 
 		return _ApplicantKYCDetaillist;
-	}
-
-	public ApplicantKYC TestBaba() {
-		ApplicantKYC _ApplicantKYC = new ApplicantKYC();
-
-		try {
-
-			// File _File = new File("c:\t.jpg");
-
-			// MultipartEntity multipartEntity = new
-			// MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-			// multipartEntity.addPart("Image", new FileBody(_File));
-			// httppost.setEntity(multipartEntity);
-
-			// mHttpClient.execute(httppost, new PhotoUploadResponseHandler());
-
-			HttpParams params = new BasicHttpParams();
-			params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-			HttpClient mHttpClient = new DefaultHttpClient(params);
-			HttpPost httppost = new HttpPost(
-					"https://api.onfido.com/v2/applicants/22dd12a3-e4e0-4011-9605-5a96262fd293/documents");
-			File file = new File("D:/rajeev/Money_Transfer/src/Documents/Jellyfish.jpg");
-			OkHttpClient client = new OkHttpClient();
-			MediaType mediaType = MediaType
-					.parse("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
-			Request request = new Request.Builder()
-					.url("https://api.onfido.com/v2/applicants/22dd12a3-e4e0-4011-9605-5a96262fd293/documents")
-
-					.addHeader("file", "multipart/form-data," + file)
-					.addHeader("authorization", "Token token=test_w1dVbzyC-xb-4qWir_TqAVACKdeCspJc")
-					.addHeader("type", "passport").addHeader("side", "front")
-					// .addHeader("postman-token",
-					// "41b645e3-790e-0f5e-b40a-7b185e0926c7")
-
-					.build();
-
-			Response response = client.newCall(request).execute();
-			System.out.println("response: " + response.body().string());
-			System.out.println("response: " + response);
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-		}
-		return _ApplicantKYC;
 	}
 
 	public ApplicantKYC clear(ApplicantKYC _ApplicantKYC) {

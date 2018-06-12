@@ -24,6 +24,7 @@ import com.etl.base.CurrencyConversion;
 import com.etl.base.CustomerDetail;
 import com.etl.base.Email;
 import com.etl.base.FeesCategory;
+import com.etl.base.GiftCard;
 import com.etl.base.GlobalExchangeRate;
 import com.etl.base.MagicPay;
 import com.etl.base.MagicTest;
@@ -701,5 +702,22 @@ public class Services {
 	public SendEmailTLS getSendEmailTLS(SendEmailTLS _SendEmailTLS)  {
 		return new SendEmailTLS().addSendEmailTLS(_SendEmailTLS.Name, _SendEmailTLS.Email, _SendEmailTLS.ReceivingCountry, _SendEmailTLS.FalconLoopTransactionNumber, _SendEmailTLS.Subject, _SendEmailTLS.Question);
 	}
+	
+	@POST
+	@Path("payGiftCard")
+	@Produces("application/json")
+	public GiftCard payGiftCard(GiftCard _GiftCard)
+	{
+		return new GiftCard().addgftcard(_GiftCard.GiftCardid, _GiftCard.CompanyId, _GiftCard.CustomerId, _GiftCard.TransactionDetail, _GiftCard.SendingAmount, _GiftCard.Charges, _GiftCard.Fees, _GiftCard.Tax, _GiftCard.ReceivingAmount, _GiftCard.BeneficiaryId, _GiftCard.PaymentMethodId, _GiftCard.TransferPurpose, _GiftCard.DeliveryType);
+	}
+	@GET
+	@Path("getGiftCard")
+	@Produces("application/json")
+	public ArrayList<GiftCard> getGiftCard() {
+
+		return GiftCard.getGiftCard();
+	}
+	
+	
 	
 }

@@ -13,6 +13,7 @@ D:\rajeev\Money_Transfer\src\main\java\com\moneytransfer\Services.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\OrderResponse.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\UserDetail.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\MagicPay.java
+D:\rajeev\Money_Transfer\src\main\java\com\etl\base\usersdetails.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\ServiceManagerSoapProxy.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\StripeTest.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\CountryDeatils.java
@@ -39,6 +40,7 @@ D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\SimPortInStatusRespon
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\Carrier.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\BillPay.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\PaymentType.java
+D:\rajeev\Money_Transfer\src\main\java\com\etl\base\GiftCard.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\Currency.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\util\MYSQLHelper.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\util\MYSQLConnection.java
@@ -50,10 +52,12 @@ D:\rajeev\Money_Transfer\src\main\java\com\etl\base\FeesCategory.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\Carrier.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\ServiceManagerLocator.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\Email.java
+D:\rajeev\Money_Transfer\src\main\java\com\etl\util\package-info.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\TopUp.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\www\Sku.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\XMLHelper.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\Pin.java
+D:\rajeev\Money_Transfer\src\main\java\com\etl\base\companydetails.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\TransactionFeeSharing.java
 D:\rajeev\Money_Transfer\src\main\java\com\pininteract\Invoice.java
 D:\rajeev\Money_Transfer\src\main\java\com\etl\base\minepay.java

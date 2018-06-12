@@ -64,8 +64,9 @@ public class AuthrozieTranscation {
 	public String RefundedDate;
 	public String RefundedBy;
 	public String WeekTransactionCount;
-	public String MonthTransactionCount;
-
+	public String CurrentMonthTransactionCount;
+	public String PreviousMonthTransactionCount;
+	public String PrevioustoPreviousMonthTransactionCount;
 	private void setTransactionId(int TransactionId) {
 		this.TransactionId = TransactionId;
 	}
@@ -329,15 +330,30 @@ public class AuthrozieTranscation {
 	private String getWeekCount() {
 		return WeekTransactionCount;
 	}
-
-	private void setMonthsCount(String MonthTransactionCount) {
-		this.MonthTransactionCount = MonthTransactionCount;
+	
+	private void setCurrentMonthTransactionCount(String CurrentMonthTransactionCount) {
+		this.CurrentMonthTransactionCount = CurrentMonthTransactionCount;
 	}
 
-	private String getMonthsCount() {
-		return MonthTransactionCount;
+	private String getCurrentMonthTransactionCount() {
+		return CurrentMonthTransactionCount;
 	}
 
+	private void setPreviousMonthTransactionCount(String PreviousMonthTransactionCount) {
+		this.PreviousMonthTransactionCount = PreviousMonthTransactionCount;
+	}
+
+	private String getPreviousMonthTransactionCount() {
+		return PreviousMonthTransactionCount;
+	}
+	private void setPrevioustoPreviousMonthTransactionCount(String PrevioustoPreviousMonthTransactionCount) {
+		this.PrevioustoPreviousMonthTransactionCount = PrevioustoPreviousMonthTransactionCount;
+	}
+
+	private String getPrevioustoPreviousMonthTransactionCount() {
+		return PrevioustoPreviousMonthTransactionCount;
+	}
+	
 	public AuthrozieTranscation addTranscation(AuthrozieTranscation _AuthrozieTranscation) {
 
 		Connection _Connection = MYSQLConnection.GetConnection();
@@ -799,13 +815,49 @@ public class AuthrozieTranscation {
 						String ss="SELECT COUNT(*) as MonthCount from transactiondetails where CustomerId='"
 								+ _customerId + "' and CompanyId='" + _companyId
 								+ "' and TransactionDate >=(CURDATE()-INTERVAL 3 MONTH)";
-						ResultSet _ResultSetMonth = _MYSQLHelper
+						ResultSet _ResultSetCurrentMonth = _MYSQLHelper
 								.GetResultSet("SELECT COUNT(*) as MonthCount from transactiondetails where CustomerId='"
 										+ _customerId + "' and CompanyId='" + _companyId
-										+ "' and TransactionDate >=(CURDATE()-INTERVAL 3 MONTH)", _Connection);
-						if (_ResultSetMonth.next()){
-							_AuthrozieTranscation.setMonthsCount(_ResultSetMonth.getString("MonthCount"));
+										//+ "' and TransactionDate >=(CURDATE()-INTERVAL 3 MONTH)", _Connection);
+										+ "' and MONTH(TransactionDate) = MONTH(CURRENT_DATE())", _Connection);
+						int _currmonth=0;int _prevmonth=0; int _prevtoprmonth=0;
+						if (_ResultSetCurrentMonth.next()){
+							
+							_currmonth=_ResultSetCurrentMonth.getInt("MonthCount");
+							_AuthrozieTranscation.setCurrentMonthTransactionCount(Integer.toString(_currmonth));
 						}
+						else{
+							_AuthrozieTranscation.setPreviousMonthTransactionCount(Integer.toString(_currmonth));
+						}
+						
+						
+						ResultSet _ResultSetPrevMonth = _MYSQLHelper
+								.GetResultSet("SELECT COUNT(*) as MonthCount from transactiondetails where CustomerId='"
+										+ _customerId + "' and CompanyId='" + _companyId
+										//+ "' and TransactionDate >=(CURDATE()-INTERVAL 3 MONTH)", _Connection);
+										+ "' and MONTH(TransactionDate) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)", _Connection);
+						if (_ResultSetPrevMonth.next()){
+							_prevmonth=_ResultSetPrevMonth.getInt("MonthCount");
+							_AuthrozieTranscation.setPreviousMonthTransactionCount(Integer.toString(_prevmonth));
+						}
+						else{
+							_AuthrozieTranscation.setPreviousMonthTransactionCount(Integer.toString(_prevmonth));
+						}
+						
+						ResultSet _ResultSetPrevtoprevMonth = _MYSQLHelper
+								.GetResultSet("SELECT COUNT(*) as MonthCount from transactiondetails where CustomerId='"
+										+ _customerId + "' and CompanyId='" + _companyId
+										//+ "' and TransactionDate >=(CURDATE()-INTERVAL 3 MONTH)", _Connection);
+										+ "' and MONTH(TransactionDate) = MONTH(CURRENT_DATE - INTERVAL 2 MONTH)", _Connection);
+						if (_ResultSetPrevtoprevMonth.next()){
+							_prevtoprmonth=_ResultSetPrevtoprevMonth.getInt("MonthCount");
+							_AuthrozieTranscation.setPrevioustoPreviousMonthTransactionCount(Integer.toString(_prevtoprmonth));
+						}
+						else{
+							_AuthrozieTranscation.setPrevioustoPreviousMonthTransactionCount(Integer.toString(_prevtoprmonth));
+						}
+						
+						
 						_AuthrozieTranscation.setCustomerId(_customerId);
 						_AuthrozieTranscation.setCompanyId(_companyId);
 						_AuthrozieTranscation.setSendingAmount(_ResultSetTransactionAmount.getDouble("SendingAmount"));
