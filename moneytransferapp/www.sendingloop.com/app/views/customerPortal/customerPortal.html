@@ -21,7 +21,7 @@
                     <div class="form-group w-100 pull-left">
                         <div class="input-number-wrap position-relative pull-left">
                             <span class="flag-code line-left" ng-if="FlagModel.Result =='Success'">+{{FlagModel.internationalCodes}}</span>
-                            <input type="text" class="form-control " pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required>
+                            <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required>
                         </div>
                         <button type="submit" id="shfirstbutton" ng-click="submitForm()" class="btn cm-btn pull-right">GO</button>
                     </div>

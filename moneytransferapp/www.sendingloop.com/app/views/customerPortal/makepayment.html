@@ -55,7 +55,7 @@
                             <span>Once KYC deatils are approved than you are able to recharge mobile.</span>
                         </div>
 
-                        <div class="row" id="showPaymentForm" ng-show="PaybillModel.PaymentMethodId>0">
+                        <div class="row" id="showPaymentForm" ng-show="PaybillModel.PaymentMethodId==12">
                             <div class="col-md-6 form-group" id="card-number-field">
                                 <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="PaybillModel.CardNumber" onkeypress="if(this.value.length==16) return false;" required>
                             </div>
@@ -120,23 +120,46 @@
                             </div>
                         </div>
 
+
+                        <div class="row m-t" id="showGiftCardForm" ng-show="PaybillModel.PaymentMethodId==18">
+                            <div class="col-sm-4" ng-repeat="GiftCard in GiftCards">
+                                <label class="form-control-label">
+                                    <input type="radio" name="GiftCard" ng-model="PaybillModel.GiftCardid" ng-change="selectedGiftCard(PaybillModel.GiftCardid)" value="{{GiftCard.GiftCardid}}" />
+                                   <!-- {{GiftCard.GiftCardName}}-->
+                                     <img style="width: 150px; height: 90px;" src="./images/GiftCard/{{GiftCard.GiftCardName}}.jpg" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row m-t" ng-if="isGiftCardSelected">
+                            <label class="col-sm-4 form-control-label"><b>Gift Card Number</b> </label>
+                            <div class="col-sm-6 form-group" id="Gift-number-field">
+                                <input type="number" class="form-control cm-input" id="GiftNumber" placeholder="Gift Card Number" ng-model="PaybillModel.GiftCardNumber" ng-change="ValidateCard(PaybillModel.GiftCardNumber)" onkeypress="if(this.value.length==6) return false;">
+                            </div>
+                        </div>
+
+
                         <div ng-if="alert" id="alertDiv" class="alert alert-danger text-left position-static">
                             <span id="PaymentAlertText"></span>
                         </div>
                         <div class="col-sm-12" id="viewAlert"></div>
+
+
                         <div class="row mt-3">
                             <div class="col col-sm-6 text-right">
                                 <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
                             </div>
-                            <div class="col col-sm-6 text-left">
-                                {{payFormvaild}}
+                            <div class="col col-sm-6 text-left" ng-show="PaybillModel.PaymentMethodId!=18">
                                 <button type="submit" class="btn btn-info btn-bg" ng-disabled="!isCardValid || !ExpireModel.ExpireMonth || !ExpireModel.ExpireYear"
                                     ng-click="Paynow()">
                                     Pay Now</button>
                             </div>
+                            <div class="col col-sm-6 text-left" ng-show="PaybillModel.PaymentMethodId==18">
+                                <button type="submit" class="btn btn-info btn-bg" ng-disabled="!isGiftCardSelected || !IsGiftCardNumbervalid" ng-click="Paynow()">
+                                    Pay Now</button>
+                            </div>
                         </div>
                     </form>
-                      <div class="col-sm-8 mt-3 text-right">
+                    <div class="col-sm-8 mt-3 text-right">
                         <ul>
                             <li><a style="cursor: pointer;" target="_blank" ui-sref='app.return_policy'>Refunds and Returns Policy</a></li>
                         </ul>

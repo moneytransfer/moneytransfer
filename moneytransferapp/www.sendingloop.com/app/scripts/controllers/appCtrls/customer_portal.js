@@ -57,7 +57,7 @@
             GetCustomerTransactionDetails(vm.CustomerID, vm.CompanyId);
         }
 
-        //Get Country
+        //====================Get Country====================//
         $http({
             method: 'GET',
             url: baseUrl + 'getcountrydetails',
@@ -68,7 +68,10 @@
             vm.Countries = idata;
 
         });
+        //====================End======================//
 
+
+        //====================Get Selected Country Details====================//
         vm.CountryDetails = [{ phonecode: '' }];
 
         vm.PaybillModel = { CompanyId: 0, CustomerId: 0, SenderName: '', PaymentMethodId: '0', Amount: '0.00', MobileNumber: '' }
@@ -126,10 +129,10 @@
                 Searchdata();
             }, delay);
         }
+        //====================End======================//
 
-
+        //====================Get Country Details By Number====================//
         function Searchdata() {
-            //vm.FlagModel.internationalCodes = '';
             $localStorage.GustData = '';
             var iCountryCode = vm.FlagModel.internationalCodes;
             var iNumber = vm.PaybillModel.MobileNumber;
@@ -253,6 +256,9 @@
 
         }
 
+        //=============================End==================================//
+
+        //===========================Proceed to choose Amount===============//
         vm.submitForm = function () {
             if ($localStorage.GustData) {
                 if ($localStorage.GustCustomer == '') {
@@ -264,8 +270,28 @@
             //    Alert(2, "! It is not possible to recharge on this phone number. Please check the number and try again.");
             //}
         }
+        //============================End==============================//
+
+        //=========================Set Selected Amount=================//
+        vm.selectAmmount = function (ammount) {
+
+            var dAmount = parseFloat(ammount).toFixed(2)
+            //amountfeild
+            $('#amountfeild').val(dAmount);
+            $localStorage.Ammount = dAmount;
+            // $localStorage.AmountGer = 0;
+            vm.getFeeDetails();
+            vm.isPayAmmount = true;
+
+            vm.isAmmount = false;
+            //vm.PaybillModel.Amount = ammount; * $localStorage.SelectedCountry.ConvertAmount
+
+            $('#proceedButton').prop('disabled', false);
+        }
+        //============================End==============================//
 
 
+        //=======================Validate Amount=======================//
         vm.checkPayAmmount = function (Ammount) {
             vm.accessAmount = false;
             vm.isPayAmmount = false;
@@ -293,25 +319,11 @@
                 $('#proceedButton').prop('disabled', true);
             }
         }
+        //============================End==============================//
 
 
-        vm.selectAmmount = function (ammount) {
 
-            var dAmount = parseFloat(ammount).toFixed(2)
-            //amountfeild
-            $('#amountfeild').val(dAmount);
-            $localStorage.Ammount = dAmount;
-            // $localStorage.AmountGer = 0;
-            vm.getFeeDetails();
-            vm.isPayAmmount = true;
-
-            vm.isAmmount = false;
-            //vm.PaybillModel.Amount = ammount; * $localStorage.SelectedCountry.ConvertAmount
-
-            $('#proceedButton').prop('disabled', false);
-        }
-
-        //Set amont with Global exchanges rate
+        //=================Set Global exchanges rate===================//
         vm.selectAmmountWithGER = function (ammount, usd) {
             var dAmount = parseFloat(ammount).toFixed(2)
             //amountfeild
@@ -326,7 +338,9 @@
 
             $('#proceedButton').prop('disabled', false);
         }
+        //============================End==============================//
 
+        //=====================Get Fee details =======================//
         vm.getFeeDetails = function () {
             var DestinationCountry = vm.localStorage.SelectedCountry.DestinationCountry;
             var formData = JSON.parse(JSON.stringify({ "CompanyId": 17, "DestinationCountry": DestinationCountry }));
@@ -350,10 +364,10 @@
                 }
             });
         }
+        //============================End==============================//
 
-
+        //=====================Validate amount to Proceed =======================//
         vm.proceed = function () {
-
             vm.accessAmount = false;
             vm.validAmount = false;
             if ($("#from_id").valid()) {
@@ -395,22 +409,27 @@
             if (!$localStorage.GustCustomer) {
                 $state.go('app.Login');
             } else {
-               
+
                 if (!$localStorage.GustCustomer.IsDocumentUpload) {
                     vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
-                    vm.MonthsTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
-                    vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                    vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInWeek;
+                    vm.CurrentTransactions = $localStorage.GustCustomer.CurrentMonthTransactionCount;
+                    vm.PreviousTransactions = $localStorage.GustCustomer.PreviousMonthTransactionCount;
+                    vm.PrevioustoPreviousTransactions = $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount;
                     if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
-                    if (vm.MonthsTransactions < 3) {
-                        if (vm.WeekTransactions < 3) {
-                            if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
-                                $('#KycConfrimation').modal('toggle');
-                            }
-                            else { $window.location.assign('#/app/makePayment'); }
+
+                    if (vm.CurrentTransactions <= 0 && vm.PreviousTransactions <= 1 && vm.PrevioustoPreviousTransactions <= 1) {
+                        $window.location.assign('#/app/makePayment');
+                    }
+                    else if (vm.WeekTransactions < 3) {
+                        if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
+                            $('#KycConfrimation').modal('toggle');
                         }
                         else { $window.location.assign('#/app/makePayment'); }
                     }
-                    else { $window.location.assign('#/app/makePayment'); }
+                    else { $('#KycConfrimation').modal('toggle'); }
+                    //}
+                    //else { $('#KycConfrimation').modal('toggle'); }
                 }
                 else {
                     $window.location.assign('#/app/makePayment');
@@ -419,7 +438,9 @@
             }
         }
 
+        //================================End==================================//
 
+        //=====================Proceed to submit KYC =========================//
         vm.YesKyc = function () {
             $('#KycConfrimation').modal('toggle');
             $('.modal-backdrop').remove();
@@ -434,6 +455,7 @@
             $('#amountfeild').val(dAmount);
 
         }
+        //===============================End================================//
 
         vm.BackChooseamount = function () {
             if ($localStorage.Ammount) {
@@ -447,19 +469,7 @@
         //With Exchange rate
         vm.PayAmountWithExchange = [{ AmountId: '1', Amount: '1.00' }, { AmountId: '2', Amount: '2.00' }, { AmountId: '3', Amount: '3.00' }, { AmountId: '4', Amount: '4.00' }, { AmountId: '5', Amount: '5.00' }, { AmountId: '6', Amount: '6.00' }, { AmountId: '7', Amount: '7.00' }, { AmountId: '8', Amount: '8.00' }, { AmountId: '9', Amount: '9.00' }, { AmountId: '10', Amount: '10.00' }, { AmountId: '11', Amount: '11.00' }, { AmountId: '12', Amount: '12.00' }];
 
-        //Without exchange rate
-
-        //vm.PayAmount = $localStorage.SelectedCountry.AmountList;
-        //vm.PayAmount = [{ AmountId: '1', Amount: '10.00' }, { AmountId: '2', Amount: '20.00' },
-        //                { AmountId: '3', Amount: '30.00' }, { AmountId: '4', Amount: '40.00' },
-        //                { AmountId: '5', Amount: '50.00' }, { AmountId: '6', Amount: '60.00' },
-        //                { AmountId: '7', Amount: '70.00' }, { AmountId: '8', Amount: '80.00' },
-        //                { AmountId: '9', Amount: '90.00' }, { AmountId: '10', Amount: '100.00' },
-        //                { AmountId: '11', Amount: '110.00' }, { AmountId: '12', Amount: '120.00' },
-        //                { AmountId: '13', Amount: '130.00' }, { AmountId: '14', Amount: '140.00' },
-        //                { AmountId: '15', Amount: '150.00' }, { AmountId: '16', Amount: '160.00' }];
-
-        //----------------Set amount Array--------------------//
+        //==========================Set amount Array======================//
         function setAmountArray() {
 
             if ($localStorage.SelectedCountry.minAmount == $localStorage.SelectedCountry.maxAmount) {
@@ -485,7 +495,7 @@
             }
             $localStorage.AmountList = vm.PayAmountList;
         }
-
+        //===============================End=============================//
         vm.goBack = function () {
             vm.localStorage.Ammount = '';
             vm.localStorage.AmountGer = '';
@@ -543,7 +553,7 @@
             return dateOut;
         };
 
-
+        //==========================Money Conversion======================//
         function ConvertMoney(code) {
             //$localStorage.SelectedCountry.ConvertAmount = 0;
 
@@ -579,7 +589,6 @@
                     //return 
                 });
         }
-
 
         function UpdateglobalExchange(code) {
 
@@ -661,6 +670,7 @@
                     });
             }
         }
+        //===============================End=============================//
 
         function GetCustomerTransactionDetails(CustomerId, CompanyId) {
             vm.CustomerID = CustomerId;
@@ -675,8 +685,10 @@
                 var idata = data;
                 if (idata.CustomerId > 0) {
                     $localStorage.GustCustomer.TotalTransactionsAmt = idata.SendingAmount;
-                    $localStorage.GustCustomer.TotalTransactionsInMonth = idata.MonthTransactionCount;
                     $localStorage.GustCustomer.TotalTransactionsInWeek = idata.WeekTransactionCount;
+                    $localStorage.GustCustomer.CurrentMonthTransactionCount = idata.CurrentMonthTransactionCount;
+                    $localStorage.GustCustomer.PreviousMonthTransactionCount = idata.PreviousMonthTransactionCount;
+                    $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount = idata.PrevioustoPreviousMonthTransactionCount;
 
                     GetApplicantCheckStatus(vm.CustomerID)
                 }
@@ -696,7 +708,7 @@
             })
              .success(function (data) {
                  var idata = data[0];
-                 if (idata.ApplicantCheckId) {
+                 if (idata !== undefined && idata.ApplicantCheckId) {
                      $localStorage.GustCustomer.KYCStatus = idata.Status;
                  }
              });
@@ -809,11 +821,11 @@
             $localStorage.GustData = '';
             $localStorage.MobileNumber = '';
             $localStorage.SelectedCountry = '';
-            $localStorage.GustCustomer = '';
+            //$localStorage.GustCustomer = '';
             $localStorage.AmountList = '';
             setTimeout(function () {
-                // $state.go('app.customerPortal');
-                $window.location.reload();
+                $state.go('app.customerPortal');
+                // $window.location.reload();
             }, 500);
         }
 
@@ -929,25 +941,28 @@
             })
              .success(function (data) {
                  var idata = data[0];
-                 if (idata.ApplicantCheckId) {
+                 if (idata !== undefined && idata.ApplicantCheckId) {
                      $localStorage.GustCustomer.KYCStatus = idata.Status;
                  }
                  if ($localStorage.Ammount) {
                      if (!$localStorage.GustCustomer.IsDocumentUpload) {
                          vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
-                         vm.MonthsTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
-                         vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                         vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInWeek;
+                         vm.CurrentTransactions = $localStorage.GustCustomer.CurrentMonthTransactionCount;
+                         vm.PreviousTransactions = $localStorage.GustCustomer.PreviousMonthTransactionCount;
+                         vm.PrevioustoPreviousTransactions = $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount;
                          if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
-                         if (vm.MonthsTransactions < 3) {
-                             if (vm.WeekTransactions < 3) {
-                                 if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
-                                     $('#KycConfrimation').modal('toggle');
-                                 }
-                                 else { $window.location.assign('#/app/makePayment'); }
+
+                         if (vm.CurrentTransactions <= 0 && vm.PreviousTransactions <= 1 && vm.PrevioustoPreviousTransactions <= 1) {
+                             $window.location.assign('#/app/makePayment');
+                         }
+                         else if (vm.WeekTransactions < 3) {
+                             if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
+                                 $('#KycConfrimation').modal('toggle');
                              }
                              else { $window.location.assign('#/app/makePayment'); }
                          }
-                         else { $window.location.assign('#/app/makePayment'); }
+                         else { $('#KycConfrimation').modal('toggle'); }
                      }
                      else {
                          $window.location.assign('#/app/makePayment');
@@ -978,27 +993,33 @@
                 var idata = data;
                 if (idata.CustomerId != null && idata.CustomerId > 0) {
                     $localStorage.GustCustomer.TotalTransactionsAmt = idata.SendingAmount;
-                    $localStorage.GustCustomer.TotalTransactionsInMonth = idata.MonthTransactionCount;
                     $localStorage.GustCustomer.TotalTransactionsInWeek = idata.WeekTransactionCount;
+                    $localStorage.GustCustomer.CurrentMonthTransactionCount = idata.CurrentMonthTransactionCount;
+                    $localStorage.GustCustomer.PreviousMonthTransactionCount = idata.PreviousMonthTransactionCount;
+                    $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount = idata.PrevioustoPreviousMonthTransactionCount;
+
                     GetApplicantCheckStatus(vm.CustomerID)
                 }
                 else {
                     if ($localStorage.Ammount) {
                         if (!$localStorage.GustCustomer.IsDocumentUpload) {
                             vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
-                            vm.MonthsTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
-                            vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInMonth;
+                            vm.WeekTransactions = $localStorage.GustCustomer.TotalTransactionsInWeek;
+                            vm.CurrentTransactions = $localStorage.GustCustomer.CurrentMonthTransactionCount;
+                            vm.PreviousTransactions = $localStorage.GustCustomer.PreviousMonthTransactionCount;
+                            vm.PrevioustoPreviousTransactions = $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount;
                             if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
-                            if (vm.MonthsTransactions < 3) {
-                                if (vm.WeekTransactions < 3) {
-                                    if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
-                                        $('#KycConfrimation').modal('toggle');
-                                    }
-                                    else { $window.location.assign('#/app/makePayment'); }
+
+                            if (vm.CurrentTransactions <= 0 && vm.PreviousTransactions <= 1 && vm.PrevioustoPreviousTransactions <= 1) {
+                                $window.location.assign('#/app/makePayment');
+                            }
+                            else if (vm.WeekTransactions < 3) {
+                                if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
+                                    $('#KycConfrimation').modal('toggle');
                                 }
                                 else { $window.location.assign('#/app/makePayment'); }
                             }
-                            else { $window.location.assign('#/app/makePayment'); }
+                            else { $('#KycConfrimation').modal('toggle'); }
                         }
                         else {
                             $window.location.assign('#/app/makePayment');
@@ -1042,27 +1063,39 @@
         else {
             $state.go('app.Login');
         }
-        
+
         vm.StatusApproved = false;
         if ($localStorage.GustCustomer) {
             vm.TotalPaidAmt = $localStorage.GustCustomer.TotalTransactionsAmt;
+            vm.CurrentTransactions = $localStorage.GustCustomer.CurrentMonthTransactionCount;
+            vm.PreviousTransactions = $localStorage.GustCustomer.PreviousMonthTransactionCount;
+            vm.PrevioustoPreviousTransactions = $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount;
             if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
 
-            if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) < 100) {
+            if (vm.CurrentTransactions <= 0 && vm.PreviousTransactions <= 1 && vm.PrevioustoPreviousTransactions <= 1) {
                 LoadPaymentMethods();
+
             }
             else {
-                vm.KYCStatus = $localStorage.GustCustomer.KYCStatus;
-                if (vm.KYCStatus == "Success") {
-                    //Get Method Details
+                if (parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount) < 100) {
                     LoadPaymentMethods();
+
                 }
                 else {
-                    vm.StatusApproved = true;
+                    vm.KYCStatus = $localStorage.GustCustomer.KYCStatus;
+                    if (vm.KYCStatus == "Success") {
+                        //Get Method Details
+                        LoadPaymentMethods();
+
+                    }
+                    else {
+                        vm.StatusApproved = true;
+                    }
                 }
             }
         }
 
+        //==========================Load Payment Method======================//
         function LoadPaymentMethods() {
             vm.StatusApproved = false;
             vm.PaymentMethods = [];
@@ -1085,6 +1118,25 @@
             });
         }
 
+        //===============================End================================//
+
+        //==========================Load Gift Cards========================//
+        //function LoadGiftCards() {
+
+        vm.GiftCards = [];
+        $http({
+            method: 'GET',
+            url: baseUrl + 'getGiftCard ',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .success(function (data) {
+            var idata = data;
+            vm.GiftCards = idata;
+        });
+        //}
+        //===============================End===============================//
+
+        //==========================Selected Payment Method/Gift Card========================//
         vm.selectedMethod = function (PaymentId) {
             if (PaymentId > 0) {
                 var formData = JSON.parse(JSON.stringify({ "PaymentMethodId": PaymentId, "FeesCategoryId": 2 }));
@@ -1114,15 +1166,43 @@
             }
         }
 
-        vm.Paynow = function () {
-            $('#Payconfirm').modal('toggle');
-
-            //$('.modal-backdrop').remove();
-            //$('#Payconfirm').modal('show');
-
-
+        vm.isGiftCardSelected = false;
+        vm.selectedGiftCard = function (GiftCardId) {
+            vm.SelectedCard = GiftCardId;
+            if (GiftCardId > 0) {
+                vm.isGiftCardSelected = true;
+            }
+            else {
+                vm.isGiftCardSelected = false;
+            }
         }
 
+        vm.IsGiftCardNumbervalid = false;
+        vm.ValidateCard = function (GiftCardNum) {
+            if (GiftCardNum != null) {
+                if (GiftCardNum.toString().length > 5) {
+                    if (vm.SelectedCard == GiftCardNum) {
+                        $("#Gift-number-field").removeClass("has-error");
+                        $("#Gift-number-field").addClass("has-success");
+                        vm.IsGiftCardNumbervalid = true;
+                    }
+                    else {
+                        $("#Gift-number-field").removeClass("has-success");
+                        $("#Gift-number-field").addClass("has-error");
+                        vm.IsGiftCardNumbervalid = false;
+                    }
+                }
+            }
+        }
+
+        //=================================End====================================//
+
+
+        vm.Paynow = function () {
+            $('#Payconfirm').modal('toggle');
+        }
+
+        //==========================Validating of Card Details========================//
         function validate(evt) {
             var theEvent = evt || window.event;
             var key = theEvent.keyCode || theEvent.which;
@@ -1201,116 +1281,163 @@
             }
         }
 
+        //=================================End====================================//
+
+
+        //==========================Proceed to payment===========================//
+        vm.PaybyGiftCard = { "GiftCardid": 0, "CompanyId": 0, "CustomerId": 0, "TransactionDetail": "Gift card", "SendingAmount": "0", "Charges": "0", "Fees": "0", "Tax": "0", "ReceivingAmount": "0", "BeneficiaryId": "0", "PaymentMethodId": "0", "TransferPurpose": "For g.f", "DeliveryType": "Gift Card" }
 
         vm.Create = function (e) {
-
-            $('#Payconfirm').modal('toggle');
             vm.alert = false;
-            var isCardValid = $.payform.validateCardNumber(cardNumber.val());
-            var isCvvValid = $.payform.validateCardCVC(CVV.val());
-            var IsValid = false;
-            var cvvlength = CVV.val().length;
-            if ($.payform.parseCardType(cardNumber.val()) == 'amex') {
-                if (cvvlength < 4) {
-                    CvvNumberField.removeClass('has-success');
-                    CvvNumberField.addClass('has-error');
-                    vm.alert = true;
-                    setTimeout(function () {
-                        $("#PaymentAlertText").text('Invaild CVV number');
-                    }, 100);
+            $('#Payconfirm').modal('toggle');
+            var idata = vm.PaybillModel;
+            if (idata.PaymentMethodId == 18) {
+                var GiftNumber = $('#GiftNumber').val();
+                if (GiftNumber == "") {
+                    //setTimeout(function () {
+                    AlertKyc(2, 'Please enter a valid Gift card number');
+                    //}, 200);
                     return
                 }
                 else {
-                    IsValid = true; vm.alert = false;
-                }
-            }
-            else {
-                if (cvvlength != 3) {
-                    CvvNumberField.removeClass('has-success');
-                    CvvNumberField.addClass('has-error');
-                    vm.alert = true;
-                    setTimeout(function () {
-                        $("#PaymentAlertText").text('Invaild CVV number');
-                    }, 100);
-                    return
-                }
-                else { IsValid = true; vm.alert = false; }
-            }
-
-            if (isCardValid && IsValid) {
-                if (isCvvValid) {
-                    var data = vm.localStorage.GustCustomer;
-                    var idata = vm.PaybillModel;
-                    idata.Amount = vm.localStorage.FareAmmount + vm.localStorage.Fees;
-                    idata.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
-                    idata.CompanyId = vm.localStorage.GustCustomer.CompanyId;
-                    idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
-                    idata.SenderName = vm.localStorage.GustCustomer.FirstName;
-                    idata.Fees = vm.localStorage.Fees;
-                    idata.SKUId = vm.localStorage.SelectedCountry.skuId;
-                    var sMonth = parseInt(vm.ExpireModel.ExpireMonth);
-                    if (sMonth < 10) {
-                        sMonth = '0' + sMonth
-                    }
-                    var CurrentDate = new Date();
-                    var Currentyear = CurrentDate.getYear();
-                    var sYear = vm.ExpireModel.ExpireYear;
-                    var expiremonth = sMonth + '' + sYear;
-                    idata.setExpirationDate = expiremonth;
-
-                    var formData = JSON.stringify(idata);
+                    vm.PaybyGiftCard.SendingAmount = vm.localStorage.FareAmmount + vm.localStorage.Fees;
+                    vm.PaybyGiftCard.Fees = vm.localStorage.Fees;
+                    vm.PaybyGiftCard.GiftCardid = idata.GiftCardid;
+                    vm.PaybyGiftCard.PaymentMethodId = idata.PaymentMethodId;
+                    vm.PaybyGiftCard.CompanyId = vm.localStorage.GustCustomer.CompanyId;
+                    vm.PaybyGiftCard.CustomerId = vm.localStorage.GustCustomer.CustomerId;
+                    var formData = JSON.stringify(vm.PaybyGiftCard);
                     $http({
                         method: 'POST',
-                        url: baseUrl + 'billPay',
+                        url: baseUrl + 'payGiftCard',
                         data: formData,
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         dataType: "json",
                     })
                     .success(function (data) {
-
                         var idata = data;
-                        if (idata.Result == "Success" && idata.TransactionId > 0) {
-                            idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
-                            idata.InvoiceAmount = idata.Amount;
-                            idata.FaceAmount = idata.Amount;
-                            $state.go('app.ThankuCus');
+                        if (idata.Result == "Suceess") {
+                            AlertKyc(1, "Payment has been success");
+                            setTimeout(function () {
+                                vm.PayDetails.InvoiceNumber = idata.GiftCardid;
+                                vm.PayDetails.InvoiceAmount = vm.localStorage.FareAmmount + vm.localStorage.Fees;
+                                vm.PayDetails.FaceAmount = vm.localStorage.FareAmmount;
+                                vm.PayDetails.Fees = vm.localStorage.Fees;
+                                vm.PayDetails.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
+                                vm.PayDetails.SenderName = vm.localStorage.GustCustomer.FirstName;
+
+
+                                $localStorage.ThankyouPageData = vm.PayDetails;
+
+                                $state.go('app.ThankuCus');
+                            }, 1000);
                         }
                         else {
+
                             AlertKyc(2, idata.Error);
                         }
-                        vm.PayDetails = idata;
-                        $localStorage.ThankyouPageData = vm.PayDetails;
-                        //if (idata && idata.BillPayId > 0) {
-                        //    vm.localStorage.Ammount = '';
-                        //    vm.localStorage.FareAmmount = '';
-                        //    vm.localStorage.GustData = '';
-                        //    vm.localStorage.MobileNumber = '';
-                        //    vm.localStorage.SelectedCountry = '';
 
-
-
-                        //} 
-
-
+                    })
+                    .error(function (data) {
+                        AlertKyc(2, idata.Error);
                     });
+                }
+            }
+            else {
+                var isCardValid = $.payform.validateCardNumber(cardNumber.val());
+                var isCvvValid = $.payform.validateCardCVC(CVV.val());
+                var IsValid = false;
+                var cvvlength = CVV.val().length;
+                if ($.payform.parseCardType(cardNumber.val()) == 'amex') {
+                    if (cvvlength < 4) {
+                        CvvNumberField.removeClass('has-success');
+                        CvvNumberField.addClass('has-error');
+                        vm.alert = true;
+                        setTimeout(function () {
+                            $("#PaymentAlertText").text('Invaild CVV number');
+                        }, 100);
+                        return
+                    }
+                    else {
+                        IsValid = true; vm.alert = false;
+                    }
+                }
+                else {
+                    if (cvvlength != 3) {
+                        CvvNumberField.removeClass('has-success');
+                        CvvNumberField.addClass('has-error');
+                        vm.alert = true;
+                        setTimeout(function () {
+                            $("#PaymentAlertText").text('Invaild CVV number');
+                        }, 100);
+                        return
+                    }
+                    else { IsValid = true; vm.alert = false; }
+                }
+
+                if (isCardValid && IsValid) {
+                    if (isCvvValid) {
+                        var data = vm.localStorage.GustCustomer;
+                        var idata = vm.PaybillModel;
+                        idata.Amount = vm.localStorage.FareAmmount + vm.localStorage.Fees;
+                        idata.MobileNumber = vm.localStorage.SelectedCountry.MobileNumber;
+                        idata.CompanyId = vm.localStorage.GustCustomer.CompanyId;
+                        idata.CustomerId = vm.localStorage.GustCustomer.CustomerId;
+                        idata.SenderName = vm.localStorage.GustCustomer.FirstName;
+                        idata.Fees = vm.localStorage.Fees;
+                        idata.SKUId = vm.localStorage.SelectedCountry.skuId;
+                        var sMonth = parseInt(vm.ExpireModel.ExpireMonth);
+                        if (sMonth < 10) {
+                            sMonth = '0' + sMonth
+                        }
+                        var CurrentDate = new Date();
+                        var Currentyear = CurrentDate.getYear();
+                        var sYear = vm.ExpireModel.ExpireYear;
+                        var expiremonth = sMonth + '' + sYear;
+                        idata.setExpirationDate = expiremonth;
+
+                        var formData = JSON.stringify(idata);
+                        $http({
+                            method: 'POST',
+                            url: baseUrl + 'billPay',
+                            data: formData,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            dataType: "json",
+                        })
+                        .success(function (data) {
+
+                            var idata = data;
+                            if (idata.Result == "Success" && idata.TransactionId > 0) {
+                                idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
+                                idata.InvoiceAmount = idata.Amount;
+                                idata.FaceAmount = idata.Amount;
+                                $state.go('app.ThankuCus');
+                            }
+                            else {
+                                AlertKyc(2, idata.Error);
+                            }
+                            vm.PayDetails = idata;
+                            $localStorage.ThankyouPageData = vm.PayDetails;
+                        });
+                    }
+                    else {
+                        vm.alert = true;
+                        setTimeout(function () {
+                            $("#PaymentAlertText").text('Invaild Card');
+                        }, 100);
+                    }
                 }
                 else {
                     vm.alert = true;
                     setTimeout(function () {
-                        $("#PaymentAlertText").text('Invaild Card');
+                        $("#PaymentAlertText").text('Invaild CVV number ');
                     }, 100);
                 }
             }
-            else {
-                vm.alert = true;
-                setTimeout(function () {
-                    $("#PaymentAlertText").text('Invaild CVV number ');
-                }, 100);
-            }
         }
-
+        //=================================End====================================//
         vm.cancel = function () {
             vm.localStorage.Ammount = '';
             vm.localStorage.FareAmmount = '';
@@ -1319,7 +1446,6 @@
             vm.localStorage.SelectedCountry = '';
             $state.go('app.customerPortal');
         }
-
 
 
     }
