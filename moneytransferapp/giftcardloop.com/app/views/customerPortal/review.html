@@ -1,0 +1,83 @@
+﻿<div class="body-container-wrapper m-t-3" ng-controller="manageGustCustomerController">
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="./assets/image/spinner.gif" />
+    </div>
+    <div class="master-banner inner-page-banner d-flex align-items-end">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 desaturated-blue">
+                    <ul class="row custom-banner-breadcrumb">
+                        <!-- <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>-->
+                        <li class="col-md-4 " ui-sref='app.customerPortal'>Choose Amount</li>
+                        <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}">Review</li>
+                        <li class="col-md-4">Payment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end master banner-->
+    <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
+        <div class="container">
+            <div class="row choose-amt">
+                <!--Table section start here-->
+                <table class="table">
+                    <tbody class="additional-info ng-binding">
+                        <tr>
+                            <td>Gift Card</td>
+                            <td>{{localStorage.GiftCardName}}</td>
+                        </tr>
+                        <tr>
+                            <td>Initials Price</td>
+                            <td>{{localStorage.GiftCardInitialsPrice| number:2}} USD</td>
+                        </tr>
+                        <tr>
+                            <td>Gift Card Price</td>
+                            <td>{{localStorage.GiftCardPrice| number:2}} USD</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-sm-6 offset-3 text-center">
+                    <button type="button" class="btn btn-default mr-3" data-ng-click="cancel()">Back</button>
+                    <button type="button" class="btn btn-info btn-bg ml-3" data-ng-click="popupYes()">Pay Now </button>
+
+                </div>
+            </div>
+            <div class="container position-relative d-flex justify-content-center align-items-center">
+                <form class="banner-form-wrapper d-flex flex-column" style="max-width: 100%;" name="tblGiftcard">
+                    <div class="row m-t" id="showGiftCardForm" style="padding-left: 45px;">
+                        <div class="col-sm-3" data-ng-repeat="GiftCard in GiftCards">
+                            <label class="form-control-label">
+                                <input type="radio" name="GiftCard" data-ng-model="localStorage.GiftCardid" data-ng-click="selectedGiftCard(GiftCard)" value="{{GiftCard.GiftCardid}}" required />
+                                <img style="width: 160px; height: 100px;" src="./images/GiftCard/falcon-gift-card-{{GiftCard.GiftCardInitialsPrice}}.jpg" data-ng-click="selectedGiftCard(GiftCard)" />
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="KycConfrimation">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-success">
+                    <h4 class="modal-title ">Confirmation ! </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="modal-title">Please update your KYC details to proceed </h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" ng-click="YesKyc()">Yes</button>
+                    <button type="button" class="btn btn-primary" ng-click="cancel()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

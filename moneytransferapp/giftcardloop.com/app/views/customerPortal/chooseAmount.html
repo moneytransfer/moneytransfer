@@ -1,0 +1,102 @@
+<div class="body-container-wrapper m-t-3" ng-controller="manageGustCustomerController">
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="assets/image/spinner.gif" />
+    </div>
+    <div class="master-banner inner-page-banner d-flex align-items-end">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 desaturated-blue">
+                    <ul class="row custom-banner-breadcrumb">
+                        <!-- <li class="col-md-3 >Destination Number</li>-->
+                        <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}" ng-click="goBack()">Choose Amount</li>
+                        <li class="col-md-4">Review</li>
+                        <li class="col-md-4">Payment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end master banner-->
+    <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
+        <div class="container">
+            <div class="row choose-amt">
+                <div class="col-sm">
+                    <h3 class="text-center mb-4">Select the amount you want to send</h3>
+                    <form id="from_id">
+                        <div class="row m-t" id="showGiftCardForm" style="padding-left: 45px;">
+                            <div class="col-sm-4" data-ng-repeat="GiftCard in GiftCards">
+                                <label class="form-control-label">{{localStorage.GiftCardModel.GiftCardid}}
+                                    <input type="radio" name="GiftCard" ng-model="localStorage.GiftCardModel.GiftCardid" ng-change="selectedGiftCard(GiftCardModel.GiftCardid)" value="{{GiftCard.GiftCardid}}" required />
+                                    <img style="width: 150px; height: 90px;" src="./images/GiftCard/{{GiftCard.GiftCardName}}.jpg" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row m-t fs-14 text-black" style="padding-left: 45px;">
+                            <div class="col-md-4">
+                                <span class="col-md-8">Fare Amount </span>
+                                <span>{{localStorage.GiftCardModel.FareAmmount | number:2}} USD</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="col-md-8">Reloading Amount
+                                </span>
+                                <span>{{localStorage.GiftCardModel.GiftCardPrice | number:2}} USD</span>
+                            </div>
+                            <div class="col-md-4 form-group text-center text-md-center">
+                                <button type="submit" id="proceedButton" class="btn btn-info btn-bg" style="background: blue;" ng-click='tblGiftcard.$valid && proceed()'>Proceed</button>
+                            </div>
+                        </div>
+
+
+
+                        <!--                        <div class="col-md-2 form-group text-center text-md-left">
+                            <button type="submit" id="proceedButton" class="btn btn-info btn-bg" ng-click='proceed()'>Proceed</button>
+                        </div>-->
+
+                        <div class="alert alert-danger text-left position-static" id="Divvalid" ng-if="validAmount">
+                            <span>Plesae select amount first or enter amount to proceed.</span>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="row choose-amt">
+                <div class="col-sm">
+                    <div class="choose-amount mt-5">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3" ng-repeat="Amount in PayAmountWithExchange">
+                                <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount)">
+                                    <center><span >{{Amount.Amount| number:2}}</span> &nbsp;USD</center>
+                                </a>
+                                <!--<small class="d-inline-block"><span>{{Amount.Amount  * localStorage.SelectedCountry.GlobalExchangesRate| number:2 }}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</small></a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row section-02">
+                <div class="phoneReload"></div>
+                <div class="col-md d-flex mb-12 mb-md-0">
+                    <div class="flowimg">
+                        <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script type="text/javascript">
+    function amountInput() {
+        var Ammount = $('#amountfeild').val();
+        if (Ammount <= 0) {
+            $('#proceedButton').prop('disabled', true);
+        } else {
+            $('#proceedButton').prop('disabled', false);
+        }
+    }
+</script>

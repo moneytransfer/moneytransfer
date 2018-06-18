@@ -1,0 +1,213 @@
+<div class="body-container-wrapper m-t-3">
+    <div class="master-banner inner-page-banner d-flex align-items-end">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 desaturated-blue">
+                    <ul class="row custom-banner-breadcrumb">
+                        <!--  <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>-->
+                        <li class="col-md-4 ">Choose Amount</li>
+                        <li class="col-md-4 " ui-sref='app.reviewAmmount'>Review</li>
+                        <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}">Payment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end master banner-->
+    <div class="container" ui-view>
+        <section class="payment-amount-wrapper amount-wrap pt-5 pb-5" ng-controller="manageMakePaymentController">
+
+            <div class="httpprocess" id="Processbar" ng-show="process">
+                <img src="./assets/image/spinner.gif" />
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <form class="">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <div class="number-wrapper cm-input">
+                                    <input type="text" class="form-control" maxlength="15" placeholder="Mobile Number" id="MobileNumber" ng-model="localStorage.GiftCardName" disabled required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <a class="background-white custom-payment-amount new-payment text-sm-center">{{localStorage.GiftCardInitialsPrice | number:2}}&nbsp;&nbsp;USD</span></a>
+                            </div>
+                        </div>
+                        <div class="row mt-2" ng-if="!StatusApproved">
+                            <div class="col-sm-12">
+                                <h6>Choose your payment method</h6>
+                            </div>
+                            <div class="col-sm-4" ng-repeat="PaymentMethod in PaymentMethods">
+                                <label class="form-control-label">
+                                    <input type="radio" name="methods" ng-model="PaybillModel.PaymentMethodId" value="{{PaymentMethod.PaymentMethodId}}" ng-change="selectedMethod(PaybillModel.PaymentMethodId)" required ng-init="$index==0?(PaybillModel.PaymentMethodId=PaymentMethod.PaymentMethodId):''" />
+                                    {{PaymentMethod.Title}}</label>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger text-left position-static" id="NoPaymentMethod" ng-if="PaymentMethods.length==0">
+                            <span>You are not able to make Payment, please contact with administrator.</span>
+                        </div>
+
+                        <div class="alert alert-danger text-left position-static" id="Div1" ng-if="StatusApproved">
+                            <span>You profile is not complete, please complete identification requirements by updating your profile.</span>
+                        </div>
+
+                        <div class="row" id="showPaymentForm" ng-show="PaybillModel.PaymentMethodId==12">
+                            <div class="col-md-6 form-group" id="card-number-field">
+                                <input type="number" class="form-control cm-input" id="CardNumber" placeholder="Card Number" ng-model="PaybillModel.CardNumber" onkeypress="if(this.value.length==16) return false;" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <div class="row">
+                                    <div class="form-group col-sm-4 mb-3 mb-sm-1">
+                                        <!-- <input type="number" class="form-control cm-input" id="Expiremonth" placeholder="mm" min="1" max="12" ng-model="ExpireModel.ExpireMonth" onkeypress="if(this.value.length==2) return false;" required>-->
+                                        <select class="form-control cm-input" ng-model="ExpireModel.ExpireMonth" required>
+                                            <option value="0">MONTH</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February </option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+
+
+                                    </div>
+                                    <div class="col-sm-4 mb-3 mb-sm-1">
+                                        <!--<input type="number" class="form-control cm-input" id="Year" placeholder="yy" ng-model="ExpireModel.ExpireYear" onkeypress="if(this.value.length==2) return false;" required>-->
+                                        <select class="form-control cm-input" ng-model="ExpireModel.ExpireYear" ng-change="CheckYear(ExpireModel.ExpireYear)" required>
+                                            <option value="0">Year</option>
+                                            <option value="17">2017</option>
+                                            <option value="18">2018</option>
+                                            <option value="19">2019</option>
+                                            <option value="20">2020</option>
+                                            <option value="21">2021</option>
+                                            <option value="22">2022</option>
+                                            <option value="23">2023</option>
+                                            <option value="24">2024</option>
+                                            <option value="25">2025</option>
+                                            <option value="26">2026</option>
+                                            <option value="27">2027</option>
+                                            <option value="28">2028</option>
+                                            <option value="29">2029</option>
+                                            <option value="30">2030</option>
+                                            <option value="31">2031</option>
+                                            <option value="32">2032</option>
+                                            <option value="33">2033</option>
+                                            <option value="34">2034</option>
+                                            <option value="35">2035</option>
+                                            <option value="36">2036</option>
+                                            <option value="37">2037</option>
+                                            <option value="38">2038</option>
+                                            <option value="39">2039</option>
+                                            <option value="40">2040</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-4" id="field-cvv">
+                                        <input type="text" class="form-control cm-input" id="cvv" placeholder="CVV" ng-model="PaybillModel.cvv" onkeypress="if(this.value.length==4) return false;" onkeypress="validate(event)" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div ng-if="alert" id="alertDiv" class="alert alert-danger text-left position-static">
+                            <span id="PaymentAlertText"></span>
+                        </div>
+                        <div class="col-sm-12" id="viewAlert"></div>
+
+
+                        <div class="row mt-3">
+                            <div class="col col-sm-6 text-right">
+                                <button type="submit" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                            </div>
+                            <div class="col col-sm-6 text-left">
+                                <button type="submit" class="btn btn-info btn-bg" ng-disabled="!isCardValid || !ExpireModel.ExpireMonth || !ExpireModel.ExpireYear"
+                                    ng-click="Paynow()">
+                                    Pay Now</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-sm-8 mt-3 text-right">
+                        <ul>
+                            <li><a style="cursor: pointer;" target="_blank" ui-sref='app.return_policy'>Refunds and Returns Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <dl class="section-bottom data-row">
+                        <dt class="data-label no-border">
+                            <img src="./images/GiftCard/falcon-gift-card-{{localStorage.GiftCardInitialsPrice}}.jpg" alt="" style=" width: 68px; ">
+                        </dt>
+                        <dd class="data-value text-right">{{localStorage.GiftCardName}}</dd>
+                    </dl>
+                    <dl class="section-bottom data-row">
+                        <dt class="data-label">Initials Price</dt>
+                        <dd class="data-value text-right"><span>{{localStorage.GiftCardInitialsPrice | number: 2}}</span><span> USD</span></dd>
+                    </dl>
+
+
+
+                   <!-- <dl class="data-row bb-1px-ccc">
+                        <dt class="data-label">Exchange rate<span>*</span></dt>
+                        <dd class="data-value text-right"><span>1 USD =</span><span>{{localStorage.SelectedCountry.GlobalExchangesRate}}</span><span> {{PaymentModel.ReceivingCurrency}}</span></dd>
+                    </dl>
+                    <dl class="section-bottom data-row">
+                        <dt class="data-label no-border">
+                            <img src="images/Flag/us.png" alt="">
+                        </dt>
+                        <dd class="data-value text-right">U.S.A</dd>
+                    </dl>-->
+                    <dl class="data-row">
+                        <dt class="data-label">Gift Card Price</dt>
+                        <dd class="data-value text-right"><span>{{localStorage.GiftCardPrice |  number: 2}}</span><span> USD</span></dd>
+                    </dl>
+                    <dl class="section-bottom  data-row bb-1px-ccc">
+                        <dt class="data-label">Fees</dt>
+                        <dd class="data-value text-right">{{localStorage.Fees}}<span></span><span> USD</span></dd>
+                    </dl>
+
+                    <div class="mt-2">
+                        <dl class="data-row">
+                            <dt class="data-label">Your Total</dt>
+                            <dd class="data-value text-right"><span>{{(localStorage.GiftCardInitialsPrice-0) + (localStorage.Fees-0) |  number: 2 }}</span><span> USD</span></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!--Confirmation model-->
+            <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="Payconfirm">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-success">
+                            <h4 class="modal-title ">Confirmation ! </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <h6 class="modal-title">Please click yes to proceed </h6>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" ng-click="Create()">Yes</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+</div>
+

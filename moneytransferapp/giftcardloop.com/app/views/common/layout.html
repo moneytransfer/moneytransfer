@@ -1,0 +1,17 @@
+<!-- content panel -->
+<div class="main-panel">
+    <!-- top header -->
+    <div data-ng-if="$state.current.name!='app.Login' && $state.current.name!='app.userRegister' " data-ng-include="'views/common/header.html'"></div>
+
+    <!-- /top header -->
+
+    <!-- main area -->
+    <div class="main-content">
+        <div class="content-view" ui-view id="view">
+        </div>
+        <!-- bottom footer -->
+        <div data-ng-if="$state.current.name!='app.Login' && $state.current.name!='app.userRegister' " class="content-footer" ng-include="'views/common/footer.html'"></div>
+        <!-- /bottom footer -->
+    </div>
+    <!-- /main area -->
+</div>

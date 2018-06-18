@@ -1,0 +1,194 @@
+<div class="body-container-wrapper  m-t-3" ng-controller="addEditkycController">
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="assets/image/spinner.gif" />
+    </div>
+    <div class="master-banner inner-page-banner d-flex align-items-end">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 desaturated-blue page-title">
+                    <h3 class="color-white m-0">Profile Details</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end master banner-->
+
+    <div class="container">
+        <section class="transaction-details-wrapper pt-5 pb-5">
+            <div class="container">
+                <form role="form" ui-jq="validate" name="tblCustomerKyc">
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <select name="Title" id="Title" ng-model="ProfileModal.Title" class="form-control" ng-init="ProfileModal.Title='Mr'" required>
+                                <option value="Mr">Mr.</option>
+                                <option value="Mrs">Mrs.</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4 form-group">
+                            <input type="text" class="form-control" name="FirstName" id="FirstName" placeholder="First Name" ng-model="ProfileModal.FirstName" maxlength="30" required />
+                            <span ng-show="tblCustomerKyc.FirstName.$error.required">Please enter First Name!</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="ProfileModal.LastName" maxlength="30" />
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="ActivationCode" placeholder="Activation code" ng-model="ProfileModal.ActivationCode" disabled="disabled" required />
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control datetimepicker" name="DOB" id="DOB" placeholder="Date of birth" ng-model="ProfileModal.DOB" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.DOB.$error.required">Please enter Date of birth!</span>
+                        </div>
+                    </div>
+
+
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <select name="Gender" id="CustomerGenger" ng-model="ProfileModal.Gender" class="form-control" ng-init="ProfileModal.Gender=''" required>
+                                <option value=" " disabled="disabled">-- Select Gender --</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="Email" name="Email" class="form-control" id="Email" placeholder="Email" ng-model="ProfileModal.Email" ng-pattern="/^[A-Za-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required />
+                            <span class="text-danger" ng-show="tblUser.Email.$error.pattern">Please Enter a valid Email address.</span>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <input type="number" min="10" class="form-control" name="Phone" id="Phone" placeholder="Phone" ng-model="ProfileModal.Phone" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.Phone.$error.required">Please enter Phone!</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="Password" class="form-control" id="Password" name="Password" placeholder="Password" ng-model="ProfileModal.Password">
+                        </div>
+                    </div>
+
+                    <h5>Customer Address:</h5>
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="BuildingNumber" id="BuildingNumber" placeholder="Building Name" ng-model="ProfileModal.BuildingNumber" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.BuildingNumber.$error.required">Please enter Building Number!</span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="Street" id="Street" placeholder="Street" ng-model="ProfileModal.Street" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.Street.$error.required">Please enter Street Name!</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="Address1" id="Address1" placeholder="Address1" ng-model="ProfileModal.Address1" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.Address1.$error.required">Please enter Address!</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="Address2" placeholder="Address2" ng-model="ProfileModal.Address2" maxlength="30" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="Town" id="Town" placeholder="Town" ng-model="ProfileModal.Town" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.Town.$error.required">Please enter Town Name!</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="City" id="City" placeholder="City" ng-model="ProfileModal.City" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.City.$error.required">Please enter City Name!</span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="State" id="State" placeholder="State" ng-model="ProfileModal.State" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.State.$error.required">Please enter State Name!</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="ZipCode" id="ZipCode" placeholder="Postal Code" ng-model="ProfileModal.ZipCode" maxlength="30" required />
+                            <span class="text-danger" ng-show="tblCustomerKyc.ZipCode.$error.required">Please enter Zip Code!</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <select name="Country" id="CountryId" ng-model="ProfileModal.CountryId" class="form-control" ng-init="ProfileModal.CountryId='0'" required>
+                                <option value="0">-- Select Country --</option>
+                                <option ng-repeat="Country in Countries" value="{{Country.CountryId}}">{{Country.CountryName}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div ng-show="!authorisedUser.IsDocumentUpload">
+
+                        <div class="form-group row">
+                            <legend>Documents Details:</legend>
+                            <div class="col-sm-6">
+                                <span class="btn btn-xs info btn-file">Choose a file
+                            <input type="file" id="upload" accept="image/*" ng-model="imageData" ng-change="fileSelected($event)" />
+                                </span>
+                                <div id="myProgress">
+                                    <div id="myBar">1%</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="AccountNumber" placeholder="Account Number" ng-model="ProfileModal.AccountNumber" disabled="disabled" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <!--  <input type="text" class="form-control" id="FileName" placeholder="File Name" ng-model="ProfileModal.FileName" required>-->
+                                <select id="FileName" name="FileName" ng-model="ProfileModal.FileName" class="form-control" ng-init="ProfileModal.FileName='passport'" required>
+                                    <option value="passport">Passport</option>
+                                    <option value="voter_id">INE</option>
+                                    <option value="tax_id">PAN</option>
+                                    <option value="national_identity_card">Aadhaar</option>
+                                    <option value="driving_licence">Driving Licence</option>
+                                </select>
+                                <span class="text-danger" ng-show="tblCustomerKyc.FileName.$error.required">Please enter File Name!</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="FileType" id="FileType" placeholder="File Type" ng-model="ProfileModal.FileType" required />
+                                <span class="text-danger" ng-show="tblCustomerKyc.FileType.$error.required">Please enter File Type!</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <select name="Gender" id="Side" ng-model="ProfileModal.Side" class="form-control" ng-init="ProfileModal.Side='front'" required>
+                                    <option value="front">Front Side</option>
+                                    <option value="back">Back Side</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6" id="viewAlert"></div>
+                        </div>
+                  
+                      </div>
+
+                    <div class="form-group row m-t-md">
+                        <div class="col-sm-6 text-right">
+                            <button type="submit" class="btn btn-primary pull-right" id="submitkycbutton" ng-click="tblCustomerKyc.$valid && Create()" disabled="true">Save</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                $(document).on("mouseover", '.datetimepicker', function () {
+                    $(this).datepicker({
+                        format: 'yyyy-mm-dd',
+                    });
+                })
+            </script>
+        </section>
+    </div>
+</div>
+

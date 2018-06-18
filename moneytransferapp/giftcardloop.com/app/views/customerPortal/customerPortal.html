@@ -1,0 +1,34 @@
+<div class="body-container-wrapper" ng-controller="manageGustCustomerController">
+    <div class="httpprocess" id="Processbar" ng-show="process">
+        <img src="assets/image/spinner.gif" />
+    </div>
+    <div class="master-banner d-flex pt-140">
+        <div class="container position-relative d-flex justify-content-center align-items-center">
+            <div class="banner-form w-100 text-center">
+                <h5 class="display-4">Reload mobile phone air time credit<br>
+                    to your friends and family</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container position-relative d-flex justify-content-center align-items-center">
+        <form class="banner-form-wrapper d-flex flex-column" style="max-width: 100%;" name="tblGiftcard">
+            <div class="row m-t" id="showGiftCardForm" style="padding-left: 45px;">
+                <div class="col-sm-3" data-ng-repeat="GiftCard in GiftCards">
+                    <label class="form-control-label" data-ng-click='submitForm(GiftCard.GiftCardid)'>
+                        <input type="radio" name="GiftCard" ng-model="GiftCardModel.GiftCardid" value="{{GiftCard.GiftCardid}}" required />
+                        <img style="width: 160px; height: 100px;" src="./images/GiftCard/falcon-gift-card-{{GiftCard.GiftCardInitialsPrice}}.jpg"/>
+                    </label>
+                </div>
+               <!-- <div class="col-md-2 form-group text-center text-md-right">
+                    <button type="submit" id="proceedButton" class="btn btn-info btn-bg" style="margin-top: 21px; background: blue;" ng-click='submitForm()'>Proceed</button>
+                </div>-->
+            </div>
+           <!-- <div data-ng-if="!IsLogin" data-ng-controller="manageCustomerLoginController" style="margin-bottom: 1rem;">
+                <a class="text-white" ui-sref='app.Login'>Log In</a> &nbsp; &nbsp;
+                <a class="text-white" ui-sref='app.userRegister'>Sign Up</a>
+            </div>-->
+        </form>
+    </div>
+
+</div>
+
