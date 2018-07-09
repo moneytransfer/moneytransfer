@@ -703,7 +703,7 @@ public class BillPay {
 								_MagicPay.CardNumber = _BillPay.CardNumber;
 								_MagicPay.setExpirationDate = _BillPay.setExpirationDate;
 								_MagicPay.cvv = _BillPay.cvv;
-
+								
 								_MagicPay.addMagicPay(_MagicPay);
 								if (_MagicPay.Result == "Success") {
 

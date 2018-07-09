@@ -452,7 +452,7 @@ public class MagicPay {
 											__MagicPay.setPaymentGatewayResponse("1");
 
 											AuthrozieTranscation _AuthrozieTranscation = new AuthrozieTranscation();
-
+												
 											int lastid = _AuthrozieTranscation.saveDataTranscationDetails(
 													__MagicPay.CompanyId, __MagicPay.CustomerId, __MagicPay.SenderName,
 													__MagicPay.SendingAmount, __MagicPay.Charges, __MagicPay.Fees,

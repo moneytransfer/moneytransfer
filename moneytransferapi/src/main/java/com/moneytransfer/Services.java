@@ -1,6 +1,7 @@
 
 package com.moneytransfer;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ import com.etl.base.Email;
 import com.etl.base.FeesCategory;
 import com.etl.base.GiftCard;
 import com.etl.base.GlobalExchangeRate;
+import com.etl.base.MD5;
 import com.etl.base.MagicPay;
 import com.etl.base.MagicTest;
 import com.etl.base.PaymentFees;
@@ -33,6 +35,7 @@ import com.etl.base.PaymentMethod;
 import com.etl.base.PaymentType;
 import com.etl.base.SendEmailTLS;
 import com.etl.base.TransactionFeeSharing;
+import com.etl.base.TransferToApi;
 import com.etl.base.UserDetail;
 import com.etl.base.minepay;
 
@@ -717,7 +720,56 @@ public class Services {
 
 		return GiftCard.getGiftCard();
 	}
+	@POST
+	@Path("email1")
+	@Produces("application/json")
+	public Email email1(Email _Email) {
+		return new Email().go1(_Email.email);
+	}
+	
+	@POST
+	@Path("sendNewletterEmail")
+	@Produces("application/json")
+	public SendEmailTLS sendNewletterEmail(SendEmailTLS _SendEmailTLS)  {
+		return new SendEmailTLS().sendNewletterEmailadmin( _SendEmailTLS.Email);
+	}
+	
+	@POST
+	@Path("payGiftCardVisa")
+	@Produces("application/json")
+	public GiftCard payGiftCardVisa(GiftCard _GiftCard)
+	{
+		return new GiftCard().addgftcardVisa(_GiftCard.GiftCardid, _GiftCard.CompanyId, _GiftCard.CustomerId, _GiftCard.TransactionDetail, _GiftCard.SendingAmount, _GiftCard.Charges, _GiftCard.Fees, _GiftCard.Tax, _GiftCard.ReceivingAmount, _GiftCard.BeneficiaryId, _GiftCard.PaymentMethodId, _GiftCard.TransferPurpose, _GiftCard.DeliveryType,_GiftCard.CardNumber,_GiftCard.setExpirationDate,_GiftCard.cvv,_GiftCard.SenderName);
+	}
+	@GET
+	@Path("md")
+	@Produces("application/json")
+	public MD5 md()
+	{
+		return new MD5().testMD5();
+	}
+	@POST
+	@Path("getMsisdnInfo")
+	@Produces("application/json")
+	public TransferToApi getMsisdnInfo(TransferToApi _TransferToApi) throws IOException
+	{
+		return new TransferToApi().addTransferTomsisdn_info(_TransferToApi.MobileNumber);
+	}
+	
+	@GET
+	@Path("getReserveId")
+	@Produces("application/json")
+	public TransferToApi getReserveId()
+	{
+		return new TransferToApi().TransferToreserverId();
+	}
 	
 	
-	
+	@POST
+	 @Path("addTransferToTopup")
+	 @Produces("application/json")
+	 public TransferToApi addTransferToTopup(TransferToApi _TransferToApi) 
+	 {
+	  return new TransferToApi().TransferToTopUp(_TransferToApi.MobileNumber, _TransferToApi.CompanyId, _TransferToApi.CustomerId, _TransferToApi.TransactionDetail, _TransferToApi.Amount, _TransferToApi.Charges, _TransferToApi.Fees, _TransferToApi.Tax, _TransferToApi.SendingCurrencyId, _TransferToApi.ReceivingCurrencytId, _TransferToApi.BeneficiaryId, _TransferToApi.PaymentMethodId, _TransferToApi.DestinationCountryId, _TransferToApi.SourceCountryId, _TransferToApi.IsLive, _TransferToApi.TransferPurpose, _TransferToApi.ExchangeRate, _TransferToApi.Sender,_TransferToApi.CardNumber,_TransferToApi.setExpirationDate,_TransferToApi.cvv);
+	 }
 }

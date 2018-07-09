@@ -9,6 +9,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.context.support.StaticApplicationContext;
+
 import com.etl.provider.Configuration.MYSQLConfiguration;
 
 public class SendEmailTLS {
@@ -87,21 +89,19 @@ public class SendEmailTLS {
 		
 		
 		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-		props.put("mail.transport.protocol", "smtp");	
-		
-    	 props.put("mail.smtp.socketFactory.class",
-    	            "javax.net.ssl.SSLSocketFactory");
-		Session session = Session.getDefaultInstance(props, 
-			    new javax.mail.Authenticator(){
-			        protected PasswordAuthentication getPasswordAuthentication() {
-			            return new PasswordAuthentication(
-			            		username,password);// Specify the Username and the PassWord
-			        }
-			});
+		 props.put("mail.smtp.host", "smtp.gmail.com");    
+         props.put("mail.smtp.socketFactory.port", "465");    
+         props.put("mail.smtp.socketFactory.class",    
+                   "javax.net.ssl.SSLSocketFactory");    
+         props.put("mail.smtp.auth", "true");    
+         props.put("mail.smtp.port", "465");    
+         //get Session   
+         Session session = Session.getDefaultInstance(props,    
+          new javax.mail.Authenticator() {    
+          protected PasswordAuthentication getPasswordAuthentication() {    
+          return new PasswordAuthentication(username,password);  
+          }    
+         });    
 				
 		try {
 
@@ -179,4 +179,163 @@ public class SendEmailTLS {
             ae.printStackTrace();
         }
     }
+
+
+	
+	public SendEmailTLS sendNewletterEmailadmin(String Email) {
+		SendEmailTLS _SendEmailTLS = new SendEmailTLS();
+		 
+		
+		final  String username = USER_NAME;
+		final String password = PASSWORD;
+		final String RECIPIENT = Email;
+		final String RECIPIENT2 = MYSQLConfiguration.emailUserName2();
+		
+		
+		Properties props = new Properties();
+		 props.put("mail.smtp.host", "smtp.gmail.com");    
+         props.put("mail.smtp.socketFactory.port", "465");    
+         props.put("mail.smtp.socketFactory.class",    
+                   "javax.net.ssl.SSLSocketFactory");    
+         props.put("mail.smtp.auth", "true");    
+         props.put("mail.smtp.port", "465");    
+         //get Session   
+         Session session = Session.getDefaultInstance(props,    
+          new javax.mail.Authenticator() {    
+          protected PasswordAuthentication getPasswordAuthentication() {    
+          return new PasswordAuthentication(username,password);  
+          }    
+         });    
+				
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(USER_NAME));
+			//message.setRecipients(Message.RecipientType.TO,
+			//	InternetAddress.parse(RECIPIENT));
+			
+			//message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(RECIPIENT));
+			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(RECIPIENT2));
+		 
+			
+			
+			message.setSubject("Signup to Newsletter and Alerts");
+			// message.setText("THE EMAIL TEXT");
+			//message.setHeader("Content-Type", "text/html");
+			message.setContent("<html><body><h3 style =\"color:black;\">New user signup to Newsletter and Alerts.</h3><br><p style=\"font-size: 15px;margin-top:0;\">Email: "+Email +"<br></p></body></html>",
+		            "text/html");
+			Transport.send(message);
+
+			System.out.println("Done");
+			_SendEmailTLS.setResult("Success");
+			_SendEmailTLS.sendNewletterEmailuser(Email);
+		} catch (Exception e) {
+			
+			System.out.println(e.getMessage());
+			_SendEmailTLS.setResult("Failed");
+			_SendEmailTLS.setError(e.getMessage());
+			throw new RuntimeException(e);
+		}
+		
+		return _SendEmailTLS;
+	}
+	
+	
+	
+	
+	
+	 
+	public SendEmailTLS sendNewletterEmailuser(String Email) {
+		SendEmailTLS _SendEmailTLS = new SendEmailTLS();
+		final  String username = USER_NAME;
+		final String password = PASSWORD;
+		final String RECIPIENT = Email;
+		final String RECIPIENT2 = MYSQLConfiguration.emailUserName2();
+		
+		
+		Properties props = new Properties();
+		 props.put("mail.smtp.host", "smtp.gmail.com");    
+         props.put("mail.smtp.socketFactory.port", "465");    
+         props.put("mail.smtp.socketFactory.class",    
+                   "javax.net.ssl.SSLSocketFactory");    
+         props.put("mail.smtp.auth", "true");    
+         props.put("mail.smtp.port", "465");    
+         //get Session   
+         Session session = Session.getDefaultInstance(props,    
+          new javax.mail.Authenticator() {    
+          protected PasswordAuthentication getPasswordAuthentication() {    
+          return new PasswordAuthentication(username,password);  
+          }    
+         });    
+				
+		try {
+
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(USER_NAME));
+			//message.setRecipients(Message.RecipientType.TO,
+			//	InternetAddress.parse(RECIPIENT));
+			
+			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(RECIPIENT));
+			//message.addRecipients(Message.RecipientType.CC, InternetAddress.parse(RECIPIENT2));
+		 
+			
+			
+			message.setSubject("Subscribe Newsletter and Alerts");
+			//message.setText("Dear Mail Crawler,"
+			//	+ "\n\n No spam to my email, please!");
+			//message.setHeader("Content-Type", "text/html");
+			message.setContent("<html><body><h3 style =\"color:black;\">Thank you for subscribe Newsletter and Alerts.</h3><br></p></body></html>",
+		             "text/html");
+			Transport.send(message);
+
+			System.out.println("Done");
+			_SendEmailTLS.setResult("Success");
+		} catch (Exception e) {
+			_SendEmailTLS.setResult("Failed");
+			_SendEmailTLS.setError(e.getMessage());
+			throw new RuntimeException(e);
+		}
+		
+		return _SendEmailTLS;
+	}
+
+	
+	
+	
+	
+	
+	
+	 public SendEmailTLS send(){  
+		 SendEmailTLS _SendEmailTLS=new SendEmailTLS();
+		 final  String from="falconloopincusa@gmail.com";
+		 final  String password="falconloopincusa@gmail.com";
+		 final  String to="falconloopincusa@gmail.com";
+		 final  String sub="welcome";
+		 final  String msg="tank you ishu";
+         Properties props = new Properties();    
+         props.put("mail.smtp.host", "smtp.gmail.com");    
+         props.put("mail.smtp.socketFactory.port", "465");    
+         props.put("mail.smtp.socketFactory.class",    
+                   "javax.net.ssl.SSLSocketFactory");    
+         props.put("mail.smtp.auth", "true");    
+         props.put("mail.smtp.port", "465");    
+         //get Session   
+         Session session = Session.getDefaultInstance(props,    
+          new javax.mail.Authenticator() {    
+          protected PasswordAuthentication getPasswordAuthentication() {    
+          return new PasswordAuthentication(from,password);  
+          }    
+         });    
+         //compose message    
+         try {    
+          MimeMessage message = new MimeMessage(session);    
+          message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));    
+          message.setSubject(sub);    
+          message.setText(msg);    
+          //send message  
+          Transport.send(message);    
+          System.out.println("message sent successfully");    
+         } catch (Exception e) {throw new RuntimeException(e);}    
+      return _SendEmailTLS;      
+   }  
 }

@@ -864,9 +864,12 @@ public class AuthrozieTranscation {
 						_AuthrozieTranscation.setResult("Success");
 					}
 				} else {
-					_AuthrozieTranscation.setResult("failed!");
-					_AuthrozieTranscation.setError("Invaid Customer and Company!");
-					clear(_AuthrozieTranscation);
+					_AuthrozieTranscation.setWeekCount("0");
+					_AuthrozieTranscation.setCurrentMonthTransactionCount("0");
+					_AuthrozieTranscation.setPreviousMonthTransactionCount("0");
+					_AuthrozieTranscation.setPrevioustoPreviousMonthTransactionCount("0");
+					_AuthrozieTranscation.setCustomerId(_customerId);
+					_AuthrozieTranscation.setCompanyId(_companyId);
 				}
 			} else {
 				_AuthrozieTranscation.setResult("Failed");

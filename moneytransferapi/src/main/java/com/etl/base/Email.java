@@ -21,7 +21,7 @@ public class Email {
 	public int CustomerId;
 	public String Result;
 	public String Error;
-
+	public String email;
 	private void setCustomerId(int CustomerId) {
 		this.CustomerId = CustomerId;
 	}
@@ -44,6 +44,13 @@ public class Email {
 
 	private String getError() {
 		return Error;
+	}
+	private void setemail(String email) {
+		this.email = email;
+	}
+
+	private String getemail() {
+		return email;
 	}
 
 	public Email emailtest() {
@@ -141,10 +148,10 @@ public class Email {
 		 * _Email.setError("Error message: " + e.getMessage()); }
 		 */
 		String FROM = "engineering@falconloop.com";
-		String FROMNAME = "falconloop";
+		String FROMNAME = "Rajeev";
 
 		String TO = "engineering@falconloop.com";
-		
+
 		String SMTP_USERNAME = MYSQLConfiguration.getsmtpuser();
 
 		String SMTP_PASSWORD = MYSQLConfiguration.getsmtppwd();
@@ -177,7 +184,7 @@ public class Email {
 			msg.setSubject(SUBJECT);
 			msg.setContent(BODY, "text/html");
 
-			//msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+			// msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
 			Transport transport = session.getTransport();
 
 			try {
@@ -190,9 +197,12 @@ public class Email {
 				// Send the email.
 				transport.sendMessage(msg, msg.getAllRecipients());
 				System.out.println("Email sent!");
+				_Email.setResult("Success");
 			} catch (Exception ex) {
 				System.out.println("The email was not sent.");
 				System.out.println("Error message: " + ex.getMessage());
+				_Email.setResult("failed!");
+				_Email.setError(ex.getMessage());
 			} finally {
 				// Close and terminate the connection.
 				transport.close();
@@ -203,4 +213,72 @@ public class Email {
 		return _Email;
 	}
 
+	public Email go1(String email) {
+		Email _Email = new Email();
+
+		String FROM = "engineering@falconloop.com";
+		String FROMNAME = "engineering@falconloop.com";
+
+		String TO = email;
+
+		String SMTP_USERNAME = MYSQLConfiguration.getsmtpuser();
+
+		String SMTP_PASSWORD = MYSQLConfiguration.getsmtppwd();
+
+		String CONFIGSET = "ConfigSet";
+
+		String HOST = "email-smtp.us-east-1.amazonaws.com";
+
+		int PORT = 587;
+
+		String SUBJECT = "Amazon SES test (SMTP interface accessed using Java)";
+
+		String BODY = String.join(System.getProperty("line.separator"), "<h1>Amazon SES SMTP Email Test</h1>",
+				"<p>This email was sent with Amazon SES using the ",
+				"<a href='https://github.com/javaee/javamail'>Javamail Package</a>",
+				" for <a href='https://www.java.com'>Java</a>.");
+
+		Properties props = System.getProperties();
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.smtp.port", PORT);
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.auth", "true");
+		Session session = Session.getDefaultInstance(props);
+
+		try {
+
+			MimeMessage msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress(FROM, FROMNAME));
+			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(TO));
+			msg.setSubject(SUBJECT);
+			msg.setContent(BODY, "text/html");
+
+			// msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+			Transport transport = session.getTransport();
+
+			try {
+				System.out.println("Sending...");
+
+				// Connect to Amazon SES using the SMTP username and password
+				// you specified above.
+				transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
+
+				// Send the email.
+				transport.sendMessage(msg, msg.getAllRecipients());
+				System.out.println("Email sent!");
+				_Email.setResult("Success");
+			} catch (Exception ex) {
+				System.out.println("The email was not sent.");
+				System.out.println("Error message: " + ex.getMessage());
+				_Email.setResult("failed!");
+				_Email.setError(ex.getMessage());
+			} finally {
+				// Close and terminate the connection.
+				transport.close();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return _Email;
+	}
 }
