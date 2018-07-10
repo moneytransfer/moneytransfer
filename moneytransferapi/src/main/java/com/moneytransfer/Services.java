@@ -770,6 +770,6 @@ public class Services {
 	 @Produces("application/json")
 	 public TransferToApi addTransferToTopup(TransferToApi _TransferToApi) 
 	 {
-	  return new TransferToApi().TransferToTopUp(_TransferToApi.MobileNumber, _TransferToApi.CompanyId, _TransferToApi.CustomerId, _TransferToApi.TransactionDetail, _TransferToApi.Amount, _TransferToApi.Charges, _TransferToApi.Fees, _TransferToApi.Tax, _TransferToApi.SendingCurrencyId, _TransferToApi.ReceivingCurrencytId, _TransferToApi.BeneficiaryId, _TransferToApi.PaymentMethodId, _TransferToApi.DestinationCountryId, _TransferToApi.SourceCountryId, _TransferToApi.IsLive, _TransferToApi.TransferPurpose, _TransferToApi.ExchangeRate, _TransferToApi.Sender,_TransferToApi.CardNumber,_TransferToApi.setExpirationDate,_TransferToApi.cvv);
+	  return new TransferToApi().TransferToTopUp(_TransferToApi.MobileNumber, _TransferToApi.CompanyId, _TransferToApi.CustomerId, _TransferToApi.TransactionDetail, _TransferToApi.Amount, _TransferToApi.Charges, _TransferToApi.Fees, _TransferToApi.Tax, _TransferToApi.SendingCurrencyId, _TransferToApi.ReceivingCurrencytId, _TransferToApi.BeneficiaryId, _TransferToApi.PaymentMethodId, _TransferToApi.DestinationCountryId, _TransferToApi.SourceCountryId, _TransferToApi.IsLive, _TransferToApi.TransferPurpose, _TransferToApi.ExchangeRate, _TransferToApi.Sender,_TransferToApi.CardNumber,_TransferToApi.setExpirationDate,_TransferToApi.cvv,_TransferToApi.FaceAmount);
 	 }
 }

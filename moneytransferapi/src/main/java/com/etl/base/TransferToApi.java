@@ -27,7 +27,7 @@ public class TransferToApi {
 
 	public int CompanyId;
 	public int CustomerId;
-	public String TransactionId;
+	public int TransactionId;
 	public String PaymentGatewayTransactionId;
 	public String Login;
 	public String Key;
@@ -38,6 +38,7 @@ public class TransferToApi {
 	public String OperatorId;
 	public String MobileNumber;
 	public double Amount;
+	public double FaceAmount;
 	public double Fees;
 	public String Sender;
 	public String TransactionDetail;
@@ -76,7 +77,7 @@ public class TransferToApi {
 	public String ReturnRersion;
 	public String SenderSms;
 	public String SenderText;
-	public int TransferttoTransid;
+	public String TransferttoTransid;
 	public String CardNumber;
 	public String setExpirationDate;
 	public String cvv;
@@ -107,11 +108,11 @@ public class TransferToApi {
 		return setExpirationDate;
 	}
 
-	private void setTransferttoTransid(int TransferttoTransid) {
+	private void setTransferttoTransid(String TransferttoTransid) {
 		this.TransferttoTransid = TransferttoTransid;
 	}
 
-	private int getTransferttoTransid() {
+	private String getTransferttoTransid() {
 		return TransferttoTransid;
 	}
 
@@ -235,11 +236,11 @@ public class TransferToApi {
 		return CompanyId;
 	}
 
-	private void setTransactionId(String TransactionId) {
+	private void setTransactionId(int TransactionId) {
 		this.TransactionId = TransactionId;
 	}
 
-	private String getTransactionId() {
+	private int getTransactionId() {
 		return TransactionId;
 	}
 
@@ -306,7 +307,16 @@ public class TransferToApi {
 	private String getMobileNumber() {
 		return MobileNumber;
 	}
+	
+	private void setFaceAmount(double FaceAmount) {
+		this.FaceAmount = FaceAmount;
+	}
 
+	private double getFaceAmount() {
+		return FaceAmount;
+	}
+
+	
 	private void setAmount(double Amount) {
 		this.Amount = Amount;
 	}
@@ -682,7 +692,7 @@ public class TransferToApi {
 			double sAmount, double Charges, double Fees, double Tax, int SendingCurrencyId, int ReceivingCurrencytId,
 			int BeneficiaryId, int PaymentMethodId, int DestinationCountryId, int SourceCountryId, Boolean IsLive,
 			String TransferPurpose, double ExchangeRate, String Sender, String CardNumber, String setExpirationDate,
-			String cvv) {
+			String cvv,double sFaceAmount) {
 		TransferToApi _TransferToApi = new TransferToApi();
 		try {
 			Connection _Connection = MYSQLConnection.GetConnection();
@@ -690,13 +700,14 @@ public class TransferToApi {
 			ResultSet _ResultSet = _MYSQLHelper.GetResultSet("SELECT * FROM transfertoApi where isdeleted=0",
 					_Connection);
 			if (_ResultSet.next()) {
+				
 				String DeliveryType = "Mobile Recharge";
 				MagicPay _MagicPay = new MagicPay();
 				_MagicPay.PaymentMethodId = PaymentMethodId;
 				_MagicPay.CompanyId = CompanyId;
 				_MagicPay.CustomerId = CustomerId;
 				_MagicPay.TransactionDetail = TransactionDetail;
-				_MagicPay.SendingAmount = sAmount;
+				_MagicPay.SendingAmount = sFaceAmount;
 				_MagicPay.Charges = Charges;
 				_MagicPay.Tax = Tax;
 				_MagicPay.SendingCurrencyId = SendingCurrencyId;
@@ -728,8 +739,8 @@ public class TransferToApi {
 					String md5_string = getKeyedDigest(lLogin, tToken, unixTime);
 					String strSoapAction = aapiUrl;
 
-					String sSmsText = "Recharge Done By ishu";
-					String cid1 = "seningloop team";
+					String sSmsText = "Mobile Recharge from Sendingloop.com";
+					String cid1 = "Sendingloop";
 					String sender_sms = "yes";
 					String sender_text = sSmsText;
 					String return_timestamp = "1";
@@ -775,7 +786,7 @@ public class TransferToApi {
 							String error_txt = doc.getElementsByTagName("error_txt").item(0).getTextContent();
 
 							_TransferToApi.setMobileNumber(msisdn);
-							_TransferToApi.setTransactionId(transactionid);
+							_TransferToApi.setTransactionId(lastid);
 							_TransferToApi.setCountry(country);
 							_TransferToApi.setCountryId(countryid);
 							_TransferToApi.setOperator(operator);
@@ -810,11 +821,11 @@ public class TransferToApi {
 							_TransferToApi.setSender(Sender);
 							int iTransferttoTransid = addDataToTransfer(CompanyId, CustomerId, lastid,
 									_TransferToApi.Sender, _TransferToApi.MobileNumber, _TransferToApi.Amount,
-									_TransferToApi.TransactionId);
+									transactionid);
 							_TransferToApi.setCustomerId(CustomerId);
 							_TransferToApi.setCompanyId(CompanyId);
 							_TransferToApi.setSender(Sender);
-							_TransferToApi.setTransferttoTransid(iTransferttoTransid);
+							_TransferToApi.setTransferttoTransid(transactionid);
 
 						} catch (Exception e) {
 							_TransferToApi.setResult("failed!");
