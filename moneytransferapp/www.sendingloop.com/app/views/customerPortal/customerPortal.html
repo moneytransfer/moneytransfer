@@ -1,57 +1,62 @@
+<div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " data-ng-include="'views/common/header.html'"></div>
+<div class="main-content">
+    <div class="body-container-wrapper" data-ng-controller="manageGustCustomerController" id="view">
+        <div class="httpprocess" id="Processbar" ng-show="process">
+            <img src="assets/image/spinner.gif" />
+        </div>
+        <div class="master-banner d-flex pt-140">
+            <div class="container position-relative d-flex justify-content-center align-items-center">
+                <div class="banner-form w-100 text-center">
+                    <form class="banner-form-wrapper d-flex flex-column">
 
-<div class="body-container-wrapper" ng-controller="manageGustCustomerController">
-    <div class="httpprocess" id="Processbar" ng-show="process">
-        <img src="assets/image/spinner.gif" />
-    </div>
-    <div class="master-banner d-flex pt-140">
-        <div class="container position-relative d-flex justify-content-center align-items-center">
-            <div class="banner-form w-100 text-center">
-                <h5 class="display-4">Reload mobile phone air time credit<br>
-                    to your friends and family</h5>
-                <form class="banner-form-wrapper d-flex flex-column">
-
-                    <div class="form-group">
-                        <select class="form-control banner-input" id="CountrySelected" ng-model="CountryDetails.phonecode" ng-change="getcountrydata(CountryDetails.phonecode)" ng-init="CountryDetails.phonecode='0'">
-                            <option value="0">Select Country</option>
-                            <option ng-repeat="Country in Countries" value="{{Country.phonecode}}">{{Country.CountryName}}</option>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group w-100 pull-left">
-                        <div class="input-number-wrap position-relative pull-left">
-                            <span class="flag-code line-left" ng-if="FlagModel.Result =='Success'">+{{FlagModel.internationalCodes}}</span>
-                            <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required>
+                        <div class="form-group">
+                            <select class="form-control banner-input" id="CountrySelected" ng-model="CountryDetails.phonecode" ng-change="getcountrydata(CountryDetails.phonecode)" ng-init="CountryDetails.phonecode='0'">
+                                <option value="0">Select Country</option>
+                                <option ng-repeat="Country in Countries" value="{{Country.phonecode}}">{{Country.CountryName}}</option>
+                            </select>
                         </div>
-                        <button type="submit" id="shfirstbutton" ng-click="submitForm()" class="btn cm-btn pull-right">GO</button>
-                    </div>
 
-                    <div class="d-flex align-items-center wrap custom-new-flag" data-ng-if="FlagModel.Result =='Success'">
-                        <div class="col-sm-3 mb-3 mb-sm-0 text-sm-left">
-                            <span class="flag-wrapper">
-                                <img src="images/Flag/{{FlagModel.countryCode}}.png" alt=""></span>
-                        </div>
-                        <div class="col-sm-9 pl-sm-0">
-                            <span class="country-text-wrap">{{FlagModel.carrierName}}</span>
-                        </div>
-                    </div>
-                    <div ng-if="validnumber" class="alert alert-danger text-left position-static">
-                        <span id="AlertText"></span>
-                    </div>
 
-                    <div ng-if="!IsLogin" ng-controller="manageCustomerLoginController" style="margin-bottom: 1rem;">
-                        <a ng-if="!IsLogin" class="text-white" ui-sref='app.Login'>Log In</a> &nbsp; &nbsp;
+                        <div class="form-group w-100 pull-left">
+                            <div class="input-number-wrap position-relative pull-left">
+                                <span class="flag-code line-left" ng-if="FlagModel.Result =='Success'">+{{FlagModel.internationalCodes}}</span>
+                                <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(PaybillModel.MobileNumber)" id="MobileNumber" ng-model="PaybillModel.MobileNumber" required>
+                            </div>
+                            <button type="submit" id="shfirstbutton" ng-click="submitForm()" class="btn cm-btn pull-right" ng-disabled="!getnumber">GO</button>
+                        </div>
+
+                        <div class="d-flex align-items-center wrap custom-new-flag" data-ng-if="FlagModel.Result =='Success'">
+                            <div class="col-sm-3 mb-3 mb-sm-0 text-sm-left">
+                                <span class="flag-wrapper">
+                                    <img src="images/Flag/{{FlagModel.countryCode}}.png" alt=""></span>
+                            </div>
+                            <div class="col-sm-9 pl-sm-0">
+                                <span class="country-text-wrap">{{FlagModel.carrierName}}</span>
+                            </div>
+                        </div>
+                        <div ng-if="validnumber" class="alert alert-danger text-left position-static">
+                            <span id="AlertText"></span>
+                        </div>
+
+                        <div ng-if="!IsLogin" ng-controller="manageCustomerLoginController" style="margin-bottom: 1rem;">
+                            <a ng-if="!IsLogin" class="text-white" ui-sref='app.Login'>Log In</a> &nbsp; &nbsp;
                         <a ng-if="!IsLogin" class="text-white" ui-sref='app.userRegister'>Sign Up</a>
-                    </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+        <!--end master banner-->
+        <div class="text-center" style="width: 340px; margin: 0 auto; padding: 0;">
+            <p>
+                <img src="assets/image/credit-card-logo.jpg" width="100%" />
+            </p>
+        </div>
     </div>
-    <!--end master banner-->
-    <div class="text-center" style="width: 340px; margin: 0 auto; padding: 0;">
-        <p>
-            <img src="assets/image/credit-card-logo.jpg" width="100%"/>
-        </p>
-    </div>
+
+    <!--</div>-->
+
+    <div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " class="content-footer" ng-include="'views/common/footer.html'"></div>
+
 </div>
 

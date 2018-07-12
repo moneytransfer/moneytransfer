@@ -1,138 +1,155 @@
-<div class="body-container-wrapper m-t-3" ng-controller="manageGustCustomerController">
-    <div class="httpprocess" id="Processbar" ng-show="process">
-        <img src="assets/image/spinner.gif" />
-    </div>
-    <div class="master-banner inner-page-banner d-flex align-items-end">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 desaturated-blue">
-                    <ul class="row custom-banner-breadcrumb">
-                        <!-- <li class="col-md-3 >Destination Number</li>-->
-                        <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}" ng-click="goBack()">Choose Amount</li>
-                        <li class="col-md-4">Review</li>
-                        <li class="col-md-4">Payment</li>
-                    </ul>
+<div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " data-ng-include="'views/common/header.html'"></div>
+<div class="main-content">
+
+
+
+    <div class="body-container-wrapper m-t-3" ng-controller="manageGustCustomerController">
+        <div class="httpprocess" id="Processbar" ng-show="process">
+            <img src="assets/image/spinner.gif" />
+        </div>
+        <div class="master-banner inner-page-banner d-flex align-items-end">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 desaturated-blue">
+                        <ul class="row custom-banner-breadcrumb">
+                            <!-- <li class="col-md-3 >Destination Number</li>-->
+                            <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}" ng-click="goBack()">Choose Amount</li>
+                            <li class="col-md-4">Review</li>
+                            <li class="col-md-4">Payment</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--end master banner-->
-    <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
-        <div class="container">
-            <div class="row choose-amt">
-                <div class="col-sm">
-                    <h3 class="text-center mb-4">Select the amount you want to send</h3>
-                    <form id="from_id">
-                        <div class="row">
-                            <div class="col-md-6 form-group pr-md-0">
-                                <div class="number-wrapper cm-input">
-                                    <span class="flag-icon" style="background-image: url(./images/Flag/{{localStorage.SelectedCountry.countryCode}}.png);"><i class="fa fa-globe" aria-hidden="true" ng-if="localStorage.SelectedCountry.Result !='Success'"></i>
-                                        <span class="flag"></span>
-                                    </span>
+        <!--end master banner-->
+        <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
+            <div class="container">
+                <div class="row choose-amt">
+                    <div class="col-sm">
+                        <h3 class="text-center mb-4">Select the amount you want to send</h3>
+                        <form id="from_id">
+                            <div class="row">
+                                <div class="col-md-6 form-group pr-md-0">
+                                    <div class="number-wrapper cm-input">
+                                        <span class="flag-icon" style="background-image: url(./images/Flag/{{localStorage.SelectedCountry.countryCode}}.png);"><i class="fa fa-globe" aria-hidden="true" ng-if="localStorage.SelectedCountry.Result !='Success'"></i>
+                                            <span class="flag"></span>
+                                        </span>
 
-                                    <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">+{{localStorage.SelectedCountry.internationalCodes}}</span>
-                                    <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(localStorage.MobileNumber)" id="MobileNumber" ng-model="localStorage.GustData" required disabled>
+                                        <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">+{{localStorage.SelectedCountry.internationalCodes}}</span>
+                                        <input type="text" class="form-control" pattern="[0-9]*" maxlength="15" placeholder="Mobile Number" ng-change="EnteredNumber(localStorage.MobileNumber)" id="MobileNumber" ng-model="localStorage.GustData" required disabled>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4 form-group pr-md-0">
-                                <div class="number-wrapper cm-input">
-                                    <!--{{localStorage.SelectedCountry.currencyCode}}-->
-                                    <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">USD</span>
-                                    <input type="number" class="form-control w-width" id="amountfeild" placeholder="Amount" onchange="amountInput()" ng-change="checkPayAmmount(Amount)" ng-model="Amount">
-                                </div>
+                                <div class="col-md-4 form-group pr-md-0">
+                                    <div class="number-wrapper cm-input">
+                                        <!--{{localStorage.SelectedCountry.currencyCode}}-->
+                                        <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">USD</span>
+                                        <input type="number" class="form-control w-width" id="amountfeild" placeholder="Amount" onchange="amountInput()" ng-change="checkPayAmmount(Amount)" ng-model="Amount">
+                                    </div>
 
-                                <div ng-if="isPayAmmount" class="mt-3 fs-14 text-black">
-                                    <div class="row">
-                                        <span class="col-md-8">Fare Amount
+                                    <div ng-if="isPayAmmount" class="mt-3 fs-14 text-black">
+                                        <div class="row">
+                                            <span class="col-md-8">Fare Amount
                                             
-                                        </span>
-                                        <span>{{localStorage.Ammount | number:2}} USD</span>
-                                        <!--*localStorage.SelectedCountry.ConvertAmount <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.AmountGer| number:2}} USD</span>-->
-                                    </div>
-                                    <div class="row">
-                                        <span class="col-md-8">Reloading Amount	
+                                            </span>
+                                            <span>{{localStorage.Ammount | number:2}} USD</span>
+                                            <!--*localStorage.SelectedCountry.ConvertAmount <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.AmountGer| number:2}} USD</span>-->
+                                        </div>
+                                        <div class="row">
+                                            <span class="col-md-8">Reloading Amount	
                                           
-                                        </span>
-                                        <span>{{localStorage.Ammount * localStorage.SelectedCountry.GlobalExchangesRate | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
+                                            </span>
+                                            <span>{{localStorage.Ammount * localStorage.SelectedCountry.GlobalExchangesRate | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
 
-                                    </div>
-                                    <!--  <div class="row">
+                                        </div>
+                                        <!--  <div class="row">
                                         <span class="col-md-8">
                                             Fee
                                             </span>
                                         <span>{{Fee | number:2}} USD</span>
                                     </div>-->
-                                </div>
-
-                                <div ng-if="isAmmount" class="mt-3 fs-14 text-black">
-                                    <div class="row">
-                                        <span class="col-md-8">Fare Amount
-
-                                        </span>
-                                        <span>{{localStorage.Ammount | number:2}} USD</span>
-                                        <!-- <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount *localStorage.SelectedCountry.ConvertAmount| number:2}} USD</span>-->
                                     </div>
-                                    <div class="row">
-                                        <span class="col-md-8">Reloading Amount
 
-                                        </span>
-                                        <span>{{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate | number:2}} {{localStorage.SelectedCountry.currencyCode}}</span>
-                                    </div>
-                                    <!-- <div class="row">
+                                    <div ng-if="isAmmount" class="mt-3 fs-14 text-black">
+                                        <div class="row">
+                                            <span class="col-md-8">Fare Amount
+
+                                            </span>
+                                            <span>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.DestinationCurrency}} </span>
+                                            <!-- <span ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">{{localStorage.Ammount *localStorage.SelectedCountry.ConvertAmount| number:2}} USD</span>-->
+                                        </div>
+                                        <div class="row">
+                                            <span class="col-md-8">Reloading Amount
+
+                                            </span>
+                                            <span>{{localStorage.ReloadAmount | number:2}} USD</span>
+                                        </div>
+                                        <!-- <div class="row">
                                         <span class="col-md-8">
                                             Fee
                                         </span>
                                         <span>{{Fee | number:2}} USD</span>
                                     </div>-->
+                                    </div>
+
+                                    <span class="validity"></span>
                                 </div>
 
-                                <span class="validity"></span>
+                                <div class="col-md-2 form-group text-center text-md-left">
+                                    <button type="submit" id="proceedButton" class="btn btn-info btn-bg" ng-click='proceed()'>Proceed</button>
+                                    <!--<button type="button" id="proceedButton" class="btn cm-btn-control" ui-sref='app.Login'>Proceed</button>-->
+                                </div>
+                                <div class="alert alert-danger text-left position-static" id="NoPaymentMethod" ng-if="accessAmount">
+                                    <span>We can't proceed Payment more than {{localStorage.SelectedCountry.maxAmount}} USD & Less than {{localStorage.SelectedCountry.minAmount}} USD.</span>
+                                </div>
+                                <div class="alert alert-danger text-left position-static" id="Divvalid" ng-if="validAmount">
+                                    <span>Plesae select amount first or enter amount to proceed.</span>
+                                </div>
                             </div>
-
-                            <div class="col-md-2 form-group text-center text-md-left">
-                                <button type="submit" id="proceedButton" class="btn btn-info btn-bg" ng-click='proceed()'>Proceed</button>
-                                <!--<button type="button" id="proceedButton" class="btn cm-btn-control" ui-sref='app.Login'>Proceed</button>-->
-                            </div>
-                            <div class="alert alert-danger text-left position-static" id="NoPaymentMethod" ng-if="accessAmount">
-                                <span>We can't proceed Payment more than {{localStorage.SelectedCountry.maxAmount}} USD & Less than {{localStorage.SelectedCountry.minAmount}} USD.</span>
-                            </div>
-                            <div class="alert alert-danger text-left position-static" id="Divvalid" ng-if="validAmount">
-                                <span>Plesae select amount first or enter amount to proceed.</span>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="row choose-amt">
-                <div class="col-sm">
-                    <div class="choose-amount mt-5">
-                        <div class="row">
-                            <div class="col-sm-6 col-md-3" ng-repeat="Amount in localStorage.AmountList">
-                                <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount.Amount)">
-                                    <center><span >{{Amount.Amount | number:2}}</span> &nbsp;USD</center>
-                                    <small class="d-inline-block"><span>{{Amount.Amount  * localStorage.SelectedCountry.ConvertAmount | number:2}}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</small></a>
-                            </div>
+                <div class="row choose-amt">
+                    <div class="col-sm">
+                        <div class="choose-amount mt-5">
+                            <div class="row"  ng-if="localStorage.SelectedCountry.DestinationCurrency==''">
+                                <div class="col-sm-6 col-md-3" ng-repeat="Amount in localStorage.AmountList">
+                                    <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount.Amount)">
+                                        <center><span >{{Amount.Amount | number:2}}</span> &nbsp;USD</center>
+                                        <small class="d-inline-block"><span>{{Amount.Amount  * localStorage.SelectedCountry.ConvertAmount | number:2}}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</small></a>
+                                </div>
 
-                           <!-- <div class="col-sm-6 col-md-3" ng-repeat="Amount in PayAmountWithExchange" ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">
+                                <!-- <div class="col-sm-6 col-md-3" ng-repeat="Amount in PayAmountWithExchange" ng-if="localStorage.SelectedCountry.IsGlobalExchangeRate">
                                 <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectAmmount(Amount.Amount)">
                                     <center><span >{{Amount.Amount| number:2}}</span> &nbsp;USD</center>
                                     <small class="d-inline-block"><span>{{Amount.Amount  * localStorage.SelectedCountry.GlobalExchangesRate| number:2 }}</span>&nbsp;{{localStorage.SelectedCountry.currencyCode}}</small></a>
                             </div>-->
+                            </div>
+                            <div class="row" ng-if="localStorage.SelectedCountry.DestinationCurrency !=''">
+                                <div class="col-sm-6 col-md-3" ng-repeat="Amount in localStorage.AmountList">
+                                    <a class="custom-amount d-flex flex-column justify-content-center align-items-center w-100 " ng-click="selectTransferToAmmount(Amount.Amount,Amount.AmtUsd)">
+                                        <center><span >{{Amount.Amount | number:2}}</span> &nbsp;{{localStorage.SelectedCountry.DestinationCurrency}}</center>
+                                        <small class="d-inline-block"><span>{{Amount.AmtUsd | number:2}}</span>&nbsp;USD</small></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row section-02">
+                    <div class="phoneReload"></div>
+                    <div class="col-md d-flex mb-12 mb-md-0">
+                        <div class="flowimg">
+                            <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
                         </div>
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="row section-02">
-                <div class="phoneReload"></div>
-                <div class="col-md d-flex mb-12 mb-md-0">
-                    <div class="flowimg">
-                        <img src="assets/image/flow.jpg" alt="easy and fast" width="85%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
+
+
+    <div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " class="content-footer" ng-include="'views/common/footer.html'"></div>
+
 </div>
 
 

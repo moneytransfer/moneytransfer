@@ -1,89 +1,102 @@
-﻿<div class="body-container-wrapper m-t-3" ng-controller="manageGustCustomerController">
-    <div class="httpprocess" id="Processbar" ng-show="process">
-        <img src="./assets/image/spinner.gif" />
-    </div>
-    <div class="master-banner inner-page-banner d-flex align-items-end">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 desaturated-blue">
-                    <ul class="row custom-banner-breadcrumb">
-                        <!-- <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>-->
-                        <li class="col-md-4 " ui-sref='app.chooseAmount'>Choose Amount</li>
-                        <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}">Review</li>
-                        <li class="col-md-4">Payment</li>
-                    </ul>
+﻿<div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " data-ng-include="'views/common/header.html'"></div>
+<div class="main-content">
+
+
+
+    <div class="body-container-wrapper m-t-3" ng-controller="manageGustCustomerController">
+        <div class="httpprocess" id="Processbar" ng-show="process">
+            <img src="./assets/image/spinner.gif" />
+        </div>
+        <div class="master-banner inner-page-banner d-flex align-items-end">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 desaturated-blue">
+                        <ul class="row custom-banner-breadcrumb">
+                            <!-- <li class="col-md-3 {{localStorage.SelectedCountry.MobileNumber !=''?'active':''}}">Destination Number</li>-->
+                            <li class="col-md-4 " ui-sref='chooseAmount'>Choose Amount</li>
+                            <li class="col-md-4 {{localStorage.Ammount !=''?'active':''}}">Review</li>
+                            <li class="col-md-4">Payment</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--end master banner-->
-    <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
-        <div class="container">
-            <div class="row choose-amt">
-                <!--Table section start here-->
-                <table class="table">
-                    <tbody class="additional-info ng-binding">
-                        <tr>
-                            <td>Mobile Number</td>
-                            <td>+{{localStorage.SelectedCountry.internationalCodes}} &nbsp;{{localStorage.GustData}}</td>
-                        </tr>
-                        <tr>
-                            <td>Country</td>
-                            <td>
-                                <span class="flag-icon">
-                                    <img src="images/Flag/{{localStorage.SelectedCountry.countryCode}}.png" alt="">
-                                </span>
-                                <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">{{localStorage.SelectedCountry.currencyCode}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Fare Amount</td>
-                            <td>{{localStorage.FareAmmount| number:2}} USD</td>
-                        </tr>
-                        <tr>
-                            <td>Reloading Amount</td>
-                            <td>{{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate  | number:2}} {{localStorage.SelectedCountry.currencyCode}}</td>
-                        </tr>
-                        <!--  <tr>
+        <!--end master banner-->
+        <section class="choose-amount-wrapper amount-wrap pt-5 pb-5">
+            <div class="container">
+                <div class="row choose-amt">
+                    <!--Table section start here-->
+                    <table class="table">
+                        <tbody class="additional-info ng-binding">
+                            <tr>
+                                <td>Mobile Number</td>
+                                <td>+{{localStorage.SelectedCountry.internationalCodes}} &nbsp;{{localStorage.GustData}}</td>
+                            </tr>
+                            <tr>
+                                <td>Country</td>
+                                <td>
+                                    <span class="flag-icon">
+                                        <img src="images/Flag/{{localStorage.SelectedCountry.countryCode}}.png" alt="">
+                                    </span>
+                                    <span class="flag-code" ng-if="localStorage.SelectedCountry.Result =='Success'">{{localStorage.SelectedCountry.currencyCode}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fare Amount</td>
+                                <td>{{localStorage.FareAmmount| number:2}} USD</td>
+                            </tr>
+                            <tr data-ng-if="IstransferTo">
+                                <td>Reloading Amount</td>
+                                <td>{{localStorage.Ammount *localStorage.SelectedCountry.GlobalExchangesRate  | number:2}} {{localStorage.SelectedCountry.currencyCode}}</td>
+                            </tr>
+
+                            <tr data-ng-if="!IstransferTo">
+                                <td>Reloading Amount</td>
+                                <td>{{localStorage.Ammount | number:2}} {{localStorage.SelectedCountry.DestinationCurrency}}</td>
+                            </tr>
+
+                            <!--  <tr>
                             <td>Fees</td>
                             <td>{{localStorage.Fees | number:2}} USD</td>
                         </tr>-->
 
-                        <tr>
-                            <td>Total Amount</td>
-                            <td>{{localStorage.FareAmmount  | number:2}} USD</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="col-sm-6 offset-3 text-center">
-                    <button type="button" class="btn btn-default mr-3" ng-click="BackChooseamount()">Back</button>
-                    <button type="button" class="btn btn-info btn-bg ml-3" ng-click="popupYes()">Pay Now </button>
+                            <tr>
+                                <td>Total Amount</td>
+                                <td>{{localStorage.FareAmmount  | number:2}} USD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-sm-6 offset-3 text-center">
+                        <button type="button" class="btn btn-default mr-3" ng-click="BackChooseamount()">Back</button>
+                        <button type="button" class="btn btn-info btn-bg ml-3" ng-click="popupYes()">Pay Now </button>
 
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="KycConfrimation">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-success">
-                    <h4 class="modal-title ">Confirmation ! </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <h6 class="modal-title">Please update your KYC details to proceed </h6>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" ng-click="YesKyc()">Yes</button>
-                    <button type="button" class="btn btn-primary" ng-click="goBack()">No</button>
+        <div class="modal " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="KycConfrimation">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-success">
+                        <h4 class="modal-title ">Confirmation ! </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="modal-title">Please update your KYC details to proceed </h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" ng-click="YesKyc()">Yes</button>
+                        <button type="button" class="btn btn-primary" ng-click="goBack()">No</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " class="content-footer" ng-include="'views/common/footer.html'"></div>
+
 </div>
-
-
-
 
 

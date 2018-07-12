@@ -1,6 +1,7 @@
 ﻿<!doctype html>
 <html ng-app="app" lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="" />
@@ -16,7 +17,7 @@
 
     <meta name="theme-color" content="#4C7FF0">
 
-    <title>Phone Reloads</title>
+    <title>Sendingloop - Reload mobile phone air time credit to your friends and family</title>
 
     <link rel="stylesheet" href="" id="load_styles_before" />
     <!-- endbuild -->
@@ -25,9 +26,11 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
 
     <!--Font Awesome-->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+   <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">-->
 
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="styles/font-awesome.min.css" rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -36,13 +39,10 @@
 
     <link href="styles/bootstrap-datepicker.min.css" rel="stylesheet" />
     <!-- /customerProtal page includes -->
-
 </head>
 
 <body ng-controller="AppCtrl" class="{{ main.app.theme }}">
     <div class="app {{ $state.current.classes }}" ng-class="{'offcanvas': main.app.offcanvas, 'expanding': main.app.expanding, 'fixed-header': main.app.fixedHeader, 'boxed': main.app.boxed, 'static': main.app.static, 'message-open': main.app.isMessageOpen, 'contact-open': main.app.isContactOpen}" ui-view>
-
-        
     </div>
 
     <!--  <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
@@ -110,6 +110,6 @@
     <!-- controllers -->
     <script src="scripts/controllers/session.js"></script>
     <script src="scripts/controllers/appCtrls/customer_portal.js"></script>
-
+    <script src="scripts/controllers/appCtrls/contactUs.js"></script>
 </body>
 </html>

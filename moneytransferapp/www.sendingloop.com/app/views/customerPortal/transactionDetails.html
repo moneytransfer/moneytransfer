@@ -1,51 +1,55 @@
-<div class="body-container-wrapper  m-t-3" ng-controller="manageGuestCustomerTransactionController">
-    <div class="master-banner inner-page-banner d-flex align-items-end">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 desaturated-blue page-title">
-                    <h3 class="color-white m-0">Transaction Details</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--end master banner-->
-    <div class="container">
-        <section class="transaction-details-wrapper pt-5 pb-5">
-            <div class="container">
-                <div class="table-responsive">
-                    <table class="table background-white transaction-details-table table-striped">
-                        <thead class="thead-default">
-                            <tr>
-                                <th>Transaction Id</th>
-                                <th>Transaction Date </th>
-                                <th>Transaction By </th>
-                                <th>Purpose</th>
-                                <th>Transferred Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:'-CreatedDate'">
-                                <td><small>{{Transaction.PaymentGatewayTransactionId }}</small></td>
-                                <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
-                                <td><small>{{Transaction.TransactionDetail}} </small></td>
-                                <td><small>{{Transaction.TransferPurpose }} </small></td>
-                                <td><small>$&nbsp;{{Transaction.SendingAmount | number:2  }}</small></td>
+<div class="main-panel">
+    <div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " data-ng-include="'views/common/header.html'"></div>
+    <div class="main-content">
 
-                                <td><small>{{Transaction.Status}}</small></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="" ng-show="totalItems>15">
-                        <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
-
-
-            </uib-pagination>
+        <div class="body-container-wrapper  m-t-3" ng-controller="manageGuestCustomerTransactionController">
+            <div class="master-banner inner-page-banner d-flex align-items-end">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 desaturated-blue page-title">
+                            <h3 class="color-white m-0">Transaction Details</h3>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <script id="uib/template/pagination/pagination.html" type="text/ng-template">
+            <!--end master banner-->
+            <div class="container">
+                <section class="transaction-details-wrapper pt-5 pb-5">
+                    <div class="container">
+                        <div class="table-responsive">
+                            <table class="table background-white transaction-details-table table-striped">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>Transaction Id</th>
+                                        <th>Transaction Date </th>
+                                        <th>Transaction By </th>
+                                        <th>Purpose</th>
+                                        <th>Transferred Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="Active" ng-repeat="Transaction  in ManageTransaction | orderBy:'-CreatedDate'">
+                                        <td><small>{{Transaction.PaymentGatewayTransactionId }}</small></td>
+                                        <td><small>{{formatDate(Transaction.CreatedDate) | date:'yyyy-MM-dd'}}</small></td>
+                                        <td><small>{{Transaction.TransactionDetail}} </small></td>
+                                        <td><small>{{Transaction.TransferPurpose }} </small></td>
+                                        <td><small>$&nbsp;{{Transaction.SendingAmount | number:2  }}</small></td>
+
+                                        <td><small>{{Transaction.Status}}</small></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="" ng-show="totalItems>15">
+                                <uib-pagination class="pagination" total-items="totalItems" ng-model="currentPage" class="pagination-sm" template-url="uib/template/pagination/pagination.html" boundary-links="true" num-pages="numPages" items-per-page="itemsPerPage" ng-change="pageChanged()">
+
+
+            </uib-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <script id="uib/template/pagination/pagination.html" type="text/ng-template">
 <nav class="col-sm-8 pull-right">
   <ul class="pagination">
     <li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="page-item pagination-first"><a href class="page-link" ng-click="selectPage(1, $event)">{{::getText('first')}}</a></li>
@@ -55,10 +59,14 @@
     <li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="page-item pagination-last"><a href class="page-link" ng-click="selectPage(totalPages, $event)">{{::getText('last')}}</a></li>
   </ul>
 </nav>
-        </script>
+                </script>
 
+
+            </div>
+        </div>
+
+
+        <div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " class="content-footer" ng-include="'views/common/footer.html'"></div>
 
     </div>
 </div>
-
-

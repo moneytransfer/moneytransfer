@@ -46,9 +46,8 @@
         } else {
             if (vm.localStorage.SelectedCountry) {
                 $localStorage.SelectedCountry = [];
-                $state.go('app.customerPortal')
             }
-            else { $state.go('app.customerPortal') }
+            else { $state.go('customerPortal') }
         }
 
         if ($localStorage.GustCustomer) {
@@ -77,7 +76,7 @@
         vm.PaybillModel = { CompanyId: 0, CustomerId: 0, SenderName: '', PaymentMethodId: '0', Amount: '0.00', MobileNumber: '' }
 
         vm.FlagModel = [];
-
+        vm.getnumber = false;
         vm.getcountrydata = function (id) {
 
             var iCountryId = parseInt(id);
@@ -144,110 +143,13 @@
                 else {
                     var iEnteredNumber = parseInt(iNumber);
                 }
-                var formData = JSON.parse(JSON.stringify({ "MobileNumber": iEnteredNumber }));
-                $http({
-                    method: 'POST',
-                    data: formData,
-                    url: baseUrl + 'getCarrierInfoByMobileNumber ',
-                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
-                })
-                .success(function (data) {
-
-                    var idata = data;
-                    if (idata.countryCode != null) {
-                        var SelectedCountry = [];
-                        vm.PaybillModel.MobileNumber = iNumber;
-                        if (!iCountryCode) {
-                            if (idata.currencyCode == "MXN") {
-                                var res = idata.internationalCodes;
-                                var codelength = res;
-                                idata.internationalCodes = res;
-                                $localStorage.GustData = idata.MobileNumber.replace(/\D/g, '').substr(codelength);
-                                vm.PaybillModel.MobileNumber = $localStorage.GustData;
-                            }
-                            else {
-                                var codelength = idata.internationalCodes.length;
-                                $localStorage.GustData = idata.MobileNumber.replace(/\D/g, '').substr(codelength);
-                                vm.PaybillModel.MobileNumber = $localStorage.GustData;
-                            }
-                        }
-                        else {
-                            $localStorage.GustData = iNumber;
-                            vm.PaybillModel.MobileNumber = iNumber;
-                        }
-                        idata.countryCode = idata.countryCode.toLowerCase();
-                        vm.FlagModel = idata;
-                        var sData = vm.CountryDetails;
-                        if (!vm.DestinationCountry)
-
-                            var PhoneCode = '';
-                        if (idata.currencyCode == "MXN") {
-                            PhoneCode = res;
-                        }
-                        else {
-                            PhoneCode = idata.internationalCodes;
-                        }
-                        //var PhoneCode = '';
-                        if (vm.CountryDetails.phonecode != '0') {
-                            if (idata.internationalCodes != vm.CountryDetails.phonecode) {
-                                vm.CountryDetails.phonecode = '0';
-                            }
-                            if (idata.currencyCode == "MXN") {
-                                var res = idata.internationalCodes;
-                                vm.CountryDetails.phonecode = res;
-
-                                idata.internationalCodes = res;
-                            }
-                            else {
-                                vm.CountryDetails.phonecode = idata.internationalCodes;
-                            }
-                        }
-
-                        else {
-                            if (idata.currencyCode == "MXN") {
-                                var res = idata.internationalCodes;
-                                vm.CountryDetails.phonecode = res;
-                                idata.internationalCodes = res;
-                            }
-                            else {
-                                vm.CountryDetails.phonecode = idata.internationalCodes;
-                            }//vm.CountryDetails = sData;
-                        }
-
-                        $localStorage.SelectedCountry = idata;
-
-                        if (idata.currencyCode == "USD") {
-                            $localStorage.SelectedCountry.ConvertAmount = 1.00;
-                            $localStorage.SelectedCountry.GlobalExchangesRate = 1.00;
-                            $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
-                        }
-                        else { ConvertMoney(idata.currencyCode); }
-
-
-                        if (!vm.DestinationCountry) {
-                            var iCountryId = parseInt(PhoneCode);
-                            var data1 = $filter('filter')(vm.Countries, {
-                                phonecode: iCountryId,
-                            }, true);
-                            vm.DestinationCountry = data1[0].CountryId;
-
-                        }
-                        $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
-                        setAmountArray();
-
-                    }
-                    else {
-                        //vm.FlagModel = [];
-                        //vm.CountryDetails.phonecode = '0';
-                        $localStorage.GustData = '';
-                        //$localStorage.SelectedCountry = '';
-
-                        vm.validnumber = true;
-                        setTimeout(function () {
-                            $("#AlertText").text("Sorry, the mobile network is not supported or the number is incorrect. Please check and try again.");
-                        }, 100);
-                    }
-                });
+                //===========Check to use service
+                //if (true) {
+                //    GetDetailsByPrenation(iEnteredNumber);
+                //}
+                //else {
+                GetDetailsByTransferTo(iNumber, iEnteredNumber);
+                //}
             }
             else {
                 //vm.FlagModel = [];
@@ -255,6 +157,218 @@
             }
 
         }
+
+        //=============================PreNations==================================//
+
+        function GetDetailsByPrenation(iNumber) {
+
+            var formData = JSON.parse(JSON.stringify({ "MobileNumber": iNumber }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'getCarrierInfoByMobileNumber ',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata.countryCode != null) {
+                    var SelectedCountry = [];
+                    vm.PaybillModel.MobileNumber = iNumber;
+                    if (!iCountryCode) {
+                        if (idata.currencyCode == "MXN") {
+                            var res = idata.internationalCodes;
+                            var codelength = res;
+                            idata.internationalCodes = res;
+                            $localStorage.GustData = idata.MobileNumber.replace(/\D/g, '').substr(codelength);
+                            vm.PaybillModel.MobileNumber = $localStorage.GustData;
+                        }
+                        else {
+                            var codelength = idata.internationalCodes.length;
+                            $localStorage.GustData = idata.MobileNumber.replace(/\D/g, '').substr(codelength);
+                            vm.PaybillModel.MobileNumber = $localStorage.GustData;
+                        }
+                    }
+                    else {
+                        $localStorage.GustData = iNumber;
+                        vm.PaybillModel.MobileNumber = iNumber;
+                    }
+                    idata.countryCode = idata.countryCode.toLowerCase();
+                    vm.FlagModel = idata;
+                    var sData = vm.CountryDetails;
+                    if (!vm.DestinationCountry)
+
+                        var PhoneCode = '';
+                    if (idata.currencyCode == "MXN") {
+                        PhoneCode = res;
+                    }
+                    else {
+                        PhoneCode = idata.internationalCodes;
+                    }
+                    //var PhoneCode = '';
+                    if (vm.CountryDetails.phonecode != '0') {
+                        if (idata.internationalCodes != vm.CountryDetails.phonecode) {
+                            vm.CountryDetails.phonecode = '0';
+                        }
+                        if (idata.currencyCode == "MXN") {
+                            var res = idata.internationalCodes;
+                            vm.CountryDetails.phonecode = res;
+
+                            idata.internationalCodes = res;
+                        }
+                        else {
+                            vm.CountryDetails.phonecode = idata.internationalCodes;
+                        }
+                    }
+
+                    else {
+                        if (idata.currencyCode == "MXN") {
+                            var res = idata.internationalCodes;
+                            vm.CountryDetails.phonecode = res;
+                            idata.internationalCodes = res;
+                        }
+                        else {
+                            vm.CountryDetails.phonecode = idata.internationalCodes;
+                        }//vm.CountryDetails = sData;
+                    }
+
+                    $localStorage.SelectedCountry = idata;
+
+                    if (idata.currencyCode == "USD") {
+                        $localStorage.SelectedCountry.ConvertAmount = 1.00;
+                        $localStorage.SelectedCountry.GlobalExchangesRate = 1.00;
+                        $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
+                    }
+                    else { ConvertMoney(idata.currencyCode); }
+
+
+                    if (!vm.DestinationCountry) {
+                        var iCountryId = parseInt(PhoneCode);
+                        var data1 = $filter('filter')(vm.Countries, {
+                            phonecode: iCountryId,
+                        }, true);
+                        vm.DestinationCountry = data1[0].CountryId;
+
+                    }
+                    $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
+                    setAmountArray();
+                    vm.getnumber = true;
+                }
+                else {
+                    //vm.FlagModel = [];
+                    //vm.CountryDetails.phonecode = '0';
+                    $localStorage.GustData = '';
+                    //$localStorage.SelectedCountry = '';
+
+                    vm.validnumber = true;
+                    setTimeout(function () {
+                        $("#AlertText").text("Sorry, the mobile network is not supported or the number is incorrect. Please check and try again.");
+                    }, 100);
+                }
+            });
+        }
+
+        function GetDetailsByTransferTo(iEnterdN, iNumber) {
+            //getMsisdnInfo
+            var iCountryCode = vm.FlagModel.internationalCodes;
+            var formData = JSON.parse(JSON.stringify({ "MobileNumber": iNumber }));
+            $http({
+                method: 'POST',
+                data: formData,
+                url: baseUrl + 'getMsisdnInfo ',
+                headers: { 'Content-Type': 'application/json; charset=utf-8' }
+            })
+             .success(function (data) {
+
+                 var idata = data;
+                 if (idata.CountryId != null) {
+                     var SelectedCountry = [];
+                     vm.PaybillModel.MobileNumber = iEnterdN;
+
+                     var sCountryName = idata.Country;
+                     var CountryData = $filter('filter')(vm.Countries, {
+                         CountryName: sCountryName,
+                     }, true);
+
+                     vm.CountryDetails.phonecode = "" + CountryData[0].phonecode;
+
+                     vm.FlagModel.countryCode = CountryData[0].iso.toLowerCase();
+                     vm.FlagModel.internationalCodes = CountryData[0].phonecode;
+                     vm.FlagModel.carrierName = idata.Operator;
+                     vm.FlagModel.Result = 'Success';
+
+
+
+                     var codelength = (vm.CountryDetails.phonecode).toString().length;
+                     $localStorage.GustData = idata.MobileNumber.replace(/\D/g, '').substr(codelength);
+                     vm.PaybillModel.MobileNumber = $localStorage.GustData;
+                     $localStorage.SelectedCountry = idata;
+                     if (idata.DestinationCurrency == "USD") {
+                         $localStorage.SelectedCountry.ConvertAmount = 1.00;
+                         $localStorage.SelectedCountry.GlobalExchangesRate = 1.00;
+                         $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
+                     }
+                     else {
+                         vm.PayAmountList = [];
+                         var AmmoutList = idata.LocalInfoValueList.split(',');
+                         var j = 0;
+                         angular.forEach(AmmoutList, function (value, key) {
+                             var amt = value;
+                             j += 1
+                             var accesstoken = 'rxv51rk8b4y1kjhasvww';
+                             $http({
+                                 url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: idata.DestinationCurrency, to: "USD", amount: value }),
+                                 method: 'POST',
+                                 headers: { 'Content-Type': 'application/json' },
+                                 dataType: "json",
+                             })
+                                 .success(function (data) {
+
+                                     var idata = data;
+                                     if (idata.currency[0].value > 0) {
+                                         var value = parseFloat(idata.currency[0].value).toFixed(2)
+
+                                         vm.PayAmountList.push({ AmountId: j += 1, Amount: parseInt(amt), AmtUsd: value });
+                                     }
+                                     else {
+                                         vm.PayAmountList.push({ AmountId: j += 1, Amount: parseInt(amt) });
+                                     }
+                                 });
+                         });
+                         $localStorage.AmountList = vm.PayAmountList;
+                     }
+                    
+                     //if (!vm.DestinationCountry) {
+                         var sCountryName = idata.Country;
+                         var CountryData = $filter('filter')(vm.Countries, {
+                             CountryName: sCountryName,
+                         }, true);
+                         vm.DestinationCountry = CountryData[0].phonecode;
+
+                         $localStorage.SelectedCountry.countryCode = CountryData[0].iso.toLowerCase();
+                         $localStorage.SelectedCountry.internationalCodes = CountryData[0].phonecode;
+                         $localStorage.SelectedCountry.GlobalExchangesRate = 1.00;
+                         $localStorage.SelectedCountry.currencyCode = idata.DestinationCurrency
+                         $localStorage.SelectedCountry.Result = 'Success';
+                    // }
+
+
+                     $localStorage.SelectedCountry.DestinationCountry = "" + vm.DestinationCountry;
+
+                     vm.getnumber = true;
+
+
+                 }
+                 else {
+                     $localStorage.GustData = '';
+                     vm.validnumber = true;
+                     setTimeout(function () {
+                         $("#AlertText").text("Sorry, the mobile network is not supported or the number is incorrect. Please check and try again.");
+                     }, 100);
+                 }
+
+             });
+        }
+
 
         //=============================End==================================//
 
@@ -264,7 +378,7 @@
                 if ($localStorage.GustCustomer == '') {
                     vm.localStorage.GustCustomer = $localStorage.GustCustomer = 0;
                 }
-                $state.go('app.chooseAmount');
+                $state.go('chooseAmount');
             }
             //else {
             //    Alert(2, "! It is not possible to recharge on this phone number. Please check the number and try again.");
@@ -288,6 +402,8 @@
 
             $('#proceedButton').prop('disabled', false);
         }
+
+        //selectTransferToAmmount
         //============================End==============================//
 
 
@@ -324,16 +440,17 @@
 
 
         //=================Set Global exchanges rate===================//
-        vm.selectAmmountWithGER = function (ammount, usd) {
-            var dAmount = parseFloat(ammount).toFixed(2)
+        vm.selectTransferToAmmount = function (ammount, usd) {
+            var dAmount = parseFloat(usd).toFixed(2)
             //amountfeild
             $('#amountfeild').val(dAmount);
-            $localStorage.Ammount = dAmount;
-            $localStorage.AmountGer = usd;
-            vm.getFeeDetails();
-            vm.isPayAmmount = true;
+            $localStorage.Ammount = ammount;
+            $localStorage.ReloadAmount = dAmount;
 
-            vm.isAmmount = false;
+            vm.getFeeDetails();
+            vm.isPayAmmount = false;
+
+            vm.isAmmount = true;
             //vm.PaybillModel.Amount = ammount; * $localStorage.SelectedCountry.ConvertAmount
 
             $('#proceedButton').prop('disabled', false);
@@ -367,9 +484,11 @@
         //============================End==============================//
 
         //=====================Validate amount to Proceed =======================//
+
         vm.proceed = function () {
             vm.accessAmount = false;
             vm.validAmount = false;
+            vm.IstransferTo = false;
             if ($("#from_id").valid()) {
                 if ($localStorage.Ammount) {
                     var fareAmmount = 0;
@@ -377,15 +496,28 @@
                     var minAmount = parseInt($localStorage.SelectedCountry.minAmount);
                     var maxAmount = parseInt($localStorage.SelectedCountry.maxAmount);
                     fareAmmount = parseFloat($localStorage.Ammount);
-                    if (fareAmmount <= maxAmount && fareAmmount >= minAmount) {
+                    vm.IstransferTo = true;
+                    if (vm.IstransferTo) {
+                        fareAmmount = parseFloat($localStorage.ReloadAmount);
                         $localStorage.FareAmmount = fareAmmount;
                         $localStorage.Fees = vm.Fee;
                         setTimeout(function () {
-                            $state.go('app.reviewAmmount');
+                            $state.go('reviewAmmount');
                         }, 100);
                     }
                     else {
-                        vm.accessAmount = true;
+                        if (fareAmmount <= maxAmount && fareAmmount >= minAmount) {
+
+
+                            $localStorage.FareAmmount = fareAmmount;
+                            $localStorage.Fees = vm.Fee;
+                            setTimeout(function () {
+                                $state.go('reviewAmmount');
+                            }, 100);
+                        }
+                        else {
+                            vm.accessAmount = true;
+                        }
                     }
 
                 }
@@ -407,7 +539,7 @@
             $('#Payconfirm').modal('toggle');
             $('.modal-backdrop').remove();
             if (!$localStorage.GustCustomer) {
-                $state.go('app.Login');
+                $state.go('Login');
             } else {
 
                 if (!$localStorage.GustCustomer.IsDocumentUpload) {
@@ -419,21 +551,21 @@
                     if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
 
                     if (vm.CurrentTransactions <= 0 && vm.PreviousTransactions <= 1 && vm.PrevioustoPreviousTransactions <= 1) {
-                        $window.location.assign('#/app/makePayment');
+                        $window.location.assign('#makePayment');
                     }
                     else if (vm.WeekTransactions < 3) {
                         if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
                             $('#KycConfrimation').modal('toggle');
                         }
-                        else { $window.location.assign('#/app/makePayment'); }
+                        else { $window.location.assign('/makePayment'); }
                     }
                     else { $('#KycConfrimation').modal('toggle'); }
                     //}
                     //else { $('#KycConfrimation').modal('toggle'); }
                 }
                 else {
-                    $window.location.assign('#/app/makePayment');
-                    //$state.go('app.makePayment');
+                    $window.location.assign('/makePayment');
+                    //$state.go('makePayment');
                 }
             }
         }
@@ -445,7 +577,7 @@
             $('#KycConfrimation').modal('toggle');
             $('.modal-backdrop').remove();
             setTimeout(function () {
-                $state.go('app.addKyc');
+                $state.go('addKyc');
             }, 500);
         }
 
@@ -460,9 +592,9 @@
         vm.BackChooseamount = function () {
             if ($localStorage.Ammount) {
                 $localStorage.Ammount = '';
-                $state.go('app.chooseAmount');
+                $state.go('chooseAmount');
             }
-            else { $state.go('app.chooseAmount'); }
+            else { $state.go('chooseAmount'); }
 
         }
 
@@ -505,11 +637,11 @@
             vm.localStorage.SelectedCountry = '';
             $localStorage.ThankyouPageData = '';
             $localStorage.AmountList = '';
-            // $state.go('app.customerPortal');
+            // $state.go('customerPortal');
 
             setTimeout(function () {
                 $window.location.reload();
-                //$state.go('app.customerPortal');
+                //$state.go('customerPortal');
             }, 1000);
         }
 
@@ -522,7 +654,7 @@
             vm.localStorage.SelectedCountry = '';
             $localStorage.ThankyouPageData = '';
             $localStorage.AmountList = '';
-            $state.go('app.customerPortal');
+            $state.go('customerPortal');
         }
 
         vm.logoutGustCustomer = function () {
@@ -541,7 +673,7 @@
                 $localStorage.AmountList = '';
                 $localStorage = [];
                 setTimeout(function () {
-                    //$state.go('app.customerPortal');
+                    //$state.go('customerPortal');
                     $window.location.reload();
                 }, 1000);
             }
@@ -587,6 +719,43 @@
                     }
                     vm.CurrencyData = idata;
                     //return 
+                });
+        }
+
+        function ConvertMoneyForTransferTo(code, amt) {
+            //$localStorage.SelectedCountry.ConvertAmount = 0;
+
+            var accesstoken = 'rxv51rk8b4y1kjhasvww';
+            $http({
+                url: 'https://currencydatafeed.com/api/converter.php?' + $.param({ token: accesstoken, from: code, to: "USD", amount: amt }),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+                .success(function (data) {
+
+                    var idata = data;
+                    if (idata.currency[0].value > 0) {
+                        var value = parseFloat(idata.currency[0].value).toFixed(2)
+                        //var newvalu = value
+                        // $localStorage.SelectedCountry.ConvertAmount = value;
+
+                        var DestinationCountryId = "";
+                        var SellSpotPrice = value;
+                        var data1 = $filter('filter')(vm.Countries, {
+                            CurrencyCode: code,
+                        }, true);
+                        if (data1.length > 0) {
+                            DestinationCountryId = data1[0].CountryId;
+                        }
+
+                        UpdateglobalExchange(code);
+                    }
+                    else {
+                        $localStorage.SelectedCountry.ConvertAmount = 0.00;
+                    }
+                    vm.CurrencyData = idata;
+                    return value;
                 });
         }
 
@@ -690,13 +859,13 @@
                     $localStorage.GustCustomer.PreviousMonthTransactionCount = idata.PreviousMonthTransactionCount;
                     $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount = idata.PrevioustoPreviousMonthTransactionCount;
 
-                    GetApplicantCheckStatus(vm.CustomerID)
+                    GeticantCheckStatus(vm.CustomerID)
                 }
                 //setTimeout(function () { window.location.reload(); }, 1000);
             });
         }
 
-        function GetApplicantCheckStatus(CustomerId) {
+        function GeticantCheckStatus(CustomerId) {
             var data = { "CustomerId": CustomerId, "CompanyId": "0", "ApplicantId": "" }
             var formData = JSON.parse(JSON.stringify(data));
             $http({
@@ -708,7 +877,7 @@
             })
              .success(function (data) {
                  var idata = data[0];
-                 if (idata !== undefined && idata.ApplicantCheckId) {
+                 if (idata !== undefined && idata.icantCheckId) {
                      $localStorage.GustCustomer.KYCStatus = idata.Status;
                  }
              });
@@ -779,12 +948,12 @@
         vm.timer = function () {
             var timeout = 180000;
             var message = "Time Out for login Do you want exceed your time for next 3 mintue or go back?"
-            if ($location.path() == "/app/Login") {
+            if ($location.path() == "/Login") {
                 timeout = 180000;
                 message = "Time Out for Register Do you want exceed your time for  next 3 mintue or go back?"
                 setTimeout(function () { $("#loginTimeOut").modal('toggle') }, timeout);
             }
-            else if ($location.path() == "/app/userRegister") {
+            else if ($location.path() == "/userRegister") {
                 timeout = 300000;
                 message = "Time Out for Register Do you want exceed your time for  next 5 mintue or go back?"
                 setTimeout(function () { $("#loginTimeOut").modal('toggle') }, timeout);
@@ -797,8 +966,8 @@
 
         vm.exceedTime = function () {
             var timeout = 300000;
-            if ($location.path() == "/app/userRegister") { timeout = 300000; }
-            if ($location.path() == "/app/Login") { timeout = 180000; }
+            if ($location.path() == "/userRegister") { timeout = 300000; }
+            if ($location.path() == "/Login") { timeout = 180000; }
 
             $('#loginTimeOut').modal('hide');
             setTimeout(function () {
@@ -810,7 +979,7 @@
                     $localStorage.GustData = '';
                     $localStorage.MobileNumber = '';
                     $localStorage.SelectedCountry = '';
-                    $state.go('app.customerPortal');
+                    $state.go('customerPortal');
                 }, time);
             }, timeout);
         }
@@ -824,7 +993,7 @@
             //$localStorage.GustCustomer = '';
             $localStorage.AmountList = '';
             setTimeout(function () {
-                $state.go('app.customerPortal');
+                $state.go('customerPortal');
                 // $window.location.reload();
             }, 500);
         }
@@ -865,10 +1034,10 @@
                                 $localStorage.GustCustomer = data;
                                 Alert(1, "! Login successful.. ");
                                 if ($localStorage.Ammount) {
-                                    $window.location.assign('#/app/makePayment');
+                                    $window.location.assign('/makePayment');
                                 }
                                 else {
-                                    $window.location.assign('#/app/customerPortal');
+                                    $window.location.assign('/customerPortal');
                                 }
                                 //setTimeout(function () { window.location.reload(); }, 1000);
                             }
@@ -897,7 +1066,7 @@
             $localStorage = [];
             setTimeout(function () {
                 //$window.location.reload();
-                $state.go('app.customerPortal');
+                $state.go('customerPortal');
             }, 1000);
 
         }
@@ -915,7 +1084,7 @@
             $localStorage = [];
             setTimeout(function () {
                 $window.location.reload();
-                //$state.go('app.customerPortal');
+                //$state.go('customerPortal');
             }, 1000);
 
         }
@@ -924,12 +1093,12 @@
             $('#KycConfrimation').modal('toggle');
             $('.modal-backdrop').remove();
             setTimeout(function () {
-                $state.go('app.Kyc');
+                $state.go('addKyc');
             }, 500);
         }
 
 
-        function GetApplicantCheckStatus(CustomerId) {
+        function GeticantCheckStatus(CustomerId) {
             var data = { "CustomerId": CustomerId, "CompanyId": "0", "ApplicantId": "" }
             var formData = JSON.parse(JSON.stringify(data));
             $http({
@@ -941,7 +1110,7 @@
             })
              .success(function (data) {
                  var idata = data[0];
-                 if (idata !== undefined && idata.ApplicantCheckId) {
+                 if (idata !== undefined && idata.icantCheckId) {
                      $localStorage.GustCustomer.KYCStatus = idata.Status;
                  }
                  if ($localStorage.Ammount) {
@@ -954,27 +1123,27 @@
                          if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
 
                          if (vm.CurrentTransactions <= 0 && vm.PreviousTransactions <= 1 && vm.PrevioustoPreviousTransactions <= 1) {
-                             $window.location.assign('#/app/makePayment');
+                             $window.location.assign('#/makePayment');
                          }
                          else if (vm.WeekTransactions < 3) {
                              if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
                                  $('#KycConfrimation').modal('toggle');
                              }
-                             else { $window.location.assign('#/app/makePayment'); }
+                             else { $window.location.assign('#/makePayment'); }
                          }
                          else { $('#KycConfrimation').modal('toggle'); }
                      }
                      else {
-                         $window.location.assign('#/app/makePayment');
+                         $window.location.assign('#/makePayment');
                      }
                  }
                  else if (vm.IsLogin) {
                      //    debugger;
-                     $window.location.assign('#/app/customerPortal');
+                     $window.location.assign('#/');
                  }
                  else {
                      var url = $state.current.url;
-                     $window.location.assign('#/app' + url);
+                     $window.location.assign('#/' + url);
                  }
              });
         }
@@ -998,7 +1167,7 @@
                     $localStorage.GustCustomer.PreviousMonthTransactionCount = idata.PreviousMonthTransactionCount;
                     $localStorage.GustCustomer.PrevioustoPreviousMonthTransactionCount = idata.PrevioustoPreviousMonthTransactionCount;
 
-                    GetApplicantCheckStatus(vm.CustomerID)
+                    GeticantCheckStatus(vm.CustomerID)
                 }
                 else {
                     if ($localStorage.Ammount) {
@@ -1011,26 +1180,26 @@
                             if (isNaN(vm.TotalPaidAmt)) { vm.TotalPaidAmt = 0; }
 
                             if (vm.CurrentTransactions <= 0 && vm.PreviousTransactions <= 1 && vm.PrevioustoPreviousTransactions <= 1) {
-                                $window.location.assign('#/app/makePayment');
+                                $window.location.assign('#/makePayment');
                             }
                             else if (vm.WeekTransactions < 3) {
                                 if ((parseFloat(vm.TotalPaidAmt) + parseFloat($localStorage.FareAmmount)) > 100) {
                                     $('#KycConfrimation').modal('toggle');
                                 }
-                                else { $window.location.assign('#/app/makePayment'); }
+                                else { $window.location.assign('#/makePayment'); }
                             }
                             else { $('#KycConfrimation').modal('toggle'); }
                         }
                         else {
-                            $window.location.assign('#/app/makePayment');
+                            $window.location.assign('#/makePayment');
                         }
                     }
                     else if (vm.IsLogin) {
-                        $window.location.assign('#/app/customerPortal');
+                        $window.location.assign('#/');
                     }
                     else {
                         var url = $state.current.url;
-                        $window.location.assign('#/app' + url);
+                        $window.location.assign('#/' + url);
                     }
                 }
                 //setTimeout(function () { window.location.reload(); }, 1000);
@@ -1061,7 +1230,7 @@
             }
         }
         else {
-            $state.go('app.Login');
+            $state.go('Login');
         }
 
         vm.StatusApproved = false;
@@ -1144,7 +1313,7 @@
                     method: 'POST',
                     data: formData,
                     url: baseUrl + 'getPaymentFeesDetailsByPaymentMethod ',
-                    headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                    headers: { 'Content-Type': 'ication/json; charset=utf-8' }
                 })
                 .success(function (data) {
                     var idata = data;
@@ -1287,6 +1456,8 @@
         //==========================Proceed to payment===========================//
         vm.PaybyGiftCard = { "GiftCardid": 0, "CompanyId": 0, "CustomerId": 0, "TransactionDetail": "Gift card", "SendingAmount": "0", "Charges": "0", "Fees": "0", "Tax": "0", "ReceivingAmount": "0", "BeneficiaryId": "0", "PaymentMethodId": "0", "TransferPurpose": "For g.f", "DeliveryType": "Gift Card" }
 
+        vm.PayForTransferTo = { "MobileNumber": "", "CompanyId": 0, "CustomerId": 0, "TransactionDetail": "Test", "Amount": " ", "Charges": "0", "Fees": "0", "Tax": "0", "SendingCurrencyId": "3", "ReceivingCurrencytId": 3, "BeneficiaryId": "0", "PaymentMethodId": 0, "DestinationCountryId": "139", "SourceCountryId": 139, "IsLive": "true", "TransferPurpose": "Test", "ExchangeRate": "0", "Sender": "ishu", "CardNumber": " ", "setExpirationDate": " ", "cvv": " ", "FaceAmount": " " }
+
         vm.Create = function (e) {
             vm.alert = false;
             $('#Payconfirm').modal('toggle');
@@ -1329,7 +1500,7 @@
 
                                 $localStorage.ThankyouPageData = vm.PayDetails;
 
-                                $state.go('app.ThankuCus');
+                                $state.go('ThankuCus');
                             }, 1000);
                         }
                         else {
@@ -1413,7 +1584,7 @@
                                 idata.InvoiceNumber = idata.PaymentGatewayTransactionId;
                                 idata.InvoiceAmount = idata.Amount;
                                 idata.FaceAmount = idata.Amount;
-                                $state.go('app.ThankuCus');
+                                $state.go('ThankuCus');
                             }
                             else {
                                 AlertKyc(2, idata.Error);
@@ -1444,7 +1615,7 @@
             vm.localStorage.GustData = '';
             vm.localStorage.MobileNumber = '';
             vm.localStorage.SelectedCountry = '';
-            $state.go('app.customerPortal');
+            $state.go('customerPortal');
         }
 
 
@@ -1462,7 +1633,7 @@
             vm.localStorage = [];
             vm.localStorage = $localStorage;
         } else {
-            $state.go('app.customerPortal')
+            $state.go('customerPortal')
         }
 
         //Remove BackDrop
@@ -1520,7 +1691,7 @@
                 $localStorage = [];
                 setTimeout(function () {
                     $window.location.reload();
-                    //$state.go('app.customerPortal');
+                    //$state.go('customerPortal');
                 }, 1000);
             }
         }
@@ -1542,7 +1713,7 @@
             vm.localStorage = $localStorage.ThankyouPageData;
             vm.localStorage.Fees = $localStorage.Fees;
         } else {
-            $state.go('app.Login');
+            $state.go('Login');
         }
 
 
@@ -1566,11 +1737,11 @@
             }
             else {
                 var url = $state.current.url;
-                $window.location.assign('#/app' + url);
+                $window.location.assign('#/' + url);
             }
         }
         else {
-            $window.location.assign('#/app/Home');
+            $window.location.assign('#/');
         }
     }
 
@@ -1590,7 +1761,7 @@
             }
         }
         else {
-            $state.go('app.Login');
+            $state.go('Login');
         }
         //Get Customer Details
         if (vm.CustomerId) {
@@ -1707,16 +1878,16 @@
                         var formData = JSON.parse(JSON.stringify(data));
                         $http({
                             method: 'POST',
-                            url: baseUrl + 'addApplicant',
+                            url: baseUrl + 'addicant',
                             data: formData,
                             headers: { 'Content-Type': 'application/json' },
                             dataType: "json",
                         })
                             .success(function (data) {
-                                if (data.ApplicantId != "") {
-                                    vm.ApplicantId = data.ApplicantId;
-                                    if (vm.imageData !== undefined && vm.imageData != "" && vm.ApplicantId != '') {
-                                        var formdata = { "ApplicantId": data.ApplicantId, "Type": vm.ProfileModal.FileName, "Side": vm.ProfileModal.Side, "ImageName": vm.FileName, "ImageExt": "." + vm.FileExt, "ImageString": vm.imageData }
+                                if (data.icantId != "") {
+                                    vm.icantId = data.icantId;
+                                    if (vm.imageData !== undefined && vm.imageData != "" && vm.icantId != '') {
+                                        var formdata = { "icantId": data.icantId, "Type": vm.ProfileModal.FileName, "Side": vm.ProfileModal.Side, "ImageName": vm.FileName, "ImageExt": "." + vm.FileExt, "ImageString": vm.imageData }
                                         $http({
                                             method: 'POST',
                                             url: baseUrl + 'uploadDocumentKYC',
@@ -1727,22 +1898,22 @@
                                          .success(function (data) {
                                              if (data.Result == "Sucess") {
                                                  ///AlertKyc(1, "Thanks for updating your KYC document");
-                                                 if (data.ApplicantId != "") {
-                                                     var formdata = { "ApplicantId": vm.ApplicantId }
+                                                 if (data.icantId != "") {
+                                                     var formdata = { "icantId": vm.icantId }
                                                      $http({
                                                          method: 'POST',
-                                                         url: baseUrl + 'createApplicantCheck',
+                                                         url: baseUrl + 'createicantCheck',
                                                          data: formdata,
                                                          headers: { 'Content-Type': 'application/json' },
                                                          dataType: "json",
                                                      })
                                                       .success(function (data) {
-                                                          if (data.ApplicantCheckId != '') {
+                                                          if (data.icantCheckId != '') {
                                                               AlertKyc(1, "Thanks for updating your KYC document");
                                                               setTimeout(function () {
-                                                                  $state.go('app.customerPortal');
+                                                                  $state.go('customerPortal');
                                                               }, 500);
-                                                              // GetApplicantCheckStatus(data.ApplicantCheckId);
+                                                              // GeticantCheckStatus(data.icantCheckId);
                                                           }
                                                           else {
                                                               AlertKyc(2, data.Error);
@@ -1770,7 +1941,7 @@
         }
 
         vm.cancel = function () {
-            $state.go('app.customerPortal');
+            $state.go('customerPortal');
         }
     }
 

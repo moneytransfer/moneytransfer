@@ -1,6 +1,6 @@
 
 var baseUrl = 'https://falconloop.com/transfermoney/api/';
-//var baseUrl = 'http://192.168.1.6:8080/transfermoney/api/';
+// var baseUrl = 'http://192.168.1.3:8080/transfermoney/api/';
 
 var authorisedUser = [];
 var authorisedCustomer = [];
@@ -88,7 +88,12 @@ var authorisedCustomer = [];
             $localStorage.app = vm.app;
         }, true);
 
-
+        var forceSSL = function () {
+            if ($location.protocol() !== 'https') {
+                $window.location.href = $location.absUrl().replace('http', 'https');
+            }
+        };
+        forceSSL();
         //Dummy user data
         vm.user = {
             fname: 'Betty',

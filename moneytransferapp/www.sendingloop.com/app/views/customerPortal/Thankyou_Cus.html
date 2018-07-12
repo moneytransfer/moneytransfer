@@ -1,68 +1,79 @@
-﻿<div class="container-fluid  " ng-controller="customerPortalthankyouController ">
-    <div class="httpprocess" id="Processbar" ng-show="process">
-        <img src="./assets/image/spinner.gif" />
-    </div>
-    <div class="login-form-groupper">
-        <div class="row">
-            <div class="col-lg-10 col-md-12 col-sm-12 col-md-offset-2 m-t-3 cm-m-t  ">
-                <div class="card">
-                    <div class="card-header text-xs-center no-bg b-a-0">
-                        <!--   <i class="fa fa-check text-success fa-5x m-b-1 cm-alignment" aria-hidden="true"></i>-->
-                        <h1 class="text-center">Congratulations, your payment has been successfully processed!</h1>
-                        <h3 class="text-center">Tracking Information: {{localStorage.PaymentGatewayTransactionId}}</h3>
-                    </div>
-                    <div class="card-block text-xs-center">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-sm-8 offset-2">
-                                    <table class="table">
-                                        <tbody class="additional-info ng-binding">
-                                            <!-- <tr>
+﻿<div class="main-panel">
+    <div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " data-ng-include="'views/common/header.html'"></div>
+    <div class="main-content">
+
+
+
+
+        <div class="container-fluid  " ng-controller="customerPortalthankyouController ">
+            <div class="httpprocess" id="Processbar" ng-show="process">
+                <img src="./assets/image/spinner.gif" />
+            </div>
+            <div class="login-form-groupper">
+                <div class="row">
+                    <div class="col-lg-10 col-md-12 col-sm-12 col-md-offset-2 m-t-3 cm-m-t  ">
+                        <div class="card">
+                            <div class="card-header text-xs-center no-bg b-a-0">
+                                <!--   <i class="fa fa-check text-success fa-5x m-b-1 cm-alignment" aria-hidden="true"></i>-->
+                                <h1 class="text-center">Congratulations, your payment has been successfully processed!</h1>
+                                <h3 class="text-center">Tracking Information: {{localStorage.PaymentGatewayTransactionId}}</h3>
+                            </div>
+                            <div class="card-block text-xs-center">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-sm-8 offset-2">
+                                            <table class="table">
+                                                <tbody class="additional-info ng-binding">
+                                                    <!-- <tr>
                                                 <td class="col-md-offset-2 modal-title ">Payment Details  </td>
                                             </tr>-->
-                                            <tr class="active bold">
-                                                <td>Transaction Id:</td>
-                                                <td>{{localStorage.InvoiceNumber}}</td>
-                                            </tr>
-                                            <tr class="active bold">
-                                                <td>Mobile Number:</td>
-                                                <td>{{localStorage.MobileNumber}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="bold"><b>Sender Name:</b></td>
-                                                <td class="bold"><b>{{localStorage.SenderName}}</b></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Bill Amount:</td>
-                                                <td>$&nbsp;{{localStorage.FaceAmount | number:2}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fee:</td>
-                                                <td>$&nbsp;{{localStorage.Fees | number:2}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total:</td>
-                                                <td>$&nbsp;{{localStorage.InvoiceAmount   | number:2}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                    <tr class="active bold">
+                                                        <td>Transaction Id:</td>
+                                                        <td>{{localStorage.InvoiceNumber}}</td>
+                                                    </tr>
+                                                    <tr class="active bold">
+                                                        <td>Mobile Number:</td>
+                                                        <td>{{localStorage.MobileNumber}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bold"><b>Sender Name:</b></td>
+                                                        <td class="bold"><b>{{localStorage.SenderName}}</b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Bill Amount:</td>
+                                                        <td>$&nbsp;{{localStorage.FaceAmount | number:2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Fee:</td>
+                                                        <td>$&nbsp;{{localStorage.Fees | number:2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total:</td>
+                                                        <td>$&nbsp;{{localStorage.InvoiceAmount   | number:2}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-sm-6 m-t-1">
+                                <div class="pull-right padding">
+                                    <button type="submit" class="btn btn-lg btn-success btn-bg" ui-sref='app.customerPortal'>Close</button>
                                 </div>
                             </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-sm-6 m-t-1">
-                        <div class="pull-right padding">
-                            <button type="submit" class="btn btn-lg btn-success btn-bg" ui-sref='app.customerPortal'>Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+        <div data-ng-if="$state.current.name!='Login' && $state.current.name!='userRegister' " class="content-footer" ng-include="'views/common/footer.html'"></div>
+
     </div>
 </div>
-
-
-
-

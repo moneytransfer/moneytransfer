@@ -15,11 +15,21 @@
         font-size: 1.5rem !important;
         padding-top: 42px;
     }
+    .container.position-relative.d-flex.justify-content-center.align-items-center {
+        margin: 60px 60px 0 60px;
+    }
+    
+    .wrap {
+    background: #3abafd !important;
+    padding: 0px 0 !important;
+    border-radius: 4px !important;
+    margin-bottom: 8px !important;
+    }
 
     .master-banner {
-        background: url(../image/master-banner.jpg) no-repeat left 0 !important;
-        background-size: 322% !important;
-        height: 325px !important;
+        background: url(../image/mobile-banner.png) no-repeat left 0 !important;
+        background-size: 100% !important;
+        height: 295px !important;
         padding-top: 0 !important;
         min-height: inherit !important;
     }
@@ -178,11 +188,11 @@ body {
     padding-right: 20px;
 }
 
-    .col-md.topnotch {
-        padding-right: 80px;
-        padding-top: 60px;
-        padding-bottom: 45px;
-    }
+.col-md.topnotch {
+    padding-right: 80px;
+    padding-top: 60px;
+    padding-bottom: 45px;
+}
 
 .phoneReload {
     background: #2acee1;
@@ -197,7 +207,7 @@ body {
 }
 
 .newsletter-bg {
-    background: #1fa2ea;
+    background: #0052ff;
     position: absolute;
     left: 0;
     height: 78px;
@@ -671,7 +681,7 @@ label {
 
 .banner-form-wrapper {
     max-width: 500px;
-    margin: 0 auto;
+    margin: 0 -28px;
     position: relative;
     margin-top: 20px;
 }

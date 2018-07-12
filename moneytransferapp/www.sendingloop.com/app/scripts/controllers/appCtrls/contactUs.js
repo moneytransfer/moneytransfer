@@ -3,12 +3,12 @@
     angular
         .module('app')
         .controller('manageContectUsController', manageContectUsController)
-
+        .controller('footerController', footerController)
 
     manageContectUsController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
     function manageContectUsController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
         var vm = $scope;
-     
+
         vm.CompanyId = 0;
         vm.CustomerId = 0;
 
@@ -73,4 +73,37 @@
         }
 
     }
+
+    footerController.$inject = ['$scope', '$http', '$localStorage', '$location', '$rootScope', '$anchorScroll', '$timeout', '$window', '$state', '$stateParams', '$translate', '$log', '$filter'];
+    function footerController($scope, $http, $localStorage, $location, $rootScope, $anchorScroll, $timeout, $window, $state, $stateParams, $translate, $log, $filter) {
+        var vm = $scope;
+
+        vm.footerModalEmail = '';
+
+        vm.Create = function () {
+
+            var formData = JSON.parse(JSON.stringify({ "Email": vm.footerModalEmail }));
+            $http({
+                method: 'POST',
+                url: baseUrl + 'sendNewletterEmail',
+                data: formData,
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json",
+            })
+            .success(function (data) {
+                var idata = data;
+                if (idata.Result == "Success") {
+                    vm.footerModalEmail = '';
+                    AlertContact(1, "Thanks for subscribe news latter and alerts");
+                }
+                else {
+                    AlertContact(1, idata.Error);
+                }
+            });
+        }
+
+
+
+    }
+
 })();
